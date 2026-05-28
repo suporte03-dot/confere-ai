@@ -633,6 +633,7 @@
 
 /* ── Dashboard (upload mockup) ── */
 .dashboard {
+  position: relative;
   background: var(--white);
   border-radius: calc(var(--radius) + 2px);
   box-shadow: var(--shadow-panel);
@@ -740,12 +741,30 @@
   border: 1.5px dashed rgba(100, 116, 139, 0.35);
   border-radius: var(--radius-sm);
   background: linear-gradient(180deg, #FAFBFC 0%, var(--slate-100) 100%);
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 
-.dashboard__dropzone:hover {
+.dashboard__dropzone:hover,
+.dashboard__dropzone--active {
   border-color: rgba(16, 185, 129, 0.45);
   background: rgba(16, 185, 129, 0.03);
+}
+
+.dashboard__dropzone--active {
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+.file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .dashboard__dropzone-icon {
