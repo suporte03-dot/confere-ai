@@ -10,11 +10,11 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: var(--slate-700);
-  background: var(--slate-100);
+  background: var(--white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,10 +45,6 @@ button {
   background: none;
 }
 
-body.menu-open {
-  overflow: hidden;
-}
-
 select {
   font-family: inherit;
 }
@@ -59,5 +55,14 @@ img {
 }
 
 [id] {
-  scroll-margin-top: calc(var(--header-height, 76px) + 12px);
+  scroll-margin-top: calc(var(--header-height, 76px) + 16px);
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(6, 182, 212, 0.22);
+  color: var(--navy-900);
 }

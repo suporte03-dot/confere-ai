@@ -1,37 +1,36 @@
 import UploadCard from './UploadCard'
-import { IconCheck, IconShield } from './icons/FeatureIcons'
+import { IconCheck, IconShield, IconSpark } from './icons/FeatureIcons'
 
 const trustBadges = [
-  { label: 'Sem planilhas manuais', Icon: IconCheck },
+  { label: 'Sem conferência manual', Icon: IconCheck },
   { label: 'Relatório exportável', Icon: IconShield },
-  { label: 'Conferência inteligente', Icon: IconCheck },
+  { label: 'Análise inteligente', Icon: IconSpark },
 ]
 
 function Hero({ showToast }) {
   return (
     <section id="inicio" className="hero">
       <div className="hero__bg" aria-hidden="true">
+        <div className="hero__mesh" />
         <div className="hero__orb hero__orb--1" />
         <div className="hero__orb hero__orb--2" />
-        <div className="hero__grid" />
       </div>
 
       <div className="container hero__inner">
         <div className="hero__content">
-          <span className="badge badge--outline">Plataforma de conferência automática</span>
+          <span className="eyebrow">Conferência inteligente para dados fiscais e financeiros</span>
           <h1 className="hero__title">
             Compare arquivos e encontre divergências{' '}
-            <span className="hero__title-accent">em segundos</span>
+            <span className="text-gradient">em segundos</span>
           </h1>
           <p className="hero__subtitle">
-            Envie PDFs, planilhas, XMLs ou relatórios e receba uma análise clara com
-            diferenças, itens faltantes, valores divergentes e relatório pronto para
-            conferência.
+            Envie PDFs, planilhas, XMLs e relatórios. O ConfereAI cruza os dados, identifica
+            diferenças, encontra faltantes e entrega uma visão clara para conferência.
           </p>
 
           <div className="hero__trust">
             {trustBadges.map(({ label, Icon }) => (
-              <span key={label} className="hero__trust-item">
+              <span key={label} className="chip">
                 <Icon />
                 {label}
               </span>
@@ -39,33 +38,31 @@ function Hero({ showToast }) {
           </div>
 
           <div className="hero__actions">
-            <a href="#upload" className="btn btn--primary">
-              Começar análise
+            <a href="#upload" className="btn btn--primary btn--lg">
+              Iniciar conferência
             </a>
-            <a href="#exemplos" className="btn btn--outline">
+            <a href="#exemplos" className="btn btn--outline btn--lg">
               Ver exemplos
             </a>
           </div>
 
-          <div className="hero__stats">
-            <div className="hero__stat">
+          <div className="hero__metrics">
+            <div className="metric">
               <strong>98%</strong>
-              <span>precisão na detecção</span>
+              <span>precisão</span>
             </div>
-            <div className="hero__stat-divider" aria-hidden="true" />
-            <div className="hero__stat">
+            <div className="metric">
               <strong>12+</strong>
-              <span>formatos suportados</span>
+              <span>formatos</span>
             </div>
-            <div className="hero__stat-divider" aria-hidden="true" />
-            <div className="hero__stat">
+            <div className="metric">
               <strong>3s</strong>
-              <span>tempo médio de análise</span>
+              <span>por análise</span>
             </div>
           </div>
         </div>
 
-        <div id="upload" className="hero__upload">
+        <div id="upload" className="hero__panel">
           <UploadCard showToast={showToast} />
         </div>
       </div>

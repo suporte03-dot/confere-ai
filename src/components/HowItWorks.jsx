@@ -1,34 +1,34 @@
 import { steps } from '../data/mockData'
-import { IconUpload, IconExport, IconCheck, IconShield } from './icons/FeatureIcons'
+import { IconUpload, IconShield, IconCheck, IconExport } from './icons/FeatureIcons'
 
 const stepIcons = [IconUpload, IconShield, IconCheck, IconExport]
 
 function HowItWorks() {
   return (
-    <section id="como-funciona" className="section how-it-works">
+    <section id="como-funciona" className="section timeline">
       <div className="container">
         <div className="section__header">
-          <span className="badge badge--cyan">Como funciona</span>
-          <h2 className="section__title">Quatro passos para uma conferência completa</h2>
+          <span className="eyebrow eyebrow--cyan">Como funciona</span>
+          <h2 className="section__title">Da importação ao relatório em quatro passos</h2>
           <p className="section__subtitle">
-            Do upload ao relatório final em poucos cliques — sem planilhas manuais.
+            Um fluxo claro, rápido e preparado para rotinas fiscais, contábeis e financeiras.
           </p>
         </div>
 
-        <div className="steps">
-          <div className="steps__line" aria-hidden="true" />
+        <div className="timeline__track">
+          <div className="timeline__line" aria-hidden="true" />
           {steps.map((step, index) => {
             const StepIcon = stepIcons[index]
             return (
-              <article key={step.number} className="step-card">
-                <div className="step-card__top">
-                  <div className="step-card__number">{step.number}</div>
-                  <div className="step-card__icon-wrap">
+              <article key={step.number} className="timeline__step">
+                <div className="timeline__marker">
+                  <span className="timeline__number">{step.number}</span>
+                  <span className="timeline__icon">
                     <StepIcon />
-                  </div>
+                  </span>
                 </div>
-                <h3 className="step-card__title">{step.title}</h3>
-                <p className="step-card__description">{step.description}</p>
+                <h3 className="timeline__title">{step.title}</h3>
+                <p className="timeline__desc">{step.description}</p>
               </article>
             )
           })}

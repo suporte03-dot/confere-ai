@@ -10,95 +10,107 @@ export const analysisSummary = {
   ok: 2,
   divergent: 2,
   missing: 2,
+  elapsed: '3s',
 }
 
 export const features = [
   {
     icon: 'pdf-excel',
-    title: 'Comparar PDF x Excel',
-    description: 'Cruze relatórios em formatos distintos e identifique diferenças linha a linha com precisão.',
+    title: 'Conferir PDF x Excel',
+    description: 'Cruze relatórios em formatos distintos e identifique diferenças linha a linha.',
+    benefit: 'Compare formatos diferentes sem retrabalho',
     featured: true,
   },
   {
     icon: 'missing-notes',
     title: 'Encontrar notas faltantes',
-    description: 'Detecte documentos presentes em um arquivo e ausentes no outro, sem busca manual.',
+    description: 'Detecte documentos presentes em um arquivo e ausentes no outro.',
+    benefit: 'Elimine buscas manuais em planilhas',
   },
   {
     icon: 'divergent-values',
-    title: 'Conferir valores divergentes',
-    description: 'Compare totais, impostos e lançamentos com alertas visuais e valores destacados.',
+    title: 'Validar valores divergentes',
+    description: 'Compare totais, impostos e lançamentos com alertas visuais precisos.',
+    benefit: 'Valores destacados para auditoria rápida',
   },
   {
     icon: 'ofx',
     title: 'Converter extrato em OFX',
-    description: 'Transforme extratos PDF ou CSV em OFX padronizado para conciliação bancária.',
+    description: 'Transforme extratos PDF ou CSV em OFX padronizado para conciliação.',
+    benefit: 'Arquivo pronto para importação bancária',
   },
   {
     icon: 'ncm',
-    title: 'Analisar NCM e descrição',
-    description: 'Valide códigos NCM, descrições de produtos e inconsistências cadastrais.',
+    title: 'Validar NCM e descrição',
+    description: 'Valide códigos NCM, descrições e inconsistências cadastrais.',
+    benefit: 'Reduza riscos fiscais no cadastro',
   },
   {
     icon: 'report-excel',
-    title: 'Gerar relatório final em Excel',
-    description: 'Exporte divergências, status e resumo executivo prontos para auditoria.',
+    title: 'Gerar relatório final',
+    description: 'Exporte divergências, status e resumo executivo para conferência.',
+    benefit: 'Excel pronto para o time contábil',
   },
 ]
 
 export const steps = [
   {
     number: '01',
-    title: 'Upload dos arquivos',
-    description: 'Envie PDFs, planilhas, XMLs ou relatórios em poucos cliques.',
+    title: 'Envie os arquivos',
+    description: 'PDFs, planilhas, XMLs ou relatórios — em lote ou individualmente.',
   },
   {
     number: '02',
-    title: 'Escolha da conferência',
+    title: 'Escolha a conferência',
     description: 'Selecione o cenário fiscal, contábil, financeiro ou personalizado.',
   },
   {
     number: '03',
-    title: 'Detecção automática',
+    title: 'Detecte divergências',
     description: 'A IA identifica diferenças, faltantes e inconsistências em segundos.',
   },
   {
     number: '04',
-    title: 'Relatório final',
-    description: 'Baixe um Excel detalhado pronto para conferência e tomada de decisão.',
+    title: 'Baixe o relatório',
+    description: 'Receba um Excel detalhado pronto para auditoria e decisão.',
   },
 ]
 
 export const useCases = [
   {
     title: 'Prefeitura x ERP',
-    description: 'Compare NFS-e importadas da prefeitura com lançamentos do seu sistema.',
     tag: 'Fiscal',
-    benefit: 'Encontre notas faltantes',
+    problem: 'Notas da prefeitura não batem com o ERP',
+    description: 'Compare NFS-e importadas da prefeitura com lançamentos do sistema.',
+    outcome: 'Relatório com notas faltantes e valores divergentes',
   },
   {
     title: 'Balancete x financeiro',
-    description: 'Cruze saldos contábeis com movimentações do módulo financeiro.',
     tag: 'Contábil',
-    benefit: 'Compare saldos automaticamente',
+    problem: 'Saldos contábeis divergem do financeiro',
+    description: 'Cruze balancete com movimentações do módulo financeiro.',
+    outcome: 'Visão clara de diferenças por conta',
   },
   {
     title: 'Extrato PDF x OFX',
-    description: 'Converta e compare extratos bancários em diferentes formatos.',
     tag: 'Financeiro',
-    benefit: 'Gere arquivo pronto para importar',
+    problem: 'Extrato bancário em formatos incompatíveis',
+    description: 'Converta e compare extratos em PDF, CSV ou OFX.',
+    outcome: 'Arquivo padronizado pronto para conciliar',
   },
   {
     title: 'NCM x descrição',
-    description: 'Valide códigos fiscais e descrições de produtos entre cadastros.',
     tag: 'Fiscal',
-    benefit: 'Detecte inconsistências cadastrais',
+    problem: 'Cadastro fiscal com inconsistências',
+    description: 'Valide códigos NCM e descrições entre bases de produtos.',
+    outcome: 'Lista de itens com cadastro divergente',
   },
   {
     title: 'Folha x relatório interno',
-    description: 'Confira provisões de folha com relatórios gerenciais internos.',
     tag: 'RH',
-    benefit: 'Reduza retrabalho mensal',
+    problem: 'Provisões de folha não conferem com o gerencial',
+    description: 'Compare folha de pagamento com relatórios internos.',
+    outcome: 'Diferenças mapeadas por centro de custo',
   },
 ]
 
@@ -163,6 +175,13 @@ export const divergences = [
     status: 'Divergente',
     rawDiff: 120,
   },
+]
+
+export const analysisInsights = [
+  { label: '2 divergências de valor', tone: 'warn' },
+  { label: '2 documentos faltantes', tone: 'danger' },
+  { label: 'R$ 6.280,00 em diferenças identificadas', tone: 'info' },
+  { label: 'Análise concluída em 3s', tone: 'ok' },
 ]
 
 export const navLinks = [

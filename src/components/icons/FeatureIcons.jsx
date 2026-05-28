@@ -105,6 +105,15 @@ export function IconExport() {
   )
 }
 
+export function IconSpark() {
+  return (
+    <svg {...iconProps} aria-hidden="true">
+      <path d="M12 3l1.4 4.6L18 9l-4.6 1.4L12 15l-1.4-4.6L6 9l4.6-1.4L12 3z" stroke="#06B6D4" />
+      <path d="M19 14l.8 2.6L22.4 17l-2.6.8L19 20.4l-.8-2.6L15.6 17l2.6-.8L19 14z" stroke="#10B981" strokeWidth="1.4" />
+    </svg>
+  )
+}
+
 const featureIconMap = {
   'pdf-excel': IconPdfExcel,
   'missing-notes': IconMissingNotes,

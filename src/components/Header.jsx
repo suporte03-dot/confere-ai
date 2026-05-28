@@ -4,7 +4,6 @@ import { navLinks } from '../data/mockData'
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
-
   const closeMenu = () => setMenuOpen(false)
 
   useEffect(() => {
@@ -13,7 +12,7 @@ function Header() {
   }, [menuOpen])
 
   return (
-    <header className={`header ${menuOpen ? 'header--menu-open' : ''}`}>
+    <header className={`header ${menuOpen ? 'header--open' : ''}`}>
       <div className="container header__inner">
         <a href="#inicio" className="header__logo" onClick={closeMenu}>
           <Logo variant="full" size="md" />
@@ -26,15 +25,10 @@ function Header() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          <span />
-          <span />
-          <span />
+          <span /><span /><span />
         </button>
 
-        <nav
-          className={`nav ${menuOpen ? 'nav--open' : ''}`}
-          aria-label="Navegação principal"
-        >
+        <nav className={`nav ${menuOpen ? 'nav--open' : ''}`} aria-label="Navegação principal">
           <ul className="nav__list">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -45,12 +39,12 @@ function Header() {
             ))}
           </ul>
           <a href="#upload" className="btn btn--primary btn--sm nav__cta" onClick={closeMenu}>
-            Começar análise
+            Iniciar conferência
           </a>
         </nav>
 
         <a href="#upload" className="btn btn--primary btn--sm header__cta">
-          Começar análise
+          Iniciar conferência
         </a>
       </div>
     </header>
