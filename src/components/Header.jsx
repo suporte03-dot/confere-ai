@@ -16,7 +16,7 @@ function Header() {
     <header className={`header ${menuOpen ? 'header--menu-open' : ''}`}>
       <div className="container header__inner">
         <a href="#inicio" className="header__logo" onClick={closeMenu}>
-          <Logo />
+          <Logo variant="full" size="md" />
         </a>
 
         <button

@@ -1,16 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="ConfereAI">
   <defs>
-    <linearGradient id="fav-grad" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
       <stop stop-color="#061A2F"/>
-      <stop offset="0.55" stop-color="#0B2447"/>
-      <stop offset="1" stop-color="#059669"/>
+      <stop offset="0.42" stop-color="#0B2447"/>
+      <stop offset="0.78" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="24" y1="4" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
   </defs>
-  <rect width="40" height="40" rx="11" fill="url(#fav-grad)"/>
-  <rect x="8.5" y="7" width="14.5" height="18.5" rx="2.5" fill="#fff" fill-opacity="0.96"/>
-  <path d="M11.5 11.5h8.5M11.5 14.8h6.2M11.5 18h7.2" stroke="#12355B" stroke-width="1.3" stroke-linecap="round"/>
-  <circle cx="26.5" cy="26" r="7" stroke="#fff" stroke-width="1.7" fill="none"/>
-  <path d="M31.2 31.2l3.3 3.3" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
-  <path d="M23.8 26l2 2 4.2-4.4" stroke="#06B6D4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="33" cy="10.5" r="2.2" fill="#F59E0B" fill-opacity="0.92"/>
+  <rect width="48" height="48" rx="13" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="45" height="45" rx="11.5" stroke="rgba(255,255,255,0.14)"/>
+  <path d="M6 14C6 8.5 10.5 4 16 4h16c5.5 0 10 4.5 10 10v2H6v-2z" fill="url(#shine)"/>
+  <rect x="11.5" y="10" width="14.5" height="18.5" rx="2.5" fill="#FFFFFF" fill-opacity="0.18"/>
+  <rect x="8.5" y="13" width="15" height="19.5" rx="2.5" fill="#FFFFFF"/>
+  <path d="M11.8 17.8h9.4M11.8 21.2h7.2M11.8 24.6h8.4" stroke="#0B2447" stroke-width="1.35" stroke-linecap="round" stroke-opacity="0.45"/>
+  <path d="M17.8 21.2h3.2" stroke="#F59E0B" stroke-width="1.55" stroke-linecap="round"/>
+  <circle cx="29.5" cy="29.5" r="8.8" stroke="#FFFFFF" stroke-width="2.15" fill="rgba(6,26,47,0.18)"/>
+  <path d="M35.6 35.6l4.8 4.8" stroke="#FFFFFF" stroke-width="2.15" stroke-linecap="round"/>
+  <path d="M25.8 29.6l2.1 2.1 4.8-5" stroke="#10B981" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="37.2" cy="11.2" r="3.6" fill="#F59E0B" stroke="#FFFFFF" stroke-width="1.15"/>
+  <path d="M37.2 9.4v2.6" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+  <circle cx="37.2" cy="13.35" r="0.65" fill="#FFFFFF"/>
+  <path d="M14 38.5h7M21 40.5h7" stroke="#06B6D4" stroke-width="1.1" stroke-linecap="round" stroke-opacity="0.55"/>
+  <circle cx="14" cy="38.5" r="1.35" fill="#06B6D4" fill-opacity="0.85"/>
+  <circle cx="21" cy="40.5" r="1.35" fill="#06B6D4" fill-opacity="0.65"/>
+  <circle cx="28" cy="38.5" r="1.35" fill="#10B981" fill-opacity="0.9"/>
 </svg>

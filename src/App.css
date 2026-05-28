@@ -77,21 +77,22 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  text-decoration: none;
 }
 
 .logo__mark {
   flex-shrink: 0;
-  filter: drop-shadow(0 4px 10px rgba(6, 26, 47, 0.18));
+  display: block;
+  filter: drop-shadow(0 3px 10px rgba(6, 26, 47, 0.22));
 }
 
 .logo__wordmark {
   display: flex;
   align-items: baseline;
-  font-size: 1.35rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .logo__confere {
@@ -99,15 +100,29 @@
 }
 
 .logo__ai {
-  color: var(--cyan-500);
+  background: linear-gradient(120deg, var(--emerald-500) 0%, var(--cyan-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.logo--footer .logo__confere {
+.logo--light .logo__confere {
   color: var(--white);
 }
 
-.logo--footer .logo__ai {
-  color: var(--emerald-500);
+.logo--light .logo__ai {
+  background: linear-gradient(120deg, #34D399 0%, var(--cyan-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo--sm .logo__mark {
+  filter: drop-shadow(0 2px 6px rgba(6, 26, 47, 0.2));
+}
+
+.logo--lg .logo__mark {
+  filter: drop-shadow(0 6px 16px rgba(6, 26, 47, 0.24));
 }
 
 /* ── Badges ── */

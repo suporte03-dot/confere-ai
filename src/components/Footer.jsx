@@ -7,7 +7,7 @@ function Footer() {
       <div className="container footer__inner">
         <div className="footer__brand">
           <a href="#inicio" className="footer__logo">
-            <Logo variant="footer" />
+            <Logo variant="full" size="sm" tone="light" />
           </a>
           <p className="footer__tagline">
             Conferência inteligente para arquivos fiscais, contábeis e financeiros.
