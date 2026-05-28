@@ -1,100 +1,73 @@
 import { useRef, useState } from 'react'
-import { mockUploadedFiles, analysisSummary } from '../data/mockData'
+import { mockUploadedFiles } from '../data/mockData'
+import { isAcceptedFile } from '../utils/fileAnalysis'
 import { IconUpload } from './icons/FeatureIcons'
-
-const ACCEPTED_EXTENSIONS = ['pdf', 'xlsx', 'xls', 'xml', 'csv', 'ofx']
 
 const typeColors = {
   PDF: '#EF4444',
   Excel: '#059669',
   XML: '#2563EB',
   CSV: '#64748B',
+  TXT: '#64748B',
   OFX: '#0B2447',
 }
 
-const statusClass = {
+const statusClassMap = {
+  'Aguardando análise': 'waiting',
+  Processando: 'processing',
+  Concluído: 'ready',
+  'Não suportado': 'divergent',
   Pronto: 'ready',
   Analisando: 'processing',
   Divergente: 'divergent',
 }
 
-function formatFileSize(bytes) {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1).replace('.', ',')} MB`
-}
-
-function getFileType(name) {
-  const ext = name.split('.').pop()?.toLowerCase()
-  const map = {
-    pdf: 'PDF',
-    xlsx: 'Excel',
-    xls: 'Excel',
-    xml: 'XML',
-    csv: 'CSV',
-    ofx: 'OFX',
-  }
-  return map[ext] || ext?.toUpperCase() || 'FILE'
-}
-
-function isAcceptedFile(name) {
-  const ext = name.split('.').pop()?.toLowerCase()
-  return ACCEPTED_EXTENSIONS.includes(ext)
-}
-
-function fileKey(file) {
-  return `${file.name}-${file.rawSize ?? file.size}`
-}
-
-function mapFileToEntry(file, index = 0) {
-  return {
-    id: `${file.name}-${file.size}-${Date.now()}-${index}`,
-    name: file.name,
-    type: getFileType(file.name),
-    size: formatFileSize(file.size),
-    rawSize: file.size,
-    status: 'Pronto',
-  }
-}
-
-function mergeFileEntries(existing, incoming) {
-  const merged = new Map()
-  existing.forEach((file) => merged.set(fileKey(file), file))
-  incoming.forEach((file) => {
-    if (!merged.has(fileKey(file))) {
-      merged.set(fileKey(file), file)
-    }
-  })
-  return Array.from(merged.values())
-}
-
-function UploadCard({ showToast }) {
+function UploadCard({
+  showToast,
+  uploadedFiles,
+  onAddFiles,
+  onAnalyze,
+  isAnalyzing,
+  analysisProgress,
+  analysisStats,
+}) {
   const fileInputRef = useRef(null)
-  const [selectedFiles, setSelectedFiles] = useState([])
   const [activeTab, setActiveTab] = useState('conferencia')
   const [isDragging, setIsDragging] = useState(false)
 
-  const displayFiles = selectedFiles.length > 0 ? selectedFiles : mockUploadedFiles
-  const { progress, ok, divergent, missing, elapsed } = analysisSummary
+  const hasSelectedFiles = uploadedFiles.length > 0
+  const displayFiles = hasSelectedFiles ? uploadedFiles : mockUploadedFiles
+  const progress = isAnalyzing ? analysisProgress : hasSelectedFiles ? 0 : 87
+  const progressLabel = isAnalyzing
+    ? 'Processando arquivos...'
+    : hasSelectedFiles
+      ? 'Aguardando análise'
+      : 'Exemplo de análise em andamento'
+
+  const statOk = analysisStats?.ok ?? (hasSelectedFiles ? 0 : 2)
+  const statWarn = analysisStats?.incomplete ?? (hasSelectedFiles ? 0 : 2)
+  const statDanger = analysisStats?.errors ?? (hasSelectedFiles ? 0 : 2)
 
   const openFilePicker = () => {
     fileInputRef.current?.click()
   }
 
   const addFiles = (fileList) => {
-    const accepted = Array.from(fileList).filter((file) => isAcceptedFile(file.name))
+    const files = Array.from(fileList)
+    if (files.length === 0) return
 
-    if (accepted.length === 0) {
-      showToast?.('Selecione arquivos PDF, Excel, XML, CSV ou OFX.')
+    const unsupported = files.filter((file) => !isAcceptedFile(file.name))
+    onAddFiles?.(files)
+
+    if (unsupported.length === files.length) {
+      showToast?.('Formato não suportado. Use PDF, Excel, XML, CSV, TXT ou OFX.')
       return
     }
 
-    const entries = accepted.map((file, index) => mapFileToEntry(file, index))
-    setSelectedFiles((prev) => mergeFileEntries(prev, entries))
     showToast?.(
-      accepted.length === 1
+      files.length === 1
         ? '1 arquivo adicionado à lista.'
-        : `${accepted.length} arquivos adicionados à lista.`,
+        : `${files.length} arquivos adicionados à lista.`,
     )
   }
 
@@ -105,22 +78,12 @@ function UploadCard({ showToast }) {
     event.target.value = ''
   }
 
-  const handleDragOver = (event) => {
-    event.preventDefault()
-    setIsDragging(true)
-  }
-
-  const handleDragLeave = (event) => {
-    event.preventDefault()
-    setIsDragging(false)
-  }
-
-  const handleDrop = (event) => {
-    event.preventDefault()
-    setIsDragging(false)
-    if (event.dataTransfer.files?.length) {
-      addFiles(event.dataTransfer.files)
+  const handleAnalyzeClick = () => {
+    if (!hasSelectedFiles) {
+      showToast?.('Selecione ao menos um arquivo para iniciar a análise.')
+      return
     }
+    onAnalyze?.()
   }
 
   return (
@@ -129,7 +92,7 @@ function UploadCard({ showToast }) {
         ref={fileInputRef}
         type="file"
         multiple
-        accept=".pdf,.xlsx,.xls,.xml,.csv,.ofx"
+        accept=".pdf,.xlsx,.xls,.xml,.csv,.txt,.ofx,*/*"
         className="file-input-hidden"
         onChange={handleFileChange}
         tabIndex={-1}
@@ -142,8 +105,8 @@ function UploadCard({ showToast }) {
         <span className="dashboard__dot dashboard__dot--green" />
         <span className="dashboard__chrome-title">ConfereAI · Painel de conferência</span>
         <span className="dashboard__chrome-status">
-          <span className="pulse-dot" aria-hidden="true" />
-          Processando
+          <span className={`pulse-dot ${isAnalyzing ? '' : 'pulse-dot--idle'}`} aria-hidden="true" />
+          {isAnalyzing ? 'Processando' : hasSelectedFiles ? 'Pronto para analisar' : 'Demonstração'}
         </span>
       </div>
 
@@ -168,9 +131,19 @@ function UploadCard({ showToast }) {
         <div
           className={`dashboard__dropzone ${isDragging ? 'dashboard__dropzone--active' : ''}`}
           onClick={openFilePicker}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
+          onDragOver={(event) => {
+            event.preventDefault()
+            setIsDragging(true)
+          }}
+          onDragLeave={(event) => {
+            event.preventDefault()
+            setIsDragging(false)
+          }}
+          onDrop={(event) => {
+            event.preventDefault()
+            setIsDragging(false)
+            if (event.dataTransfer.files?.length) addFiles(event.dataTransfer.files)
+          }}
           onKeyDown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {
               event.preventDefault()
@@ -186,23 +159,38 @@ function UploadCard({ showToast }) {
           </div>
           <div>
             <p className="dashboard__dropzone-title">Arraste seus arquivos aqui</p>
-            <p className="dashboard__dropzone-meta">PDF, Excel, XML, CSV ou OFX</p>
+            <p className="dashboard__dropzone-meta">PDF, Excel, XML, CSV, TXT ou OFX</p>
           </div>
-          <button
-            type="button"
-            className="btn btn--secondary btn--sm"
-            onClick={(event) => {
-              event.stopPropagation()
-              openFilePicker()
-            }}
-          >
-            Selecionar arquivos
-          </button>
+          <div className="dashboard__dropzone-actions">
+            <button
+              type="button"
+              className="btn btn--secondary btn--sm"
+              onClick={(event) => {
+                event.stopPropagation()
+                openFilePicker()
+              }}
+            >
+              Selecionar arquivos
+            </button>
+            {hasSelectedFiles && (
+              <button
+                type="button"
+                className="btn btn--primary btn--sm"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  handleAnalyzeClick()
+                }}
+                disabled={isAnalyzing}
+              >
+                {isAnalyzing ? 'Analisando...' : 'Analisar arquivos'}
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="dashboard__progress">
           <div className="dashboard__progress-head">
-            <span>Analisando documentos...</span>
+            <span>{progressLabel}</span>
             <strong>{progress}%</strong>
           </div>
           <div
@@ -214,27 +202,31 @@ function UploadCard({ showToast }) {
           >
             <div className="dashboard__progress-fill" style={{ width: `${progress}%` }} />
           </div>
-          <p className="dashboard__progress-foot">Tempo estimado: {elapsed}</p>
+          <p className="dashboard__progress-foot">
+            {hasSelectedFiles
+              ? `${uploadedFiles.length} arquivo(s) na fila`
+              : 'Envie arquivos reais para iniciar a análise'}
+          </p>
         </div>
 
         <div className="dashboard__stats">
           <div className="stat-pill stat-pill--ok">
-            <span className="stat-pill__value">{ok}</span>
+            <span className="stat-pill__value">{statOk}</span>
             <span className="stat-pill__label">OK</span>
           </div>
           <div className="stat-pill stat-pill--warn">
-            <span className="stat-pill__value">{divergent}</span>
-            <span className="stat-pill__label">Divergentes</span>
+            <span className="stat-pill__value">{statWarn}</span>
+            <span className="stat-pill__label">Pendentes</span>
           </div>
           <div className="stat-pill stat-pill--danger">
-            <span className="stat-pill__value">{missing}</span>
-            <span className="stat-pill__label">Faltantes</span>
+            <span className="stat-pill__value">{statDanger}</span>
+            <span className="stat-pill__label">Erros</span>
           </div>
           <div className="dashboard__sparkline" aria-hidden="true">
-            <div className="sparkline-bar sparkline-bar--ok" style={{ height: '42%' }} />
-            <div className="sparkline-bar sparkline-bar--warn" style={{ height: '68%' }} />
-            <div className="sparkline-bar sparkline-bar--danger" style={{ height: '52%' }} />
-            <div className="sparkline-bar sparkline-bar--ok" style={{ height: '88%' }} />
+            <div className="sparkline-bar sparkline-bar--ok" style={{ height: `${Math.max(statOk * 20, 20)}%` }} />
+            <div className="sparkline-bar sparkline-bar--warn" style={{ height: `${Math.max(statWarn * 20, 30)}%` }} />
+            <div className="sparkline-bar sparkline-bar--danger" style={{ height: `${Math.max(statDanger * 20, 25)}%` }} />
+            <div className="sparkline-bar sparkline-bar--ok" style={{ height: '60%' }} />
           </div>
         </div>
 
@@ -242,7 +234,7 @@ function UploadCard({ showToast }) {
           <div className="dashboard__files-head">
             <span>Arquivos enviados</span>
             <span className="dashboard__files-count">
-              {displayFiles.length} {selectedFiles.length > 0 ? 'selecionados' : 'itens'}
+              {displayFiles.length} {hasSelectedFiles ? 'selecionados' : 'exemplo'}
             </span>
           </div>
           <div className="dashboard__file-list">
@@ -256,9 +248,11 @@ function UploadCard({ showToast }) {
                 </span>
                 <div className="file-row__info">
                   <span className="file-row__name">{file.name}</span>
-                  <span className="file-row__meta">{file.size}</span>
+                  <span className="file-row__meta">{file.sizeLabel || file.size}</span>
                 </div>
-                <span className={`file-row__status file-row__status--${statusClass[file.status] || 'ready'}`}>
+                <span
+                  className={`file-row__status file-row__status--${statusClassMap[file.status] || 'waiting'}`}
+                >
                   {file.status}
                 </span>
               </div>

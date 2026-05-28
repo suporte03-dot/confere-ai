@@ -7,7 +7,15 @@ const trustBadges = [
   { label: 'Análise inteligente', Icon: IconSpark },
 ]
 
-function Hero({ showToast }) {
+function Hero({
+  showToast,
+  uploadedFiles,
+  onAddFiles,
+  onAnalyze,
+  isAnalyzing,
+  analysisProgress,
+  analysisStats,
+}) {
   return (
     <section id="inicio" className="hero">
       <div className="hero__bg" aria-hidden="true">
@@ -63,7 +71,15 @@ function Hero({ showToast }) {
         </div>
 
         <div id="upload" className="hero__panel">
-          <UploadCard showToast={showToast} />
+          <UploadCard
+            showToast={showToast}
+            uploadedFiles={uploadedFiles}
+            onAddFiles={onAddFiles}
+            onAnalyze={onAnalyze}
+            isAnalyzing={isAnalyzing}
+            analysisProgress={analysisProgress}
+            analysisStats={analysisStats}
+          />
         </div>
       </div>
     </section>
