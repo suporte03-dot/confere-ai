@@ -1,35 +1,49 @@
 import Logo from './Logo'
-import { footerLinks } from '../data/mockData'
+import { footerLinks, paymentMethods } from '../data/mockData'
 
 function Footer() {
   return (
-    <footer className="footer">
+    <footer id="sobre" className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <a href="#inicio" className="footer__logo">
-            <Logo variant="full" size="sm" tone="light" />
-          </a>
-          <p className="footer__tagline">
-            Conferência inteligente para arquivos fiscais, contábeis e financeiros.
+          <Logo />
+          <p>
+            TerraBrasil é moda casual premium com raízes brasileiras — qualidade, conforto
+            e estilo para homens, mulheres e crianças.
           </p>
+          <div className="footer__social">
+            {['Instagram', 'Facebook', 'YouTube'].map((s) => (
+              <a key={s} href={`#${s.toLowerCase()}`}>{s}</a>
+            ))}
+          </div>
         </div>
 
-        <nav className="footer__nav" aria-label="Links do rodapé">
-          <p className="footer__nav-title">Produto</p>
-          <ul className="footer__links">
-            {footerLinks.map((link) => (
-              <li key={link.href}>
-                <a href={link.href}>{link.label}</a>
-              </li>
+        <nav className="footer__col">
+          <h4>Institucional</h4>
+          <ul>
+            {footerLinks.institucional.map((l) => (
+              <li key={l.label}><a href={l.href}>{l.label}</a></li>
             ))}
           </ul>
         </nav>
 
-        <div className="footer__meta">
-          <p className="footer__copy">
-            © {new Date().getFullYear()} ConfereAI. Todos os direitos reservados.
-          </p>
-          <p className="footer__note">Software de auditoria e conferência documental.</p>
+        <nav className="footer__col">
+          <h4>Categorias</h4>
+          <ul>
+            {footerLinks.categorias.map((l) => (
+              <li key={l.label}><a href={l.href}>{l.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="footer__col" id="atendimento">
+          <h4>Pagamento</h4>
+          <div className="footer__payments">
+            {paymentMethods.map((p) => (
+              <span key={p}>{p}</span>
+            ))}
+          </div>
+          <p className="footer__copy">© {new Date().getFullYear()} TerraBrasil. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

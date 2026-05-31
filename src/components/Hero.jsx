@@ -1,85 +1,37 @@
-import UploadCard from './UploadCard'
-import { IconCheck, IconShield, IconSpark } from './icons/FeatureIcons'
-
-const trustBadges = [
-  { label: 'Sem conferência manual', Icon: IconCheck },
-  { label: 'Relatório exportável', Icon: IconShield },
-  { label: 'Análise inteligente', Icon: IconSpark },
-]
-
-function Hero({
-  showToast,
-  uploadedFiles,
-  onAddFiles,
-  onAnalyze,
-  isAnalyzing,
-  analysisProgress,
-  analysisStats,
-}) {
+function Hero() {
   return (
     <section id="inicio" className="hero">
-      <div className="hero__bg" aria-hidden="true">
-        <div className="hero__mesh" />
-        <div className="hero__orb hero__orb--1" />
-        <div className="hero__orb hero__orb--2" />
-      </div>
-
-      <div className="container hero__inner">
+      <div className="container hero__grid">
         <div className="hero__content">
-          <span className="eyebrow">Conferência inteligente para dados fiscais e financeiros</span>
-          <h1 className="hero__title">
-            Compare arquivos e encontre divergências{' '}
-            <span className="text-gradient">em segundos</span>
-          </h1>
+          <span className="hero__label">Nova coleção TerraBrasil</span>
+          <h1 className="hero__title">Estilo brasileiro para todos os momentos</h1>
           <p className="hero__subtitle">
-            Envie PDFs, planilhas, XMLs e relatórios. O ConfereAI cruza os dados, identifica
-            diferenças, encontra faltantes e entrega uma visão clara para conferência.
+            Roupas, calçados e acessórios com qualidade, conforto e personalidade para o
+            seu dia a dia.
           </p>
-
-          <div className="hero__trust">
-            {trustBadges.map(({ label, Icon }) => (
-              <span key={label} className="chip">
-                <Icon />
-                {label}
-              </span>
-            ))}
-          </div>
-
           <div className="hero__actions">
-            <a href="#upload" className="btn btn--primary btn--lg">
-              Iniciar conferência
-            </a>
-            <a href="#exemplos" className="btn btn--outline btn--lg">
-              Ver exemplos
-            </a>
+            <a href="#produtos" className="btn btn--primary">Comprar agora</a>
+            <a href="#produtos" className="btn btn--outline">Ver novidades</a>
           </div>
-
-          <div className="hero__metrics">
-            <div className="metric">
-              <strong>98%</strong>
-              <span>precisão</span>
-            </div>
-            <div className="metric">
-              <strong>12+</strong>
-              <span>formatos</span>
-            </div>
-            <div className="metric">
-              <strong>3s</strong>
-              <span>por análise</span>
-            </div>
+          <div className="hero__chips">
+            <span>Coleção Campo &amp; Cidade</span>
+            <span>Peças exclusivas</span>
+            <span>Envio para todo Brasil</span>
           </div>
         </div>
 
-        <div id="upload" className="hero__panel">
-          <UploadCard
-            showToast={showToast}
-            uploadedFiles={uploadedFiles}
-            onAddFiles={onAddFiles}
-            onAnalyze={onAnalyze}
-            isAnalyzing={isAnalyzing}
-            analysisProgress={analysisProgress}
-            analysisStats={analysisStats}
-          />
+        <div className="hero__visual" aria-hidden="true">
+          <div className="hero__card hero__card--main">
+            <div className="hero__card-bg" />
+            <p>Coleção Horizonte</p>
+            <strong>Moda lifestyle premium</strong>
+          </div>
+          <div className="hero__card hero__card--float hero__card--1">
+            <span>12x sem juros</span>
+          </div>
+          <div className="hero__card hero__card--float hero__card--2">
+            <span>Frete grátis +R$499</span>
+          </div>
         </div>
       </div>
     </section>

@@ -1,14 +1,14 @@
-function Toast({ message, onClose }) {
-  if (!message) return null
+import { useShop } from '../context/ShopContext'
+
+function Toast() {
+  const { toastMessage, setToastMessage } = useShop()
+  if (!toastMessage) return null
 
   return (
-    <div className="toast" role="status" aria-live="polite">
+    <div className="toast" role="status">
       <div className="toast__inner">
-        <span className="toast__dot" aria-hidden="true" />
-        <p className="toast__message">{message}</p>
-        <button type="button" className="toast__close" onClick={onClose} aria-label="Fechar">
-          ×
-        </button>
+        <p>{toastMessage}</p>
+        <button type="button" onClick={() => setToastMessage(null)} aria-label="Fechar">×</button>
       </div>
     </div>
   )
