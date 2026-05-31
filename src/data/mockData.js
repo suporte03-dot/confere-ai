@@ -1,59 +1,59 @@
 /**
- * Imagens TerraBrasil
+ * Imagens TerraEstilo
  *
- * Coloque fotos próprias ou licenciadas em public/images/terrabrasil/
+ * Coloque fotos próprias ou licenciadas em public/images/terraestilo/
  * usando exatamente os nomes definidos em imageMap.
  * Enquanto os arquivos não existirem, o site exibe placeholders premium em CSS.
  */
 
 export const imageMap = {
-  hero: '/images/terrabrasil/hero-lifestyle.jpg',
+  hero: '/images/terraestilo/hero-lifestyle.jpg',
   categorias: {
-    masculino: '/images/terrabrasil/categoria-masculino.jpg',
-    feminino: '/images/terrabrasil/categoria-feminino.jpg',
-    calcados: '/images/terrabrasil/categoria-calcados.jpg',
-    acessorios: '/images/terrabrasil/categoria-acessorios.jpg',
-    outlet: '/images/terrabrasil/categoria-outlet.jpg',
+    masculino: '/images/terraestilo/categoria-masculino.jpg',
+    feminino: '/images/terraestilo/categoria-feminino.jpg',
+    calcados: '/images/terraestilo/categoria-calcados.jpg',
+    acessorios: '/images/terraestilo/categoria-acessorios.jpg',
+    outlet: '/images/terraestilo/categoria-outlet.jpg',
   },
   colecoes: {
-    'calca-jeans-masculina': '/images/terrabrasil/colecao-calca-jeans-masculina.jpg',
-    'camisas-masculinas': '/images/terrabrasil/colecao-camisas-masculinas.jpg',
-    'jaquetas-masculinas': '/images/terrabrasil/colecao-jaquetas-masculinas.jpg',
-    'camisetas-masculinas': '/images/terrabrasil/colecao-camisetas-masculinas.jpg',
-    polos: '/images/terrabrasil/colecao-polos.jpg',
-    bones: '/images/terrabrasil/colecao-bones.jpg',
-    'moletons-masculinos': '/images/terrabrasil/colecao-moletons-masculinos.jpg',
-    acessorios: '/images/terrabrasil/colecao-acessorios-masculinos.jpg',
-    feminino: '/images/terrabrasil/categoria-feminino.jpg',
-    'camisas-femininas': '/images/terrabrasil/colecao-camisas-femininas.jpg',
-    'camisetas-femininas': '/images/terrabrasil/colecao-camisetas-femininas.jpg',
-    'jaquetas-femininas': '/images/terrabrasil/colecao-jaquetas-femininas.jpg',
-    'calca-jeans-feminina': '/images/terrabrasil/colecao-calca-jeans-feminina.jpg',
-    vestidos: '/images/terrabrasil/colecao-vestidos.jpg',
-    'acessorios-femininos': '/images/terrabrasil/colecao-acessorios-femininos.jpg',
+    'calca-jeans-masculina': '/images/terraestilo/colecao-calca-jeans-masculina.jpg',
+    'camisas-masculinas': '/images/terraestilo/colecao-camisas-masculinas.jpg',
+    'jaquetas-masculinas': '/images/terraestilo/colecao-jaquetas-masculinas.jpg',
+    'camisetas-masculinas': '/images/terraestilo/colecao-camisetas-masculinas.jpg',
+    polos: '/images/terraestilo/colecao-polos.jpg',
+    bones: '/images/terraestilo/colecao-bones.jpg',
+    'moletons-masculinos': '/images/terraestilo/colecao-moletons-masculinos.jpg',
+    acessorios: '/images/terraestilo/colecao-acessorios-masculinos.jpg',
+    feminino: '/images/terraestilo/categoria-feminino.jpg',
+    'camisas-femininas': '/images/terraestilo/colecao-camisas-femininas.jpg',
+    'camisetas-femininas': '/images/terraestilo/colecao-camisetas-femininas.jpg',
+    'jaquetas-femininas': '/images/terraestilo/colecao-jaquetas-femininas.jpg',
+    'calca-jeans-feminina': '/images/terraestilo/colecao-calca-jeans-feminina.jpg',
+    vestidos: '/images/terraestilo/colecao-vestidos.jpg',
+    'acessorios-femininos': '/images/terraestilo/colecao-acessorios-femininos.jpg',
   },
   produtos: {
-    camisaWorker: '/images/terrabrasil/camisa-worker-xadrez.jpg',
-    camisetaEssencial: '/images/terrabrasil/camiseta-essencial.jpg',
-    jaquetaCampo: '/images/terrabrasil/jaqueta-campo.jpg',
-    jeansHorizonte: '/images/terrabrasil/calca-jeans-horizonte.jpg',
-    botaEstrada: '/images/terrabrasil/bota-couro-estrada.jpg',
-    poloOliva: '/images/terrabrasil/polo-verde-oliva.jpg',
-    bermudaSarja: '/images/terrabrasil/bermuda-sarja.jpg',
-    boneBordado: '/images/terrabrasil/bone-bordado.jpg',
-    moletomSoft: '/images/terrabrasil/moletom-terra-soft.jpg',
-    vestidoAurora: '/images/terrabrasil/vestido-linho-aurora.jpg',
-    camisaSerena: '/images/terrabrasil/camisa-feminina-serena.jpg',
-    camisetaFeminina: '/images/terrabrasil/camiseta-feminina-essencial.jpg',
-    jaquetaFeminina: '/images/terrabrasil/jaqueta-feminina-aurora.jpg',
-    jeansFeminina: '/images/terrabrasil/calca-jeans-feminina-horizonte.jpg',
-    cintoTerra: '/images/terrabrasil/cinto-couro-terra.jpg',
-    mochilaCampo: '/images/terrabrasil/mochila-lona-campo.jpg',
-    bolsaCasual: '/images/terrabrasil/bolsa-terrabrasil-casual.jpg',
+    camisaWorker: '/images/terraestilo/camisa-worker-xadrez.jpg',
+    camisetaEssencial: '/images/terraestilo/camiseta-essencial.jpg',
+    jaquetaCampo: '/images/terraestilo/jaqueta-campo.jpg',
+    jeansHorizonte: '/images/terraestilo/calca-jeans-horizonte.jpg',
+    botaEstrada: '/images/terraestilo/bota-couro-estrada.jpg',
+    poloOliva: '/images/terraestilo/polo-verde-oliva.jpg',
+    bermudaSarja: '/images/terraestilo/bermuda-sarja.jpg',
+    boneBordado: '/images/terraestilo/bone-bordado.jpg',
+    moletomSoft: '/images/terraestilo/moletom-terra-soft.jpg',
+    vestidoAurora: '/images/terraestilo/vestido-linho-aurora.jpg',
+    camisaSerena: '/images/terraestilo/camisa-feminina-serena.jpg',
+    camisetaFeminina: '/images/terraestilo/camiseta-feminina-essencial.jpg',
+    jaquetaFeminina: '/images/terraestilo/jaqueta-feminina-aurora.jpg',
+    jeansFeminina: '/images/terraestilo/calca-jeans-feminina-horizonte.jpg',
+    cintoTerra: '/images/terraestilo/cinto-couro-terra.jpg',
+    mochilaCampo: '/images/terraestilo/mochila-lona-campo.jpg',
+    bolsaCasual: '/images/terraestilo/bolsa-terraestilo-casual.jpg',
   },
-  banner: '/images/terrabrasil/banner-colecao-horizonte.jpg',
-  newsletter: '/images/terrabrasil/newsletter-lifestyle.jpg',
-  fallback: '/images/terrabrasil/fallback-produto.jpg',
+  banner: '/images/terraestilo/banner-colecao-horizonte.jpg',
+  newsletter: '/images/terraestilo/newsletter-lifestyle.jpg',
+  fallback: '/images/terraestilo/fallback-produto.jpg',
 }
 
 export const topBenefits = [
@@ -146,7 +146,7 @@ export const featuredCollections = [
   {
     id: 'camisetas-masculinas',
     title: 'Camisetas Masculinas',
-    description: 'Básicas e essenciais com tecidos macios e cores da TerraBrasil.',
+    description: 'Básicas e essenciais com tecidos macios e cores da TerraEstilo.',
     filter: 'camisetas-masculinas',
     image: imageMap.colecoes['camisetas-masculinas'],
     variant: 'camisetas',
@@ -211,11 +211,11 @@ function getCollectionDescription(id) {
     vestidos: 'Vestidos casuais com tecidos naturais e leves.',
     'acessorios-femininos': 'Bolsas e acessórios que completam o look.',
   }
-  return descriptions[id] || 'Explore a coleção TerraBrasil.'
+  return descriptions[id] || 'Explore a coleção TerraEstilo.'
 }
 
 export const heroData = {
-  label: 'Nova coleção TerraBrasil',
+  label: 'Nova coleção TerraEstilo',
   title: 'Estilo brasileiro para todos os momentos',
   subtitle:
     'Roupas, calçados e acessórios com qualidade, conforto e personalidade para o seu dia a dia.',
@@ -244,7 +244,7 @@ export const products = [
   },
   {
     id: 2,
-    name: 'Camiseta Essencial TerraBrasil',
+    name: 'Camiseta Essencial TerraEstilo',
     department: 'Masculino',
     collectionId: 'camisetas-masculinas',
     subcategory: 'Camisetas Masculinas',
@@ -328,7 +328,7 @@ export const products = [
   },
   {
     id: 8,
-    name: 'Boné TerraBrasil Bordado',
+    name: 'Boné TerraEstilo Bordado',
     department: 'Acessórios',
     collectionId: 'bones',
     subcategory: 'Bonés',
@@ -454,7 +454,7 @@ export const products = [
   },
   {
     id: 17,
-    name: 'Bolsa TerraBrasil Casual',
+    name: 'Bolsa TerraEstilo Casual',
     department: 'Feminino',
     collectionId: 'acessorios-femininos',
     subcategory: 'Bolsas',
@@ -479,9 +479,9 @@ export const collectionBanner = {
 }
 
 export const newsletterBanner = {
-  title: 'Ganhe 10% OFF na primeira compra',
+  title: 'Ganhe 10% OFF na primeira compra TerraEstilo',
   subtitle:
-    'Cadastre seu e-mail e receba novidades, ofertas e lançamentos TerraBrasil.',
+    'Cadastre seu e-mail e receba novidades, ofertas e lançamentos TerraEstilo.',
   image: imageMap.newsletter,
   variant: 'newsletter',
   button: 'Garantir desconto',
@@ -522,7 +522,7 @@ export const storeBenefits = [
 
 export const footerLinks = {
   institucional: [
-    { label: 'Sobre a TerraBrasil', href: '#sobre' },
+    { label: 'Sobre a TerraEstilo', href: '#sobre' },
     { label: 'Trocas e devoluções', href: '#trocas' },
     { label: 'Atendimento', href: '#atendimento' },
   ],

@@ -1,10 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" fill="none">
-  <rect width="48" height="56" rx="12" fill="#1F4D2B"/>
-  <path d="M15.5 5.5C21.5 4 28 4.5 33 7C37.5 9 40.5 13 41.5 18.5C42.5 24 41.5 30 39 36C37 41.5 33 47 28 50.5C26 52 24 52.5 22 51.5C18.5 49 15.5 44.5 13 38C10.5 31 10 23 11.5 16C12.5 11 14 7.5 15.5 5.5Z" stroke="#E9DCC7" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M11 40C17 35 23 33 29 34.5C35 36 39.5 38.5 42 40.5V44.5C36 41.5 30 40 24 40.5C18 41 14 42.5 11 44V40Z" fill="#6B9478"/>
-  <path d="M12.5 32C18 28.5 24 27 30 28.5C36 30 40 32.5 42 34.5V38.5C36.5 35.5 30.5 34 24.5 34.5C18.5 35 14.5 36.5 12.5 38V32Z" fill="#C8923E"/>
-  <path d="M14 25C19 22 24 21 29 22.5C34 24 38 26 41 28V31.5C36 29 31 27.5 26 28C21 28.5 17 29.5 14 31V25Z" fill="#4A7358"/>
-  <path d="M26 20.5C27.5 18 30 17 32.5 18C35 19 36 21.5 35 24C34 26.5 31.5 28 29 27C26.5 26 25.5 23 26 20.5Z" fill="#F5EFE3"/>
-  <path d="M32 17.5L36.5 10" stroke="#D9A84E" stroke-width="1.4" stroke-linecap="round"/>
-  <circle cx="37" cy="9.5" r="1.5" fill="#D9A84E"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="te-bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16361F"/>
+      <stop offset="1" stop-color="#1F4D2B"/>
+    </linearGradient>
+    <clipPath id="rs-favicon">
+      <path d="M17 4C24 2.5 32 3.5 39 6.5C46 9.5 50.5 14 51.5 20.5C52.5 27 51 33.5 47.5 39.5C44 45.5 38.5 51 31.5 54C28 55.5 25.5 55 23 52.5C18.5 48 14.5 41 13 32.5C11.5 24 12 15 14.5 8.5C15.5 6 16.5 4.5 17 4Z"/>
+    </clipPath>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#te-bg)"/>
+  <path d="M17 4C24 2.5 32 3.5 39 6.5C46 9.5 50.5 14 51.5 20.5C52.5 27 51 33.5 47.5 39.5C44 45.5 38.5 51 31.5 54C28 55.5 25.5 55 23 52.5C18.5 48 14.5 41 13 32.5C11.5 24 12 15 14.5 8.5C15.5 6 16.5 4.5 17 4Z" fill="#2F6844" fill-opacity="0.5"/>
+  <g clip-path="url(#rs-favicon)">
+    <path d="M14.5 36.5C21 32.5 28 31 35 32.5C42 34 47 36.5 50 39.5V43C43 39.5 35.5 38 28.5 39C21.5 40 17 41 14.5 42.5V36.5Z" fill="#C8923E"/>
+    <path d="M30.5 27C32.5 23.8 36 22.5 39.5 23.5C43 24.5 44.5 27.5 43.5 30.5C42.5 33.5 39.5 35.5 36.5 35C33.5 34.5 31.5 31.5 30.5 27Z" fill="#F7F1E8"/>
+    <path d="M39 24L44.5 14.5" stroke="#C8923E" stroke-width="1.7" stroke-linecap="round"/>
+    <circle cx="45.2" cy="13.5" r="2" fill="#C8923E"/>
+  </g>
+  <path d="M17 4C24 2.5 32 3.5 39 6.5C46 9.5 50.5 14 51.5 20.5C52.5 27 51 33.5 47.5 39.5C44 45.5 38.5 51 31.5 54C28 55.5 25.5 55 23 52.5C18.5 48 14.5 41 13 32.5C11.5 24 12 15 14.5 8.5C15.5 6 16.5 4.5 17 4Z" stroke="#C8923E" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
 </svg>

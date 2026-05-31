@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
 import { products, matchesFilter, scrollToProducts } from '../data/mockData'
 
-const FAVORITES_KEY = 'terrabrasil-favorites'
+const FAVORITES_KEY = 'terraestilo-favorites'
 
 function loadStoredFavorites() {
   try {

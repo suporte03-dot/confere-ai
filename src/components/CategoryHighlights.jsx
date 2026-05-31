@@ -15,7 +15,7 @@ function CategoryHighlights() {
       <div className="container">
         <div className="section-head">
           <h2 className="section-head__title">Navegue por categorias</h2>
-          <p className="section-head__desc">Masculino, feminino e coleções em destaque TerraBrasil.</p>
+          <p className="section-head__desc">Masculino, feminino e coleções em destaque TerraEstilo.</p>
         </div>
         <div className="category-highlights__grid">
           {featuredCollections.map((item) => (

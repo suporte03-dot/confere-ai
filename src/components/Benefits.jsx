@@ -5,7 +5,7 @@ function Benefits() {
     <section className="section benefits">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Comprar na TerraBrasil é simples e seguro</h2>
+          <h2 className="section-head__title">Comprar na TerraEstilo é simples e seguro</h2>
         </div>
         <div className="benefits__grid">
           {storeBenefits.map((item) => (

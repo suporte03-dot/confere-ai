@@ -187,12 +187,12 @@ export function VisualPlaceholder({ variant = 'product', label, alt, compact = f
     <div
       className={`visual-placeholder visual-placeholder--${variant}${compact ? ' visual-placeholder--compact' : ''}`}
       role="img"
-      aria-label={alt || label || 'Imagem TerraBrasil'}
+      aria-label={alt || label || 'Imagem TerraEstilo'}
     >
       <div className="visual-placeholder__pattern" aria-hidden="true" />
       <div className="visual-placeholder__icon">{icon}</div>
       {label && !compact && <p className="visual-placeholder__label">{label}</p>}
-      {!compact && <span className="visual-placeholder__brand">TerraBrasil</span>}
+      {!compact && <span className="visual-placeholder__brand">TerraEstilo</span>}
     </div>
   )
 }

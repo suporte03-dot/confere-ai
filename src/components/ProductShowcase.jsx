@@ -9,7 +9,7 @@ function ProductShowcase() {
     <section id="produtos" className="section products-section">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Destaques TerraBrasil</h2>
+          <h2 className="section-head__title">Destaques TerraEstilo</h2>
           <p className="section-head__desc">Peças selecionadas com o estilo da nossa terra.</p>
         </div>
 

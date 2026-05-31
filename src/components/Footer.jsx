@@ -16,7 +16,7 @@ function Footer() {
         <div className="footer__brand">
           <Logo variant="light" />
           <p>
-            TerraBrasil é moda casual premium com raízes brasileiras — qualidade, conforto
+            TerraEstilo é moda casual premium com raízes gaúchas — qualidade, conforto
             e estilo para homens e mulheres.
           </p>
           <div className="footer__social">
@@ -64,7 +64,7 @@ function Footer() {
               <span key={p}>{p}</span>
             ))}
           </div>
-          <p className="footer__copy">© {new Date().getFullYear()} TerraBrasil. Todos os direitos reservados.</p>
+          <p className="footer__copy">© {new Date().getFullYear()} TerraEstilo. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

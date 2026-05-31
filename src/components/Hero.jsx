@@ -24,7 +24,7 @@ function Hero() {
           <div className="hero__image-wrap">
             <VisualMedia
               src={heroData.image}
-              alt="Coleção TerraBrasil — moda lifestyle brasileira"
+              alt="Coleção TerraEstilo — moda lifestyle gaúcha"
               label="Moda casual & country"
               variant={heroData.variant}
               className="hero__media"

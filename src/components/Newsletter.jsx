@@ -24,7 +24,7 @@ function Newsletter() {
           <VisualMedia
             src={newsletterBanner.image}
             alt=""
-            label="Newsletter TerraBrasil"
+            label="Newsletter TerraEstilo"
             variant={newsletterBanner.variant}
             className="newsletter__media"
             imgClassName="newsletter__img"
