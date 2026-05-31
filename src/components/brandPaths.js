@@ -1,12 +1,13 @@
-/** Silhueta do Rio Grande do Sul — paths compartilhados entre logo e favicon */
+/** Silhueta refinada do Rio Grande do Sul */
 export const RS_MAP =
-  'M17 4C24 2.5 32 3.5 39 6.5C46 9.5 50.5 14 51.5 20.5C52.5 27 51 33.5 47.5 39.5C44 45.5 38.5 51 31.5 54C28 55.5 25.5 55 23 52.5C18.5 48 14.5 41 13 32.5C11.5 24 12 15 14.5 8.5C15.5 6 16.5 4.5 17 4Z'
+  'M18 5.5C25 3.5 33 4.5 40 7.5C46.5 10.5 50 15.5 51 22C52 28.5 50.5 35 47 41C43.5 47 37.5 52.5 31 55C27.5 56.5 25 56 22.5 53.5C18 49 14.5 42 13 33.5C11.5 25 12 16 14.5 9.5C15.5 7 17 5.5 18 5.5Z'
 
 export const BRAND_COLORS = {
   green: '#1F4D2B',
   greenDeep: '#16361F',
+  greenSoft: '#2A5A3C',
   gold: '#C8923E',
+  goldLight: '#D4A85A',
   sand: '#F7F1E8',
   white: '#FFFFFF',
-  mapFill: '#2F6844',
 }

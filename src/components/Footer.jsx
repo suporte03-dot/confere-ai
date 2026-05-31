@@ -17,7 +17,7 @@ function Footer() {
           <Logo variant="light" />
           <p>
             TerraEstilo é moda casual premium com raízes gaúchas — qualidade, conforto
-            e estilo para homens e mulheres.
+            e estilo para toda a família.
           </p>
           <div className="footer__social">
             {['Instagram', 'Facebook', 'YouTube'].map((s) => (
@@ -38,7 +38,7 @@ function Footer() {
         <nav className="footer__col">
           <h4>Masculino</h4>
           <ul>
-            {footerLinks.masculino.map((l) => (
+            {footerLinks.masculino.slice(0, 6).map((l) => (
               <li key={l.label}>
                 <a href="#produtos" onClick={(e) => handleLink(l.filter, e)}>{l.label}</a>
               </li>
@@ -49,7 +49,18 @@ function Footer() {
         <nav className="footer__col">
           <h4>Feminino</h4>
           <ul>
-            {footerLinks.feminino.map((l) => (
+            {footerLinks.feminino.slice(0, 6).map((l) => (
+              <li key={l.label}>
+                <a href="#produtos" onClick={(e) => handleLink(l.filter, e)}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="footer__col">
+          <h4>Loja</h4>
+          <ul>
+            {footerLinks.loja.map((l) => (
               <li key={l.label}>
                 <a href="#produtos" onClick={(e) => handleLink(l.filter, e)}>{l.label}</a>
               </li>

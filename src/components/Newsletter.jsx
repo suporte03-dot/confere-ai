@@ -13,7 +13,7 @@ function Newsletter() {
       showToast('Informe um e-mail válido.')
       return
     }
-    showToast('Desconto garantido! Verifique sua caixa de entrada.')
+    showToast('Cupom enviado para seu e-mail!')
     setEmail('')
   }
 

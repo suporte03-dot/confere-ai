@@ -172,6 +172,81 @@ const ICONS = {
       <path d="M10 20l22 16 22-16" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
     </svg>
   ),
+  moletomInfantil: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <circle cx="32" cy="18" r="7" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M14 22l18-8 18 8v26H14V22z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  croppedCampo: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M20 24h24v20H20V24z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 24V18h16v6" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
+  bodyCanelado: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M24 16h16v32H24V16z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 24h16" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
+  calcaInfantil: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M22 14h20l-2 34H24L22 14z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  vestidoInfantil: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 12v8M26 20h12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M20 20l12 28 12-28H20z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  conjuntoInfantil: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect x="18" y="18" width="28" height="28" rx="4" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M18 30h28" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
+  tenisHorizonte: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M8 36c10-4 18-4 28 0 10 4 18 4 28 0v10c-10 6-18 8-28 8s-18-2-28-8V36z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  chineloTerra: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M10 38c12-6 20-6 32 0 12 6 20 6 32 0v6c-12 8-20 10-32 10S22 52 10 44v-6z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  ),
+  coturnoUrbano: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M16 12h32v22c0 14-10 22-16 22s-16-8-16-22V12z" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M12 34h40" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
+  camisaFlanela: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M18 16h28l-6 10v26H24V26l-6-10z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M18 26h28M18 34h28" stroke="currentColor" strokeWidth="1.5" opacity="0.55" />
+    </svg>
+  ),
+  jaquetaSarja: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M12 24l20-10 20 10v28H12V24z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M32 14v38" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
+  moletomCampoSul: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M14 22l18-8 18 8v26H14V22z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M22 28v8M42 28v8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
+  bolsaCasual: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M18 24h28l4 28H14l4-28z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M24 24v-6c0-3 3-6 8-6s8 3 8 6v6" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  ),
   product: (
     <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
       <path d="M18 14h28v6l-6 8v24H24V28l-6-8v-6z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />

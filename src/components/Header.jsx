@@ -24,7 +24,7 @@ function NavDropdown({ item, onNavigate, onCloseMobile }) {
           <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" />
         </svg>
       </button>
-      <div className="cat-nav__dropdown">
+      <div className={`cat-nav__dropdown ${subcategories.length > 6 ? 'cat-nav__dropdown--wide' : ''}`}>
         <a
           href="#produtos"
           className="cat-nav__dropdown-all"
@@ -32,7 +32,7 @@ function NavDropdown({ item, onNavigate, onCloseMobile }) {
         >
           Ver tudo em {item.title}
         </a>
-        <ul className="cat-nav__dropdown-list">
+        <ul className={`cat-nav__dropdown-list ${subcategories.length > 6 ? 'cat-nav__dropdown-list--grid' : ''}`}>
           {subcategories.map((sub) => (
             <li key={sub.id}>
               <a

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
-import { products, matchesFilter, scrollToProducts } from '../data/mockData'
+import { products, matchesFilter, scrollToProducts, getFilterLabel } from '../data/mockData'
 
 const FAVORITES_KEY = 'terraestilo-favorites'
 
@@ -91,12 +91,19 @@ export function ShopProvider({ children }) {
           p.name.toLowerCase().includes(q) ||
           p.department.toLowerCase().includes(q) ||
           p.subcategory.toLowerCase().includes(q) ||
-          p.collectionId.toLowerCase().includes(q),
+          p.collectionId.toLowerCase().includes(q) ||
+          (p.badge && p.badge.toLowerCase().includes(q)) ||
+          (p.colors && p.colors.some((color) => color.toLowerCase().includes(q))),
       )
     }
 
     return list
   }, [categoryFilter, searchQuery])
+
+  const activeFilterLabel = useMemo(
+    () => getFilterLabel(categoryFilter),
+    [categoryFilter],
+  )
 
   const value = {
     cart,
@@ -112,6 +119,7 @@ export function ShopProvider({ children }) {
     setCategoryFilter,
     navigateToCollection,
     filteredProducts,
+    activeFilterLabel,
     addToCart,
     removeFromCart,
     updateQty,
