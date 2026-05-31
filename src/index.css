@@ -9,8 +9,8 @@ body {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.6;
-  color: #1E1E1E;
-  background: #FAF7F0;
+  color: var(--tb-text, #1E1E1E);
+  background: var(--tb-sand-100, #FAF7F0);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -30,4 +30,7 @@ img { max-width: 100%; display: block; }
 
 [id] { scroll-margin-top: 120px; }
 
-::selection { background: rgba(200, 146, 62, 0.25); }
+::selection {
+  background: rgba(200, 146, 62, 0.28);
+  color: #102A1C;
+}

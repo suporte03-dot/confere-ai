@@ -539,23 +539,23 @@ export const footerLinks = {
 export const paymentMethods = ['Visa', 'Master', 'Pix', 'Boleto']
 
 export const colorSwatches = {
-  Verde: '#1F4D2B',
+  Verde: '#163B26',
   Marrom: '#7A4A28',
-  Azul: '#1e3a5f',
+  Azul: '#2F6136',
   'Off-white': '#FAF7F0',
   Preto: '#1E1E1E',
   Oliva: '#556B2F',
-  'Azul médio': '#3b5998',
-  'Azul escuro': '#1e293b',
+  'Azul médio': '#2F6136',
+  'Azul escuro': '#102A1C',
   Caramelo: '#C8923E',
-  Café: '#5c4033',
+  Café: '#6B3F24',
   'Verde oliva': '#556B2F',
   Branco: '#FAF7F0',
-  Marinho: '#1e3a5f',
+  Marinho: '#163B26',
   Areia: '#F5EFE3',
-  Bege: '#F5EFE3',
-  'Verde claro': '#8fbc8f',
-  'Azul claro': '#93c5fd',
+  Bege: '#E9DCC7',
+  'Verde claro': '#2F6136',
+  'Azul claro': '#556B2F',
 }
 
 export function matchesFilter(product, filterId) {
