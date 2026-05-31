@@ -130,27 +130,67 @@
   color: var(--tb-gold-500);
 }
 
-/* ── Logo ── */
-.logo {
-  display: inline-flex;
+/* ── Brand / Logo ── */
+.brand {
+  display: flex;
   align-items: center;
+  gap: 12px;
   text-decoration: none;
-  line-height: 0;
+  flex-shrink: 0;
+  min-width: max-content;
 }
 
-.logo__image {
+.brand-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #102A1C, #1F4D2B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(16, 42, 28, 0.18);
+  flex-shrink: 0;
+}
+
+.brand-icon svg,
+.brand-icon img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
   display: block;
-  width: auto;
-  height: 52px;
-  max-width: 100%;
 }
 
-.logo--sm .logo__image {
-  height: 44px;
+.brand-text {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+  font-weight: 800;
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
 }
 
-.logo--lg .logo__image {
-  height: 60px;
+.brand-terra {
+  color: #1F4D2B;
+}
+
+.brand-brasil {
+  color: #C8923E;
+}
+
+.brand--light .brand-terra {
+  color: var(--tb-sand-100);
+}
+
+.brand--light .brand-brasil {
+  color: var(--tb-gold-500);
+}
+
+.brand--light .brand-icon {
+  background: linear-gradient(135deg, rgba(250, 247, 240, 0.14), rgba(200, 146, 62, 0.22));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(250, 247, 240, 0.12);
 }
 
 /* ── Buttons ── */
@@ -269,7 +309,6 @@
 
 .header__logo {
   flex-shrink: 0;
-  text-decoration: none;
 }
 
 .header__search {
@@ -1811,13 +1850,6 @@
   max-width: 320px;
 }
 
-.footer__brand .logo__terra {
-  color: var(--tb-sand-100);
-}
-
-.footer__brand .logo__brasil {
-  color: var(--tb-gold-500);
-}
 
 .footer__social {
   display: flex;
@@ -2007,6 +2039,23 @@ input:focus-visible {
 
   .footer__brand {
     grid-column: span 2;
+  }
+}
+
+/* ── Responsive: 768px ── */
+@media (max-width: 768px) {
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .brand-text {
+    font-size: 1.35rem;
   }
 }
 

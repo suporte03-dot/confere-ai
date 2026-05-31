@@ -130,9 +130,7 @@ function Header() {
           <span /><span /><span />
         </button>
 
-        <a href="#inicio" className="header__logo">
-          <Logo />
-        </a>
+        <Logo href="#inicio" className="header__logo" />
 
         <div className="header__search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
