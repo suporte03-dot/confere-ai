@@ -1,55 +1,53 @@
 import { useId } from 'react'
-import { BRAND_COLORS, BRAND_SERIF, RS_MAP } from './brandPaths'
+import {
+  BRAND_COLORS,
+  MONOGRAM_E,
+  MONOGRAM_T,
+  RS_MAP,
+} from './brandPaths'
 
-function BrandSymbol({ tone = 'default' }) {
+function GoldDefs({ prefix }) {
+  return (
+    <defs>
+      <linearGradient id={`${prefix}-gold`} x1="18" y1="10" x2="82" y2="90" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor={BRAND_COLORS.goldLight} />
+        <stop offset="50%" stopColor={BRAND_COLORS.gold600} />
+        <stop offset="100%" stopColor={BRAND_COLORS.goldDeep} />
+      </linearGradient>
+      <clipPath id={`${prefix}-clip`}>
+        <path d={RS_MAP} />
+      </clipPath>
+    </defs>
+  )
+}
+
+function BrandSymbol() {
   const uid = useId().replace(/:/g, '')
-  const clipId = `rs-clip-${uid}`
-
-  const eColor = tone === 'light' ? BRAND_COLORS.cream100 : BRAND_COLORS.green800
+  const grad = `${uid}-gold`
+  const clip = `${uid}-clip`
 
   return (
     <svg
-      viewBox="0 0 64 64"
+      viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
+      className="brand-symbol"
     >
-      <defs>
-        <clipPath id={clipId}>
-          <path d={RS_MAP} />
-        </clipPath>
-      </defs>
+      <GoldDefs prefix={uid} />
 
       <path
         d={RS_MAP}
-        stroke={BRAND_COLORS.gold600}
-        strokeWidth="1.35"
+        stroke={`url(#${grad})`}
+        strokeWidth="1.15"
         strokeLinejoin="round"
         strokeLinecap="round"
         fill="none"
       />
 
-      <g clipPath={`url(#${clipId})`}>
-        <text
-          x="21.5"
-          y="37.5"
-          fill={BRAND_COLORS.gold600}
-          fontFamily={BRAND_SERIF}
-          fontSize="21"
-          fontWeight="700"
-        >
-          T
-        </text>
-        <text
-          x="32.5"
-          y="37"
-          fill={eColor}
-          fontFamily={BRAND_SERIF}
-          fontSize="15.5"
-          fontWeight="700"
-        >
-          E
-        </text>
+      <g clipPath={`url(#${clip})`}>
+        <path d={MONOGRAM_T} fill={`url(#${grad})`} />
+        <path d={MONOGRAM_E} fill={`url(#${grad})`} />
       </g>
     </svg>
   )
@@ -64,10 +62,11 @@ function Wordmark() {
   )
 }
 
-function Logo({ variant = 'full', tone = 'default', className = '' }) {
+function Logo({ variant = 'full', tone = 'light', showTagline = false, className = '' }) {
   const rootClass = [
     variant === 'full' ? 'logo-full' : 'logo',
-    tone === 'light' ? 'logo--light' : '',
+    tone === 'dark' ? 'logo--dark' : '',
+    showTagline ? 'logo--stacked' : '',
     className,
   ]
     .filter(Boolean)
@@ -77,7 +76,7 @@ function Logo({ variant = 'full', tone = 'default', className = '' }) {
     return (
       <div className={rootClass} aria-hidden="true">
         <div className="logo-icon">
-          <BrandSymbol tone={tone} />
+          <BrandSymbol />
         </div>
       </div>
     )
@@ -87,6 +86,7 @@ function Logo({ variant = 'full', tone = 'default', className = '' }) {
     return (
       <div className={rootClass}>
         <Wordmark />
+        {showTagline && <span className="logo-tagline">Moda que veste origens</span>}
       </div>
     )
   }
@@ -94,9 +94,12 @@ function Logo({ variant = 'full', tone = 'default', className = '' }) {
   return (
     <div className={rootClass}>
       <div className="logo-icon" aria-hidden="true">
-        <BrandSymbol tone={tone} />
+        <BrandSymbol />
       </div>
-      <Wordmark />
+      <div className="logo-copy">
+        <Wordmark />
+        {showTagline && <span className="logo-tagline">Moda que veste origens</span>}
+      </div>
     </div>
   )
 }

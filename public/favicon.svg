@@ -1,14 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
   <defs>
+    <linearGradient id="gold" x1="18" y1="10" x2="82" y2="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D9BC82"/>
+      <stop offset="50%" stop-color="#C5A059"/>
+      <stop offset="100%" stop-color="#9E7840"/>
+    </linearGradient>
     <clipPath id="rs">
-      <path d="M18 5.5C25 3.5 33 4.5 40 7.5C46.5 10.5 50 15.5 51 22C52 28.5 50.5 35 47 41C43.5 47 37.5 52.5 31 55C27.5 56.5 25 56 22.5 53.5C18 49 14.5 42 13 33.5C11.5 25 12 16 14.5 9.5C15.5 7 17 5.5 18 5.5Z"/>
+      <path d="M24 12C32 9 42 9 50 13C58 17 64 25 66 35C68 45 65 55 58 65C51 75 40 84 30 88C24 90 19 86 16 78C12 68 10 52 12 36C14 22 18 14 24 12Z"/>
     </clipPath>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#143623"/>
-  <rect x="10" y="10" width="44" height="44" rx="10" stroke="#C8A46A" stroke-width="1.1" fill="none"/>
-  <path d="M18 5.5C25 3.5 33 4.5 40 7.5C46.5 10.5 50 15.5 51 22C52 28.5 50.5 35 47 41C43.5 47 37.5 52.5 31 55C27.5 56.5 25 56 22.5 53.5C18 49 14.5 42 13 33.5C11.5 25 12 16 14.5 9.5C15.5 7 17 5.5 18 5.5Z" stroke="#C8A46A" stroke-width="1.35" stroke-linejoin="round" fill="none"/>
+  <rect width="100" height="100" rx="18" fill="#1A2F23"/>
+  <path d="M24 12C32 9 42 9 50 13C58 17 64 25 66 35C68 45 65 55 58 65C51 75 40 84 30 88C24 90 19 86 16 78C12 68 10 52 12 36C14 22 18 14 24 12Z" stroke="url(#gold)" stroke-width="1.15" stroke-linejoin="round" fill="none"/>
   <g clip-path="url(#rs)">
-    <text x="21.5" y="37.5" fill="#C8A46A" font-family="Georgia, serif" font-size="21" font-weight="700">T</text>
-    <text x="32.5" y="37" fill="#F7F1E8" font-family="Georgia, serif" font-size="15.5" font-weight="700">E</text>
+    <path d="M22 28h18v4.2H33.2V54h-4.8V32.2H22V28z" fill="url(#gold)"/>
+    <path d="M39 36h15v4H44v4.8h8.5V49H44v4.8h10.5V58H39V36z" fill="url(#gold)"/>
   </g>
 </svg>
