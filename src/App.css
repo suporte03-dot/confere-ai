@@ -52,7 +52,20 @@
   --radius-pill: 999px;
   --container: 1200px;
   --topbar-height: 36px;
-  --header-main-height: 88px;
+  --header-main-height: 86px;
+
+  /* TerraEstilo — identidade oficial */
+  --te-green-950: #102A1C;
+  --te-green-900: #143623;
+  --te-green-800: #1F4D3A;
+  --te-olive: #6B7A4E;
+  --te-gold-700: #A8762A;
+  --te-gold-600: #C8A46A;
+  --te-champagne: #D6B87A;
+  --te-cream-50: #FCFAF6;
+  --te-cream-100: #F7F1E8;
+  --te-text: #223126;
+
   --transition: 0.25s ease;
 }
 
@@ -134,106 +147,70 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
   text-decoration: none;
   flex-shrink: 0;
-  min-width: max-content;
 }
 
-.brand-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #16361F 0%, #1F4D2B 52%, #245C38 100%);
+.logo-full {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid rgba(200, 146, 62, 0.22);
-  box-shadow:
-    0 12px 28px rgba(22, 54, 31, 0.22),
-    inset 0 1px 0 rgba(247, 241, 232, 0.08);
 }
 
-.brand-icon svg {
-  width: 84%;
-  height: 84%;
+.logo-icon svg {
+  width: 100%;
+  height: 100%;
   display: block;
 }
 
-.brand-wordmark {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.brand-text {
+.logo-wordmark {
   display: flex;
   align-items: baseline;
   line-height: 1;
-  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   font-weight: 700;
-  font-size: clamp(1.75rem, 2.15vw, 2.35rem);
-  letter-spacing: 0.02em;
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  letter-spacing: -0.04em;
   white-space: nowrap;
 }
 
-.brand-terra {
-  color: #16361F;
+.logo-terra {
+  color: var(--te-green-800);
 }
 
-.brand-estilo {
-  color: #B8843A;
+.logo-estilo {
+  color: var(--te-gold-600);
 }
 
-.brand-sub {
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(31, 77, 43, 0.58);
-  white-space: nowrap;
+.logo--light .logo-terra {
+  color: var(--te-cream-100);
 }
 
-.brand--light .brand-terra {
-  color: var(--tb-sand-100);
-}
-
-.brand--light .brand-estilo {
-  color: var(--tb-gold-500);
-}
-
-.brand--light .brand-sub {
-  color: rgba(250, 247, 240, 0.55);
-}
-
-.brand--light .brand-icon {
-  background: linear-gradient(145deg, rgba(22, 54, 31, 0.92) 0%, rgba(31, 77, 43, 0.88) 100%);
-  border-color: rgba(200, 146, 62, 0.28);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-}
-
-@media (max-width: 960px) {
-  .brand-sub {
-    display: none;
-  }
+.logo--light .logo-estilo {
+  color: var(--te-gold-600);
 }
 
 @media (max-width: 768px) {
-  .brand {
+  .logo-full {
     gap: 10px;
   }
 
-  .brand-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 13px;
+  .logo-icon {
+    width: 42px;
+    height: 42px;
   }
 
-  .brand-text {
-    font-size: 1.45rem;
+  .logo-wordmark {
+    font-size: 1.65rem;
   }
 }
 
@@ -345,17 +322,17 @@
 
 .header__main {
   display: grid;
-  grid-template-columns: minmax(240px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(260px, auto) minmax(0, 1fr) auto;
   align-items: center;
-  gap: 28px 32px;
+  gap: 20px 28px;
   min-height: var(--header-main-height);
-  padding: 14px 0;
+  padding: 12px 0;
 }
 
 .header__logo {
   flex-shrink: 0;
   align-self: center;
-  margin-right: 4px;
+  justify-self: start;
 }
 
 .header__search {

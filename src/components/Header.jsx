@@ -130,7 +130,9 @@ function Header() {
           <span /><span /><span />
         </button>
 
-        <Logo href="#inicio" className="header__logo" />
+        <a href="#inicio" className="brand header__logo" aria-label="TerraEstilo - Página inicial">
+          <Logo variant="full" />
+        </a>
 
         <div className="header__search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
