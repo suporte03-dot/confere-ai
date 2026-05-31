@@ -75,15 +75,15 @@ function Header() {
         <div className="container cat-nav__inner">
           {navCategories.map((cat) => (
             <a
-              key={cat.label}
-              href={cat.href}
+              key={cat}
+              href="#produtos"
               className="cat-nav__link"
               onClick={() => {
-                setCategoryFilter(cat.filter)
+                setCategoryFilter(cat)
                 setMenuOpen(false)
               }}
             >
-              {cat.label}
+              {cat}
             </a>
           ))}
         </div>

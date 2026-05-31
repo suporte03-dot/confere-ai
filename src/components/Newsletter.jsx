@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { newsletterBanner } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import VisualMedia from './VisualMedia'
 
 function Newsletter() {
   const { showToast } = useShop()
@@ -18,22 +20,30 @@ function Newsletter() {
   return (
     <section id="newsletter" className="newsletter">
       <div className="container newsletter__inner">
-        <div className="newsletter__content">
-          <h2>Ganhe 10% OFF na primeira compra</h2>
-          <p>
-            Cadastre seu e-mail e receba novidades, ofertas e lançamentos TerraBrasil.
-          </p>
-        </div>
-        <form className="newsletter__form" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Seu melhor e-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-label="E-mail para newsletter"
+        <div className="newsletter__visual">
+          <VisualMedia
+            src={newsletterBanner.image}
+            alt=""
+            label="Newsletter TerraBrasil"
+            variant={newsletterBanner.variant}
+            className="newsletter__media"
+            imgClassName="newsletter__img"
           />
-          <button type="submit" className="btn btn--gold">Garantir desconto</button>
-        </form>
+        </div>
+        <div className="newsletter__content">
+          <h2>{newsletterBanner.title}</h2>
+          <p>{newsletterBanner.subtitle}</p>
+          <form className="newsletter__form" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Seu melhor e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-label="E-mail para newsletter"
+            />
+            <button type="submit" className="btn btn--gold">{newsletterBanner.button}</button>
+          </form>
+        </div>
       </div>
     </section>
   )

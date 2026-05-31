@@ -1,3 +1,48 @@
+/**
+ * Imagens TerraBrasil
+ *
+ * Coloque fotos próprias ou licenciadas em public/images/terrabrasil/
+ * usando exatamente os nomes definidos em imageMap.
+ * Enquanto os arquivos não existirem, o site exibe placeholders premium em CSS.
+ */
+
+export const imageMap = {
+  hero: '/images/terrabrasil/hero-lifestyle.jpg',
+  categorias: {
+    masculino: '/images/terrabrasil/categoria-masculino.jpg',
+    feminino: '/images/terrabrasil/categoria-feminino.jpg',
+    infantil: '/images/terrabrasil/categoria-infantil.jpg',
+    calcados: '/images/terrabrasil/categoria-calcados.jpg',
+    acessorios: '/images/terrabrasil/categoria-acessorios.jpg',
+    outlet: '/images/terrabrasil/categoria-outlet.jpg',
+  },
+  quickCategories: {
+    camisetas: '/images/terrabrasil/categoria-camisetas.jpg',
+    camisas: '/images/terrabrasil/categoria-camisas.jpg',
+    polos: '/images/terrabrasil/categoria-polos.jpg',
+    jaquetas: '/images/terrabrasil/categoria-jaquetas.jpg',
+    jeans: '/images/terrabrasil/categoria-jeans.jpg',
+    botas: '/images/terrabrasil/categoria-botas.jpg',
+  },
+  produtos: {
+    camisaWorker: '/images/terrabrasil/camisa-worker-xadrez.jpg',
+    camisetaEssencial: '/images/terrabrasil/camiseta-essencial.jpg',
+    jaquetaCampo: '/images/terrabrasil/jaqueta-campo.jpg',
+    jeansHorizonte: '/images/terrabrasil/calca-jeans-horizonte.jpg',
+    botaEstrada: '/images/terrabrasil/bota-couro-estrada.jpg',
+    poloOliva: '/images/terrabrasil/polo-verde-oliva.jpg',
+    bermudaSarja: '/images/terrabrasil/bermuda-sarja.jpg',
+    boneBordado: '/images/terrabrasil/bone-bordado.jpg',
+    vestidoAurora: '/images/terrabrasil/vestido-linho-aurora.jpg',
+    camisaSerena: '/images/terrabrasil/camisa-feminina-serena.jpg',
+    cintoTerra: '/images/terrabrasil/cinto-couro-terra.jpg',
+    mochilaCampo: '/images/terrabrasil/mochila-lona-campo.jpg',
+  },
+  banner: '/images/terrabrasil/banner-colecao-horizonte.jpg',
+  newsletter: '/images/terrabrasil/newsletter-lifestyle.jpg',
+  fallback: '/images/terrabrasil/fallback-produto.jpg',
+}
+
 export const topBenefits = [
   'Frete grátis acima de R$499',
   'Até 12x sem juros',
@@ -5,119 +50,329 @@ export const topBenefits = [
 ]
 
 export const navCategories = [
-  { label: 'Masculino', href: '#produtos', filter: 'Masculino' },
-  { label: 'Feminino', href: '#produtos', filter: 'Feminino' },
-  { label: 'Infantil', href: '#produtos', filter: 'Infantil' },
-  { label: 'Calçados', href: '#produtos', filter: 'Calçados' },
-  { label: 'Acessórios', href: '#produtos', filter: 'Acessórios' },
-  { label: 'Outlet', href: '#produtos', filter: 'Outlet' },
+  'Masculino',
+  'Feminino',
+  'Infantil',
+  'Calçados',
+  'Acessórios',
+  'Outlet',
 ]
 
-export const categoryCards = [
-  { id: 'camisetas', title: 'Camisetas', gradient: 'linear-gradient(135deg, #556B2F 0%, #1F4D2B 100%)' },
-  { id: 'camisas', title: 'Camisas', gradient: 'linear-gradient(135deg, #7A4A28 0%, #C8923E 100%)' },
-  { id: 'polos', title: 'Polos', gradient: 'linear-gradient(135deg, #1F4D2B 0%, #556B2F 100%)' },
-  { id: 'jaquetas', title: 'Jaquetas', gradient: 'linear-gradient(135deg, #1E1E1E 0%, #556B2F 100%)' },
-  { id: 'jeans', title: 'Calça Jeans', gradient: 'linear-gradient(135deg, #334155 0%, #64748B 100%)' },
-  { id: 'bermudas', title: 'Bermudas', gradient: 'linear-gradient(135deg, #C8923E 0%, #F5EFE3 100%)' },
-  { id: 'botas', title: 'Botas', gradient: 'linear-gradient(135deg, #7A4A28 0%, #1E1E1E 100%)' },
-  { id: 'bones', title: 'Bonés', gradient: 'linear-gradient(135deg, #556B2F 0%, #C8923E 100%)' },
-  { id: 'acessorios', title: 'Acessórios', gradient: 'linear-gradient(135deg, #F5EFE3 0%, #C8923E 100%)' },
+export const filterOptions = ['Todos', ...navCategories]
+
+export const heroData = {
+  label: 'Nova coleção TerraBrasil',
+  title: 'Estilo brasileiro para todos os momentos',
+  subtitle:
+    'Roupas, calçados e acessórios com qualidade, conforto e personalidade para o seu dia a dia.',
+  primaryButton: 'Comprar agora',
+  secondaryButton: 'Ver novidades',
+  image: imageMap.hero,
+  variant: 'hero',
+  badges: ['Coleção Campo & Cidade', 'Peças exclusivas', 'Envio para todo Brasil'],
+  floatingCards: ['12x sem juros', 'Frete grátis +R$499'],
+}
+
+export const categoryHighlights = [
+  {
+    id: 'masculino',
+    title: 'Masculino',
+    description: 'Camisas, polos, camisetas e peças casuais para todos os dias.',
+    image: imageMap.categorias.masculino,
+    variant: 'masculino',
+    filter: 'Masculino',
+  },
+  {
+    id: 'feminino',
+    title: 'Feminino',
+    description: 'Peças leves, elegantes e versáteis para diferentes ocasiões.',
+    image: imageMap.categorias.feminino,
+    variant: 'feminino',
+    filter: 'Feminino',
+  },
+  {
+    id: 'infantil',
+    title: 'Infantil',
+    description: 'Conforto e estilo para os pequenos aproveitarem cada momento.',
+    image: imageMap.categorias.infantil,
+    variant: 'infantil',
+    filter: 'Infantil',
+  },
+  {
+    id: 'calcados',
+    title: 'Calçados',
+    description: 'Botas, tênis e calçados para acompanhar sua rotina.',
+    image: imageMap.categorias.calcados,
+    variant: 'calcados',
+    filter: 'Calçados',
+  },
+  {
+    id: 'acessorios',
+    title: 'Acessórios',
+    description: 'Bonés, cintos, bolsas e detalhes que completam o visual.',
+    image: imageMap.categorias.acessorios,
+    variant: 'acessorios',
+    filter: 'Acessórios',
+  },
+  {
+    id: 'outlet',
+    title: 'Outlet',
+    description: 'Produtos selecionados com condições especiais.',
+    image: imageMap.categorias.outlet,
+    variant: 'outlet',
+    filter: 'Outlet',
+  },
+]
+
+export const quickCategories = [
+  {
+    id: 'camisetas',
+    title: 'Camisetas',
+    image: imageMap.quickCategories.camisetas,
+    variant: 'camisetas',
+  },
+  {
+    id: 'camisas',
+    title: 'Camisas',
+    image: imageMap.quickCategories.camisas,
+    variant: 'camisas',
+  },
+  {
+    id: 'polos',
+    title: 'Polos',
+    image: imageMap.quickCategories.polos,
+    variant: 'polos',
+  },
+  {
+    id: 'jaquetas',
+    title: 'Jaquetas',
+    image: imageMap.quickCategories.jaquetas,
+    variant: 'jaquetas',
+  },
+  {
+    id: 'jeans',
+    title: 'Calça Jeans',
+    image: imageMap.quickCategories.jeans,
+    variant: 'jeans',
+  },
+  {
+    id: 'botas',
+    title: 'Botas',
+    image: imageMap.quickCategories.botas,
+    variant: 'botas',
+  },
 ]
 
 export const products = [
   {
-    id: 'tb-001',
+    id: 1,
     name: 'Camisa Terra Worker Xadrez',
     category: 'Masculino',
-    segment: 'Camisas',
+    subcategory: 'Camisas',
     price: 249.9,
+    oldPrice: 299.9,
     badge: 'Mais vendido',
-    colors: ['#7A4A28', '#1F4D2B', '#556B2F'],
-    gradient: 'linear-gradient(160deg, #7A4A28 0%, #C8923E 45%, #1F4D2B 100%)',
+    colors: ['Verde', 'Marrom', 'Azul'],
+    imageKey: 'camisaWorker',
+    image: imageMap.produtos.camisaWorker,
+    variant: 'camisaWorker',
   },
   {
-    id: 'tb-002',
+    id: 2,
     name: 'Camiseta Essencial TerraBrasil',
     category: 'Masculino',
-    segment: 'Camisetas',
-    price: 179.9,
+    subcategory: 'Camisetas',
+    price: 129.9,
+    oldPrice: null,
     badge: 'Novo',
-    colors: ['#1F4D2B', '#FAF7F0', '#1E1E1E'],
-    gradient: 'linear-gradient(160deg, #1F4D2B 0%, #556B2F 60%, #FAF7F0 100%)',
+    colors: ['Off-white', 'Verde', 'Preto'],
+    imageKey: 'camisetaEssencial',
+    image: imageMap.produtos.camisetaEssencial,
+    variant: 'camisetaEssencial',
   },
   {
-    id: 'tb-003',
+    id: 3,
     name: 'Jaqueta Campo Premium',
     category: 'Masculino',
-    segment: 'Jaquetas',
+    subcategory: 'Jaquetas',
     price: 499.9,
-    badge: 'Novo',
-    colors: ['#556B2F', '#1E1E1E'],
-    gradient: 'linear-gradient(160deg, #1E1E1E 0%, #556B2F 50%, #7A4A28 100%)',
+    oldPrice: 599.9,
+    badge: 'Premium',
+    colors: ['Oliva', 'Marrom'],
+    imageKey: 'jaquetaCampo',
+    image: imageMap.produtos.jaquetaCampo,
+    variant: 'jaquetaCampo',
   },
   {
-    id: 'tb-004',
+    id: 4,
     name: 'Calça Jeans Reta Horizonte',
-    category: 'Feminino',
-    segment: 'Calça Jeans',
-    price: 299.9,
-    badge: null,
-    colors: ['#334155', '#64748B'],
-    gradient: 'linear-gradient(160deg, #475569 0%, #94A3B8 50%, #334155 100%)',
+    category: 'Masculino',
+    subcategory: 'Calça Jeans',
+    price: 279.9,
+    oldPrice: null,
+    badge: 'Novo',
+    colors: ['Azul médio', 'Azul escuro'],
+    imageKey: 'jeansHorizonte',
+    image: imageMap.produtos.jeansHorizonte,
+    variant: 'jeansHorizonte',
   },
   {
-    id: 'tb-005',
+    id: 5,
     name: 'Bota Couro Estrada',
     category: 'Calçados',
-    segment: 'Botas',
-    price: 399.9,
-    badge: 'Mais vendido',
-    colors: ['#7A4A28', '#1E1E1E'],
-    gradient: 'linear-gradient(160deg, #7A4A28 0%, #1E1E1E 100%)',
+    subcategory: 'Botas',
+    price: 549.9,
+    oldPrice: 649.9,
+    badge: 'Destaque',
+    colors: ['Caramelo', 'Café'],
+    imageKey: 'botaEstrada',
+    image: imageMap.produtos.botaEstrada,
+    variant: 'botaEstrada',
   },
   {
-    id: 'tb-006',
+    id: 6,
     name: 'Polo Piquet Verde Oliva',
     category: 'Masculino',
-    segment: 'Polos',
-    price: 219.9,
-    badge: null,
-    colors: ['#556B2F', '#FAF7F0'],
-    gradient: 'linear-gradient(160deg, #556B2F 0%, #1F4D2B 100%)',
+    subcategory: 'Polos',
+    price: 189.9,
+    oldPrice: null,
+    badge: 'Novo',
+    colors: ['Verde oliva', 'Branco', 'Marinho'],
+    imageKey: 'poloOliva',
+    image: imageMap.produtos.poloOliva,
+    variant: 'poloOliva',
   },
   {
-    id: 'tb-007',
+    id: 7,
     name: 'Bermuda Sarja Casual',
     category: 'Masculino',
-    segment: 'Bermudas',
-    price: 189.9,
-    badge: null,
-    colors: ['#C8923E', '#7A4A28'],
-    gradient: 'linear-gradient(160deg, #C8923E 0%, #F5EFE3 100%)',
+    subcategory: 'Bermudas',
+    price: 159.9,
+    oldPrice: 199.9,
+    badge: 'Outlet',
+    colors: ['Areia', 'Oliva', 'Preto'],
+    imageKey: 'bermudaSarja',
+    image: imageMap.produtos.bermudaSarja,
+    variant: 'bermudaSarja',
   },
   {
-    id: 'tb-008',
+    id: 8,
     name: 'Boné TerraBrasil Bordado',
     category: 'Acessórios',
-    segment: 'Bonés',
-    price: 129.9,
-    badge: 'Outlet',
-    colors: ['#1F4D2B', '#C8923E'],
-    gradient: 'linear-gradient(160deg, #1F4D2B 0%, #C8923E 100%)',
+    subcategory: 'Bonés',
+    price: 89.9,
+    oldPrice: null,
+    badge: 'Novo',
+    colors: ['Verde', 'Bege', 'Preto'],
+    imageKey: 'boneBordado',
+    image: imageMap.produtos.boneBordado,
+    variant: 'boneBordado',
+  },
+  {
+    id: 9,
+    name: 'Vestido Linho Aurora',
+    category: 'Feminino',
+    subcategory: 'Vestidos',
+    price: 299.9,
+    oldPrice: null,
+    badge: 'Novo',
+    colors: ['Areia', 'Verde claro'],
+    imageKey: 'vestidoAurora',
+    image: imageMap.produtos.vestidoAurora,
+    variant: 'vestidoAurora',
+  },
+  {
+    id: 10,
+    name: 'Camisa Feminina Serena',
+    category: 'Feminino',
+    subcategory: 'Camisas',
+    price: 219.9,
+    oldPrice: 259.9,
+    badge: 'Mais vendido',
+    colors: ['Branco', 'Azul claro', 'Verde'],
+    imageKey: 'camisaSerena',
+    image: imageMap.produtos.camisaSerena,
+    variant: 'camisaSerena',
+  },
+  {
+    id: 11,
+    name: 'Cinto Couro Terra',
+    category: 'Acessórios',
+    subcategory: 'Cintos',
+    price: 119.9,
+    oldPrice: null,
+    badge: 'Essencial',
+    colors: ['Caramelo', 'Café'],
+    imageKey: 'cintoTerra',
+    image: imageMap.produtos.cintoTerra,
+    variant: 'cintoTerra',
+  },
+  {
+    id: 12,
+    name: 'Mochila Lona Campo',
+    category: 'Acessórios',
+    subcategory: 'Bolsas',
+    price: 349.9,
+    oldPrice: 399.9,
+    badge: 'Premium',
+    colors: ['Oliva', 'Bege'],
+    imageKey: 'mochilaCampo',
+    image: imageMap.produtos.mochilaCampo,
+    variant: 'mochilaCampo',
   },
 ]
 
-export const storeBenefits = [
-  { title: 'Frete grátis acima de R$499', desc: 'Entrega premium para todo o Brasil em compras qualificadas.' },
-  { title: 'Até 12x sem juros', desc: 'Parcele com tranquilidade nos cartões participantes.' },
-  { title: 'Troca descomplicada', desc: 'Processo simples e transparente em até 30 dias.' },
-  { title: 'Atendimento dedicado', desc: 'Suporte antes e depois da compra, do seu jeito.' },
-  { title: 'Compra segura', desc: 'Ambiente protegido e pagamento confiável.' },
-  { title: 'Produtos selecionados', desc: 'Curadoria TerraBrasil com foco em qualidade e estilo.' },
-]
+export const collectionBanner = {
+  label: 'Coleção Horizonte',
+  title: 'Moda lifestyle premium',
+  subtitle:
+    'Peças versáteis para acompanhar sua rotina com conforto, presença e personalidade.',
+  image: imageMap.banner,
+  variant: 'banner',
+  cta: 'Conhecer coleção',
+}
 
-export const filterOptions = ['Todos', 'Masculino', 'Feminino', 'Infantil', 'Calçados', 'Acessórios', 'Outlet']
+export const newsletterBanner = {
+  title: 'Ganhe 10% OFF na primeira compra',
+  subtitle:
+    'Cadastre seu e-mail e receba novidades, ofertas e lançamentos TerraBrasil.',
+  image: imageMap.newsletter,
+  variant: 'newsletter',
+  button: 'Garantir desconto',
+}
+
+export const storeBenefits = [
+  {
+    id: 'frete',
+    title: 'Frete grátis acima de R$499',
+    description: 'Receba seus produtos com economia em compras selecionadas.',
+  },
+  {
+    id: 'parcelamento',
+    title: 'Até 12x sem juros',
+    description: 'Mais facilidade para comprar suas peças favoritas.',
+  },
+  {
+    id: 'troca',
+    title: 'Troca descomplicada',
+    description: 'Processo simples para você comprar com tranquilidade.',
+  },
+  {
+    id: 'seguro',
+    title: 'Compra segura',
+    description: 'Ambiente protegido para finalizar seus pedidos.',
+  },
+  {
+    id: 'atendimento',
+    title: 'Atendimento próximo',
+    description: 'Suporte antes e depois da sua compra.',
+  },
+  {
+    id: 'curadoria',
+    title: 'Produtos selecionados',
+    description: 'Peças escolhidas para unir estilo, conforto e qualidade.',
+  },
+]
 
 export const footerLinks = {
   institucional: [
@@ -135,11 +390,43 @@ export const footerLinks = {
 
 export const paymentMethods = ['Visa', 'Master', 'Pix', 'Boleto']
 
-export function formatPrice(value) {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+export const colorSwatches = {
+  Verde: '#1F4D2B',
+  Marrom: '#7A4A28',
+  Azul: '#1e3a5f',
+  'Off-white': '#FAF7F0',
+  Preto: '#1E1E1E',
+  Oliva: '#556B2F',
+  'Azul médio': '#3b5998',
+  'Azul escuro': '#1e293b',
+  Caramelo: '#C8923E',
+  Café: '#5c4033',
+  'Verde oliva': '#556B2F',
+  Branco: '#FAF7F0',
+  Marinho: '#1e3a5f',
+  Areia: '#F5EFE3',
+  Bege: '#F5EFE3',
+  'Verde claro': '#8fbc8f',
+  'Azul claro': '#93c5fd',
 }
 
-export function formatInstallments(price, times = 10) {
-  const installment = price / times
-  return `ou ${times}x de ${formatPrice(installment)} sem juros`
+export function formatCurrency(value) {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+}
+
+export function getInstallment(price, installments = 10) {
+  const installmentValue = price / installments
+
+  return `${installments}x de ${formatCurrency(installmentValue)} sem juros`
+}
+
+export function getColorHex(name) {
+  return colorSwatches[name] || '#C8923E'
+}
+
+export function getProductImage(product) {
+  return product.image || imageMap.produtos[product.imageKey] || imageMap.fallback
 }

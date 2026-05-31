@@ -2,6 +2,7 @@ import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/TopBar'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import CategoryHighlights from './components/CategoryHighlights'
 import CategoryGrid from './components/CategoryGrid'
 import ProductShowcase from './components/ProductShowcase'
 import CollectionBanner from './components/CollectionBanner'
@@ -20,6 +21,7 @@ function App() {
         <Header />
         <main>
           <Hero />
+          <CategoryHighlights />
           <CategoryGrid />
           <ProductShowcase />
           <CollectionBanner />

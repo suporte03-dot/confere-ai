@@ -1,5 +1,6 @@
-import { formatPrice } from '../data/mockData'
+import { formatCurrency, getProductImage } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import VisualMedia from './VisualMedia'
 
 function CartDrawer() {
   const {
@@ -32,10 +33,20 @@ function CartDrawer() {
             <ul className="cart-drawer__list">
               {cart.map((item) => (
                 <li key={item.id} className="cart-item">
-                  <div className="cart-item__thumb" style={{ background: item.gradient }} />
+                  <div className="cart-item__thumb">
+                    <VisualMedia
+                      src={getProductImage(item)}
+                      alt={item.name}
+                      label={item.subcategory}
+                      variant={item.variant || 'product'}
+                      compact
+                      className="cart-item__media"
+                      imgClassName="cart-item__img"
+                    />
+                  </div>
                   <div className="cart-item__info">
                     <strong>{item.name}</strong>
-                    <span>{formatPrice(item.price)}</span>
+                    <span>{formatCurrency(item.price)}</span>
                     <div className="cart-item__qty">
                       <button type="button" onClick={() => updateQty(item.id, item.qty - 1)} aria-label="Diminuir">−</button>
                       <span>{item.qty}</span>
@@ -51,7 +62,7 @@ function CartDrawer() {
             <div className="cart-drawer__footer">
               <div className="cart-drawer__subtotal">
                 <span>Subtotal</span>
-                <strong>{formatPrice(cartSubtotal)}</strong>
+                <strong>{formatCurrency(cartSubtotal)}</strong>
               </div>
               <button type="button" className="btn btn--primary btn--block" onClick={() => showToast('Checkout simulado — em breve!')}>
                 Finalizar compra

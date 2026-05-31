@@ -93,7 +93,7 @@ export function ShopProvider({ children }) {
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
-          p.segment.toLowerCase().includes(q),
+          p.subcategory.toLowerCase().includes(q),
       )
     }
 

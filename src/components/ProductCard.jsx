@@ -1,5 +1,6 @@
-import { formatPrice, formatInstallments } from '../data/mockData'
+import { formatCurrency, getInstallment, getColorHex, getProductImage } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import VisualMedia from './VisualMedia'
 
 function ProductCard({ product }) {
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
@@ -8,10 +9,19 @@ function ProductCard({ product }) {
   return (
     <article className="product-card">
       <div className="product-card__media">
-        <div className="product-card__image" style={{ background: product.gradient }}>
-          <span className="product-card__watermark">TerraBrasil</span>
-        </div>
-        {product.badge && <span className={`product-card__badge product-card__badge--${product.badge.replace(/\s/g, '-').toLowerCase()}`}>{product.badge}</span>}
+        <VisualMedia
+          src={getProductImage(product)}
+          alt={product.name}
+          label={product.subcategory}
+          variant={product.variant}
+          className="product-card__image"
+          imgClassName="product-card__img"
+        />
+        {product.badge && (
+          <span className={`product-card__badge product-card__badge--${product.badge.replace(/\s/g, '-').toLowerCase()}`}>
+            {product.badge}
+          </span>
+        )}
         <button
           type="button"
           className={`product-card__fav ${favorite ? 'product-card__fav--active' : ''}`}
@@ -32,15 +42,24 @@ function ProductCard({ product }) {
       </div>
 
       <div className="product-card__body">
-        <p className="product-card__cat">{product.category} · {product.segment}</p>
+        <p className="product-card__cat">{product.category} · {product.subcategory}</p>
         <h3 className="product-card__name">{product.name}</h3>
         <div className="product-card__colors">
           {product.colors.map((color) => (
-            <span key={color} style={{ backgroundColor: color }} title="Cor disponível" />
+            <span
+              key={color}
+              style={{ backgroundColor: getColorHex(color) }}
+              title={color}
+            />
           ))}
         </div>
-        <p className="product-card__price">{formatPrice(product.price)}</p>
-        <p className="product-card__installments">{formatInstallments(product.price)}</p>
+        <div className="product-card__pricing">
+          {product.oldPrice && (
+            <span className="product-card__old-price">{formatCurrency(product.oldPrice)}</span>
+          )}
+          <p className="product-card__price">{formatCurrency(product.price)}</p>
+        </div>
+        <p className="product-card__installments">ou {getInstallment(product.price)}</p>
         <button type="button" className="btn btn--primary btn--block" onClick={() => addToCart(product)}>
           Adicionar ao carrinho
         </button>

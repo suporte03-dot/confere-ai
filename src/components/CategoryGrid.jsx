@@ -1,4 +1,5 @@
-import { categoryCards } from '../data/mockData'
+import { quickCategories } from '../data/mockData'
+import VisualMedia from './VisualMedia'
 
 function CategoryGrid() {
   return (
@@ -9,10 +10,17 @@ function CategoryGrid() {
           <p className="section-head__desc">Encontre o estilo certo para cada ocasião.</p>
         </div>
         <div className="categories__grid">
-          {categoryCards.map((cat) => (
+          {quickCategories.map((cat) => (
             <a key={cat.id} href="#produtos" className="cat-card">
-              <div className="cat-card__visual" style={{ background: cat.gradient }}>
-                <span className="cat-card__mono">TB</span>
+              <div className="cat-card__visual">
+                <VisualMedia
+                  src={cat.image}
+                  alt={cat.title}
+                  label={cat.title}
+                  variant={cat.variant}
+                  className="cat-card__media"
+                  imgClassName="cat-card__img"
+                />
               </div>
               <div className="cat-card__body">
                 <h3>{cat.title}</h3>
