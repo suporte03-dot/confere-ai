@@ -40,7 +40,7 @@ function NavDropdown({ item, onNavigate, onCloseMobile }) {
                 className="cat-nav__dropdown-link"
                 onClick={(e) => handleNav(sub.id, e)}
               >
-                {sub.title}
+                {sub.menuTitle || sub.title}
               </a>
             </li>
           ))}
@@ -90,7 +90,7 @@ function MobileNavGroup({ item, onNavigate, onCloseMobile }) {
               className="cat-nav__mobile-link"
               onClick={(e) => handleNav(sub.id, e)}
             >
-              {sub.title}
+              {sub.menuTitle || sub.title}
             </a>
           ))}
         </div>
