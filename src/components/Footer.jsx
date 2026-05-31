@@ -14,7 +14,7 @@ function Footer() {
     <footer id="sobre" className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <Logo />
+          <Logo variant="light" />
           <p>
             TerraBrasil é moda casual premium com raízes brasileiras — qualidade, conforto
             e estilo para homens e mulheres.

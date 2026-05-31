@@ -134,32 +134,23 @@
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
-}
-
-.logo__mark {
-  flex-shrink: 0;
-  display: block;
   line-height: 0;
 }
 
-.logo__text {
-  display: flex;
-  align-items: baseline;
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  white-space: nowrap;
+.logo__image {
+  display: block;
+  width: auto;
+  height: 52px;
+  max-width: 100%;
 }
 
-.logo__terra {
-  color: var(--tb-green-900);
+.logo--sm .logo__image {
+  height: 44px;
 }
 
-.logo__brasil {
-  color: var(--tb-gold-600);
+.logo--lg .logo__image {
+  height: 60px;
 }
 
 /* ── Buttons ── */
@@ -1821,7 +1812,11 @@
 }
 
 .footer__brand .logo__terra {
-  color: var(--off-white);
+  color: var(--tb-sand-100);
+}
+
+.footer__brand .logo__brasil {
+  color: var(--tb-gold-500);
 }
 
 .footer__social {
