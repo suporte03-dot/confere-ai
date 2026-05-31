@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
-import { products } from '../data/mockData'
+import { products, matchesFilter, scrollToProducts } from '../data/mockData'
 
 const FAVORITES_KEY = 'terrabrasil-favorites'
 
@@ -29,6 +29,11 @@ export function ShopProvider({ children }) {
   const showToast = useCallback((message) => {
     setToastMessage(message)
     window.setTimeout(() => setToastMessage(null), 3500)
+  }, [])
+
+  const navigateToCollection = useCallback((filterId) => {
+    setCategoryFilter(filterId)
+    window.setTimeout(scrollToProducts, 50)
   }, [])
 
   const addToCart = useCallback((product) => {
@@ -77,23 +82,16 @@ export function ShopProvider({ children }) {
   )
 
   const filteredProducts = useMemo(() => {
-    let list = products
-
-    if (categoryFilter !== 'Todos') {
-      if (categoryFilter === 'Outlet') {
-        list = list.filter((p) => p.badge === 'Outlet')
-      } else {
-        list = list.filter((p) => p.category === categoryFilter)
-      }
-    }
+    let list = products.filter((p) => matchesFilter(p, categoryFilter))
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase()
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.subcategory.toLowerCase().includes(q),
+          p.department.toLowerCase().includes(q) ||
+          p.subcategory.toLowerCase().includes(q) ||
+          p.collectionId.toLowerCase().includes(q),
       )
     }
 
@@ -112,6 +110,7 @@ export function ShopProvider({ children }) {
     setSearchQuery,
     categoryFilter,
     setCategoryFilter,
+    navigateToCollection,
     filteredProducts,
     addToCart,
     removeFromCart,

@@ -153,6 +153,13 @@ const ICONS = {
       <path d="M24 20v-6c0-3 3-6 8-6s8 3 8 6v6" stroke="currentColor" strokeWidth="2.5" />
     </svg>
   ),
+  moletons: (
+    <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M14 22l18-8 18 8v26H14V22z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M32 14v34M14 28h18" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M22 28v8M42 28v8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
   banner: (
     <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
       <path d="M8 20l24-8 24 8v28H8V20z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />

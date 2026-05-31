@@ -42,7 +42,7 @@ function ProductCard({ product }) {
       </div>
 
       <div className="product-card__body">
-        <p className="product-card__cat">{product.category} · {product.subcategory}</p>
+        <p className="product-card__cat">{product.department} · {product.subcategory}</p>
         <h3 className="product-card__name">{product.name}</h3>
         <div className="product-card__colors">
           {product.colors.map((color) => (

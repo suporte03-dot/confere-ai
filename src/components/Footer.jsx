@@ -1,7 +1,15 @@
 import Logo from './Logo'
 import { footerLinks, paymentMethods } from '../data/mockData'
+import { useShop } from '../context/ShopContext'
 
 function Footer() {
+  const { navigateToCollection } = useShop()
+
+  const handleLink = (filter, e) => {
+    e.preventDefault()
+    navigateToCollection(filter)
+  }
+
   return (
     <footer id="sobre" className="footer">
       <div className="container footer__grid">
@@ -9,7 +17,7 @@ function Footer() {
           <Logo />
           <p>
             TerraBrasil é moda casual premium com raízes brasileiras — qualidade, conforto
-            e estilo para homens, mulheres e crianças.
+            e estilo para homens e mulheres.
           </p>
           <div className="footer__social">
             {['Instagram', 'Facebook', 'YouTube'].map((s) => (
@@ -28,10 +36,23 @@ function Footer() {
         </nav>
 
         <nav className="footer__col">
-          <h4>Categorias</h4>
+          <h4>Masculino</h4>
           <ul>
-            {footerLinks.categorias.map((l) => (
-              <li key={l.label}><a href={l.href}>{l.label}</a></li>
+            {footerLinks.masculino.map((l) => (
+              <li key={l.label}>
+                <a href="#produtos" onClick={(e) => handleLink(l.filter, e)}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav className="footer__col">
+          <h4>Feminino</h4>
+          <ul>
+            {footerLinks.feminino.map((l) => (
+              <li key={l.label}>
+                <a href="#produtos" onClick={(e) => handleLink(l.filter, e)}>{l.label}</a>
+              </li>
             ))}
           </ul>
         </nav>

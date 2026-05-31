@@ -1,17 +1,30 @@
-import { quickCategories } from '../data/mockData'
+import { femininoCollections } from '../data/mockData'
+import { useShop } from '../context/ShopContext'
 import VisualMedia from './VisualMedia'
 
 function CategoryGrid() {
+  const { navigateToCollection } = useShop()
+
+  const handleClick = (filter, e) => {
+    e.preventDefault()
+    navigateToCollection(filter)
+  }
+
   return (
     <section id="categorias" className="section categories">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Navegue por categorias</h2>
-          <p className="section-head__desc">Encontre o estilo certo para cada ocasião.</p>
+          <h2 className="section-head__title">Coleções Femininas</h2>
+          <p className="section-head__desc">Peças versáteis com elegância e conforto para o dia a dia.</p>
         </div>
         <div className="categories__grid">
-          {quickCategories.map((cat) => (
-            <a key={cat.id} href="#produtos" className="cat-card">
+          {femininoCollections.map((cat) => (
+            <a
+              key={cat.id}
+              href="#produtos"
+              className="cat-card"
+              onClick={(e) => handleClick(cat.filter, e)}
+            >
               <div className="cat-card__visual">
                 <VisualMedia
                   src={cat.image}
@@ -24,7 +37,7 @@ function CategoryGrid() {
               </div>
               <div className="cat-card__body">
                 <h3>{cat.title}</h3>
-                <span>Explorar →</span>
+                <span>Ver produtos →</span>
               </div>
             </a>
           ))}

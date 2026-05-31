@@ -1,7 +1,103 @@
 import { useState } from 'react'
 import Logo from './Logo'
-import { navCategories } from '../data/mockData'
+import { mainNav, getSubcategoriesForNav } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+
+function NavDropdown({ item, onNavigate, onCloseMobile }) {
+  const subcategories = getSubcategoriesForNav(item.id)
+
+  const handleNav = (filterId, e) => {
+    e.preventDefault()
+    onNavigate(filterId)
+    onCloseMobile()
+  }
+
+  return (
+    <div className="cat-nav__item cat-nav__item--dropdown">
+      <button
+        type="button"
+        className="cat-nav__link cat-nav__link--trigger"
+        aria-haspopup="true"
+      >
+        {item.title}
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        </svg>
+      </button>
+      <div className="cat-nav__dropdown">
+        <a
+          href="#produtos"
+          className="cat-nav__dropdown-all"
+          onClick={(e) => handleNav(item.filter, e)}
+        >
+          Ver tudo em {item.title}
+        </a>
+        <ul className="cat-nav__dropdown-list">
+          {subcategories.map((sub) => (
+            <li key={sub.id}>
+              <a
+                href="#produtos"
+                className="cat-nav__dropdown-link"
+                onClick={(e) => handleNav(sub.id, e)}
+              >
+                {sub.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function MobileNavGroup({ item, onNavigate, onCloseMobile }) {
+  const [open, setOpen] = useState(false)
+  const subcategories = getSubcategoriesForNav(item.id)
+
+  const handleNav = (filterId, e) => {
+    e.preventDefault()
+    onNavigate(filterId)
+    onCloseMobile()
+    setOpen(false)
+  }
+
+  return (
+    <div className={`cat-nav__mobile-group ${open ? 'cat-nav__mobile-group--open' : ''}`}>
+      <button
+        type="button"
+        className="cat-nav__mobile-trigger"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        {item.title}
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        </svg>
+      </button>
+      {open && (
+        <div className="cat-nav__mobile-sub">
+          <a
+            href="#produtos"
+            className="cat-nav__mobile-link cat-nav__mobile-link--all"
+            onClick={(e) => handleNav(item.filter, e)}
+          >
+            Ver tudo em {item.title}
+          </a>
+          {subcategories.map((sub) => (
+            <a
+              key={sub.id}
+              href="#produtos"
+              className="cat-nav__mobile-link"
+              onClick={(e) => handleNav(sub.id, e)}
+            >
+              {sub.title}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 function Header() {
   const {
@@ -10,9 +106,17 @@ function Header() {
     cartCount,
     favoritesCount,
     setCartOpen,
-    setCategoryFilter,
+    navigateToCollection,
   } = useShop()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const closeMobile = () => setMenuOpen(false)
+
+  const handleSimpleNav = (filterId, e) => {
+    e.preventDefault()
+    navigateToCollection(filterId)
+    closeMobile()
+  }
 
   return (
     <header className="header">
@@ -72,20 +176,48 @@ function Header() {
       </div>
 
       <nav className={`cat-nav ${menuOpen ? 'cat-nav--open' : ''}`} aria-label="Categorias">
-        <div className="container cat-nav__inner">
-          {navCategories.map((cat) => (
-            <a
-              key={cat}
-              href="#produtos"
-              className="cat-nav__link"
-              onClick={() => {
-                setCategoryFilter(cat)
-                setMenuOpen(false)
-              }}
-            >
-              {cat}
-            </a>
-          ))}
+        <div className="container cat-nav__inner cat-nav__inner--desktop">
+          {mainNav.map((item) =>
+            item.hasDropdown ? (
+              <NavDropdown
+                key={item.id}
+                item={item}
+                onNavigate={navigateToCollection}
+                onCloseMobile={closeMobile}
+              />
+            ) : (
+              <a
+                key={item.id}
+                href="#produtos"
+                className="cat-nav__link"
+                onClick={(e) => handleSimpleNav(item.filter, e)}
+              >
+                {item.title}
+              </a>
+            ),
+          )}
+        </div>
+
+        <div className="container cat-nav__inner cat-nav__inner--mobile">
+          {mainNav.map((item) =>
+            item.hasDropdown ? (
+              <MobileNavGroup
+                key={item.id}
+                item={item}
+                onNavigate={navigateToCollection}
+                onCloseMobile={closeMobile}
+              />
+            ) : (
+              <a
+                key={item.id}
+                href="#produtos"
+                className="cat-nav__mobile-link cat-nav__mobile-link--top"
+                onClick={(e) => handleSimpleNav(item.filter, e)}
+              >
+                {item.title}
+              </a>
+            ),
+          )}
         </div>
       </nav>
     </header>

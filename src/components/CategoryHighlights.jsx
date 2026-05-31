@@ -1,24 +1,29 @@
-import { categoryHighlights } from '../data/mockData'
+import { featuredCollections } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 import VisualMedia from './VisualMedia'
 
 function CategoryHighlights() {
-  const { setCategoryFilter } = useShop()
+  const { navigateToCollection } = useShop()
+
+  const handleClick = (filter, e) => {
+    e.preventDefault()
+    navigateToCollection(filter)
+  }
 
   return (
     <section className="section category-highlights">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Explore por departamento</h2>
-          <p className="section-head__desc">Encontre peças para cada estilo e ocasião.</p>
+          <h2 className="section-head__title">Navegue por categorias</h2>
+          <p className="section-head__desc">Masculino, feminino e coleções em destaque TerraBrasil.</p>
         </div>
         <div className="category-highlights__grid">
-          {categoryHighlights.map((item) => (
+          {featuredCollections.map((item) => (
             <a
               key={item.id}
               href="#produtos"
               className="highlight-card"
-              onClick={() => setCategoryFilter(item.filter)}
+              onClick={(e) => handleClick(item.filter, e)}
             >
               <div className="highlight-card__media">
                 <VisualMedia
@@ -34,7 +39,7 @@ function CategoryHighlights() {
               <div className="highlight-card__body">
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <span>Ver produtos →</span>
+                <span className="highlight-card__cta">Ver produtos →</span>
               </div>
             </a>
           ))}
