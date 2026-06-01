@@ -13,6 +13,9 @@
   --site-header-h: 88px;
   --main-nav-h: 48px;
   --sticky-offset: calc(var(--site-header-h) + var(--main-nav-h));
+  --logo-aspect: 555 / 445;
+  --logo-header-max-h: 72px;
+  --logo-hero-max-h: 120px;
 }
 
 /* ── Logo oficial (sem recorte) ── */
@@ -33,7 +36,7 @@
 img.brand-logo,
 .te-logo__img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
   max-width: 100%;
   object-fit: contain;
@@ -41,21 +44,23 @@ img.brand-logo,
 }
 
 .te-logo--header {
-  min-width: 0;
-  max-width: 100%;
+  width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
+  max-width: 140px;
+  overflow: visible;
 }
 
 .te-logo--header .te-logo__img {
-  max-height: 72px;
+  max-height: var(--logo-header-max-h);
 }
 
 .te-logo--hero {
-  min-width: 0;
-  max-width: 100%;
+  width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
+  max-width: min(280px, 92vw);
+  overflow: visible;
 }
 
 .te-logo--hero .te-logo__img {
-  max-height: 120px;
+  max-height: var(--logo-hero-max-h);
 }
 
 .te-logo--footer {
