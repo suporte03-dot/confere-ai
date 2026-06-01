@@ -1,5 +1,6 @@
 import { footerLinks, paymentMethods } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import BrandMark from './BrandMark'
 
 function Footer() {
   const { navigateToCollection } = useShop()
@@ -13,11 +14,7 @@ function Footer() {
     <footer id="contato" className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <img
-            src="/images/brand/logo-terraestilo-stacked.png"
-            alt="TerraEstilo"
-            className="brand-logo brand-logo--footer"
-          />
+          <BrandMark variant="footer" showTagline className="footer__brand-mark" />
           <p>
             TerraEstilo é moda premium com raízes no Sul do Brasil — elegância natural,
             autenticidade e identidade em cada peça.

@@ -1,4 +1,5 @@
 import { brandEditorial } from '../data/mockData'
+import BrandMark from './BrandMark'
 
 function BrandEditorial() {
   return (
@@ -12,11 +13,7 @@ function BrandEditorial() {
           <a href="#contato" className="btn btn--outline">{brandEditorial.cta}</a>
         </div>
         <div className="brand-editorial__visual" aria-hidden="true">
-          <img
-            src="/images/brand/logo-terraestilo-stacked.png"
-            alt=""
-            className="brand-editorial__logo"
-          />
+          <BrandMark variant="display" showTagline />
         </div>
       </div>
     </section>

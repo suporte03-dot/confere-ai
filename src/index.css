@@ -2,8 +2,13 @@
   min-height: 100vh;
 }
 
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  color: #1D2A22;
+}
+
 [id] {
-  scroll-margin-top: 88px;
+  scroll-margin-top: 140px;
 }
 
 ::selection {

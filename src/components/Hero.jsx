@@ -1,5 +1,6 @@
 import { heroData } from '../data/mockData'
 import VisualMedia from './VisualMedia'
+import BrandMark from './BrandMark'
 
 function Hero() {
   return (
@@ -9,11 +10,9 @@ function Hero() {
 
       <div className="container hero__grid">
         <div className="hero__content">
-          <img
-            src="/images/brand/logo-terraestilo-stacked.png"
-            alt="TerraEstilo"
-            className="hero__logo"
-          />
+          <div className="hero__brand">
+            <BrandMark variant="hero" />
+          </div>
           <span className="hero__label">{heroData.label}</span>
           <h1 className="hero__title">{heroData.title}</h1>
           <p className="hero__subtitle">{heroData.subtitle}</p>

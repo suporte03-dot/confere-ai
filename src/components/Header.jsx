@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { headerNav } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import BrandMark from './BrandMark'
 
 function Header() {
   const {
@@ -38,14 +39,8 @@ function Header() {
             <span /><span /><span />
           </button>
 
-          <a href="#inicio" className="brand header__logo" aria-label="TerraEstilo — Página inicial">
-            <img
-              src="/images/brand/mockup-icon.png"
-              alt=""
-              className="header__mark"
-              aria-hidden="true"
-            />
-            <span className="header__wordmark">TerraEstilo</span>
+          <a href="#inicio" className="header__logo" aria-label="TerraEstilo — Página inicial">
+            <BrandMark variant="header" />
           </a>
 
           <div className={`header__search ${searchOpen ? 'header__search--open' : ''}`}>

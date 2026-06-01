@@ -1,33 +1,47 @@
+import { useState } from 'react'
 import { ShopProvider } from './context/ShopContext'
-import TopBar from './components/TopBar'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import HomeCategories from './components/HomeCategories'
-import FeaturedProducts from './components/FeaturedProducts'
-import BrandEditorial from './components/BrandEditorial'
-import BrandValues from './components/BrandValues'
-import CollectionBanner from './components/CollectionBanner'
-import Benefits from './components/Benefits'
-import Newsletter from './components/Newsletter'
-import Footer from './components/Footer'
+import TopBar from './components/home/TopBar'
+import Header from './components/home/Header'
+import MainNavigation from './components/home/MainNavigation'
+import HeroSection from './components/home/HeroSection'
+import CategoryShowcase from './components/home/CategoryShowcase'
+import FeaturedCollection from './components/home/FeaturedCollection'
+import ProductGrid from './components/home/ProductGrid'
+import BrandValues from './components/home/BrandValues'
+import AboutBrand from './components/home/AboutBrand'
+import BenefitsBar from './components/home/BenefitsBar'
+import Newsletter from './components/home/Newsletter'
+import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
 import './App.css'
+import './home.css'
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+
   return (
     <ShopProvider>
       <div className="app">
         <TopBar />
-        <Header />
+        <div className="site-chrome">
+          <Header
+            menuOpen={menuOpen}
+            onMenuToggle={() => setMenuOpen((v) => !v)}
+            searchOpen={searchOpen}
+            onSearchToggle={() => setSearchOpen((v) => !v)}
+          />
+          <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
+        </div>
         <main>
-          <Hero />
-          <HomeCategories />
-          <FeaturedProducts />
-          <BrandEditorial />
+          <HeroSection />
+          <CategoryShowcase />
+          <FeaturedCollection />
+          <ProductGrid />
           <BrandValues />
-          <CollectionBanner />
-          <Benefits />
+          <AboutBrand />
+          <BenefitsBar />
           <Newsletter />
         </main>
         <Footer />
