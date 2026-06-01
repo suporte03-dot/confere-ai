@@ -14,13 +14,13 @@
   --main-nav-h: 48px;
   --sticky-offset: calc(var(--site-header-h) + var(--main-nav-h));
   --logo-aspect: 610 / 458;
-  --logo-header-max-h: 72px;
-  --logo-hero-max-h: 120px;
+  --logo-header-max-h: 64px;
+  --logo-hero-max-h: 148px;
+  --logo-footer-max-h: 120px;
 }
 
-/* ── Logo oficial (sem recorte) ── */
+/* ── Logo oficial completa (PNG original) ── */
 .logo-container,
-.brand-logo,
 .site-logo,
 .te-logo {
   display: inline-flex;
@@ -29,14 +29,16 @@
   line-height: 0;
   flex-shrink: 0;
   overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .logo-container img,
 .site-logo img,
-img.brand-logo,
 .te-logo__img {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
   max-width: 100%;
   object-fit: contain;
@@ -44,9 +46,8 @@ img.brand-logo,
 }
 
 .te-logo--header {
-  width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
-  max-width: 140px;
-  overflow: visible;
+  width: auto;
+  max-width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
 }
 
 .te-logo--header .te-logo__img {
@@ -54,9 +55,8 @@ img.brand-logo,
 }
 
 .te-logo--hero {
-  width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-  max-width: min(280px, 92vw);
-  overflow: visible;
+  width: auto;
+  max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
 }
 
 .te-logo--hero .te-logo__img {
@@ -65,10 +65,11 @@ img.brand-logo,
 
 .te-logo--footer {
   margin-bottom: 18px;
+  max-width: min(100%, calc(var(--logo-footer-max-h) * var(--logo-aspect)));
 }
 
 .te-logo--footer .te-logo__img {
-  max-height: 140px;
+  max-height: var(--logo-footer-max-h);
 }
 
 /* ── TopBar ── */
@@ -123,7 +124,7 @@ img.brand-logo,
 
 .site-header__inner {
   display: grid;
-  grid-template-columns: minmax(90px, 140px) minmax(160px, 1fr) auto;
+  grid-template-columns: minmax(calc(var(--logo-header-max-h) * var(--logo-aspect)), 200px) minmax(160px, 1fr) auto;
   align-items: center;
   gap: 16px 20px;
   min-height: var(--site-header-h);
@@ -139,7 +140,9 @@ img.brand-logo,
   overflow: visible;
   flex-shrink: 0;
   min-width: calc(var(--logo-header-max-h) * var(--logo-aspect));
-  max-width: 140px;
+  max-width: 200px;
+  background: transparent;
+  border: none;
 }
 
 .site-header__search {
@@ -318,10 +321,12 @@ img.brand-logo,
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   overflow: visible;
-  width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-  max-width: min(280px, 92vw);
+  width: auto;
+  max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
+  background: transparent;
+  border: none;
 }
 
 .hero-section__logo-wrap .te-logo {
@@ -915,8 +920,9 @@ img.brand-logo,
 @media (max-width: 960px) {
   :root {
     --site-header-h: 76px;
-    --logo-header-max-h: 56px;
-    --logo-hero-max-h: 96px;
+    --logo-header-max-h: 52px;
+    --logo-hero-max-h: 120px;
+    --logo-footer-max-h: 100px;
   }
 
   .site-header__inner {
@@ -933,7 +939,7 @@ img.brand-logo,
   .site-header__logo {
     justify-self: center;
     min-width: calc(var(--logo-header-max-h) * var(--logo-aspect));
-    max-width: min(120px, 34vw);
+    max-width: min(160px, 42vw);
     width: auto;
     flex-shrink: 0;
   }
@@ -948,8 +954,7 @@ img.brand-logo,
   }
 
   .te-logo--header {
-    width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
-    max-width: min(120px, 34vw);
+    max-width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
   }
 
   .te-logo--header .te-logo__img {
@@ -1010,13 +1015,11 @@ img.brand-logo,
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
-    width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-    max-width: min(280px, 92vw);
+    max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
   }
 
   .te-logo--hero {
-    width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-    max-width: min(280px, 92vw);
+    max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
   }
 
   .te-logo--hero .te-logo__img {

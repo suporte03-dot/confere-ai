@@ -1,4 +1,4 @@
-import { BRAND_LOGO_SRC } from '../../data/homeData'
+import { BRAND_LOGO_HEIGHT, BRAND_LOGO_SRC, BRAND_LOGO_WIDTH } from '../../data/homeData'
 
 function TerraEstiloLogo({ variant = 'header', className = '' }) {
   const rootClass = ['te-logo', 'logo-container', 'site-logo', `te-logo--${variant}`, className]
@@ -11,8 +11,8 @@ function TerraEstiloLogo({ variant = 'header', className = '' }) {
         src={BRAND_LOGO_SRC}
         alt="TerraEstilo — Moda que veste origens"
         className="te-logo__img brand-logo"
-        width={610}
-        height={458}
+        width={BRAND_LOGO_WIDTH}
+        height={BRAND_LOGO_HEIGHT}
         loading={variant === 'header' ? 'eager' : 'lazy'}
         decoding="async"
       />
