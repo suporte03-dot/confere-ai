@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
-import BrandPlaque from './components/home/BrandPlaque'
 import Header from './components/home/Header'
 import MainNavigation from './components/home/MainNavigation'
 import HeroSection from './components/home/HeroSection'
@@ -26,25 +25,22 @@ function App() {
     <ShopProvider>
       <div className="app">
         <div className="site-chrome">
-          <div className="site-chrome__layout">
-            <BrandPlaque />
-            <TopBar />
-            <Header
-              menuOpen={menuOpen}
-              onMenuToggle={() => setMenuOpen((v) => !v)}
-              searchOpen={searchOpen}
-              onSearchToggle={() => setSearchOpen((v) => !v)}
-            />
-            <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
-          </div>
+          <TopBar />
+          <Header
+            menuOpen={menuOpen}
+            onMenuToggle={() => setMenuOpen((v) => !v)}
+            searchOpen={searchOpen}
+            onSearchToggle={() => setSearchOpen((v) => !v)}
+          />
+          <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
         </div>
         <main>
           <HeroSection />
           <CategoryShowcase />
           <FeaturedCollection />
           <ProductGrid />
-          <BrandValues />
           <AboutBrand />
+          <BrandValues />
           <BenefitsBar />
           <Newsletter />
         </main>

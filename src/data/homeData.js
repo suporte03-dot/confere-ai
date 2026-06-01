@@ -30,7 +30,7 @@ export const heroBrandPillars = [
 ]
 
 export const heroContent = {
-  eyebrow: 'Identidade TerraEstilo',
+  badge: 'Nova coleção TerraEstilo',
   title: 'Moda que veste origens',
   subtitle:
     'Peças criadas para traduzir raízes, elegância e autenticidade em cada detalhe.',

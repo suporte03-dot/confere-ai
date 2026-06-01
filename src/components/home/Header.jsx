@@ -23,7 +23,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
           <span /><span /><span />
         </button>
 
-        <div className="logo-area logo-area--mobile">
+        <div className="logo-area">
           <div className="logo-shell logo-shell--header">
             <a
               href="#inicio"

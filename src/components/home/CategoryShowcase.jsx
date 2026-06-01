@@ -24,7 +24,7 @@ function CategoryShowcase() {
             <a
               key={item.id}
               href="#produtos"
-              className="category-showcase__card"
+              className={`category-showcase__card category-showcase__card--${item.id}`}
               onClick={(e) => handleClick(item.filter, e)}
             >
               <div className="category-showcase__media">
