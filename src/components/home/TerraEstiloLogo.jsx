@@ -1,7 +1,15 @@
 import { BRAND_LOGO_HEIGHT, BRAND_LOGO_SRC, BRAND_LOGO_WIDTH } from '../../data/homeData'
 
 function TerraEstiloLogo({ variant = 'header', className = '' }) {
-  const rootClass = ['te-logo', 'logo-container', 'site-logo', `te-logo--${variant}`, className]
+  const rootClass = [
+    'te-logo',
+    'logo-container',
+    'site-logo',
+    variant === 'header' ? 'header-logo' : '',
+    variant === 'hero' ? 'hero-logo-area' : '',
+    `te-logo--${variant}`,
+    className,
+  ]
     .filter(Boolean)
     .join(' ')
 
@@ -13,7 +21,7 @@ function TerraEstiloLogo({ variant = 'header', className = '' }) {
         className="te-logo__img brand-logo"
         width={BRAND_LOGO_WIDTH}
         height={BRAND_LOGO_HEIGHT}
-        loading={variant === 'header' ? 'eager' : 'lazy'}
+        loading={variant === 'header' || variant === 'hero' ? 'eager' : 'lazy'}
         decoding="async"
       />
     </span>

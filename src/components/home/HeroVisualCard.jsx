@@ -1,14 +1,10 @@
 import { heroVisualCard } from '../../data/homeData'
+import CollectionCardMark from './CollectionCardMark'
 
 function HeroVisualCard() {
   return (
     <aside className="hero-visual-card" aria-label="Destaque Coleção Raízes do Sul">
-      <img
-        src="/images/brand/mockup-icon.png"
-        alt=""
-        className="hero-visual-card__monogram"
-        aria-hidden="true"
-      />
+      <CollectionCardMark />
       <div className="hero-visual-card__content">
         <p className="hero-visual-card__label">Coleção em destaque</p>
         <h2 className="hero-visual-card__title">{heroVisualCard.title}</h2>

@@ -1,31 +1,42 @@
 /* ── TerraEstilo Home — componentes premium ── */
 
 :root {
-  --te-forest: #1F3D2E;
-  --te-olive: #6B7A4E;
-  --te-gold: #C9A86A;
-  --te-cream: #F4EFE6;
-  --te-text: #1D2A22;
+  --verde-floresta: #1F3D2E;
+  --verde-profundo: #153426;
+  --verde-oliva: #6B7A4E;
+  --ouro-champagne: #C9A86A;
+  --creme: #F4EFE6;
+  --texto-escuro: #1D2A22;
+  --te-forest: var(--verde-floresta);
+  --te-olive: var(--verde-oliva);
+  --te-gold: var(--ouro-champagne);
+  --te-cream: var(--creme);
+  --te-text: var(--texto-escuro);
   --te-muted: #6B665C;
   --te-border: #DDD4C4;
   --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Montserrat', system-ui, sans-serif;
-  --site-header-h: 88px;
+  --site-header-h: 140px;
   --main-nav-h: 48px;
   --sticky-offset: calc(var(--site-header-h) + var(--main-nav-h));
-  --logo-aspect: 610 / 458;
-  --logo-header-max-h: 64px;
-  --logo-hero-max-h: 148px;
+  --header-brand-w: 420px;
+  --header-brand-logo-max-h: calc(var(--site-header-h) - 14px);
+  --logo-hero-w: 280px;
+  --logo-hero-h: 150px;
+  --logo-aspect-w: 610;
+  --logo-aspect-h: 458;
   --logo-footer-max-h: 120px;
 }
 
 /* ── Logo oficial completa (PNG original) ── */
 .logo-container,
 .site-logo,
-.te-logo {
+.te-logo,
+.header-logo,
+.hero-logo-area {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   line-height: 0;
   flex-shrink: 0;
   overflow: visible;
@@ -36,40 +47,128 @@
 
 .logo-container img,
 .site-logo img,
+.header-logo img,
+.hero-logo-area img,
 .te-logo__img {
   display: block;
   width: auto;
   height: auto;
-  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  border: none;
+  background: transparent;
+  filter: none;
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+.header-brand-area .te-logo__img {
+  max-width: none;
+}
+
+.te-logo__img.brand-logo {
+  max-height: none;
+}
+
+.te-logo--header .te-logo__img.brand-logo {
+  max-height: var(--header-brand-logo-max-h);
+}
+
+.header-brand-area {
+  width: var(--header-brand-w);
+  min-width: var(--header-brand-w);
+  height: var(--site-header-h);
+  min-height: var(--site-header-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.header-brand-area .site-header__logo,
+.header-brand-area .header-logo,
+.header-brand-area .te-logo--header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  overflow: visible;
+}
+
+.header-brand-area .te-logo--header .te-logo__img,
+.header-brand-area .te-logo--header .te-logo__img.brand-logo {
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: var(--header-brand-logo-max-h);
   object-fit: contain;
   object-position: center;
 }
 
+.header-logo,
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.header-logo .te-logo,
+.site-header__logo .te-logo {
+  width: auto;
+  height: auto;
+}
+
 .te-logo--header {
   width: auto;
-  max-width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
+  height: auto;
+  min-width: 0;
+  max-width: none;
 }
 
 .te-logo--header .te-logo__img {
-  max-height: var(--logo-header-max-h);
-}
-
-.te-logo--hero {
   width: auto;
-  max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
+  height: auto;
+  max-width: none;
+  max-height: var(--header-brand-logo-max-h);
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
 }
 
+.hero-logo-area,
+.te-logo--hero {
+  width: var(--logo-hero-w);
+  max-width: 100%;
+  height: var(--logo-hero-h);
+  margin-bottom: 28px;
+}
+
+.hero-logo-area .te-logo__img,
 .te-logo--hero .te-logo__img {
-  max-height: var(--logo-hero-max-h);
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-position: left center;
 }
 
 .te-logo--footer {
   margin-bottom: 18px;
-  max-width: min(100%, calc(var(--logo-footer-max-h) * var(--logo-aspect)));
+  max-width: min(100%, calc(var(--logo-footer-max-h) * var(--logo-aspect-w) / var(--logo-aspect-h)));
 }
 
 .te-logo--footer .te-logo__img {
+  width: auto;
+  height: auto;
   max-height: var(--logo-footer-max-h);
+  max-width: 100%;
 }
 
 /* ── TopBar ── */
@@ -124,7 +223,7 @@
 
 .site-header__inner {
   display: grid;
-  grid-template-columns: minmax(calc(var(--logo-header-max-h) * var(--logo-aspect)), 200px) minmax(160px, 1fr) auto;
+  grid-template-columns: var(--header-brand-w) minmax(140px, 1fr) auto;
   align-items: center;
   gap: 16px 20px;
   min-height: var(--site-header-h);
@@ -135,14 +234,16 @@
 .site-header__logo {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   text-decoration: none;
   overflow: visible;
   flex-shrink: 0;
-  min-width: calc(var(--logo-header-max-h) * var(--logo-aspect));
-  max-width: 200px;
+  width: auto;
+  min-width: 0;
+  height: auto;
   background: transparent;
   border: none;
+  box-shadow: none;
 }
 
 .site-header__search {
@@ -317,22 +418,6 @@
   align-items: center;
 }
 
-.hero-section__logo-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 28px;
-  overflow: visible;
-  width: auto;
-  max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-  background: transparent;
-  border: none;
-}
-
-.hero-section__logo-wrap .te-logo {
-  width: 100%;
-}
-
 .hero-section__badge {
   display: inline-block;
   padding: 7px 14px;
@@ -385,15 +470,15 @@
   overflow: visible;
 }
 
-.hero-visual-card__monogram {
+.hero-visual-card__monogram,
+.collection-card-mark {
   position: absolute;
   top: 20px;
   right: 20px;
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
-  object-position: center;
-  opacity: 0.22;
+  width: 72px;
+  height: 72px;
+  color: var(--ouro-champagne);
+  opacity: 0.35;
   pointer-events: none;
 }
 
@@ -919,14 +1004,15 @@
 
 @media (max-width: 960px) {
   :root {
-    --site-header-h: 76px;
-    --logo-header-max-h: 52px;
-    --logo-hero-max-h: 120px;
+    --site-header-h: 96px;
+    --header-brand-logo-max-h: calc(var(--site-header-h) - 10px);
+    --logo-hero-w: 240px;
+    --logo-hero-h: 128px;
     --logo-footer-max-h: 100px;
   }
 
   .site-header__inner {
-    grid-template-columns: auto minmax(calc(var(--logo-header-max-h) * var(--logo-aspect)), 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 8px 10px;
     overflow: visible;
   }
@@ -936,11 +1022,28 @@
     flex-shrink: 0;
   }
 
+  .header-brand-area {
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    height: var(--site-header-h);
+    min-height: var(--site-header-h);
+    justify-self: center;
+    flex: 1;
+  }
+
+  .header-brand-area .te-logo--header .te-logo__img,
+  .header-brand-area .te-logo--header .te-logo__img.brand-logo {
+    max-width: none;
+    max-height: var(--header-brand-logo-max-h);
+  }
+
   .site-header__logo {
     justify-self: center;
-    min-width: calc(var(--logo-header-max-h) * var(--logo-aspect));
-    max-width: min(160px, 42vw);
     width: auto;
+    min-width: 0;
+    max-width: none;
+    height: auto;
     flex-shrink: 0;
   }
 
@@ -954,12 +1057,31 @@
   }
 
   .te-logo--header {
-    max-width: min(100%, calc(var(--logo-header-max-h) * var(--logo-aspect)));
+    width: auto;
+    height: auto;
+    min-width: 0;
+    max-width: none;
   }
 
   .te-logo--header .te-logo__img {
-    max-height: var(--logo-header-max-h);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(var(--site-header-h) - 12px);
     margin: 0 auto;
+    object-fit: contain;
+  }
+
+  .hero-logo-area,
+  .te-logo--hero {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-logo-area .te-logo__img,
+  .te-logo--hero .te-logo__img {
+    object-position: center;
   }
 
   .site-header__search {
@@ -1011,22 +1133,6 @@
     gap: 36px;
   }
 
-  .hero-section__logo-wrap {
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-  }
-
-  .te-logo--hero {
-    max-width: min(100%, calc(var(--logo-hero-max-h) * var(--logo-aspect)));
-  }
-
-  .te-logo--hero .te-logo__img {
-    max-height: var(--logo-hero-max-h);
-    margin: 0 auto;
-  }
-
   .hero-section__content {
     text-align: center;
   }
@@ -1047,6 +1153,13 @@
 
   .about-brand__inner {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --logo-header-w: 132px;
+    --logo-header-max-h: 72px;
   }
 }
 

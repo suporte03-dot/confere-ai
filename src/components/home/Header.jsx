@@ -23,9 +23,11 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
           <span /><span /><span />
         </button>
 
-        <a href="#inicio" className="site-header__logo logo-container site-logo" aria-label="TerraEstilo — Página inicial">
-          <TerraEstiloLogo variant="header" />
-        </a>
+        <div className="header-brand-area">
+          <a href="#inicio" className="site-header__logo header-logo logo-container site-logo" aria-label="TerraEstilo — Página inicial">
+            <TerraEstiloLogo variant="header" />
+          </a>
+        </div>
 
         <div className={`site-header__search ${searchOpen ? 'site-header__search--open' : ''}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

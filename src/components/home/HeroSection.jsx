@@ -8,9 +8,7 @@ function HeroSection() {
       <div className="hero-section__bg" aria-hidden="true" />
       <div className="container hero-section__grid">
         <div className="hero-section__content">
-          <div className="hero-section__logo-wrap">
-            <TerraEstiloLogo variant="hero" />
-          </div>
+          <TerraEstiloLogo variant="hero" />
           <span className="hero-section__badge">{heroContent.badge}</span>
           <h1 className="hero-section__title">{heroContent.title}</h1>
           <p className="hero-section__subtitle">{heroContent.subtitle}</p>
