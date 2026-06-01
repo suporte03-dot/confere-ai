@@ -5,12 +5,13 @@ function Benefits() {
     <section className="section benefits">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Comprar na TerraEstilo é simples e seguro</h2>
+          <h2 className="section-head__title">Benefícios TerraEstilo</h2>
+          <p className="section-head__desc">Comprar conosco é simples, seguro e acolhedor.</p>
         </div>
         <div className="benefits__grid">
           {storeBenefits.map((item) => (
             <article key={item.id} className="benefit-card">
-              <div className="benefit-card__icon" aria-hidden="true">✦</div>
+              <div className="benefit-card__icon" aria-hidden="true">◆</div>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
             </article>

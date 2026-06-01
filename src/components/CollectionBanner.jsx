@@ -9,13 +9,16 @@ function CollectionBanner() {
           <span className="collection-banner__tag">{collectionBanner.label}</span>
           <h2>{collectionBanner.title}</h2>
           <p>{collectionBanner.subtitle}</p>
-          <a href="#produtos" className="btn btn--light">{collectionBanner.cta}</a>
+          <div className="collection-banner__actions">
+            <a href="#produtos" className="btn btn--light">{collectionBanner.primaryCta}</a>
+            <a href="#colecoes" className="btn btn--ghost-light">{collectionBanner.secondaryCta}</a>
+          </div>
         </div>
         <div className="collection-banner__visual">
           <VisualMedia
             src={collectionBanner.image}
             alt={collectionBanner.title}
-            label={collectionBanner.label}
+            label={collectionBanner.title}
             variant={collectionBanner.variant}
             className="collection-banner__media"
             imgClassName="collection-banner__img"

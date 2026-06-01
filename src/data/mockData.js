@@ -89,10 +89,43 @@ export const imageMap = {
 }
 
 export const topBenefits = [
-  'Frete grátis acima de R$499',
+  'Frete grátis acima de R$ 499',
   'Até 12x sem juros',
-  'Primeira compra com 10% OFF',
+  'Moda com identidade do Sul do Brasil',
 ]
+
+export const headerNav = [
+  { label: 'Coleções', href: '#colecoes' },
+  { label: 'Feminino', href: '#produtos', filter: 'Feminino' },
+  { label: 'Masculino', href: '#produtos', filter: 'Masculino' },
+  { label: 'Acessórios', href: '#produtos', filter: 'Acessórios' },
+  { label: 'Sobre', href: '#sobre' },
+  { label: 'Lojas', href: '#lojas' },
+  { label: 'Contato', href: '#contato' },
+]
+
+export const homeCategories = [
+  { id: 'feminino', title: 'Feminino', description: 'Silhuetas leves, tecidos naturais e elegância contemporânea.', filter: 'Feminino', variant: 'vestidoAurora' },
+  { id: 'masculino', title: 'Masculino', description: 'Peças versáteis com acabamento refinado para campo e cidade.', filter: 'Masculino', variant: 'camisaWorker' },
+  { id: 'acessorios', title: 'Acessórios', description: 'Detalhes que completam looks com identidade e sofisticação.', filter: 'Acessórios', variant: 'bolsaCasual' },
+  { id: 'essenciais', title: 'Essenciais', description: 'Básicos atemporais para compor o guarda-roupa com propósito.', filter: 'Todos', variant: 'camisetaEssencial' },
+  { id: 'novidades', title: 'Novidades', description: 'Lançamentos selecionados da temporada TerraEstilo.', filter: 'Todos', variant: 'jaquetaCampo' },
+  { id: 'colecao-sul', title: 'Coleção Sul', description: 'Curadoria inspirada nas raízes e na paisagem do Sul do Brasil.', filter: 'Masculino', variant: 'moletomCampoSul' },
+]
+
+export const brandValues = [
+  { title: 'Raízes', description: 'Honramos a origem em cada coleção e acabamento.' },
+  { title: 'Identidade', description: 'Uma linguagem visual própria, reconhecível e autêntica.' },
+  { title: 'Sofisticação', description: 'Elegância natural traduzida em cortes e materiais.' },
+  { title: 'Sul do Brasil', description: 'Inspiração regional com olhar contemporâneo.' },
+  { title: 'Autenticidade', description: 'Moda com propósito, verdade e personalidade.' },
+]
+
+export const brandEditorial = {
+  quote:
+    'TerraEstilo nasce da união entre elegância, origem e autenticidade. Uma moda que honra suas raízes e traduz o estilo do Sul do Brasil com sofisticação e propósito.',
+  cta: 'Conheça nossa história',
+}
 
 export const menuCollections = [
   {
@@ -269,16 +302,115 @@ export const categoryHighlightTabs = {
 
 export const heroData = {
   label: 'Nova coleção TerraEstilo',
-  title: 'Estilo brasileiro para todos os momentos',
+  title: 'Moda que veste origens',
   subtitle:
-    'Roupas, calçados e acessórios com qualidade, conforto e personalidade para o seu dia a dia.',
-  primaryButton: 'Comprar agora',
-  secondaryButton: 'Ver novidades',
+    'Peças criadas para traduzir raízes, elegância e autenticidade em cada detalhe.',
+  primaryButton: 'Ver coleção',
+  secondaryButton: 'Conheça a marca',
   image: imageMap.hero,
   variant: 'hero',
-  badges: ['Coleção Campo & Cidade', 'Peças exclusivas', 'Envio para todo Brasil'],
+  badges: ['Identidade regional', 'Acabamento premium', 'Envio para todo o Brasil'],
   floatingCards: ['12x sem juros', 'Frete grátis +R$499'],
 }
+
+export const featuredProducts = [
+  {
+    id: 101,
+    name: 'Camisa Linho Aurora',
+    department: 'Feminino',
+    collectionId: 'camisas-femininas',
+    subcategory: 'Camisas',
+    price: 279.9,
+    oldPrice: null,
+    badge: 'Novidade',
+    colors: ['Creme', 'Oliva'],
+    imageKey: 'camisaSerena',
+    image: imageMap.produtos.camisaSerena,
+    variant: 'camisaSerena',
+    description: 'Camisa em linho com caimento fluido e acabamento refinado.',
+    stock: 24,
+  },
+  {
+    id: 102,
+    name: 'Vestido Serra Verde',
+    department: 'Feminino',
+    collectionId: 'vestidos',
+    subcategory: 'Vestidos',
+    price: 349.9,
+    oldPrice: 399.9,
+    badge: 'Destaque',
+    colors: ['Verde', 'Areia'],
+    imageKey: 'vestidoAurora',
+    image: imageMap.produtos.vestidoAurora,
+    variant: 'vestidoAurora',
+    description: 'Vestido com tons naturais e silhueta atemporal.',
+    stock: 18,
+  },
+  {
+    id: 103,
+    name: 'Jaqueta Campo Oliva',
+    department: 'Masculino',
+    collectionId: 'jaquetas-masculinas',
+    subcategory: 'Jaquetas',
+    price: 429.9,
+    oldPrice: null,
+    badge: 'Novidade',
+    colors: ['Oliva', 'Marrom'],
+    imageKey: 'jaquetaCampo',
+    image: imageMap.produtos.jaquetaCampo,
+    variant: 'jaquetaCampo',
+    description: 'Jaqueta estruturada com visual premium e conforto urbano.',
+    stock: 20,
+  },
+  {
+    id: 104,
+    name: 'Bolsa Raízes',
+    department: 'Acessórios',
+    collectionId: 'bolsas-acessorios',
+    subcategory: 'Bolsas',
+    price: 259.9,
+    oldPrice: null,
+    badge: 'Destaque',
+    colors: ['Caramelo', 'Verde'],
+    imageKey: 'bolsaCasual',
+    image: imageMap.produtos.bolsaCasual,
+    variant: 'bolsaCasual',
+    description: 'Bolsa casual com detalhes dourados e textura natural.',
+    stock: 15,
+  },
+  {
+    id: 105,
+    name: 'Calça Alfaiataria Sul',
+    department: 'Masculino',
+    collectionId: 'calca-jeans-masculina',
+    subcategory: 'Calças',
+    price: 319.9,
+    oldPrice: null,
+    badge: null,
+    colors: ['Areia', 'Verde'],
+    imageKey: 'jeansHorizonte',
+    image: imageMap.produtos.jeansHorizonte,
+    variant: 'jeans',
+    description: 'Calça com corte moderno e tecido de alta qualidade.',
+    stock: 30,
+  },
+  {
+    id: 106,
+    name: 'Blusa Essência Natural',
+    department: 'Feminino',
+    collectionId: 'camisetas-femininas',
+    subcategory: 'Blusas',
+    price: 189.9,
+    oldPrice: null,
+    badge: 'Novidade',
+    colors: ['Off-white', 'Oliva'],
+    imageKey: 'camisetaFeminina',
+    image: imageMap.produtos.camisetaFeminina,
+    variant: 'camisetaFeminina',
+    description: 'Blusa leve com toque natural e caimento elegante.',
+    stock: 36,
+  },
+]
 
 export const products = [
   {
@@ -828,62 +960,41 @@ export const products = [
 ]
 
 export const collectionBanner = {
-  label: 'Coleção Horizonte',
-  title: 'Moda lifestyle premium',
+  label: 'Coleção em destaque',
+  title: 'Coleção Raízes do Sul',
   subtitle:
-    'Peças versáteis para acompanhar sua rotina com conforto, presença e personalidade.',
+    'Uma seleção de peças com tons naturais, cortes atemporais e acabamento refinado.',
   image: imageMap.banner,
   variant: 'banner',
-  cta: 'Conhecer coleção',
+  primaryCta: 'Comprar agora',
+  secondaryCta: 'Ver lookbook',
 }
 
 export const newsletterBanner = {
-  title: 'Ganhe 10% OFF na primeira compra TerraEstilo',
+  title: 'Receba novidades da TerraEstilo',
   subtitle:
-    'Cadastre seu e-mail e receba novidades, ofertas e lançamentos TerraEstilo.',
+    'Coleções, lançamentos e conteúdos especiais sobre moda com identidade.',
   image: imageMap.newsletter,
   variant: 'newsletter',
-  button: 'Garantir desconto',
+  button: 'Cadastrar',
 }
 
 export const storeBenefits = [
-  {
-    id: 'frete',
-    title: 'Frete grátis acima de R$499',
-    description: 'Receba seus produtos com economia em compras selecionadas.',
-  },
-  {
-    id: 'parcelamento',
-    title: 'Até 12x sem juros',
-    description: 'Mais facilidade para comprar suas peças favoritas.',
-  },
-  {
-    id: 'troca',
-    title: 'Troca descomplicada',
-    description: 'Processo simples para você comprar com tranquilidade.',
-  },
-  {
-    id: 'seguro',
-    title: 'Compra segura',
-    description: 'Ambiente protegido para finalizar seus pedidos.',
-  },
-  {
-    id: 'atendimento',
-    title: 'Atendimento próximo',
-    description: 'Suporte antes e depois da sua compra.',
-  },
-  {
-    id: 'curadoria',
-    title: 'Produtos selecionados',
-    description: 'Peças escolhidas para unir estilo, conforto e qualidade.',
-  },
+  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.' },
+  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.' },
+  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.' },
+  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.' },
+  { id: 'parcelamento', title: 'Parcelamento em até 12x', description: 'Mais facilidade para levar suas favoritas.' },
 ]
 
 export const footerLinks = {
   institucional: [
-    { label: 'Sobre a TerraEstilo', href: '#sobre' },
-    { label: 'Trocas e devoluções', href: '#trocas' },
-    { label: 'Atendimento', href: '#atendimento' },
+    { label: 'Coleções', href: '#colecoes' },
+    { label: 'Sobre', href: '#sobre' },
+    { label: 'Lojas', href: '#lojas' },
+    { label: 'Contato', href: '#contato' },
+    { label: 'Política de troca', href: '#trocas' },
+    { label: 'Privacidade', href: '#privacidade' },
   ],
   masculino: collections[0].subcategories.map((sub) => ({
     label: sub.title,

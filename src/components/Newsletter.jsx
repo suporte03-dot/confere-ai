@@ -13,7 +13,7 @@ function Newsletter() {
       showToast('Informe um e-mail válido.')
       return
     }
-    showToast('Cupom enviado para seu e-mail!')
+    showToast('Cadastro realizado com sucesso!')
     setEmail('')
   }
 

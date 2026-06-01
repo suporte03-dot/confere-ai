@@ -1,23 +1,40 @@
-import LandingHeader from './components/landing/LandingHeader'
-import LandingHero from './components/landing/LandingHero'
-import BrandShowcase from './components/landing/BrandShowcase'
-import ColorPalette from './components/landing/ColorPalette'
-import AboutSection from './components/landing/AboutSection'
-import LandingFooter from './components/landing/LandingFooter'
-import './landing.css'
+import { ShopProvider } from './context/ShopContext'
+import TopBar from './components/TopBar'
+import Header from './components/Header'
+import Hero from './components/Hero'
+import HomeCategories from './components/HomeCategories'
+import FeaturedProducts from './components/FeaturedProducts'
+import BrandEditorial from './components/BrandEditorial'
+import BrandValues from './components/BrandValues'
+import CollectionBanner from './components/CollectionBanner'
+import Benefits from './components/Benefits'
+import Newsletter from './components/Newsletter'
+import Footer from './components/Footer'
+import CartDrawer from './components/CartDrawer'
+import Toast from './components/Toast'
+import './App.css'
 
 function App() {
   return (
-    <div className="lp-app">
-      <LandingHeader />
-      <main>
-        <LandingHero />
-        <BrandShowcase />
-        <ColorPalette />
-        <AboutSection />
-      </main>
-      <LandingFooter />
-    </div>
+    <ShopProvider>
+      <div className="app">
+        <TopBar />
+        <Header />
+        <main>
+          <Hero />
+          <HomeCategories />
+          <FeaturedProducts />
+          <BrandEditorial />
+          <BrandValues />
+          <CollectionBanner />
+          <Benefits />
+          <Newsletter />
+        </main>
+        <Footer />
+        <CartDrawer />
+        <Toast />
+      </div>
+    </ShopProvider>
   )
 }
 

@@ -61,7 +61,7 @@ function ProductCard({ product }) {
         </div>
         <p className="product-card__installments">ou {getInstallment(product.price)}</p>
         <button type="button" className="btn btn--primary btn--block" onClick={() => addToCart(product)}>
-          Adicionar ao carrinho
+          Comprar
         </button>
       </div>
     </article>

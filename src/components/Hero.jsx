@@ -4,21 +4,22 @@ import VisualMedia from './VisualMedia'
 function Hero() {
   return (
     <section id="inicio" className="hero">
+      <div className="hero__decor hero__decor--leaf" aria-hidden="true" />
+      <div className="hero__decor hero__decor--fabric" aria-hidden="true" />
+
       <div className="container hero__grid">
         <div className="hero__content">
-          <div className="hero__brand">
-            <img
-              src="/images/brand/logo-terraestilo.png"
-              alt="TerraEstilo"
-              className="brand-logo brand-logo--hero"
-            />
-          </div>
+          <img
+            src="/images/brand/logo-terraestilo-stacked.png"
+            alt="TerraEstilo"
+            className="hero__logo"
+          />
           <span className="hero__label">{heroData.label}</span>
           <h1 className="hero__title">{heroData.title}</h1>
           <p className="hero__subtitle">{heroData.subtitle}</p>
           <div className="hero__actions">
             <a href="#produtos" className="btn btn--primary">{heroData.primaryButton}</a>
-            <a href="#produtos" className="btn btn--outline">{heroData.secondaryButton}</a>
+            <a href="#sobre" className="btn btn--outline">{heroData.secondaryButton}</a>
           </div>
           <div className="hero__chips">
             {heroData.badges.map((badge) => (
@@ -31,8 +32,8 @@ function Hero() {
           <div className="hero__image-wrap">
             <VisualMedia
               src={heroData.image}
-              alt="Coleção TerraEstilo — moda lifestyle gaúcha"
-              label="Moda casual & country"
+              alt="Editorial TerraEstilo — moda premium com identidade do Sul"
+              label="Coleção Raízes do Sul"
               variant={heroData.variant}
               className="hero__media"
               imgClassName="hero__image"
