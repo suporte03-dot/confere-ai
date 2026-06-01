@@ -1,4 +1,5 @@
 export const BRAND_LOGO_SRC = '/images/brand/logo-terraestilo-completa.png'
+export const BRAND_LOGO_HEADER_SRC = '/images/brand/logo-terraestilo-header-transparent.png'
 export const BRAND_LOGO_WIDTH = 610
 export const BRAND_LOGO_HEIGHT = 458
 

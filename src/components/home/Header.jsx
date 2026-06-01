@@ -1,5 +1,4 @@
 import { useShop } from '../../context/ShopContext'
-import TerraEstiloLogo from './TerraEstiloLogo'
 
 function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
   const {
@@ -12,7 +11,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
 
   return (
     <header className="site-header">
-      <div className="container site-header__inner">
+      <div className="site-header__inner site-chrome__panel">
         <button
           type="button"
           className={`site-header__menu ${menuOpen ? 'site-header__menu--open' : ''}`}
@@ -22,12 +21,6 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
         >
           <span /><span /><span />
         </button>
-
-        <div className="header-brand-area">
-          <a href="#inicio" className="site-header__logo header-logo logo-container site-logo" aria-label="TerraEstilo — Página inicial">
-            <TerraEstiloLogo variant="header" />
-          </a>
-        </div>
 
         <div className={`site-header__search ${searchOpen ? 'site-header__search--open' : ''}`}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

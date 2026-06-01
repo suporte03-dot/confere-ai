@@ -3,6 +3,7 @@ import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import MainNavigation from './components/home/MainNavigation'
+import TerraEstiloLogo from './components/home/TerraEstiloLogo'
 import HeroSection from './components/home/HeroSection'
 import CategoryShowcase from './components/home/CategoryShowcase'
 import FeaturedCollection from './components/home/FeaturedCollection'
@@ -24,8 +25,17 @@ function App() {
   return (
     <ShopProvider>
       <div className="app">
-        <TopBar />
         <div className="site-chrome">
+          <div className="header-logo-area">
+            <a
+              href="#inicio"
+              className="site-header__logo header-logo logo-container site-logo"
+              aria-label="TerraEstilo — Página inicial"
+            >
+              <TerraEstiloLogo variant="header" />
+            </a>
+          </div>
+          <TopBar />
           <Header
             menuOpen={menuOpen}
             onMenuToggle={() => setMenuOpen((v) => !v)}

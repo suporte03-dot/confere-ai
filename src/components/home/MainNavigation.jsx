@@ -14,7 +14,7 @@ function MainNavigation({ open, onClose }) {
 
   return (
     <nav className={`main-nav ${open ? 'main-nav--open' : ''}`} aria-label="Principal">
-      <div className="container main-nav__inner">
+      <div className="main-nav__inner site-chrome__panel">
         {mainNavigation.map((item) => (
           <a
             key={item.label}
