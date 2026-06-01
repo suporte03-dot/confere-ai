@@ -7,8 +7,9 @@ const root = path.join(__dirname, '..')
 const source = path.join(root, 'public/images/brand/brand-board-reference.png')
 const output = path.join(root, 'public/images/brand/logo-terraestilo-completa.png')
 
+// Crop central do brand board — margem direita suficiente para o "o" de TerraEstilo
 await sharp(source)
-  .extract({ left: 292, top: 28, width: 448, height: 418 })
+  .extract({ left: 235, top: 12, width: 555, height: 445 })
   .png({ quality: 100 })
   .toFile(output)
 

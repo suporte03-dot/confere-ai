@@ -23,7 +23,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
           <span /><span /><span />
         </button>
 
-        <a href="#inicio" className="site-header__logo" aria-label="TerraEstilo — Página inicial">
+        <a href="#inicio" className="site-header__logo logo-container site-logo" aria-label="TerraEstilo — Página inicial">
           <TerraEstiloLogo variant="header" />
         </a>
 

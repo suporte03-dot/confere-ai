@@ -1,14 +1,16 @@
 import { BRAND_LOGO_SRC } from '../../data/homeData'
 
 function TerraEstiloLogo({ variant = 'header', className = '' }) {
-  const rootClass = ['te-logo', `te-logo--${variant}`, className].filter(Boolean).join(' ')
+  const rootClass = ['te-logo', 'logo-container', 'site-logo', `te-logo--${variant}`, className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <span className={rootClass}>
       <img
         src={BRAND_LOGO_SRC}
         alt="TerraEstilo — Moda que veste origens"
-        className="te-logo__img"
+        className="te-logo__img brand-logo"
         loading={variant === 'header' ? 'eager' : 'lazy'}
         decoding="async"
       />
