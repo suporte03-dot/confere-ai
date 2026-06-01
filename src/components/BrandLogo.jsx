@@ -27,7 +27,7 @@ function BrandDefs({ prefix }) {
   )
 }
 
-function BrandSymbol({ className = '' }) {
+function BrandSymbol() {
   const uid = useId().replace(/:/g, '')
   const grad = `${uid}-gold`
   const clip = `${uid}-clip`
@@ -38,40 +38,39 @@ function BrandSymbol({ className = '' }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
-      className={`brand-logo__svg ${className}`.trim()}
+      className="brand-logo__svg"
     >
       <BrandDefs prefix={uid} />
 
       <path
         d={RS_MAP}
         stroke={`url(#${grad})`}
-        strokeWidth="0.85"
+        strokeWidth="0.9"
         strokeLinejoin="round"
         strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
         fill="none"
       />
 
       <g clipPath={`url(#${clip})`}>
         <text
-          x="22"
-          y="54"
+          x="16"
+          y="58"
           fill={`url(#${grad})`}
           fontFamily={BRAND_MONOGRAM}
-          fontSize="31"
-          fontWeight="600"
-          letterSpacing="-0.02em"
+          fontSize="44"
+          fontWeight="500"
+          letterSpacing="-0.03em"
         >
           T
         </text>
         <text
-          x="39"
-          y="57"
+          x="38"
+          y="62"
           fill={`url(#${grad})`}
           fontFamily={BRAND_MONOGRAM}
-          fontSize="18"
-          fontWeight="600"
-          letterSpacing="-0.01em"
+          fontSize="26"
+          fontWeight="500"
+          letterSpacing="-0.02em"
         >
           E
         </text>
@@ -89,19 +88,21 @@ function BrandWordmark() {
   )
 }
 
+const TAGLINE = 'Moda que veste origens'
+
 function BrandLogo({
-  variant = 'full',
+  variant = 'horizontal',
   tone = 'light',
   showTagline = false,
+  size = 'md',
   className = '',
 }) {
   const rootClass = [
     'brand-logo',
-    variant === 'full' ? 'brand-logo--full' : '',
-    variant === 'icon' ? 'brand-logo--icon' : '',
-    variant === 'wordmark' ? 'brand-logo--wordmark' : '',
+    `brand-logo--${variant}`,
     tone === 'dark' ? 'brand-logo--dark' : 'brand-logo--light',
-    showTagline ? 'brand-logo--stacked' : '',
+    `brand-logo--size-${size}`,
+    showTagline ? 'brand-logo--has-tagline' : '',
     className,
   ]
     .filter(Boolean)
@@ -117,13 +118,18 @@ function BrandLogo({
     )
   }
 
-  if (variant === 'wordmark') {
+  if (variant === 'stacked') {
     return (
       <div className={rootClass}>
-        <BrandWordmark />
-        {showTagline && (
-          <span className="brand-logo__tagline">Moda que veste origens</span>
-        )}
+        <div className="brand-logo__symbol" aria-hidden="true">
+          <BrandSymbol />
+        </div>
+        <div className="brand-logo__copy">
+          <BrandWordmark />
+          {showTagline && (
+            <span className="brand-logo__tagline">{TAGLINE}</span>
+          )}
+        </div>
       </div>
     )
   }
@@ -136,7 +142,7 @@ function BrandLogo({
       <div className="brand-logo__copy">
         <BrandWordmark />
         {showTagline && (
-          <span className="brand-logo__tagline">Moda que veste origens</span>
+          <span className="brand-logo__tagline">{TAGLINE}</span>
         )}
       </div>
     </div>

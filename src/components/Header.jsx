@@ -131,7 +131,19 @@ function Header() {
         </button>
 
         <a href="#inicio" className="brand header__logo" aria-label="TerraEstilo - Página inicial">
-          <BrandLogo variant="full" tone="dark" />
+          <BrandLogo
+            variant="horizontal"
+            tone="dark"
+            showTagline
+            size="md"
+            className="header__logo-desktop"
+          />
+          <BrandLogo
+            variant="icon"
+            tone="dark"
+            size="sm"
+            className="header__logo-mobile"
+          />
         </a>
 
         <div className="header__search">

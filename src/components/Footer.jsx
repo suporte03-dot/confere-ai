@@ -14,7 +14,7 @@ function Footer() {
     <footer id="sobre" className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <BrandLogo variant="full" tone="dark" />
+          <BrandLogo variant="stacked" tone="dark" showTagline size="lg" />
           <p>
             TerraEstilo é moda casual premium com raízes gaúchas — qualidade, conforto
             e estilo para toda a família.
