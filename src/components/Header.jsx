@@ -40,10 +40,12 @@ function Header() {
 
           <a href="#inicio" className="brand header__logo" aria-label="TerraEstilo — Página inicial">
             <img
-              src="/images/brand/logo-terraestilo-horizontal.png"
-              alt="TerraEstilo"
-              className="brand-logo"
+              src="/images/brand/mockup-icon.png"
+              alt=""
+              className="header__mark"
+              aria-hidden="true"
             />
+            <span className="header__wordmark">TerraEstilo</span>
           </a>
 
           <div className={`header__search ${searchOpen ? 'header__search--open' : ''}`}>

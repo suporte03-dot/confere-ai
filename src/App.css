@@ -324,6 +324,7 @@
 
 .header__shell {
   padding: 0;
+  position: relative;
 }
 
 .header__row {
@@ -336,11 +337,33 @@
 }
 
 .header__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   flex-shrink: 0;
   align-self: center;
   justify-self: start;
   line-height: 0;
   min-width: 0;
+  text-decoration: none;
+}
+
+.header__mark {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.header__wordmark {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--te-gold-600);
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .header__nav {
@@ -443,6 +466,10 @@
 
 .header__action svg {
   flex-shrink: 0;
+}
+
+.header__action--search-toggle {
+  display: none;
 }
 
 .header__badge {
@@ -2353,6 +2380,15 @@ input:focus-visible {
 
   .header__logo {
     justify-self: center;
+  }
+
+  .header__wordmark {
+    font-size: 1.15rem;
+  }
+
+  .header__mark {
+    width: 38px;
+    height: 38px;
   }
 
   .header__search {
