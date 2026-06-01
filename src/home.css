@@ -30,6 +30,7 @@
   --logo-aspect-w: 610;
   --logo-aspect-h: 458;
   --logo-footer-max-h: 120px;
+  --hero-board-max-w: 680px;
 }
 
 /* ── Logo oficial completa (PNG original) ── */
@@ -559,17 +560,18 @@
 .hero-section__inner {
   position: relative;
   max-width: 1180px;
-  padding: 52px 24px 72px;
+  padding: 40px 24px 56px;
 }
 
 .hero-brand-board {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
+  max-width: var(--hero-board-max-w);
 }
 
 .hero-brand-board__frame {
   position: relative;
-  padding: 14px;
+  padding: 10px;
   background: linear-gradient(145deg, rgba(244, 239, 230, 1), rgba(235, 224, 208, 0.96));
   border: 1px solid rgba(201, 168, 106, 0.42);
   border-radius: 2px;
@@ -600,8 +602,9 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 40px;
-  margin-top: 44px;
-  padding-top: 36px;
+  max-width: var(--hero-board-max-w);
+  margin: 32px auto 0;
+  padding-top: 28px;
   border-top: 1px solid rgba(201, 168, 106, 0.38);
 }
 
@@ -1239,6 +1242,7 @@
     --logo-shell-hero-img-w: 190px;
     --header-main-h: 118px;
     --logo-footer-max-h: 100px;
+    --hero-board-max-w: min(100%, 520px);
   }
 
   .site-chrome__layout {
