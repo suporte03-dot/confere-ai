@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import BrandLogo from './BrandLogo'
 import { mainNav, getSubcategoriesForNav } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 
@@ -131,18 +130,10 @@ function Header() {
         </button>
 
         <a href="#inicio" className="brand header__logo" aria-label="TerraEstilo - Página inicial">
-          <BrandLogo
-            variant="horizontal"
-            tone="dark"
-            showTagline
-            size="md"
-            className="header__logo-desktop"
-          />
-          <BrandLogo
-            variant="icon"
-            tone="dark"
-            size="sm"
-            className="header__logo-mobile"
+          <img
+            src="/images/brand/logo-terraestilo.png"
+            alt="TerraEstilo"
+            className="brand-logo"
           />
         </a>
 

@@ -52,7 +52,7 @@
   --radius-pill: 999px;
   --container: 1200px;
   --topbar-height: 36px;
-  --header-main-height: 92px;
+  --header-main-height: 96px;
 
   /* TerraEstilo — identidade oficial (referência) */
   --te-green-950: #183126;
@@ -144,188 +144,65 @@
   color: var(--tb-gold-500);
 }
 
-/* ── Brand / Logo ── */
+/* ── Brand / Logo (asset oficial) ── */
 .brand {
   display: flex;
   align-items: center;
-  text-decoration: none;
+  justify-content: flex-start;
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .brand-logo {
-  display: inline-flex;
-  align-items: center;
-}
-
-/* ── Variants ── */
-.brand-logo--horizontal {
-  flex-direction: row;
-  align-items: center;
-  gap: 18px;
-}
-
-.brand-logo--horizontal .brand-logo__copy {
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.brand-logo--stacked {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
-}
-
-.brand-logo--stacked .brand-logo__copy {
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-logo--icon {
-  line-height: 0;
-}
-
-.brand-logo__copy {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Symbol sizes ── */
-.brand-logo__symbol {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.brand-logo--size-sm .brand-logo__symbol {
-  width: 52px;
-  height: 58px;
-}
-
-.brand-logo--size-md .brand-logo__symbol {
-  width: 76px;
-  height: 84px;
-}
-
-.brand-logo--size-lg .brand-logo__symbol {
-  width: 104px;
-  height: 115px;
-}
-
-.brand-logo--size-xl .brand-logo__symbol {
-  width: 132px;
-  height: 146px;
-}
-
-.brand-logo__svg {
-  width: 100%;
-  height: 100%;
   display: block;
-  overflow: visible;
+  height: 76px;
+  width: auto;
+  max-width: 360px;
+  object-fit: contain;
 }
 
-/* ── Wordmark ── */
-.brand-logo__wordmark {
-  display: flex;
-  align-items: baseline;
-  line-height: 0.92;
-  font-family: 'Cormorant Garamond', 'Playfair Display', 'Libre Baskerville', Georgia, serif;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
+.brand-logo--hero {
+  height: clamp(120px, 18vw, 156px);
+  max-width: min(100%, 320px);
 }
 
-.brand-logo--size-sm .brand-logo__wordmark {
-  font-size: 1.35rem;
+.brand-logo--footer {
+  height: 104px;
+  max-width: 280px;
+  margin-bottom: 22px;
 }
 
-.brand-logo--size-md .brand-logo__wordmark {
-  font-size: clamp(1.55rem, 1.7vw, 1.82rem);
-}
+@media (max-width: 1200px) {
+  .brand-logo {
+    height: 64px;
+    max-width: 310px;
+  }
 
-.brand-logo--size-lg .brand-logo__wordmark {
-  font-size: clamp(1.95rem, 2.4vw, 2.35rem);
-}
+  .brand-logo--hero {
+    height: clamp(108px, 16vw, 140px);
+    max-width: min(100%, 290px);
+  }
 
-.brand-logo--size-xl .brand-logo__wordmark {
-  font-size: clamp(2.25rem, 3.2vw, 2.85rem);
-}
-
-.brand-logo__terra {
-  color: var(--te-green-900);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-
-.brand-logo__estilo {
-  color: var(--te-green-900);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-}
-
-.brand-logo--light .brand-logo__estilo {
-  color: var(--te-green-900);
-  opacity: 0.88;
-}
-
-.brand-logo--dark .brand-logo__terra {
-  color: var(--te-cream-100);
-  font-weight: 500;
-}
-
-.brand-logo--dark .brand-logo__estilo {
-  color: var(--te-gold-600);
-  font-weight: 400;
-  opacity: 1;
-}
-
-/* ── Tagline ── */
-.brand-logo__tagline {
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  font-size: 0.5625rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--te-gold-600);
-  white-space: nowrap;
-}
-
-.brand-logo--dark .brand-logo__tagline {
-  color: rgba(199, 161, 90, 0.92);
-}
-
-.brand-logo--stacked.brand-logo--size-xl .brand-logo__tagline {
-  font-size: 0.625rem;
-  letter-spacing: 0.34em;
-}
-
-.brand-logo--horizontal.brand-logo--size-md .brand-logo__tagline {
-  font-size: 0.5rem;
-  letter-spacing: 0.28em;
-  margin-top: 1px;
-}
-
-/* ── Header logo responsive ── */
-.header__logo-mobile {
-  display: none;
-}
-
-.header__logo-desktop {
-  display: inline-flex;
+  .brand-logo--footer {
+    height: 92px;
+    max-width: 250px;
+  }
 }
 
 @media (max-width: 768px) {
-  .header__logo-desktop {
-    display: none;
+  .brand-logo {
+    height: 48px;
+    max-width: 230px;
   }
 
-  .header__logo-mobile {
-    display: inline-flex;
+  .brand-logo--hero {
+    height: 96px;
+    max-width: 220px;
   }
 
-  .brand-logo--horizontal.brand-logo--size-md .brand-logo__tagline {
-    display: none;
+  .brand-logo--footer {
+    height: 80px;
+    max-width: 210px;
   }
 }
 
@@ -435,11 +312,11 @@
 
 .header__main {
   display: grid;
-  grid-template-columns: minmax(280px, auto) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(240px, auto) minmax(0, 1fr) auto;
   align-items: center;
-  gap: 18px 24px;
+  gap: 16px 20px;
   min-height: var(--header-main-height);
-  padding: 10px 0;
+  padding: 12px 0;
 }
 
 .header__logo {
@@ -455,7 +332,7 @@
   align-items: center;
   gap: 12px;
   padding: 11px 18px;
-  max-width: 520px;
+  max-width: 460px;
   width: 100%;
   margin: 0 auto;
   background: rgba(242, 239, 233, 0.07);
@@ -975,15 +852,7 @@
 
 .hero__brand {
   margin-bottom: 28px;
-}
-
-.hero__brand .brand-logo--stacked {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.hero__brand .brand-logo--stacked .brand-logo__copy {
-  align-items: flex-start;
+  line-height: 0;
 }
 
 .hero__label {
@@ -2044,16 +1913,6 @@
   display: grid;
   grid-template-columns: 1.5fr repeat(5, 1fr);
   gap: 28px;
-}
-
-.footer__brand .brand-logo--stacked {
-  align-items: flex-start;
-  text-align: left;
-  margin-bottom: 22px;
-}
-
-.footer__brand .brand-logo--stacked .brand-logo__copy {
-  align-items: flex-start;
 }
 
 .footer__brand p {

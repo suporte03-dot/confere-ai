@@ -1,4 +1,3 @@
-import BrandLogo from './BrandLogo'
 import { heroData } from '../data/mockData'
 import VisualMedia from './VisualMedia'
 
@@ -8,7 +7,11 @@ function Hero() {
       <div className="container hero__grid">
         <div className="hero__content">
           <div className="hero__brand">
-            <BrandLogo variant="stacked" tone="light" showTagline size="xl" />
+            <img
+              src="/images/brand/logo-terraestilo.png"
+              alt="TerraEstilo"
+              className="brand-logo brand-logo--hero"
+            />
           </div>
           <span className="hero__label">{heroData.label}</span>
           <h1 className="hero__title">{heroData.title}</h1>
