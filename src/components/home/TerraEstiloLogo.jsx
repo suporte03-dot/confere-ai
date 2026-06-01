@@ -11,6 +11,8 @@ function TerraEstiloLogo({ variant = 'header', className = '' }) {
         src={BRAND_LOGO_SRC}
         alt="TerraEstilo — Moda que veste origens"
         className="te-logo__img brand-logo"
+        width={610}
+        height={458}
         loading={variant === 'header' ? 'eager' : 'lazy'}
         decoding="async"
       />

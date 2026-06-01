@@ -160,7 +160,7 @@
   max-height: 64px;
   max-width: 100%;
   object-fit: contain;
-  object-position: left center;
+  object-position: center;
 }
 
 .brand-logo--footer {
