@@ -55,16 +55,17 @@
   --header-main-height: 86px;
 
   /* TerraEstilo — identidade oficial (referência) */
-  --te-green-950: #0B2418;
-  --te-green-900: #1A2F23;
-  --te-green-800: #1A2F23;
+  --te-green-950: #183126;
+  --te-green-900: #1F3B2D;
+  --te-green-800: #1F3B2D;
   --te-olive: #6B7A4E;
-  --te-gold-700: #A8864A;
-  --te-gold-600: #C5A059;
-  --te-champagne: #B89D64;
-  --te-cream-50: #F5F2EA;
-  --te-cream-100: #F5F2EA;
-  --te-text: #1A2F23;
+  --te-gold-700: #A8894A;
+  --te-gold-600: #C7A15A;
+  --te-gold-soft: #D8BE84;
+  --te-champagne: #C7A15A;
+  --te-cream-50: #FBF8F2;
+  --te-cream-100: #F6F0E6;
+  --te-text: #1F3B2D;
 
   --transition: 0.25s ease;
 }
@@ -151,62 +152,67 @@
   flex-shrink: 0;
 }
 
-.logo-full {
-  display: flex;
+.brand-logo {
+  display: inline-flex;
   align-items: center;
+}
+
+.brand-logo--full {
   gap: 14px;
 }
 
-.logo-copy {
+.brand-logo__copy {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
-.logo-icon {
-  width: 56px;
-  height: 64px;
+.brand-logo__symbol {
+  width: 52px;
+  height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.logo-icon svg,
-.brand-symbol {
+.brand-logo__svg {
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
 }
 
-.logo-wordmark {
+.brand-logo__wordmark {
   display: flex;
   align-items: baseline;
-  line-height: 1;
-  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  line-height: 0.95;
+  font-family: 'Cormorant Garamond', 'Playfair Display', 'Libre Baskerville', Georgia, serif;
   font-weight: 600;
-  font-size: clamp(1.75rem, 2.2vw, 2.35rem);
-  letter-spacing: 0.005em;
+  font-size: clamp(1.72rem, 2.15vw, 2.08rem);
+  letter-spacing: 0.015em;
   white-space: nowrap;
 }
 
-.logo-terra {
-  color: var(--te-green-800);
+.brand-logo__terra {
+  color: var(--te-green-900);
+  letter-spacing: 0.02em;
 }
 
-.logo-estilo {
+.brand-logo__estilo {
   color: var(--te-gold-600);
+  letter-spacing: 0.01em;
 }
 
-.logo--dark .logo-terra {
+.brand-logo--dark .brand-logo__terra {
   color: var(--te-cream-100);
 }
 
-.logo--dark .logo-estilo {
+.brand-logo--dark .brand-logo__estilo {
   color: var(--te-gold-600);
 }
 
-.logo-tagline {
+.brand-logo__tagline {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 0.5625rem;
   font-weight: 600;
@@ -216,35 +222,35 @@
   white-space: nowrap;
 }
 
-.logo--dark .logo-tagline {
-  color: rgba(197, 160, 89, 0.85);
+.brand-logo--dark .brand-logo__tagline {
+  color: rgba(199, 161, 90, 0.88);
 }
 
-.logo--stacked {
+.brand-logo--stacked {
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.logo--stacked .logo-copy {
+.brand-logo--stacked .brand-logo__copy {
   align-items: center;
 }
 
 @media (max-width: 768px) {
-  .logo-full {
+  .brand-logo--full {
     gap: 10px;
   }
 
-  .logo-icon {
-    width: 44px;
-    height: 50px;
+  .brand-logo__symbol {
+    width: 42px;
+    height: 47px;
   }
 
-  .logo-wordmark {
-    font-size: 1.45rem;
+  .brand-logo__wordmark {
+    font-size: 1.42rem;
   }
 
-  .logo-tagline {
+  .brand-logo__tagline {
     display: none;
   }
 }
@@ -349,8 +355,8 @@
   top: 0;
   z-index: 100;
   background: var(--te-green-900);
-  border-bottom: 1px solid rgba(184, 158, 103, 0.14);
-  box-shadow: 0 8px 24px rgba(27, 48, 34, 0.28);
+  border-bottom: 1px solid rgba(199, 161, 90, 0.16);
+  box-shadow: 0 8px 28px rgba(24, 49, 38, 0.22);
 }
 
 .header__main {
@@ -366,6 +372,7 @@
   flex-shrink: 0;
   align-self: center;
   justify-self: start;
+  line-height: 0;
 }
 
 .header__search {

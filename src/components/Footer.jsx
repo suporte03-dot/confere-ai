@@ -1,4 +1,4 @@
-import Logo from './Logo'
+import BrandLogo from './BrandLogo'
 import { footerLinks, paymentMethods } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 
@@ -14,7 +14,7 @@ function Footer() {
     <footer id="sobre" className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <Logo variant="full" tone="dark" />
+          <BrandLogo variant="full" tone="dark" />
           <p>
             TerraEstilo é moda casual premium com raízes gaúchas — qualidade, conforto
             e estilo para toda a família.
