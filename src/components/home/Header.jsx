@@ -12,7 +12,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
 
   return (
     <header className="site-header">
-      <div className="container header-main">
+      <div className="header-main">
         <button
           type="button"
           className={`site-header__menu ${menuOpen ? 'site-header__menu--open' : ''}`}
@@ -23,8 +23,8 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
           <span /><span /><span />
         </button>
 
-        <div className="logo-area">
-          <div className="logo-shell">
+        <div className="logo-area logo-area--mobile">
+          <div className="logo-shell logo-shell--header">
             <a
               href="#inicio"
               className="site-header__logo header-logo logo-container site-logo"

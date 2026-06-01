@@ -1,5 +1,6 @@
 export const BRAND_LOGO_SRC = '/images/brand/logo-terraestilo-completa.png'
 export const BRAND_LOGO_HEADER_SRC = '/images/brand/logo-terraestilo-header-transparent.png'
+export const BRAND_HERO_BOARD_SRC = '/images/brand/novo.png'
 export const BRAND_LOGO_WIDTH = 610
 export const BRAND_LOGO_HEIGHT = 458
 
@@ -20,13 +21,23 @@ export const mainNavigation = [
   { label: 'Contato', href: '#contato' },
 ]
 
+export const heroBrandPillars = [
+  'Raízes',
+  'Identidade',
+  'Sofisticação',
+  'Sul do Brasil',
+  'Autenticidade',
+]
+
 export const heroContent = {
-  badge: 'Nova coleção TerraEstilo',
+  eyebrow: 'Identidade TerraEstilo',
   title: 'Moda que veste origens',
   subtitle:
     'Peças criadas para traduzir raízes, elegância e autenticidade em cada detalhe.',
   primaryCta: 'Ver coleção',
   secondaryCta: 'Conheça a marca',
+  boardAlt:
+    'TerraEstilo — Moda que veste origens. Monograma TE, folhas, selo Sul do Brasil e pilares Raízes, Identidade, Sofisticação, Sul do Brasil, Autenticidade.',
 }
 
 export const heroVisualCard = {
