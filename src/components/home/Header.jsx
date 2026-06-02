@@ -24,7 +24,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
         </button>
 
         <div className="logo-area">
-          <div className="logo-shell logo-shell--header">
+          <div className="header-logo-card logo-shell logo-shell--header">
             <a
               href="#inicio"
               className="site-header__logo header-logo logo-container site-logo"

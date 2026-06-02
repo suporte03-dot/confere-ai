@@ -17,12 +17,15 @@
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-sans: 'Montserrat', system-ui, sans-serif;
   --topbar-h: 32px;
-  --header-main-h: 132px;
+  --header-main-h: 150px;
   --main-nav-h: 64px;
   --sticky-offset: calc(var(--topbar-h) + var(--header-main-h) + var(--main-nav-h));
-  --logo-shell-w: 240px;
-  --logo-shell-h: 132px;
-  --logo-shell-img-w: 180px;
+  --header-logo-card-w: 320px;
+  --header-logo-card-h: 150px;
+  --header-logo-img-h: 125px;
+  --logo-shell-w: 220px;
+  --logo-shell-h: 115px;
+  --logo-shell-img-w: 175px;
   --logo-shell-hero-w: 300px;
   --logo-shell-hero-h: 160px;
   --logo-shell-hero-img-w: 220px;
@@ -79,29 +82,61 @@
   justify-content: center;
   background: var(--creme);
   border: 1px solid rgba(201, 168, 106, 0.55);
-  border-radius: 3px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  border-radius: 4px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
   position: relative;
   flex-shrink: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .logo-shell::before {
   content: '';
   position: absolute;
-  inset: 8px;
-  border: 1px solid rgba(201, 168, 106, 0.22);
+  inset: 6px;
+  border: 1px solid rgba(201, 168, 106, 0.18);
   pointer-events: none;
 }
 
 .logo-shell--header {
+  width: var(--logo-shell-w);
+  height: var(--logo-shell-h);
+  padding: 10px;
   background: var(--creme);
   border: 1px solid rgba(201, 168, 106, 0.55);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.logo-shell--header::before {
+  inset: 6px;
+  border-color: rgba(201, 168, 106, 0.18);
 }
 
 .logo-shell--header::after {
   display: none;
+}
+
+/* ── Card da logo no header ── */
+.header-logo-card {
+  width: var(--header-logo-card-w);
+  height: var(--header-logo-card-h);
+  padding: 8px 10px;
+  background: var(--creme);
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.header-logo-card::before {
+  inset: 8px;
+  border: 1px solid rgba(201, 168, 106, 0.18);
+  border-radius: 4px;
+}
+
+.header-logo-card .te-logo,
+.header-logo-card .site-header__logo,
+.header-logo-card .header-logo {
+  width: 100%;
+  height: 100%;
 }
 
 .logo-shell .site-header__logo,
@@ -118,9 +153,34 @@
 .logo-shell .te-logo--header .te-logo__img,
 .logo-shell .te-logo--hero .te-logo__img {
   width: var(--logo-shell-img-w);
-  max-width: 82%;
+  max-width: 90%;
   height: auto;
-  max-height: calc(var(--logo-shell-h) - 24px);
+  max-height: calc(var(--logo-shell-h) - 20px);
+  object-fit: contain;
+}
+
+.header-logo-card.logo-shell--header {
+  width: var(--header-logo-card-w);
+  height: var(--header-logo-card-h);
+  padding: 8px 10px;
+  border: 1px solid rgba(201, 168, 106, 0.45);
+  border-radius: 6px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+.header-logo-card.logo-shell--header::before {
+  inset: 8px;
+  border-color: rgba(201, 168, 106, 0.18);
+  border-radius: 4px;
+}
+
+.header-logo-card.logo-shell .te-logo__img,
+.header-logo-card.logo-shell .te-logo--header .te-logo__img,
+.header-logo-card img {
+  width: auto;
+  height: var(--header-logo-img-h);
+  max-width: 92%;
+  max-height: calc(var(--header-logo-card-h) - 16px);
   object-fit: contain;
 }
 
@@ -142,6 +202,7 @@
   justify-content: flex-start;
   overflow: visible;
   grid-column: 1;
+  align-self: center;
 }
 
 .logo-area::after {
@@ -244,13 +305,13 @@
 
 .header-main {
   display: grid;
-  grid-template-columns: 280px 1fr 260px;
+  grid-template-columns: 340px 1fr 260px;
   align-items: center;
   gap: 32px;
   min-height: var(--header-main-h);
   max-width: var(--container, 1200px);
   margin: 0 auto;
-  padding: 18px 48px;
+  padding: 12px 48px;
   overflow: visible;
   background: transparent;
 }
@@ -1152,10 +1213,10 @@
 
 @media (max-width: 960px) {
   :root {
-    --logo-shell-w: 200px;
-    --logo-shell-h: 106px;
-    --logo-shell-img-w: 145px;
-    --header-main-h: 106px;
+    --header-logo-card-w: 280px;
+    --header-logo-card-h: 130px;
+    --header-logo-img-h: 108px;
+    --header-main-h: 130px;
     --logo-footer-max-h: 100px;
   }
 
@@ -1270,9 +1331,9 @@
 
 @media (max-width: 768px) {
   :root {
-    --logo-shell-w: 180px;
-    --logo-shell-h: 100px;
-    --logo-shell-img-w: 135px;
+    --header-logo-card-w: 260px;
+    --header-logo-card-h: 118px;
+    --header-logo-img-h: 98px;
     --header-main-h: auto;
   }
 
@@ -1293,7 +1354,7 @@
     justify-content: center;
   }
 
-  .logo-shell {
+  .header-logo-card {
     margin: 0 auto;
   }
 
