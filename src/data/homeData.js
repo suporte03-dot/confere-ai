@@ -5,9 +5,17 @@ export const BRAND_LOGO_WIDTH = 610
 export const BRAND_LOGO_HEIGHT = 458
 
 export const topBarMessages = [
-  'Frete grátis acima de R$ 499',
-  'Até 12x sem juros',
-  'Moda com identidade do Sul do Brasil',
+  'FRETE GRÁTIS ACIMA DE R$ 499',
+  'ATÉ 12X SEM JUROS',
+  'MODA COM IDENTIDADE DO SUL DO BRASIL',
+]
+
+export const headerBrandPillars = [
+  'Raízes',
+  'Identidade',
+  'Sofisticação',
+  'Sul do Brasil',
+  'Autenticidade',
 ]
 
 export const mainNavigation = [
