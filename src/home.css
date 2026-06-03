@@ -21,7 +21,7 @@
   --header-main-h: 420px;
   --main-nav-h: 86px;
   --sticky-offset: calc(var(--topbar-h) + var(--header-main-h) + var(--main-nav-h));
-  --header-brand-w: minmax(640px, 58%);
+  --header-brand-w: minmax(380px, 520px);
   --header-logo-mark-h: 200px;
   --header-monogram-size: clamp(100px, 9vw, 150px);
   --font-brand-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
@@ -75,15 +75,17 @@
 /* ── Header — área de marca integrada (sem card bege) ── */
 .terra-brand-header,
 .header-brand {
-  display: grid;
-  grid-template-columns: 90px auto minmax(280px, 1fr);
+  display: flex;
   align-items: center;
-  gap: 28px 40px;
+  justify-content: center;
   grid-column: 1;
   align-self: stretch;
   position: relative;
   min-height: 0;
-  padding: 0 40px 0 0;
+  min-width: 0;
+  width: 100%;
+  padding: 0 24px;
+  overflow: visible;
 }
 
 .header-brand::after {
@@ -173,7 +175,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 0;
+  width: max-content;
+  max-width: 100%;
+  min-width: min-content;
+  margin: 0 auto;
+  overflow: visible;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -194,8 +200,13 @@
   flex-direction: column;
   align-items: center;
   gap: 0;
+  width: max-content;
+  max-width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
   background: transparent;
   text-align: center;
+  overflow: visible;
 }
 
 .brand-symbol-wrap,
@@ -276,13 +287,17 @@
 .brand-slogan,
 .header-brand__tagline {
   margin: 18px 0 0;
+  padding: 0 4px;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.62em;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
   color: var(--ouro-champagne);
   line-height: 1.35;
+  white-space: nowrap;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .brand-ornament,
@@ -450,7 +465,7 @@
   background: transparent;
   border-bottom: none;
   color: var(--creme);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .brand-header::before,
@@ -476,7 +491,7 @@
   max-width: none;
   width: 100%;
   margin: 0;
-  padding: 40px 80px;
+  padding: 40px clamp(28px, 4vw, 80px);
   overflow: visible;
   background:
     radial-gradient(circle at 25% 40%, rgba(42, 92, 68, 0.65), transparent 38%),
@@ -1383,14 +1398,17 @@
 
   .terra-brand-header,
   .header-brand {
-    grid-template-columns: 72px auto minmax(220px, 1fr);
-    gap: 22px 28px;
-    padding-right: 24px;
+    padding: 0 16px;
   }
 
   .brand-name,
   .header-brand__wordmark {
     font-size: clamp(2.25rem, 4.5vw, 3.5rem);
+  }
+
+  .brand-slogan,
+  .header-brand__tagline {
+    letter-spacing: 0.34em;
   }
 
   .header-brand__rs-outline {
@@ -1399,6 +1417,38 @@
 }
 
 @media (max-width: 1100px) {
+  :root {
+    --header-brand-w: minmax(300px, 100%);
+  }
+
+  .brand-main,
+  .header-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 24px;
+    padding: 28px 24px;
+  }
+
+  .terra-brand-header,
+  .header-brand {
+    grid-column: 1;
+    justify-self: center;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 12px;
+  }
+
+  .search-area {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .header-actions {
+    grid-column: 1;
+    grid-row: 3;
+    justify-content: center;
+  }
+
   .category-showcase__grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1440,8 +1490,6 @@
   .header-brand {
     grid-column: 1;
     order: 1;
-    grid-template-columns: 24px auto 1fr;
-    gap: 10px 14px;
     min-height: auto;
     padding: 8px 0;
     justify-self: center;
@@ -1452,10 +1500,6 @@
     display: none;
   }
 
-  .header-brand__leaves svg {
-    max-height: 64px;
-  }
-
   .header-brand__rs-map {
     width: 132%;
     height: 132%;
@@ -1464,11 +1508,6 @@
   .header-brand__rs-outline {
     stroke-width: 1;
     opacity: 0.88;
-  }
-
-  .header-brand__pillars li {
-    font-size: 0.5rem;
-    padding: 5px 0;
   }
 
   .header-brand__wordmark {
@@ -1592,37 +1631,6 @@
     --header-logo-mark-h: 76px;
     --header-monogram-size: 84px;
     --header-main-h: auto;
-  }
-
-  .header-brand {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 12px;
-  }
-
-  .header-brand__leaves {
-    display: none;
-  }
-
-  .header-brand__pillars {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px 16px;
-  }
-
-  .header-brand__pillars li span::after {
-    display: none;
-  }
-
-  .header-brand__pillars li + li {
-    padding-left: 16px;
-    border-left: 1px solid rgba(201, 168, 106, 0.22);
-  }
-
-  .header-brand__pillars li:first-child {
-    border-left: none;
-    padding-left: 0;
   }
 
   .header-brand__mark {
