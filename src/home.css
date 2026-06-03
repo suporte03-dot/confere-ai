@@ -284,6 +284,15 @@
   text-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
 }
 
+.header-brand__wordmark-terra {
+  color: var(--ouro-champagne);
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+
+.header-brand__wordmark-estilo {
+  color: var(--creme);
+}
+
 .brand-slogan,
 .header-brand__tagline {
   margin: 18px 0 0;

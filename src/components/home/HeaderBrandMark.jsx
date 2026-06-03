@@ -18,7 +18,10 @@ function HeaderBrandMark({ className = '' }) {
             <span className="brand-symbol__e header-brand__letter--e">E</span>
           </div>
         </div>
-        <span className="brand-name header-brand__wordmark">TerraEstilo</span>
+        <span className="brand-name header-brand__wordmark">
+          <span className="header-brand__wordmark-terra">Terra</span>
+          <span className="header-brand__wordmark-estilo">Estilo</span>
+        </span>
         <span className="brand-slogan header-brand__tagline">Moda que veste origens</span>
         <span className="brand-ornament header-brand__rule" aria-hidden="true" />
       </div>
