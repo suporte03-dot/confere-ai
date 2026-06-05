@@ -5,10 +5,30 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
   const {
     searchQuery,
     setSearchQuery,
+    performSearch,
     cartCount,
     favoritesCount,
     setCartOpen,
   } = useShop()
+
+  const submitSearch = (event) => {
+    event?.preventDefault()
+    const submitted = performSearch()
+    if (submitted && searchOpen) {
+      onSearchToggle()
+    }
+  }
+
+  const handleSearchIconClick = () => {
+    if (searchOpen) {
+      submitSearch()
+      return
+    }
+    const submitted = performSearch()
+    if (!submitted) {
+      onSearchToggle()
+    }
+  }
 
   return (
     <header className="site-header brand-header">
@@ -26,19 +46,30 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
         <TerraEstiloBrandHeader />
 
         <div className="search-area">
-          <div className={`site-header__search brand-search ${searchOpen ? 'site-header__search--open' : ''}`}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-              <path d="M20 20l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+          <form
+            className={`site-header__search brand-search ${searchOpen ? 'site-header__search--open' : ''}`}
+            role="search"
+            onSubmit={submitSearch}
+          >
+            <button type="submit" className="site-header__search-submit" aria-label="Buscar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+                <path d="M20 20l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
             <input
               type="search"
               placeholder="Buscar roupas, calçados e acessórios..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  submitSearch(e)
+                }
+              }}
               aria-label="Buscar produtos"
             />
-          </div>
+          </form>
         </div>
 
         <div className="site-header__actions header-actions">
@@ -46,7 +77,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
             type="button"
             className="site-header__action site-header__action--search"
             aria-label="Buscar"
-            onClick={onSearchToggle}
+            onClick={handleSearchIconClick}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.8" />

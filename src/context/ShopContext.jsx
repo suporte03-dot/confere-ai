@@ -1,5 +1,13 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
-import { products, matchesFilter, scrollToProducts, getFilterLabel } from '../data/mockData'
+import {
+  products,
+  matchesFilter,
+  scrollToProducts,
+  scrollToSection,
+  getFilterLabel,
+  resolveSearchCategory,
+  searchProducts,
+} from '../data/mockData'
 
 const FAVORITES_KEY = 'terraestilo-favorites'
 
@@ -32,8 +40,37 @@ export function ShopProvider({ children }) {
   }, [])
 
   const navigateToCollection = useCallback((filterId) => {
+    setSearchQuery('')
     setCategoryFilter(filterId)
     window.setTimeout(scrollToProducts, 50)
+  }, [])
+
+  const performSearch = useCallback((termOverride) => {
+    const term = (termOverride ?? searchQuery).trim()
+    if (!term) return false
+
+    setSearchQuery(term)
+
+    const categoryTarget = resolveSearchCategory(term)
+    if (categoryTarget === '__colecoes__') {
+      setCategoryFilter('Todos')
+      window.setTimeout(() => scrollToSection('colecoes'), 50)
+      return true
+    }
+
+    if (categoryTarget) {
+      setCategoryFilter(categoryTarget)
+    } else {
+      setCategoryFilter('Todos')
+    }
+
+    window.setTimeout(scrollToProducts, 50)
+    return true
+  }, [searchQuery])
+
+  const clearSearch = useCallback(() => {
+    setSearchQuery('')
+    setCategoryFilter('Todos')
   }, [])
 
   const addToCart = useCallback((product) => {
@@ -81,29 +118,22 @@ export function ShopProvider({ children }) {
     [cart],
   )
 
-  const filteredProducts = useMemo(() => {
-    let list = products.filter((p) => matchesFilter(p, categoryFilter))
+  const isSearchActive = Boolean(searchQuery.trim())
 
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase()
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.department.toLowerCase().includes(q) ||
-          p.subcategory.toLowerCase().includes(q) ||
-          p.collectionId.toLowerCase().includes(q) ||
-          (p.badge && p.badge.toLowerCase().includes(q)) ||
-          (p.colors && p.colors.some((color) => color.toLowerCase().includes(q))),
-      )
+  const filteredProducts = useMemo(() => {
+    if (isSearchActive) {
+      return searchProducts(searchQuery, products)
     }
 
-    return list
-  }, [categoryFilter, searchQuery])
+    return products.filter((product) => matchesFilter(product, categoryFilter))
+  }, [categoryFilter, isSearchActive, searchQuery])
 
-  const activeFilterLabel = useMemo(
-    () => getFilterLabel(categoryFilter),
-    [categoryFilter],
-  )
+  const activeFilterLabel = useMemo(() => {
+    if (isSearchActive) {
+      return `Busca: “${searchQuery.trim()}”`
+    }
+    return getFilterLabel(categoryFilter)
+  }, [categoryFilter, isSearchActive, searchQuery])
 
   const value = {
     cart,
@@ -115,6 +145,9 @@ export function ShopProvider({ children }) {
     favoritesCount: favorites.length,
     searchQuery,
     setSearchQuery,
+    performSearch,
+    clearSearch,
+    isSearchActive,
     categoryFilter,
     setCategoryFilter,
     navigateToCollection,

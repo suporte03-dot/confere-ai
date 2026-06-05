@@ -37,7 +37,12 @@ function BrandMark({
       <MonogramIcon className="brand-mark__icon" />
       {(showWordmark || showTagline) && (
         <span className="brand-mark__text">
-          {showWordmark && <span className="brand-mark__wordmark">TerraEstilo</span>}
+          {showWordmark && (
+            <span className="brand-mark__wordmark">
+              <span className="brand-mark__wordmark-terra">Terra</span>
+              <span className="brand-mark__wordmark-estilo">Estilo</span>
+            </span>
+          )}
           {showTagline && (
             <span className="brand-mark__tagline">Moda que veste origens</span>
           )}

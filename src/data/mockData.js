@@ -1096,6 +1096,74 @@ export function getProductImage(product) {
   return product.image || imageMap.produtos[product.imageKey] || imageMap.fallback
 }
 
+const SEARCH_CATEGORY_TERMS = {
+  feminino: 'Feminino',
+  masculino: 'Masculino',
+  calcados: 'Calçados',
+  calçados: 'Calçados',
+  acessorios: 'Acessórios',
+  acessórios: 'Acessórios',
+  infantil: 'Infantil',
+  colecoes: '__colecoes__',
+  coleções: '__colecoes__',
+  colecao: '__colecoes__',
+  coleção: '__colecoes__',
+}
+
+export function normalizeSearchTerm(value = '') {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+}
+
+export function resolveSearchCategory(rawTerm) {
+  const normalized = normalizeSearchTerm(rawTerm)
+  return SEARCH_CATEGORY_TERMS[normalized] ?? null
+}
+
+export function productMatchesSearch(product, rawTerm) {
+  const term = normalizeSearchTerm(rawTerm)
+  if (!term) return true
+
+  const tokens = term.split(/\s+/).filter(Boolean)
+  const searchableText = [
+    product.name,
+    product.department,
+    product.subcategory,
+    product.collectionId,
+    product.description,
+    product.badge,
+    ...(product.colors ?? []),
+    ...(product.tags ?? []),
+  ]
+    .filter(Boolean)
+    .map(normalizeSearchTerm)
+    .join(' ')
+
+  return tokens.every((token) => searchableText.includes(token))
+}
+
+export function searchProducts(rawTerm, catalog = products) {
+  const term = rawTerm.trim()
+  if (!term) return catalog
+
+  const categoryTarget = resolveSearchCategory(term)
+  if (categoryTarget === '__colecoes__') {
+    return catalog
+  }
+  if (categoryTarget) {
+    return catalog.filter((product) => matchesFilter(product, categoryTarget))
+  }
+
+  return catalog.filter((product) => productMatchesSearch(product, term))
+}
+
+export function scrollToSection(sectionId) {
+  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 export function scrollToProducts() {
-  document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  scrollToSection('produtos')
 }
