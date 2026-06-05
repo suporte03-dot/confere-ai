@@ -1,5 +1,5 @@
-import { BRAND_HERO_BOARD_SRC, heroContent } from '../../data/homeData'
-import TerraEstiloWordmark from './TerraEstiloWordmark'
+import { heroContent } from '../../data/homeData'
+import HeroBrandBoard from './HeroBrandBoard'
 
 function HeroSection() {
   return (
@@ -21,20 +21,7 @@ function HeroSection() {
           </div>
         </div>
 
-        <figure className="hero-brand-board">
-          <div className="hero-brand-board__frame">
-            <img
-              src={BRAND_HERO_BOARD_SRC}
-              alt={heroContent.boardAlt}
-              className="hero-brand-board__img"
-              loading="eager"
-              decoding="async"
-            />
-            <div className="hero-brand-board__name" aria-hidden="true">
-              <TerraEstiloWordmark variant="on-cream" className="hero-brand-board__wordmark" />
-            </div>
-          </div>
-        </figure>
+        <HeroBrandBoard />
       </div>
     </section>
   )
