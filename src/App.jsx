@@ -13,7 +13,6 @@ import Newsletter from './components/home/Newsletter'
 import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
-import PreviewControls from './components/PreviewControls'
 import './App.css'
 import './home.css'
 import './preview.css'
@@ -30,20 +29,23 @@ function SiteContent({
   return (
     <div className="app">
       <div className="site-chrome">
-        {showPreviewControls && (
-          <PreviewControls previewMode={previewMode} setPreviewMode={setPreviewMode} />
-        )}
-        <TopBar />
-        <Header
-          menuOpen={menuOpen}
-          onMenuToggle={() => setMenuOpen((v) => !v)}
-          searchOpen={searchOpen}
-          onSearchToggle={() => setSearchOpen((v) => !v)}
-        />
-        <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
+        <header className="brand-header">
+          <TopBar
+            previewMode={previewMode}
+            setPreviewMode={setPreviewMode}
+            showPreviewControls={showPreviewControls}
+          />
+          <Header
+            menuOpen={menuOpen}
+            onMenuToggle={() => setMenuOpen((v) => !v)}
+            searchOpen={searchOpen}
+            onSearchToggle={() => setSearchOpen((v) => !v)}
+          />
+          <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
+        </header>
       </div>
+      <HeroSection />
       <main>
-        <HeroSection />
         <CollectionVitrine />
         <ProductGrid />
         <AboutBrand />
@@ -69,20 +71,16 @@ function App() {
     <div className={previewClass}>
       <ShopProvider>
         {previewMode === 'mobile' ? (
-          <>
-            <PreviewControls previewMode={previewMode} setPreviewMode={setPreviewMode} />
-            <div className="preview-shell">
-              <SiteContent
-                menuOpen={menuOpen}
-                setMenuOpen={setMenuOpen}
-                searchOpen={searchOpen}
-                setSearchOpen={setSearchOpen}
-                previewMode={previewMode}
-                setPreviewMode={setPreviewMode}
-                showPreviewControls={false}
-              />
-            </div>
-          </>
+          <div className="preview-shell">
+            <SiteContent
+              menuOpen={menuOpen}
+              setMenuOpen={setMenuOpen}
+              searchOpen={searchOpen}
+              setSearchOpen={setSearchOpen}
+              previewMode={previewMode}
+              setPreviewMode={setPreviewMode}
+            />
+          </div>
         ) : (
           <SiteContent
             menuOpen={menuOpen}

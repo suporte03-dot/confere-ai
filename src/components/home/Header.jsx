@@ -1,7 +1,12 @@
 import { useShop } from '../../context/ShopContext'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 
-function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
+function Header({
+  onMenuToggle,
+  menuOpen,
+  searchOpen,
+  onSearchToggle,
+}) {
   const {
     searchQuery,
     setSearchQuery,
@@ -31,8 +36,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
   }
 
   return (
-    <header className="site-header brand-header">
-      <div className="brand-main header-main">
+    <div className="brand-main header-main site-header">
         <button
           type="button"
           className={`site-header__menu ${menuOpen ? 'site-header__menu--open' : ''}`}
@@ -109,8 +113,7 @@ function Header({ onMenuToggle, menuOpen, searchOpen, onSearchToggle }) {
             {cartCount > 0 && <em className="site-header__badge">{cartCount}</em>}
           </button>
         </div>
-      </div>
-    </header>
+    </div>
   )
 }
 

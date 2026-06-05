@@ -65,6 +65,7 @@
   --header-wordmark-size: clamp(1.75rem, 8vw, 2.25rem);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
+  position: relative;
   min-height: 100vh;
   padding: 48px 16px 32px;
   background: linear-gradient(180deg, #e8e2d8 0%, #ddd4c8 100%);
@@ -124,35 +125,28 @@
   display: none;
 }
 
-/* Seletor fora do mockup — sempre clicável para voltar ao desktop */
-.mobile-preview > .header-preview-panel {
-  position: fixed;
-  top: 12px;
-  right: 20px;
-  z-index: 300;
-  align-items: flex-end;
-  width: auto;
-  pointer-events: auto;
+/* Visualização — compacta na topbar do mockup */
+.mobile-preview .preview-menu {
+  right: 10px;
 }
 
-.mobile-preview .header-preview-panel__label {
-  font-size: 0.4375rem;
-  letter-spacing: 0.14em;
-}
-
-.mobile-preview .header-preview-switch {
-  max-width: 176px;
-  height: 28px;
-  padding: 2px;
-}
-
-.mobile-preview .header-preview-switch__option {
+.mobile-preview .preview-menu-button {
+  height: 26px;
+  padding: 0 10px;
   font-size: 9px;
-  padding: 0 6px;
-  gap: 3px;
+  letter-spacing: 0.08em;
 }
 
-.mobile-preview .header-preview-switch__icon {
+.mobile-preview .preview-dropdown {
+  min-width: 120px;
+}
+
+.mobile-preview .preview-dropdown__option {
+  font-size: 9px;
+  padding: 6px 8px;
+}
+
+.mobile-preview .preview-dropdown__icon {
   width: 10px;
   height: 10px;
 }
@@ -618,20 +612,12 @@
     justify-content: center;
   }
 
-  .site-chrome .header-preview-panel {
-    top: 8px;
-    right: 12px;
-    align-items: flex-end;
-    width: auto;
+  .preview-dropdown {
+    min-width: 124px;
   }
 
-  .header-preview-switch {
-    max-width: 184px;
-    height: 30px;
-  }
-
-  .header-preview-switch__option {
+  .preview-dropdown__option {
     font-size: 9px;
-    padding: 0 7px;
+    padding: 6px 9px;
   }
 }
