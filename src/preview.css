@@ -2,13 +2,33 @@
 
 .desktop-preview {
   width: 100%;
+  --header-wordmark-size: clamp(72px, 6vw, 110px);
+}
+
+.desktop-preview .brand-name,
+.desktop-preview .header-brand__wordmark {
+  font-size: clamp(72px, 6vw, 110px);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -1px;
+  margin-top: 18px;
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.desktop-preview .hero-brand-board__wordmark.te-wordmark {
+  font-size: clamp(72px, 6vw, 110px);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -1px;
+  margin-top: 18px;
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
 }
 
 .mobile-preview {
   --header-main-h: auto;
   --header-brand-w: 100%;
   --header-monogram-size: 58px;
-  --header-wordmark-size: 2.25rem;
+  --header-wordmark-size: clamp(1.75rem, 8vw, 2.25rem);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
   min-height: 100vh;
@@ -185,11 +205,14 @@
 
 .mobile-preview .brand-name,
 .mobile-preview .header-brand__wordmark {
-  font-size: 2.25rem;
-  line-height: 1;
+  font-size: clamp(1.75rem, 8vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
   white-space: nowrap;
-  margin-top: 10px;
+  margin-top: 14px;
   max-width: 100%;
+  text-align: center;
 }
 
 .mobile-preview .brand-slogan,
@@ -314,7 +337,10 @@
 }
 
 .mobile-preview .hero-brand-board__wordmark.te-wordmark {
-  font-size: 1.85rem;
+  font-size: clamp(1.75rem, 8vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-top: 14px;
 }
 
 .mobile-preview .section {

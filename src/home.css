@@ -26,7 +26,7 @@
   --header-brand-w: minmax(540px, 760px);
   --header-logo-mark-h: 200px;
   --header-monogram-size: clamp(100px, 9vw, 150px);
-  --header-wordmark-size: clamp(5.25rem, 11.5vw, 10.5rem);
+  --header-wordmark-size: clamp(2.75rem, 4vw, 3.5rem);
   --font-brand-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --logo-shell-hero-w: 300px;
   --logo-shell-hero-h: 160px;
@@ -278,13 +278,14 @@
 .brand-name,
 .header-brand__wordmark {
   display: inline-block;
-  margin: 16px 0 0;
+  margin: 18px 0 0;
   font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   font-size: var(--header-wordmark-size);
-  font-weight: 700;
+  font-weight: 600;
   font-style: normal;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  text-align: center;
   font-feature-settings: 'liga' 1, 'kern' 1;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
@@ -1056,12 +1057,13 @@
 }
 
 .hero-brand-board__wordmark.te-wordmark {
-  margin-top: 10px;
+  margin-top: 16px;
   font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: clamp(2.75rem, 5vw, 4.25rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.015em;
+  font-size: clamp(2.75rem, 4.5vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  text-align: center;
   font-feature-settings: 'liga' 1, 'kern' 1;
   white-space: nowrap;
 }
@@ -1739,7 +1741,7 @@
   :root {
     --header-main-h: 360px;
     --header-monogram-size: clamp(88px, 8vw, 128px);
-    --header-wordmark-size: clamp(4.5rem, 9.5vw, 8rem);
+    --header-wordmark-size: clamp(2.625rem, 3.8vw, 3.5rem);
   }
 
   .brand-main,
@@ -1858,7 +1860,9 @@
   }
 
   .header-brand__wordmark {
-    font-size: clamp(3rem, 11vw, 4.25rem);
+    font-size: clamp(2.25rem, 7vw, 3.5rem);
+    margin-top: 16px;
+    line-height: 1.1;
   }
 
   .header-brand__tagline {
@@ -2004,7 +2008,9 @@
   }
 
   .header-brand__wordmark {
-    font-size: clamp(2.65rem, 10vw, 3.35rem);
+    font-size: clamp(1.75rem, 7.5vw, 2.25rem);
+    margin-top: 14px;
+    line-height: 1.1;
   }
 
   .header-brand__rule {
