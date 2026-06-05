@@ -828,37 +828,7 @@
   overflow: hidden;
   background:
     radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255, 255, 255, 0.42), transparent 72%),
-    radial-gradient(ellipse 40% 30% at 12% 18%, rgba(107, 122, 78, 0.08), transparent 70%),
-    radial-gradient(ellipse 34% 28% at 88% 14%, rgba(30, 75, 58, 0.1), transparent 72%),
     linear-gradient(180deg, #f7f2ea 0%, var(--creme) 48%, #ebe3d6 100%);
-}
-
-.hero-brand-board__leaves {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  width: 42px;
-  z-index: 1;
-  opacity: 0.92;
-}
-
-.hero-brand-board__leaves svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.hero-brand-board__fabric {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 38%;
-  height: 34%;
-  background:
-    linear-gradient(135deg, rgba(30, 75, 58, 0.92) 0%, rgba(21, 61, 47, 0.96) 100%);
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
-  opacity: 0.88;
-  z-index: 1;
 }
 
 .hero-brand-board__pillars {
