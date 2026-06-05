@@ -6,7 +6,9 @@
   --verde-profundo: #103126;
   --verde-oliva: #6B7A4E;
   --ouro-champagne: #c9a064;
+  --ouro-tan: #c2a578;
   --creme: #f3ede3;
+  --branco-puro: #ffffff;
   --texto-escuro: #1D2A22;
   --te-forest: var(--verde-floresta);
   --te-olive: var(--verde-oliva);
@@ -21,10 +23,10 @@
   --header-main-h: 420px;
   --main-nav-h: 86px;
   --sticky-offset: calc(var(--topbar-h) + var(--header-main-h) + var(--main-nav-h));
-  --header-brand-w: minmax(460px, 620px);
+  --header-brand-w: minmax(540px, 760px);
   --header-logo-mark-h: 200px;
   --header-monogram-size: clamp(100px, 9vw, 150px);
-  --header-wordmark-size: clamp(4rem, 8.8vw, 7.75rem);
+  --header-wordmark-size: clamp(5.25rem, 11.5vw, 10.5rem);
   --font-brand-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --logo-shell-hero-w: 300px;
   --logo-shell-hero-h: 160px;
@@ -262,61 +264,71 @@
 
 .brand-symbol__t,
 .header-brand__letter--t {
-  color: var(--ouro-champagne);
+  color: var(--ouro-tan);
   margin-right: -0.12em;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+  text-shadow: none;
 }
 
 .brand-symbol__e,
 .header-brand__letter--e {
-  color: var(--creme);
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+  color: var(--branco-puro);
+  text-shadow: none;
 }
 
 .brand-name,
 .header-brand__wordmark {
-  margin: 12px 0 0;
-  font-family: var(--font-brand-serif);
+  display: inline-block;
+  margin: 16px 0 0;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   font-size: var(--header-wordmark-size);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  color: var(--creme);
-  text-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'liga' 1, 'kern' 1;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: var(--branco-puro);
+  text-shadow: none;
+  white-space: nowrap;
 }
 
-/* Wordmark — Terra dourado (cor do T), Estilo conforme fundo */
+/* Wordmark — Terra ouro-tan, Estilo branco (referência da marca) */
 .te-wordmark {
-  display: inline;
-  font: inherit;
+  display: inline-block;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
   letter-spacing: inherit;
   line-height: inherit;
 }
 
 .te-wordmark__terra {
-  color: var(--ouro-champagne);
+  color: var(--ouro-tan);
 }
 
-.te-wordmark--on-dark .te-wordmark__terra {
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+.te-wordmark--on-dark .te-wordmark__terra,
+.te-wordmark--on-cream .te-wordmark__terra {
+  color: var(--ouro-tan);
+  text-shadow: none;
 }
 
-.te-wordmark--on-dark .te-wordmark__estilo {
-  color: var(--creme);
-}
-
+.te-wordmark--on-dark .te-wordmark__estilo,
 .te-wordmark--on-cream .te-wordmark__estilo {
-  color: var(--verde-profundo);
+  color: var(--branco-puro);
+  text-shadow: none;
 }
 
 .brand-slogan,
 .header-brand__tagline {
-  margin: 18px 0 0;
+  margin: 22px 0 0;
   padding: 0 4px;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.42em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--ouro-champagne);
   line-height: 1.35;
@@ -962,21 +974,23 @@
 }
 
 .hero-brand-board__letter-t {
-  color: var(--ouro-champagne);
+  color: var(--ouro-tan);
   margin-right: -0.12em;
 }
 
 .hero-brand-board__letter-e {
-  color: var(--verde-profundo);
+  color: var(--branco-puro);
+  text-shadow: none;
 }
 
 .hero-brand-board__wordmark.te-wordmark {
   margin-top: 10px;
-  font-family: var(--font-brand-serif);
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
   font-size: clamp(2.75rem, 5vw, 4.25rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.015em;
+  font-feature-settings: 'liga' 1, 'kern' 1;
   white-space: nowrap;
 }
 
@@ -1653,7 +1667,7 @@
   :root {
     --header-main-h: 360px;
     --header-monogram-size: clamp(88px, 8vw, 128px);
-    --header-wordmark-size: clamp(3.5rem, 7.5vw, 6.5rem);
+    --header-wordmark-size: clamp(4.5rem, 9.5vw, 8rem);
   }
 
   .brand-main,
@@ -1772,7 +1786,12 @@
   }
 
   .header-brand__wordmark {
-    font-size: clamp(2.35rem, 9vw, 3.25rem);
+    font-size: clamp(3rem, 11vw, 4.25rem);
+  }
+
+  .header-brand__tagline {
+    font-size: 10px;
+    letter-spacing: 0.28em;
   }
 
   .header-brand__rule {
@@ -1913,7 +1932,7 @@
   }
 
   .header-brand__wordmark {
-    font-size: clamp(2rem, 8vw, 2.65rem);
+    font-size: clamp(2.65rem, 10vw, 3.35rem);
   }
 
   .header-brand__rule {
