@@ -124,33 +124,37 @@
   display: none;
 }
 
-.mobile-preview .header-preview-panel {
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  flex-shrink: 0;
+/* Seletor fora do mockup — sempre clicável para voltar ao desktop */
+.mobile-preview > .header-preview-panel {
+  position: fixed;
+  top: 12px;
+  right: 20px;
+  z-index: 300;
+  align-items: flex-end;
+  width: auto;
+  pointer-events: auto;
 }
 
 .mobile-preview .header-preview-panel__label {
-  font-size: 0.5rem;
-  letter-spacing: 0.16em;
+  font-size: 0.4375rem;
+  letter-spacing: 0.14em;
 }
 
 .mobile-preview .header-preview-switch {
-  width: min(100%, 248px);
-  height: 40px;
-  padding: 3px;
+  max-width: 176px;
+  height: 28px;
+  padding: 2px;
 }
 
 .mobile-preview .header-preview-switch__option {
-  font-size: 11px;
-  padding: 0 8px;
-  gap: 4px;
+  font-size: 9px;
+  padding: 0 6px;
+  gap: 3px;
 }
 
 .mobile-preview .header-preview-switch__icon {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
 }
 
 /* ── Header em coluna ── */
@@ -614,18 +618,20 @@
     justify-content: center;
   }
 
-  .header-preview-panel {
-    align-items: center;
-    width: 100%;
+  .site-chrome .header-preview-panel {
+    top: 8px;
+    right: 12px;
+    align-items: flex-end;
+    width: auto;
   }
 
   .header-preview-switch {
-    width: min(100%, 256px);
-    height: 42px;
+    max-width: 184px;
+    height: 30px;
   }
 
   .header-preview-switch__option {
-    font-size: 11px;
-    padding: 0 8px;
+    font-size: 9px;
+    padding: 0 7px;
   }
 }

@@ -1,7 +1,6 @@
 import { topBarMessages } from '../../data/homeData'
-import PreviewControls from '../PreviewControls'
 
-function TopBar({ previewMode, setPreviewMode }) {
+function TopBar() {
   return (
     <div className="top-bar">
       <div className="container top-bar__inner">
@@ -12,7 +11,6 @@ function TopBar({ previewMode, setPreviewMode }) {
             </span>
           ))}
         </div>
-        <PreviewControls previewMode={previewMode} setPreviewMode={setPreviewMode} />
       </div>
     </div>
   )

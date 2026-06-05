@@ -1,6 +1,6 @@
 function DesktopIcon() {
   return (
-    <svg className="header-preview-switch__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg className="header-preview-switch__icon" width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.6" />
       <path d="M9 20h6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
@@ -9,7 +9,7 @@ function DesktopIcon() {
 
 function MobileIcon() {
   return (
-    <svg className="header-preview-switch__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg className="header-preview-switch__icon" width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <rect x="7" y="3" width="10" height="18" rx="2" stroke="currentColor" strokeWidth="1.6" />
       <circle cx="12" cy="18" r="0.8" fill="currentColor" />
     </svg>
