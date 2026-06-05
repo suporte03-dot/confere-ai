@@ -4,8 +4,7 @@ import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import MainNavigation from './components/home/MainNavigation'
 import HeroSection from './components/home/HeroSection'
-import CategoryShowcase from './components/home/CategoryShowcase'
-import FeaturedCollection from './components/home/FeaturedCollection'
+import CollectionVitrine from './components/home/CollectionVitrine'
 import ProductGrid from './components/home/ProductGrid'
 import BrandValues from './components/home/BrandValues'
 import AboutBrand from './components/home/AboutBrand'
@@ -33,8 +32,7 @@ function SiteContent({ menuOpen, setMenuOpen, searchOpen, setSearchOpen, preview
       </div>
       <main>
         <HeroSection />
-        <CategoryShowcase />
-        <FeaturedCollection />
+        <CollectionVitrine />
         <ProductGrid />
         <AboutBrand />
         <BrandValues />
