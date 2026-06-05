@@ -2,26 +2,60 @@
 
 .desktop-preview {
   width: 100%;
-  --header-wordmark-size: clamp(72px, 6vw, 110px);
+  --header-wordmark-size: clamp(82px, 6vw, 118px);
 }
 
 .desktop-preview .brand-name,
 .desktop-preview .header-brand__wordmark {
-  font-size: clamp(72px, 6vw, 110px);
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: clamp(82px, 6vw, 118px);
+  font-weight: 700;
   line-height: 0.95;
-  font-weight: 500;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   margin-top: 18px;
-  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  text-shadow: none;
+}
+
+.desktop-preview .brand-name .te-wordmark__terra,
+.desktop-preview .header-brand__wordmark .te-wordmark__terra {
+  color: #cda86a;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.desktop-preview .brand-name .te-wordmark__estilo,
+.desktop-preview .header-brand__wordmark .te-wordmark__estilo {
+  color: #f3ede3;
+  font-weight: 700;
+  opacity: 1;
+  -webkit-text-fill-color: #f3ede3;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
 }
 
 .desktop-preview .hero-brand-board__wordmark.te-wordmark {
-  font-size: clamp(72px, 6vw, 110px);
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: clamp(82px, 6vw, 118px);
+  font-weight: 700;
   line-height: 0.95;
-  font-weight: 500;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   margin-top: 18px;
-  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  text-shadow: none;
+}
+
+.desktop-preview .hero-brand-board__wordmark .te-wordmark__terra {
+  color: #cda86a;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: 0 3px 12px rgba(31, 61, 46, 0.12);
+}
+
+.desktop-preview .hero-brand-board__wordmark .te-wordmark__estilo {
+  color: #ffffff;
+  font-weight: 700;
+  opacity: 1;
+  -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 2px 12px rgba(31, 61, 46, 0.16);
 }
 
 .mobile-preview {
@@ -213,6 +247,7 @@
   margin-top: 14px;
   max-width: 100%;
   text-align: center;
+  text-shadow: none;
 }
 
 .mobile-preview .brand-slogan,
@@ -341,6 +376,7 @@
   font-weight: 600;
   line-height: 1.1;
   margin-top: 14px;
+  text-shadow: none;
 }
 
 .mobile-preview .section {

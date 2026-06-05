@@ -279,19 +279,18 @@
 .header-brand__wordmark {
   display: inline-block;
   margin: 18px 0 0;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: var(--header-wordmark-size);
-  font-weight: 600;
+  font-weight: 700;
   font-style: normal;
-  line-height: 1.1;
-  letter-spacing: -0.012em;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   text-align: center;
   font-feature-settings: 'liga' 1, 'kern' 1;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  color: var(--branco-puro);
-  text-shadow: none;
+  color: var(--creme);
   white-space: nowrap;
 }
 
@@ -307,19 +306,36 @@
 }
 
 .te-wordmark__terra {
-  color: var(--ouro-tan);
+  color: #cda86a;
+  font-weight: 700;
+  opacity: 1;
+}
+
+.te-wordmark__estilo {
+  color: #f3ede3;
+  font-weight: 700;
+  opacity: 1;
+  -webkit-text-fill-color: #f3ede3;
 }
 
 .te-wordmark--on-dark .te-wordmark__terra,
 .te-wordmark--on-cream .te-wordmark__terra {
-  color: var(--ouro-tan);
-  text-shadow: none;
+  color: #cda86a;
+  opacity: 1;
 }
 
-.te-wordmark--on-dark .te-wordmark__estilo,
+.te-wordmark--on-dark .te-wordmark__estilo {
+  color: #f3ede3;
+  opacity: 1;
+  -webkit-text-fill-color: #f3ede3;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
 .te-wordmark--on-cream .te-wordmark__estilo {
-  color: var(--branco-puro);
-  text-shadow: none;
+  color: #ffffff;
+  opacity: 1;
+  -webkit-text-fill-color: #ffffff;
+  text-shadow: 0 2px 12px rgba(31, 61, 46, 0.16);
 }
 
 .brand-slogan,
@@ -1057,12 +1073,12 @@
 }
 
 .hero-brand-board__wordmark.te-wordmark {
-  margin-top: 16px;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  margin-top: 18px;
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: clamp(2.75rem, 4.5vw, 3.5rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.012em;
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   text-align: center;
   font-feature-settings: 'liga' 1, 'kern' 1;
   white-space: nowrap;
