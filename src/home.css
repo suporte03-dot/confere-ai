@@ -23,7 +23,8 @@
   --header-main-h: 248px;
   --main-nav-h: 56px;
   --sticky-offset: calc(var(--topbar-h) + var(--header-main-h) + var(--main-nav-h));
-  --header-brand-w: minmax(480px, 680px);
+  --header-brand-w: minmax(400px, 560px);
+  --header-actions-w: minmax(288px, max-content);
   --header-logo-mark-h: 128px;
   --header-monogram-size: clamp(68px, 6vw, 96px);
   --header-wordmark-size: clamp(1.875rem, 2.8vw, 2.375rem);
@@ -699,15 +700,16 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: var(--header-brand-w) 1fr 260px;
+  grid-template-columns: var(--header-brand-w) minmax(0, 1fr) var(--header-actions-w);
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   min-height: var(--header-main-h);
   max-width: none;
   width: 100%;
   margin: 0;
-  padding: 18px clamp(20px, 3vw, 52px);
+  padding: 18px clamp(24px, 3vw, 48px) 18px clamp(20px, 2.5vw, 40px);
   overflow: visible;
+  box-sizing: border-box;
   background:
     radial-gradient(circle at 25% 40%, rgba(42, 92, 68, 0.65), transparent 38%),
     linear-gradient(135deg, var(--verde-profundo) 0%, var(--verde-floresta) 45%, #0d281f 100%);
@@ -722,14 +724,19 @@
   justify-content: center;
   min-width: 0;
   grid-column: 2;
+  overflow: visible;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 34px;
+  flex-shrink: 0;
+  min-width: max-content;
+  gap: 20px;
   grid-column: 3;
+  padding-right: 8px;
+  overflow: visible;
 }
 
 .brand-search,
@@ -738,7 +745,7 @@
   align-items: center;
   gap: 14px;
   padding: 0 28px;
-  max-width: 720px;
+  max-width: 580px;
   width: 100%;
   height: 64px;
   margin: 0 auto;
@@ -781,7 +788,9 @@
 .site-header__actions {
   display: flex;
   align-items: center;
-  gap: 24px;
+  flex-shrink: 0;
+  gap: 20px;
+  overflow: visible;
 }
 
 .site-header__action {
@@ -1826,8 +1835,18 @@
 
   .brand-main,
   .header-main {
-    padding: 16px 32px;
-    gap: 22px;
+    padding: 16px clamp(20px, 2.5vw, 36px) 16px clamp(16px, 2vw, 28px);
+    gap: 18px;
+  }
+
+  .brand-search,
+  .site-header__search {
+    max-width: 520px;
+  }
+
+  .header-actions,
+  .site-header__actions {
+    gap: 16px;
   }
 
   .terra-brand-header,
