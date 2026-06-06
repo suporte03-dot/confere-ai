@@ -2,17 +2,17 @@
 
 .desktop-preview {
   width: 100%;
-  --header-wordmark-size: clamp(82px, 6vw, 118px);
+  --header-wordmark-size: clamp(56px, 4.2vw, 80px);
 }
 
 .desktop-preview .brand-name,
 .desktop-preview .header-brand__wordmark {
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-size: clamp(82px, 6vw, 118px);
+  font-size: clamp(56px, 4.2vw, 80px);
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -1.5px;
-  margin-top: 18px;
+  margin-top: 8px;
   text-shadow: none;
 }
 
@@ -35,11 +35,11 @@
 
 .desktop-preview .hero-brand-board__wordmark.te-wordmark {
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-size: clamp(82px, 6vw, 118px);
+  font-size: clamp(56px, 4.2vw, 80px);
   font-weight: 700;
   line-height: 0.95;
   letter-spacing: -1.5px;
-  margin-top: 18px;
+  margin-top: 8px;
   text-shadow: none;
 }
 
@@ -61,8 +61,8 @@
 .mobile-preview {
   --header-main-h: auto;
   --header-brand-w: 100%;
-  --header-monogram-size: 58px;
-  --header-wordmark-size: clamp(1.75rem, 8vw, 2.25rem);
+  --header-monogram-size: 48px;
+  --header-wordmark-size: clamp(1.5rem, 7.5vw, 1.875rem);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
   position: relative;
@@ -164,7 +164,7 @@
   align-items: center;
   grid-template-columns: 1fr;
   min-height: auto;
-  padding: 18px 16px 22px;
+  padding: 10px 14px 14px;
   gap: 0;
   text-align: center;
   overflow: hidden;
@@ -186,7 +186,7 @@
   order: 1;
   width: 100%;
   max-width: 100%;
-  padding: 32px 8px 0;
+  padding: 16px 8px 0;
   overflow: hidden;
   justify-self: center;
 }
@@ -215,9 +215,9 @@
 
 .mobile-preview .brand-symbol-wrap,
 .mobile-preview .header-brand__monogram-wrap {
-  width: min(100%, 168px);
-  max-width: 168px;
-  height: calc(var(--header-monogram-size) * 1.2);
+  width: min(100%, 148px);
+  max-width: 148px;
+  height: calc(var(--header-monogram-size) * 1.15);
   margin: 0 auto;
 }
 
@@ -235,12 +235,12 @@
 
 .mobile-preview .brand-name,
 .mobile-preview .header-brand__wordmark {
-  font-size: clamp(1.75rem, 8vw, 2.25rem);
+  font-size: clamp(1.5rem, 7.5vw, 1.875rem);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.012em;
   white-space: nowrap;
-  margin-top: 14px;
+  margin-top: 6px;
   max-width: 100%;
   text-align: center;
   text-shadow: none;
@@ -251,7 +251,7 @@
   font-size: 10px;
   letter-spacing: 0.14em;
   white-space: nowrap;
-  margin-top: 10px;
+  margin-top: 6px;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -259,7 +259,7 @@
 
 .mobile-preview .header-brand__rule {
   width: min(100%, 180px);
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 /* ── Busca abaixo da logo ── */
@@ -268,7 +268,7 @@
   order: 2;
   width: 100%;
   max-width: 100%;
-  margin-top: 20px;
+  margin-top: 14px;
   padding: 0;
   box-sizing: border-box;
 }
@@ -354,8 +354,8 @@
 .mobile-preview .hero-section__grid {
   grid-template-columns: 1fr;
   min-height: auto;
-  padding: 24px 0 32px;
-  gap: 24px;
+  padding: 16px 0 22px;
+  gap: 16px;
 }
 
 .mobile-preview .hero-section__content {
@@ -394,10 +394,10 @@
 }
 
 .mobile-preview .hero-brand-board__wordmark.te-wordmark {
-  font-size: clamp(1.75rem, 8vw, 2.25rem);
+  font-size: clamp(1.5rem, 7.5vw, 1.875rem);
   font-weight: 600;
   line-height: 1.1;
-  margin-top: 14px;
+  margin-top: 10px;
   text-shadow: none;
 }
 

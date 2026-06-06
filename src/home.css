@@ -19,14 +19,14 @@
   --te-border: #DDD4C4;
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   --font-sans: 'Montserrat', system-ui, sans-serif;
-  --topbar-h: 36px;
-  --header-main-h: 420px;
-  --main-nav-h: 86px;
+  --topbar-h: 24px;
+  --header-main-h: 248px;
+  --main-nav-h: 56px;
   --sticky-offset: calc(var(--topbar-h) + var(--header-main-h) + var(--main-nav-h));
-  --header-brand-w: minmax(540px, 760px);
-  --header-logo-mark-h: 200px;
-  --header-monogram-size: clamp(100px, 9vw, 150px);
-  --header-wordmark-size: clamp(2.75rem, 4vw, 3.5rem);
+  --header-brand-w: minmax(480px, 680px);
+  --header-logo-mark-h: 128px;
+  --header-monogram-size: clamp(68px, 6vw, 96px);
+  --header-wordmark-size: clamp(1.875rem, 2.8vw, 2.375rem);
   --font-brand-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   --logo-shell-hero-w: 300px;
   --logo-shell-hero-h: 160px;
@@ -139,7 +139,7 @@
 
 .terra-brand-header__values,
 .header-brand__pillars {
-  gap: 14px;
+  gap: 10px;
 }
 
 .header-brand__pillars li {
@@ -216,7 +216,7 @@
 .header-brand__monogram-wrap {
   position: relative;
   width: calc(var(--header-monogram-size) * 1.75);
-  height: calc(var(--header-monogram-size) * 1.38);
+  height: calc(var(--header-monogram-size) * 1.28);
   flex-shrink: 0;
   background: transparent;
   display: flex;
@@ -278,7 +278,7 @@
 .brand-name,
 .header-brand__wordmark {
   display: inline-block;
-  margin: 18px 0 0;
+  margin: 6px 0 0;
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   font-size: var(--header-wordmark-size);
   font-weight: 700;
@@ -340,7 +340,7 @@
 
 .brand-slogan,
 .header-brand__tagline {
-  margin: 22px 0 0;
+  margin: 7px 0 0;
   padding: 0 4px;
   font-family: var(--font-sans);
   font-size: 11px;
@@ -359,7 +359,7 @@
   display: block;
   width: min(100%, 240px);
   height: 1px;
-  margin-top: 16px;
+  margin-top: 6px;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -470,20 +470,20 @@
   background: var(--verde-profundo);
   color: var(--creme);
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-bottom: 1px solid rgba(201, 160, 100, 0.2);
+  border-bottom: 1px solid rgba(201, 160, 100, 0.18);
 }
 
 .top-bar__inner {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px 20px;
+  gap: 8px 16px;
   min-height: var(--topbar-h);
-  padding: 7px 24px;
+  padding: 4px 24px;
 }
 
 .top-bar__messages {
@@ -509,8 +509,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 32px;
-  padding: 0 14px;
+  height: 26px;
+  padding: 0 12px;
   border: 1px solid rgba(201, 168, 106, 0.32);
   border-radius: 999px;
   background: rgba(201, 168, 106, 0.06);
@@ -701,12 +701,12 @@
   display: grid;
   grid-template-columns: var(--header-brand-w) 1fr 260px;
   align-items: center;
-  gap: 48px;
+  gap: 28px;
   min-height: var(--header-main-h);
   max-width: none;
   width: 100%;
   margin: 0;
-  padding: 40px clamp(28px, 4vw, 80px);
+  padding: 18px clamp(20px, 3vw, 52px);
   overflow: visible;
   background:
     radial-gradient(circle at 25% 40%, rgba(42, 92, 68, 0.65), transparent 38%),
@@ -879,13 +879,13 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 4px 68px;
+  gap: 4px 56px;
   min-height: var(--main-nav-h);
-  padding: 0 32px;
+  padding: 0 24px;
 }
 
 .main-nav__link {
-  padding: 10px 4px;
+  padding: 6px 4px;
   font-family: var(--font-sans);
   font-size: 0.6875rem;
   font-weight: 600;
@@ -925,8 +925,8 @@
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(24px, 4vw, 52px);
   align-items: center;
-  padding: clamp(36px, 5vw, 56px) 0 clamp(40px, 5vw, 64px);
-  min-height: min(calc(100vh - var(--sticky-offset) - 24px), 640px);
+  padding: clamp(18px, 3vw, 30px) 0 clamp(22px, 3vw, 36px);
+  min-height: min(calc(100vh - var(--sticky-offset) - 12px), 420px);
 }
 
 .hero-section__content {
@@ -1819,15 +1819,15 @@
 /* ── Responsive ── */
 @media (max-width: 1280px) {
   :root {
-    --header-main-h: 360px;
-    --header-monogram-size: clamp(88px, 8vw, 128px);
-    --header-wordmark-size: clamp(2.625rem, 3.8vw, 3.5rem);
+    --header-main-h: 232px;
+    --header-monogram-size: clamp(62px, 5.8vw, 88px);
+    --header-wordmark-size: clamp(1.75rem, 2.6vw, 2.25rem);
   }
 
   .brand-main,
   .header-main {
-    padding: 32px 48px;
-    gap: 32px;
+    padding: 16px 32px;
+    gap: 22px;
   }
 
   .terra-brand-header,
@@ -1854,8 +1854,8 @@
   .header-main {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
-    gap: 24px;
-    padding: 28px 24px;
+    gap: 20px;
+    padding: 22px 24px;
   }
 
   .terra-brand-header,
@@ -1902,8 +1902,8 @@
 @media (max-width: 900px) {
   :root {
     --header-main-h: auto;
-    --header-logo-mark-h: 88px;
-    --header-monogram-size: 96px;
+    --header-logo-mark-h: 68px;
+    --header-monogram-size: 68px;
     --logo-footer-max-h: 100px;
   }
 
@@ -1918,7 +1918,7 @@
     flex-direction: column;
     align-items: center;
     grid-template-columns: 1fr;
-    padding: 22px 20px 24px;
+    padding: 14px 18px 16px;
     gap: 0;
     min-height: auto;
     text-align: center;
@@ -1927,8 +1927,8 @@
   .site-header__menu {
     display: flex;
     position: absolute;
-    top: 16px;
-    left: 18px;
+    top: 14px;
+    left: 16px;
     z-index: 3;
   }
 
@@ -1937,7 +1937,7 @@
     order: 1;
     grid-column: 1;
     min-height: auto;
-    padding: 34px 8px 0;
+    padding: 18px 8px 0;
     justify-self: center;
     width: 100%;
     max-width: 100%;
@@ -1950,7 +1950,7 @@
   .header-brand__composition,
   .brand-logo-composition {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
     margin: 0 auto;
   }
 
@@ -1972,8 +1972,8 @@
 
   .header-brand__wordmark,
   .brand-name {
-    font-size: clamp(2rem, 7vw, 2.75rem);
-    margin-top: 14px;
+    font-size: clamp(1.75rem, 6vw, 2.25rem);
+    margin-top: 6px;
     line-height: 1.05;
     text-shadow: none;
   }
@@ -1982,12 +1982,12 @@
   .brand-slogan {
     font-size: 10px;
     letter-spacing: 0.22em;
-    margin-top: 10px;
+    margin-top: 6px;
   }
 
   .header-brand__rule {
     width: min(100%, 180px);
-    margin: 10px auto 0;
+    margin: 6px auto 0;
   }
 
   .search-area {
@@ -1995,7 +1995,7 @@
     order: 2;
     grid-column: 1;
     width: 100%;
-    margin-top: 18px;
+    margin-top: 14px;
     padding: 0;
   }
 
@@ -2060,9 +2060,9 @@
 
   .hero-section__grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 22px;
     min-height: auto;
-    padding: 32px 0 40px;
+    padding: 20px 0 28px;
   }
 
   .hero-section__content {
@@ -2107,8 +2107,8 @@
 
 @media (max-width: 768px) {
   :root {
-    --header-logo-mark-h: 76px;
-    --header-monogram-size: 68px;
+    --header-logo-mark-h: 64px;
+    --header-monogram-size: 58px;
     --header-main-h: auto;
     --sticky-offset: 0px;
   }
@@ -2174,8 +2174,8 @@
 
   .header-brand__wordmark,
   .brand-name {
-    font-size: clamp(1.875rem, 8vw, 2.25rem);
-    margin-top: 12px;
+    font-size: clamp(1.625rem, 7.5vw, 2rem);
+    margin-top: 6px;
     line-height: 1.05;
   }
 
@@ -2186,7 +2186,7 @@
 
   .brand-main,
   .header-main {
-    padding: 18px 16px 22px;
+    padding: 14px 14px 18px;
   }
 
   .site-header__menu {
@@ -2196,7 +2196,7 @@
 
   .terra-brand-header,
   .header-brand {
-    padding-top: 32px;
+    padding-top: 16px;
   }
 
   .site-header__search,
@@ -2227,8 +2227,8 @@
   }
 
   .hero-section__grid {
-    padding: 24px 0 32px;
-    gap: 24px;
+    padding: 16px 0 24px;
+    gap: 18px;
   }
 
   .hero-section__title {
