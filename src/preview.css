@@ -473,16 +473,16 @@
   flex-wrap: wrap;
 }
 
-.mobile-preview .collection-vitrine .category-showcase {
+.mobile-preview .collection-vitrine .categorias-section {
   order: 2;
   background: transparent;
 }
 
-.mobile-preview .collection-vitrine .category-showcase.section {
+.mobile-preview .collection-vitrine .categorias-section.section {
   padding: 0;
 }
 
-.mobile-preview .collection-vitrine .category-showcase > .container {
+.mobile-preview .collection-vitrine .categorias-section > .container {
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(201, 168, 106, 0.22);
   border-bottom: none;
@@ -491,37 +491,45 @@
   box-shadow: 0 -8px 28px rgba(16, 49, 38, 0.1);
 }
 
-.mobile-preview .collection-vitrine .category-showcase .section-head {
+.mobile-preview .collection-vitrine .categorias-section .section-head {
   text-align: left;
   margin-bottom: 16px;
 }
 
-.mobile-preview .collection-vitrine .category-showcase .section-head__title {
+.mobile-preview .collection-vitrine .categorias-section .section-head__title {
   font-size: 1.125rem;
 }
 
-.mobile-preview .collection-vitrine .category-showcase__grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.mobile-preview .collection-vitrine .categorias-grid {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   gap: 10px;
+  scrollbar-width: none;
 }
 
-.mobile-preview .collection-vitrine .category-showcase__media {
-  aspect-ratio: 1;
-}
-
-.mobile-preview .collection-vitrine .category-showcase__body {
-  padding: 10px 10px 12px;
-}
-
-.mobile-preview .collection-vitrine .category-showcase__body h3 {
-  font-size: 0.875rem;
-}
-
-.mobile-preview .collection-vitrine .category-showcase__body p {
+.mobile-preview .collection-vitrine .categorias-grid::-webkit-scrollbar {
   display: none;
 }
 
-.mobile-preview .collection-vitrine .category-showcase__link {
+.mobile-preview .collection-vitrine .categoria-card {
+  flex: 0 0 min(72vw, 200px);
+  scroll-snap-align: start;
+}
+
+.mobile-preview .collection-vitrine .categoria-card__media {
+  aspect-ratio: 1;
+}
+
+.mobile-preview .collection-vitrine .categoria-card__body {
+  padding: 10px 10px 12px;
+}
+
+.mobile-preview .collection-vitrine .categoria-card__body h3 {
+  font-size: 0.875rem;
+}
+
+.mobile-preview .collection-vitrine .categoria-card__cta {
   margin-top: 6px;
   font-size: 0.6875rem;
 }

@@ -1,49 +1,58 @@
-import { categoryShowcase } from '../../data/homeData'
-import { useShop } from '../../context/ShopContext'
-import VisualMedia from '../VisualMedia'
+import { useCallback, useState } from 'react'
+import { categorias } from '../../data/homeData'
 
 function CategoryShowcase() {
-  const { navigateToCollection } = useShop()
+  const [failedImages, setFailedImages] = useState(() => new Set())
 
-  const handleClick = (filter, e) => {
-    e.preventDefault()
-    navigateToCollection(filter)
-  }
+  const handleImageError = useCallback((imagem) => {
+    setFailedImages((prev) => {
+      if (prev.has(imagem)) return prev
+      const next = new Set(prev)
+      next.add(imagem)
+      return next
+    })
+  }, [])
 
   return (
-    <section id="colecoes" className="category-showcase section">
+    <section id="colecoes" className="categorias-section section">
       <div className="container">
         <div className="section-head">
           <h2 className="section-head__title">Navegue por categoria</h2>
           <p className="section-head__desc">
-            Explore coleções curadas com a identidade TerraEstilo.
+            Explore as principais categorias da coleção.
           </p>
         </div>
-        <div className="category-showcase__grid">
-          {categoryShowcase.map((item) => (
-            <a
-              key={item.id}
-              href="#produtos"
-              className={`category-showcase__card category-showcase__card--${item.id}`}
-              onClick={(e) => handleClick(item.filter, e)}
-            >
-              <div className="category-showcase__media">
-                <VisualMedia
-                  src={null}
-                  alt={item.title}
-                  label={item.title}
-                  variant={item.variant}
-                  className="category-showcase__visual"
-                  imgClassName="category-showcase__img"
-                />
-              </div>
-              <div className="category-showcase__body">
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <span className="category-showcase__link">Explorar →</span>
-              </div>
-            </a>
-          ))}
+        <div className="categorias-grid">
+          {categorias.map((categoria) => {
+            const imageFailed = failedImages.has(categoria.imagem)
+
+            return (
+              <a
+                key={categoria.url}
+                href={categoria.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="categoria-card"
+              >
+                <div className="categoria-card__media">
+                  {!imageFailed && (
+                    <img
+                      src={categoria.imagem}
+                      alt={categoria.nome}
+                      className="categoria-card__img"
+                      loading="lazy"
+                      onError={() => handleImageError(categoria.imagem)}
+                    />
+                  )}
+                  <div className="categoria-card__overlay" aria-hidden="true" />
+                </div>
+                <div className="categoria-card__body">
+                  <h3>{categoria.nome}</h3>
+                  <span className="categoria-card__cta">Ver produtos</span>
+                </div>
+              </a>
+            )
+          })}
         </div>
       </div>
     </section>

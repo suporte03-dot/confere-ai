@@ -2,6 +2,8 @@
  * Imagens TerraEstilo — public/images/terraestilo/
  */
 
+import { assetUrl } from '../utils/assetUrl'
+
 export const imageMap = {
   hero: '/images/terraestilo/hero-lifestyle.jpg',
   categorias: {
@@ -1093,7 +1095,7 @@ export function getColorHex(name) {
 }
 
 export function getProductImage(product) {
-  return product.image || imageMap.produtos[product.imageKey] || imageMap.fallback
+  return assetUrl(product.image || imageMap.produtos[product.imageKey] || imageMap.fallback)
 }
 
 const SEARCH_CATEGORY_TERMS = {

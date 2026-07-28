@@ -1,6 +1,8 @@
-export const BRAND_LOGO_SRC = '/images/brand/logo-terraestilo-completa.png'
-export const BRAND_LOGO_HEADER_SRC = '/images/brand/logo-terraestilo-header-transparent.png'
-export const BRAND_HERO_BOARD_SRC = '/images/brand/novo.png'
+import { assetUrl } from '../utils/assetUrl'
+
+export const BRAND_LOGO_SRC = assetUrl('/images/brand/logo-terraestilo-completa.png')
+export const BRAND_LOGO_HEADER_SRC = assetUrl('/images/brand/logo-terraestilo-header-transparent.png')
+export const BRAND_HERO_BOARD_SRC = assetUrl('/images/brand/novo.png')
 export const BRAND_LOGO_WIDTH = 610
 export const BRAND_LOGO_HEIGHT = 458
 
@@ -54,36 +56,51 @@ export const heroVisualCard = {
   badges: ['12x sem juros', 'Frete grátis +R$499'],
 }
 
-export const categoryShowcase = [
+export const categorias = [
   {
-    id: 'feminino',
-    title: 'Feminino',
-    description: 'Peças elegantes para todos os momentos.',
-    filter: 'Feminino',
-    variant: 'vestidoAurora',
+    nome: 'Calças Jeans Masculinas',
+    url: 'https://txc.com.br/collections/calca-jeans-masculinas',
+    imagem: assetUrl('/images/categorias/calca-jeans-masculinas.jpg'),
   },
   {
-    id: 'masculino',
-    title: 'Masculino',
-    description: 'Estilo, conforto e presença.',
-    filter: 'Masculino',
-    variant: 'camisaWorker',
+    nome: 'Camisas',
+    url: 'https://txc.com.br/collections/camisas-ate-50',
+    imagem: assetUrl('/images/categorias/camisas.jpg'),
   },
   {
-    id: 'calcados',
-    title: 'Calçados',
-    description: 'Design e autenticidade no caminhar.',
-    filter: 'Calçados',
-    variant: 'botaEstrada',
+    nome: 'Jaquetas Masculinas',
+    url: 'https://txc.com.br/collections/jaquetas-masculinas',
+    imagem: assetUrl('/images/categorias/jaquetas-masculinas.jpg'),
   },
   {
-    id: 'acessorios',
-    title: 'Acessórios',
-    description: 'Detalhes que completam sua identidade.',
-    filter: 'Acessórios',
-    variant: 'bolsaCasual',
+    nome: 'Camisetas Masculinas',
+    url: 'https://txc.com.br/collections/camisetas-masculinas',
+    imagem: assetUrl('/images/categorias/camisetas-masculinas.jpg'),
+  },
+  {
+    nome: 'Polos',
+    url: 'https://txc.com.br/collections/polos',
+    imagem: assetUrl('/images/categorias/polos.jpg'),
+  },
+  {
+    nome: 'Bonés',
+    url: 'https://txc.com.br/collections/bones',
+    imagem: assetUrl('/images/categorias/bones.jpg'),
+  },
+  {
+    nome: 'Moletons Masculinos',
+    url: 'https://txc.com.br/collections/moletons-masculino',
+    imagem: assetUrl('/images/categorias/moletons-masculinos.jpg'),
+  },
+  {
+    nome: 'Acessórios',
+    url: 'https://txc.com.br/collections/acessorios',
+    imagem: assetUrl('/images/categorias/acessorios.jpg'),
   },
 ]
+
+/** @deprecated use categorias */
+export const categoryShowcase = categorias
 
 export const featuredCollection = {
   title: 'Coleção Raízes do Sul',

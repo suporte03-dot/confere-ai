@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "generate:categorias": "node scripts/ensure-categoria-images.mjs --force",
+    "prebuild": "node scripts/ensure-categoria-images.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
