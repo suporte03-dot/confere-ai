@@ -16,12 +16,13 @@ function categoriaImagesPlugin() {
 
 // https://vite.dev/config/
 // GitHub Pages project site: https://suporte03-dot.github.io/confere-ai/
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/confere-ai/' : '/',
+// Vercel / local / default: site at domain root `/`
+export default defineConfig({
+  base: process.env.GITHUB_PAGES === 'true' ? '/confere-ai/' : '/',
   plugins: [react(), categoriaImagesPlugin()],
   server: {
     port: 5176,
     strictPort: false,
     open: false,
   },
-}))
+})

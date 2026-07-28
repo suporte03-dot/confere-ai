@@ -3,7 +3,7 @@ import FeaturedCollection from './FeaturedCollection'
 
 function CollectionVitrine() {
   return (
-    <div className="collection-vitrine" aria-label="Vitrine de coleções TerraEstilo">
+    <div className="collection-vitrine" aria-label="Vitrine de coleções Terra & Estilo">
       <CategoryShowcase />
       <FeaturedCollection />
     </div>

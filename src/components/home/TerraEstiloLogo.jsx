@@ -1,4 +1,8 @@
-import { BRAND_LOGO_HEIGHT, BRAND_LOGO_SRC, BRAND_LOGO_WIDTH } from '../../data/homeData'
+import {
+  BRAND_LOGO_CIRCULAR_SRC,
+  BRAND_LOGO_HEIGHT,
+  BRAND_LOGO_WIDTH,
+} from '../../data/homeData'
 import HeaderBrandMark from './HeaderBrandMark'
 
 function TerraEstiloLogo({ variant = 'header', className = '' }) {
@@ -6,7 +10,6 @@ function TerraEstiloLogo({ variant = 'header', className = '' }) {
     return <HeaderBrandMark className={className} />
   }
 
-  const logoSrc = BRAND_LOGO_SRC
   const rootClass = [
     'te-logo',
     'logo-container',
@@ -21,8 +24,8 @@ function TerraEstiloLogo({ variant = 'header', className = '' }) {
   return (
     <span className={rootClass}>
       <img
-        src={logoSrc}
-        alt="TerraEstilo — Moda que veste origens"
+        src={BRAND_LOGO_CIRCULAR_SRC}
+        alt="Terra & Estilo — A marca do agro brasileiro"
         className="te-logo__img brand-logo"
         width={BRAND_LOGO_WIDTH}
         height={BRAND_LOGO_HEIGHT}

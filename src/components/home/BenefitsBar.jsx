@@ -5,7 +5,7 @@ function BenefitsBar() {
     <section className="benefits-bar section">
       <div className="container">
         <div className="section-head section-head--light">
-          <h2 className="section-head__title">Experiência TerraEstilo</h2>
+          <h2 className="section-head__title">Experiência Terra & Estilo</h2>
           <p className="section-head__desc">
             Compre com confiança, receba com cuidado e vista com propósito.
           </p>

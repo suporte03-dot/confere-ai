@@ -1,13 +1,13 @@
-const COLORS = [
-  { name: 'Verde Floresta', hex: '#1F3D2E' },
-  { name: 'Oliva', hex: '#6B7A4E' },
-  { name: 'Ouro Champagne', hex: '#C9A86A' },
-  { name: 'Creme', hex: '#F4EFE6' },
+﻿const COLORS = [
+  { name: 'Preto', hex: '#0a0a0a' },
+  { name: 'Ouro Metálico', hex: '#D4AF37' },
+  { name: 'Ouro Champagne', hex: '#C9A064' },
+  { name: 'Mármore', hex: '#F7F5F2' },
 ]
 
 function ColorPalette() {
   return (
-    <section className="lp-palette" aria-label="Paleta de cores TerraEstilo">
+    <section className="lp-palette" aria-label="Paleta de cores Terra & Estilo">
       <div className="lp-container">
         <header className="lp-section-head lp-section-head--light">
           <p className="lp-eyebrow">Paleta cromática</p>

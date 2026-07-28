@@ -39,7 +39,7 @@ function Header() {
             <span /><span /><span />
           </button>
 
-          <a href="#inicio" className="header__logo" aria-label="TerraEstilo — Página inicial">
+          <a href="#inicio" className="header__logo" aria-label="Terra & Estilo — Página inicial">
             <BrandMark variant="header" />
           </a>
 

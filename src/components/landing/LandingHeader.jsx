@@ -1,3 +1,4 @@
+import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { useState } from 'react'
 
 const NAV = [
@@ -13,11 +14,13 @@ function LandingHeader() {
   return (
     <header className="lp-header">
       <div className="lp-container lp-header__inner">
-        <a href="#inicio" className="lp-header__brand" aria-label="TerraEstilo — início">
+        <a href="#inicio" className="lp-header__brand" aria-label="Terra & Estilo — início">
           <img
-            src="/images/brand/logo-terraestilo-horizontal.png"
-            alt="TerraEstilo"
+            src={BRAND_LOGO_CIRCULAR_SRC}
+            alt="Terra & Estilo"
             className="lp-header__logo"
+            width={512}
+            height={512}
           />
         </a>
 

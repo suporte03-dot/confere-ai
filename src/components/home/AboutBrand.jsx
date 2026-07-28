@@ -14,7 +14,7 @@ function AboutBrand() {
           <div className="about-brand__frame">
             <img
               src={BRAND_HERO_BOARD_SRC}
-              alt="Composição visual TerraEstilo"
+              alt="Composição visual Terra & Estilo"
               className="about-brand__img"
               loading="lazy"
               decoding="async"

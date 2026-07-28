@@ -16,7 +16,7 @@ function HomeCategories() {
         <div className="section-head">
           <h2 className="section-head__title">Navegue por categorias</h2>
           <p className="section-head__desc">
-            Descubra coleções curadas com a identidade TerraEstilo.
+            Descubra coleções curadas com a identidade Terra & Estilo.
           </p>
         </div>
 

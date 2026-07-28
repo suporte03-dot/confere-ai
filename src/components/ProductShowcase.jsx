@@ -5,7 +5,7 @@ import ProductCard from './ProductCard'
 function ProductShowcase() {
   const { filteredProducts, categoryFilter, setCategoryFilter, searchQuery } = useShop()
   const sectionTitle = categoryFilter === 'Todos'
-    ? 'Destaques TerraEstilo'
+    ? 'Destaques Terra & Estilo'
     : getFilterLabel(categoryFilter)
 
   const handleFilter = (option) => {

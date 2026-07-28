@@ -1,5 +1,5 @@
 /**
- * Imagens TerraEstilo — public/images/terraestilo/
+ * Imagens Terra & Estilo — public/images/terraestilo/
  */
 
 import { assetUrl } from '../utils/assetUrl'
@@ -111,7 +111,7 @@ export const homeCategories = [
   { id: 'masculino', title: 'Masculino', description: 'Peças versáteis com acabamento refinado para campo e cidade.', filter: 'Masculino', variant: 'camisaWorker' },
   { id: 'acessorios', title: 'Acessórios', description: 'Detalhes que completam looks com identidade e sofisticação.', filter: 'Acessórios', variant: 'bolsaCasual' },
   { id: 'essenciais', title: 'Essenciais', description: 'Básicos atemporais para compor o guarda-roupa com propósito.', filter: 'Todos', variant: 'camisetaEssencial' },
-  { id: 'novidades', title: 'Novidades', description: 'Lançamentos selecionados da temporada TerraEstilo.', filter: 'Todos', variant: 'jaquetaCampo' },
+  { id: 'novidades', title: 'Novidades', description: 'Lançamentos selecionados da temporada Terra & Estilo.', filter: 'Todos', variant: 'jaquetaCampo' },
   { id: 'colecao-sul', title: 'Coleção Sul', description: 'Curadoria inspirada nas raízes e na paisagem do Sul do Brasil.', filter: 'Masculino', variant: 'moletomCampoSul' },
 ]
 
@@ -125,7 +125,7 @@ export const brandValues = [
 
 export const brandEditorial = {
   quote:
-    'TerraEstilo nasce da união entre elegância, origem e autenticidade. Uma moda que honra suas raízes e traduz o estilo do Sul do Brasil com sofisticação e propósito.',
+    'Terra & Estilo nasce da união entre elegância, origem e autenticidade. Uma moda que honra suas raízes e traduz o estilo do Sul do Brasil com sofisticação e propósito.',
   cta: 'Conheça nossa história',
 }
 
@@ -281,7 +281,7 @@ export const categoryHighlightTabs = {
     { id: 'calca-jeans-masculina', title: 'Calça Jeans Masculina', filter: 'calca-jeans-masculina', variant: 'jeans', description: 'Modelagens confortáveis com caimento reto e visual casual premium.' },
     { id: 'camisas-masculinas', title: 'Camisas Masculinas', filter: 'camisas-masculinas', variant: 'camisas', description: 'Camisas worker, xadrez e casuais para compor looks do dia a dia.' },
     { id: 'jaquetas-masculinas', title: 'Jaquetas Masculinas', filter: 'jaquetas-masculinas', variant: 'jaquetas', description: 'Proteção e estilo para campo, cidade e momentos ao ar livre.' },
-    { id: 'camisetas-masculinas', title: 'Camisetas Masculinas', filter: 'camisetas-masculinas', variant: 'camisetas', description: 'Básicas e essenciais com tecidos macios e cores TerraEstilo.' },
+    { id: 'camisetas-masculinas', title: 'Camisetas Masculinas', filter: 'camisetas-masculinas', variant: 'camisetas', description: 'Básicas e essenciais com tecidos macios e cores Terra & Estilo.' },
     { id: 'polos', title: 'Polos', filter: 'polos', variant: 'polos', description: 'Polos piquet e casuais para um visual elegante sem perder conforto.' },
     { id: 'moletons-masculinos', title: 'Moletons Masculinos', filter: 'moletons-masculinos', variant: 'moletons', description: 'Peças quentes e macias para dias mais frescos com estilo urbano.' },
   ],
@@ -296,15 +296,15 @@ export const categoryHighlightTabs = {
   Infantil: [
     { id: 'camisetas-infantis', title: 'Camisetas Infantis', filter: 'camisetas-infantis', variant: 'camisetaInfantil', description: 'Camisetas confortáveis para brincar com estilo.' },
     { id: 'calcas-infantis', title: 'Calças Infantis', filter: 'calcas-infantis', variant: 'calcaInfantil', description: 'Calças resistentes e macias para o dia a dia.' },
-    { id: 'vestidos-infantis', title: 'Vestidos Infantis', filter: 'vestidos-infantis', variant: 'vestidoInfantil', description: 'Vestidos leves com estampas exclusivas TerraEstilo.' },
+    { id: 'vestidos-infantis', title: 'Vestidos Infantis', filter: 'vestidos-infantis', variant: 'vestidoInfantil', description: 'Vestidos leves com estampas exclusivas Terra & Estilo.' },
     { id: 'conjuntos-infantis', title: 'Conjuntos Infantis', filter: 'conjuntos-infantis', variant: 'conjuntoInfantil', description: 'Conjuntos práticos para facilitar a rotina.' },
     { id: 'moletons-infantis', title: 'Moletons Infantis', filter: 'moletons-infantis', variant: 'moletomInfantil', description: 'Moletons quentinhos para dias mais frescos.' },
   ],
 }
 
 export const heroData = {
-  label: 'Nova coleção TerraEstilo',
-  title: 'Moda que veste origens',
+  label: 'Nova coleção Terra & Estilo',
+  title: 'A marca do agro brasileiro',
   subtitle:
     'Peças criadas para traduzir raízes, elegância e autenticidade em cada detalhe.',
   primaryButton: 'Ver coleção',
@@ -417,7 +417,7 @@ export const featuredProducts = [
 export const products = [
   {
     id: 1,
-    name: 'Camisa Worker TerraEstilo Xadrez',
+    name: 'Camisa Worker Terra & Estilo Xadrez',
     department: 'Masculino',
     collectionId: 'camisas-masculinas',
     subcategory: 'Camisas Masculinas',
@@ -449,7 +449,7 @@ export const products = [
   },
   {
     id: 3,
-    name: 'Camiseta Essencial TerraEstilo',
+    name: 'Camiseta Essencial Terra & Estilo',
     department: 'Masculino',
     collectionId: 'camisetas-masculinas',
     subcategory: 'Camisetas Masculinas',
@@ -460,7 +460,7 @@ export const products = [
     imageKey: 'camisetaEssencial',
     image: imageMap.produtos.camisetaEssencial,
     variant: 'camisetaEssencial',
-    description: 'Camiseta básica em algodão penteado com logo discreto TerraEstilo.',
+    description: 'Camiseta básica em algodão penteado com logo discreto Terra & Estilo.',
     stock: 88,
   },
   {
@@ -540,12 +540,12 @@ export const products = [
     imageKey: 'moletomCampoSul',
     image: imageMap.produtos.moletomCampoSul,
     variant: 'moletons',
-    description: 'Moletom peluciado com capuz e bordado TerraEstilo no peito.',
+    description: 'Moletom peluciado com capuz e bordado Terra & Estilo no peito.',
     stock: 39,
   },
   {
     id: 9,
-    name: 'Boné TerraEstilo Bordado',
+    name: 'Boné Terra & Estilo Bordado',
     department: 'Acessórios',
     collectionId: 'bones',
     subcategory: 'Bonés',
@@ -732,7 +732,7 @@ export const products = [
     imageKey: 'camisetaInfantil',
     image: imageMap.produtos.camisetaInfantil,
     variant: 'camisetaInfantil',
-    description: 'Camiseta infantil 100% algodão com estampa exclusiva TerraEstilo.',
+    description: 'Camiseta infantil 100% algodão com estampa exclusiva Terra & Estilo.',
     stock: 95,
   },
   {
@@ -780,7 +780,7 @@ export const products = [
     imageKey: 'conjuntoInfantil',
     image: imageMap.produtos.conjuntoInfantil,
     variant: 'conjuntoInfantil',
-    description: 'Conjunto moletom + calça com estampa TerraEstilo para brincar com conforto.',
+    description: 'Conjunto moletom + calça com estampa Terra & Estilo para brincar com conforto.',
     stock: 48,
   },
   {
@@ -973,7 +973,7 @@ export const collectionBanner = {
 }
 
 export const newsletterBanner = {
-  title: 'Receba novidades da TerraEstilo',
+  title: 'Receba novidades da Terra & Estilo',
   subtitle:
     'Coleções, lançamentos e conteúdos especiais sobre moda com identidade.',
   image: imageMap.newsletter,

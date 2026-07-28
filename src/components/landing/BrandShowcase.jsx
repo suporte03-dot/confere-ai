@@ -1,7 +1,7 @@
 const MOCKUPS = [
   {
     title: 'Etiqueta da marca',
-    desc: 'Acabamento premium em verde floresta com detalhes dourados.',
+    desc: 'Acabamento premium em preto e ouro metálico.',
     image: '/images/brand/mockup-tag.png',
   },
   {
@@ -22,7 +22,7 @@ function BrandShowcase() {
       <div className="lp-container">
         <header className="lp-section-head">
           <p className="lp-eyebrow">Identidade visual</p>
-          <h2>A essência TerraEstilo em cada detalhe</h2>
+          <h2>A essência Terra & Estilo em cada detalhe</h2>
           <p>
             Uma linguagem visual coesa que traduz origem, elegância e autenticidade
             em peças físicas e digitais.

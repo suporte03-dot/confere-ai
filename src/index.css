@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Montserrat', system-ui, sans-serif;
-  color: #1D2A22;
+  color: #0a0a0a;
 }
 
 [id] {
@@ -12,6 +12,6 @@ body {
 }
 
 ::selection {
-  background: rgba(201, 168, 106, 0.28);
-  color: #1F3D2E;
+  background: rgba(212, 175, 55, 0.28);
+  color: #0a0a0a;
 }

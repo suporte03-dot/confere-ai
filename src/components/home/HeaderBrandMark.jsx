@@ -1,8 +1,7 @@
 /**
- * Composição da marca no header — integrada ao fundo verde (sem card/bege).
+ * Marca oficial no header — logo circular Instagram (imagem).
  */
-import RsMapOutline from './RsMapOutline'
-import TerraEstiloWordmark from './TerraEstiloWordmark'
+import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 
 function HeaderBrandMark({ className = '' }) {
   const linkClass = ['brand-logo-composition', 'header-brand__logo-link', className]
@@ -10,19 +9,15 @@ function HeaderBrandMark({ className = '' }) {
     .join(' ')
 
   return (
-    <a href="#inicio" className={linkClass} aria-label="TerraEstilo — Página inicial">
-      <div className="header-brand__composition">
-        <div className="brand-symbol-wrap header-brand__monogram-wrap" aria-hidden="true">
-          <RsMapOutline />
-          <div className="brand-symbol header-brand__symbol">
-            <span className="brand-symbol__t header-brand__letter--t">T</span>
-            <span className="brand-symbol__e header-brand__letter--e">E</span>
-          </div>
-        </div>
-        <TerraEstiloWordmark variant="on-dark" className="brand-name header-brand__wordmark" />
-        <span className="brand-slogan header-brand__tagline">Moda que veste origens</span>
-        <span className="brand-ornament header-brand__rule" aria-hidden="true" />
-      </div>
+    <a href="#inicio" className={linkClass} aria-label="Terra & Estilo — Página inicial">
+      <img
+        src={BRAND_LOGO_CIRCULAR_SRC}
+        alt="Terra & Estilo — A marca do agro brasileiro"
+        className="header-brand__logo-img"
+        width={512}
+        height={512}
+        decoding="async"
+      />
     </a>
   )
 }

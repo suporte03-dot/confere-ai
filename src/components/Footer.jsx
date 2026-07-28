@@ -16,14 +16,12 @@ function Footer() {
         <div className="footer__brand">
           <BrandMark variant="footer" showTagline className="footer__brand-mark" />
           <p>
-            TerraEstilo é moda premium com raízes no Sul do Brasil — elegância natural,
-            autenticidade e identidade em cada peça.
+            Terra & Estilo é a marca do agro brasileiro — elegância, autenticidade e identidade em cada peça.
           </p>
-          <p className="footer__tagline">Moda que veste origens</p>
+          <p className="footer__tagline">A marca do agro brasileiro</p>
           <div className="footer__social">
-            {['Instagram', 'Pinterest', 'Facebook'].map((s) => (
-              <a key={s} href={`#${s.toLowerCase()}`}>{s}</a>
-            ))}
+            <a href="https://instagram.com/Terra_Estilo" target="_blank" rel="noopener noreferrer">@Terra_Estilo</a>
+            <a href="https://wa.me/5554999398038" target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>
 
@@ -62,8 +60,8 @@ function Footer() {
           <h4>Contato</h4>
           <ul>
             <li><a href="mailto:contato@terraestilo.com.br">contato@terraestilo.com.br</a></li>
-            <li><span>+55 (51) 3000-0000</span></li>
-            <li><span>Porto Alegre • RS</span></li>
+            <li><a href="https://wa.me/5554999398038">(54) 99939-8038</a></li>
+            <li><span>Carazinho • RS</span></li>
           </ul>
           <h4 id="trocas">Pagamento</h4>
           <div className="footer__payments">
@@ -75,7 +73,7 @@ function Footer() {
       </div>
 
       <div className="container footer__bottom">
-        <p className="footer__copy">© {new Date().getFullYear()} TerraEstilo. Todos os direitos reservados.</p>
+        <p className="footer__copy">© {new Date().getFullYear()} Terra & Estilo. Todos os direitos reservados.</p>
       </div>
     </footer>
   )

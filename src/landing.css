@@ -1,14 +1,14 @@
-/* ── TerraEstilo Landing — identidade premium ── */
+/* ── Terra & Estilo Landing — identidade premium ── */
 :root {
-  --lp-forest: #1F3D2E;
-  --lp-olive: #6B7A4E;
-  --lp-gold: #C9A86A;
-  --lp-cream: #F4EFE6;
-  --lp-text: #1D2A22;
-  --lp-muted: rgba(29, 42, 34, 0.68);
+  --lp-forest: #0a0a0a;
+  --lp-olive: #1a1a1a;
+  --lp-gold: #D4AF37;
+  --lp-cream: #F7F5F2;
+  --lp-text: #0a0a0a;
+  --lp-muted: rgba(10, 10, 10, 0.68);
   --lp-container: 1180px;
   --lp-radius: 18px;
-  --lp-shadow: 0 18px 48px rgba(31, 61, 46, 0.08);
+  --lp-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
   --lp-transition: 0.28s ease;
 }
 
@@ -107,7 +107,7 @@ a {
 .lp-btn--primary {
   background: var(--lp-forest);
   color: var(--lp-cream);
-  box-shadow: 0 10px 28px rgba(31, 61, 46, 0.18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
 }
 
 .lp-btn--primary:hover {
@@ -119,7 +119,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(31, 61, 46, 0.96);
+  background: rgba(0, 0, 0, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(201, 168, 106, 0.16);
 }
@@ -138,9 +138,10 @@ a {
 }
 
 .lp-header__logo {
-  height: 42px;
-  width: auto;
+  height: 52px;
+  width: 52px;
   object-fit: contain;
+  border-radius: 50%;
 }
 
 .lp-header__nav {
@@ -247,7 +248,7 @@ a {
   height: 280px;
   background:
     radial-gradient(circle at 30% 30%, rgba(107, 122, 78, 0.35), transparent 55%),
-    radial-gradient(circle at 70% 60%, rgba(31, 61, 46, 0.18), transparent 50%);
+    radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.18), transparent 50%);
   opacity: 0.55;
   filter: blur(1px);
 }
@@ -281,7 +282,7 @@ a {
   right: 0;
   width: 34%;
   height: 220px;
-  background: linear-gradient(135deg, rgba(31, 61, 46, 0.92), rgba(107, 122, 78, 0.55));
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.92), rgba(107, 122, 78, 0.55));
   clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
   opacity: 0.88;
 }
@@ -314,10 +315,12 @@ a {
 }
 
 .lp-hero__logo {
-  width: min(100%, 420px);
+  width: min(100%, 380px);
   height: auto;
+  aspect-ratio: 1;
   object-fit: contain;
-  filter: drop-shadow(0 18px 36px rgba(31, 61, 46, 0.08));
+  border-radius: 50%;
+  filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.35));
 }
 
 .lp-hero__seal {
@@ -373,7 +376,7 @@ a {
 
 .lp-showcase__card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 24px 56px rgba(31, 61, 46, 0.12);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.12);
 }
 
 .lp-showcase__media {
@@ -512,9 +515,11 @@ a {
 }
 
 .lp-footer__logo {
-  width: min(100%, 220px);
-  height: auto;
+  width: 96px;
+  height: 96px;
   margin-bottom: 14px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .lp-footer__brand p {

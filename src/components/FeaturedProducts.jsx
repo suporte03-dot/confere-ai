@@ -25,7 +25,7 @@ function FeaturedProducts() {
         <div className="section-head">
           <h2 className="section-head__title">{title}</h2>
           <p className="section-head__desc">
-            Peças selecionadas com acabamento refinado e identidade TerraEstilo.
+            Peças selecionadas com acabamento refinado e identidade Terra & Estilo.
           </p>
         </div>
 

@@ -21,7 +21,7 @@ function CategoryHighlights() {
         <div className="section-head">
           <h2 className="section-head__title">Navegue por categorias</h2>
           <p className="section-head__desc">
-            Masculino, feminino e infantil com curadoria TerraEstilo.
+            Masculino, feminino e infantil com curadoria Terra & Estilo.
           </p>
         </div>
 

@@ -1,15 +1,16 @@
 import { assetUrl } from '../utils/assetUrl'
 
-export const BRAND_LOGO_SRC = assetUrl('/images/brand/logo-terraestilo-completa.png')
-export const BRAND_LOGO_HEADER_SRC = assetUrl('/images/brand/logo-terraestilo-header-transparent.png')
-export const BRAND_HERO_BOARD_SRC = assetUrl('/images/brand/novo.png')
-export const BRAND_LOGO_WIDTH = 610
-export const BRAND_LOGO_HEIGHT = 458
+export const BRAND_LOGO_CIRCULAR_SRC = assetUrl('/images/brand/terra-e-estilo-logo.png')
+export const BRAND_LOGO_SRC = BRAND_LOGO_CIRCULAR_SRC
+export const BRAND_LOGO_HEADER_SRC = BRAND_LOGO_CIRCULAR_SRC
+export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
+export const BRAND_LOGO_WIDTH = 1024
+export const BRAND_LOGO_HEIGHT = 1024
 
 export const topBarMessages = [
   'FRETE GRÁTIS ACIMA DE R$ 499',
   'ATÉ 12X SEM JUROS',
-  'MODA COM IDENTIDADE DO SUL DO BRASIL',
+  'A MARCA DO AGRO BRASILEIRO',
 ]
 
 export const headerBrandPillars = [
@@ -40,19 +41,19 @@ export const heroBrandPillars = [
 ]
 
 export const heroContent = {
-  badge: 'Nova coleção TerraEstilo',
-  title: 'Moda que veste origens',
+  badge: 'Nova coleção Terra & Estilo',
+  title: 'A marca do agro brasileiro',
   subtitle:
-    'Peças criadas para traduzir raízes, elegância e autenticidade em cada detalhe.',
+    'Peças premium com identidade, elegância e autenticidade — do campo ao estilo contemporâneo.',
   primaryCta: 'Ver coleção',
   secondaryCta: 'Conheça a marca',
   boardAlt:
-    'TerraEstilo — Moda que veste origens. Monograma TE, folhas, selo Sul do Brasil e pilares Raízes, Identidade, Sofisticação, Sul do Brasil, Autenticidade.',
+    'Terra & Estilo — A marca do agro brasileiro. Monograma T&E em ouro sobre preto.',
 }
 
 export const heroVisualCard = {
-  title: 'Coleção Raízes do Sul',
-  subtitle: 'TerraEstilo',
+  title: 'Coleção Agro Chic',
+  subtitle: 'Terra & Estilo',
   badges: ['12x sem juros', 'Frete grátis +R$499'],
 }
 
@@ -250,9 +251,9 @@ export const brandValuesHome = [
 ]
 
 export const aboutBrand = {
-  title: 'TerraEstilo',
+  title: 'Terra & Estilo',
   text:
-    'TerraEstilo nasce da união entre elegância, origem e autenticidade. Uma moda que honra suas raízes e traduz o estilo do Sul do Brasil com sofisticação e propósito.',
+    'Terra & Estilo nasce da união entre elegância, origem e autenticidade. A marca do agro brasileiro — moda que honra suas raízes e traduz o estilo do campo com sofisticação e propósito.',
   cta: 'Conheça nossa história',
 }
 
@@ -265,14 +266,14 @@ export const benefitsBar = [
 ]
 
 export const newsletterHome = {
-  title: 'Receba novidades da TerraEstilo',
+  title: 'Receba novidades da Terra & Estilo',
   subtitle: 'Coleções, lançamentos e conteúdos especiais sobre moda com identidade.',
   button: 'Cadastrar',
 }
 
 export const footerHome = {
   description:
-    'TerraEstilo é moda premium com raízes no Sul do Brasil — elegância natural, autenticidade e identidade em cada peça.',
+    'Terra & Estilo é a marca do agro brasileiro — elegância, autenticidade e identidade em cada peça.',
   institucional: [
     { label: 'Sobre', href: '#sobre' },
     { label: 'Coleções', href: '#colecoes' },
@@ -282,10 +283,13 @@ export const footerHome = {
     { label: 'Privacidade', href: '#privacidade' },
   ],
   atendimento: {
-    whatsapp: '+55 (51) 99999-0000',
+    whatsapp: '(54) 99939-8038',
+    whatsappHref: 'https://wa.me/5554999398038',
+    instagram: '@Terra_Estilo',
+    instagramHref: 'https://instagram.com/Terra_Estilo',
     email: 'contato@terraestilo.com.br',
     hours: 'Seg a Sex, 9h às 18h',
   },
-  social: ['Instagram', 'Facebook', 'Pinterest'],
+  social: ['Instagram', 'WhatsApp'],
   payments: ['Visa', 'Mastercard', 'Pix', 'Boleto', 'Elo'],
 }

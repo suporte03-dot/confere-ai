@@ -1,27 +1,27 @@
-/* ── TerraEstilo Design Tokens — identidade oficial ── */
+/* ── Terra & Estilo Design Tokens — identidade oficial ── */
 :root {
-  --tb-green-950: #152820;
-  --tb-green-900: #1F3D2E;
-  --tb-green-800: #2A4A3A;
-  --tb-green-700: #3D5C4A;
-  --tb-olive-700: #6B7A4E;
+  --tb-green-950: #0a0a0a;
+  --tb-green-900: #0a0a0a;
+  --tb-green-800: #141414;
+  --tb-green-700: #1a1a1a;
+  --tb-olive-700: #1a1a1a;
 
-  --tb-gold-700: #A8894A;
-  --tb-gold-600: #C9A86A;
-  --tb-gold-500: #D4B87E;
+  --tb-gold-700: #C5A059;
+  --tb-gold-600: #D4AF37;
+  --tb-gold-500: #C9A064;
 
-  --tb-brown-800: #4A2E1D;
-  --tb-brown-700: #6B3F24;
-  --tb-brown-600: #7A4A28;
+  --tb-brown-800: #2a2218;
+  --tb-brown-700: #3a2e20;
+  --tb-brown-600: #4a3a28;
 
-  --tb-sand-100: #F4EFE6;
-  --tb-sand-200: #EDE6DA;
-  --tb-sand-300: #E0D5C4;
+  --tb-sand-100: #F7F5F2;
+  --tb-sand-200: #F5F2EC;
+  --tb-sand-300: #E8E2D8;
 
   --tb-white: #FFFFFF;
-  --tb-text: #1D2A22;
+  --tb-text: #0a0a0a;
   --tb-muted: #6B665C;
-  --tb-border: #DDD4C4;
+  --tb-border: rgba(201, 160, 100, 0.28);
 
   --tb-success: #1F7A3A;
   --tb-danger: #B42318;
@@ -40,11 +40,11 @@
 
   --header-height: 120px;
 
-  --shadow-xs: 0 1px 3px rgba(31, 61, 46, 0.08);
-  --shadow-sm: 0 4px 14px rgba(31, 61, 46, 0.1);
-  --shadow-md: 0 10px 28px rgba(31, 61, 46, 0.12);
-  --shadow-lg: 0 18px 48px rgba(31, 61, 46, 0.16);
-  --shadow-gold: 0 8px 24px rgba(201, 168, 106, 0.32);
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.16);
+  --shadow-gold: 0 8px 24px rgba(212, 175, 55, 0.32);
 
   --radius: 16px;
   --radius-sm: 10px;
@@ -54,18 +54,18 @@
   --topbar-height: 36px;
   --header-main-height: 88px;
 
-  /* TerraEstilo — identidade oficial */
-  --te-green-950: #152820;
-  --te-green-900: #1F3D2E;
-  --te-green-800: #1F3D2E;
-  --te-olive: #6B7A4E;
-  --te-gold-700: #A8894A;
-  --te-gold-600: #C9A86A;
-  --te-gold-soft: #D4B87E;
-  --te-champagne: #C9A86A;
-  --te-cream-50: #F4EFE6;
-  --te-cream-100: #F4EFE6;
-  --te-text: #1D2A22;
+  /* Terra & Estilo — identidade oficial */
+  --te-green-950: #0a0a0a;
+  --te-green-900: #0a0a0a;
+  --te-green-800: #141414;
+  --te-olive: #1a1a1a;
+  --te-gold-700: #C5A059;
+  --te-gold-600: #D4AF37;
+  --te-gold-soft: #C9A064;
+  --te-champagne: #C9A064;
+  --te-cream-50: #F7F5F2;
+  --te-cream-100: #F5F2EC;
+  --te-text: #0a0a0a;
 
   --transition: 0.25s ease;
 }
@@ -178,136 +178,42 @@
   }
 }
 
-/* ── Brand Mark (SVG — sem recorte) ── */
+/* ── Brand Mark (logo circular oficial) ── */
 .brand-mark {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  line-height: 1;
+  justify-content: center;
+  line-height: 0;
   text-decoration: none;
   color: inherit;
 }
 
-.brand-mark__icon {
+.brand-mark__logo-img {
   display: block;
-  flex-shrink: 0;
   width: 100%;
   height: 100%;
-}
-
-.brand-mark__text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-
-.brand-mark__wordmark {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.brand-mark__wordmark-terra {
-  color: var(--te-gold-600);
-}
-
-.brand-mark__wordmark-estilo {
-  color: var(--te-green-900);
-}
-
-.brand-mark__tagline {
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(201, 168, 106, 0.82);
-  white-space: nowrap;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 .brand-mark--header {
-  height: 56px;
-  max-height: 64px;
-}
-
-.brand-mark--header .brand-mark__icon {
-  width: 48px;
-  height: 48px;
-}
-
-.brand-mark--header .brand-mark__wordmark {
-  font-size: clamp(1.125rem, 2vw, 1.45rem);
-}
-
-.brand-mark--header .brand-mark__wordmark-estilo {
-  color: var(--te-cream-100);
-}
-
-.brand-mark--hero {
-  flex-direction: row;
-  align-items: center;
-  gap: 14px;
-  max-width: 100%;
-}
-
-.brand-mark--hero .brand-mark__icon {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-}
-
-.brand-mark--hero .brand-mark__wordmark {
-  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
-}
-
-.brand-mark--hero .brand-mark__wordmark-estilo {
-  color: var(--te-green-900);
-}
-
-.brand-mark--hero .brand-mark__tagline {
-  color: var(--te-gold-700);
-}
-
-.brand-mark--footer {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.brand-mark--footer .brand-mark__icon {
   width: 56px;
   height: 56px;
 }
 
-.brand-mark--footer .brand-mark__wordmark {
-  font-size: 1.5rem;
+.brand-mark--hero {
+  width: clamp(88px, 14vw, 128px);
+  height: clamp(88px, 14vw, 128px);
+}
+
+.brand-mark--footer {
+  width: 96px;
+  height: 96px;
 }
 
 .brand-mark--display {
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  text-align: center;
-}
-
-.brand-mark--display .brand-mark__icon {
-  width: 72px;
-  height: 72px;
-}
-
-.brand-mark--display .brand-mark__wordmark {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-}
-
-.brand-mark--display .brand-mark__wordmark-estilo {
-  color: var(--te-cream-100);
-}
-
-.brand-mark--display .brand-mark__tagline {
-  font-size: 0.6875rem;
-  color: var(--te-gold-600);
+  width: clamp(140px, 18vw, 200px);
+  height: clamp(140px, 18vw, 200px);
 }
 
 /* ── Buttons ── */
@@ -339,26 +245,26 @@
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, var(--tb-green-900) 0%, var(--tb-green-700) 100%);
-  color: var(--tb-white);
-  box-shadow: var(--shadow-sm);
+  background: linear-gradient(135deg, var(--tb-gold-600) 0%, var(--tb-gold-500) 100%);
+  color: #000000;
+  box-shadow: var(--shadow-gold);
 }
 
 .btn--primary:hover {
-  background: linear-gradient(135deg, var(--tb-green-950) 0%, var(--tb-green-900) 100%);
+  background: linear-gradient(135deg, var(--tb-gold-700) 0%, var(--tb-gold-600) 100%);
   box-shadow: var(--shadow-md);
 }
 
 .btn--outline {
-  background: var(--tb-sand-100);
-  color: var(--tb-green-900);
+  background: transparent;
+  color: var(--ouro, #D4AF37);
   border-color: var(--tb-gold-600);
 }
 
 .btn--outline:hover {
-  background: var(--tb-sand-200);
+  background: rgba(212, 175, 55, 0.12);
   border-color: var(--tb-gold-700);
-  color: var(--tb-green-950);
+  color: var(--tb-gold-700);
 }
 
 .btn--light {
@@ -423,7 +329,7 @@
   z-index: 100;
   background: var(--te-green-900);
   border-bottom: 1px solid rgba(201, 168, 106, 0.16);
-  box-shadow: 0 8px 28px rgba(31, 61, 46, 0.22);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
 }
 
 .header__shell {
@@ -2455,16 +2361,8 @@ input:focus-visible {
   }
 
   .brand-mark--header {
-    height: 52px;
-  }
-
-  .brand-mark--header .brand-mark__icon {
-    width: 42px;
-    height: 42px;
-  }
-
-  .brand-mark--header .brand-mark__wordmark {
-    font-size: 1.05rem;
+    width: 48px;
+    height: 48px;
   }
 
   .header__search {

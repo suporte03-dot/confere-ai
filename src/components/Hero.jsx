@@ -31,7 +31,7 @@ function Hero() {
           <div className="hero__image-wrap">
             <VisualMedia
               src={heroData.image}
-              alt="Editorial TerraEstilo — moda premium com identidade do Sul"
+              alt="Editorial Terra & Estilo — moda premium com identidade do Sul"
               label="Coleção Raízes do Sul"
               variant={heroData.variant}
               className="hero__media"

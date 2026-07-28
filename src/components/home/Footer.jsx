@@ -1,6 +1,12 @@
 import { footerHome } from '../../data/homeData'
 import TerraEstiloLogo from './TerraEstiloLogo'
 
+function socialHref(name) {
+  if (name === 'Instagram') return footerHome.atendimento.instagramHref
+  if (name === 'WhatsApp') return footerHome.atendimento.whatsappHref
+  return `#${name.toLowerCase()}`
+}
+
 function Footer() {
   return (
     <footer id="contato" className="site-footer">
@@ -10,7 +16,14 @@ function Footer() {
           <p>{footerHome.description}</p>
           <div className="site-footer__social">
             {footerHome.social.map((name) => (
-              <a key={name} href={`#${name.toLowerCase()}`}>{name}</a>
+              <a
+                key={name}
+                href={socialHref(name)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {name === 'Instagram' ? footerHome.atendimento.instagram : name}
+              </a>
             ))}
           </div>
         </div>
@@ -27,7 +40,16 @@ function Footer() {
         <div className="site-footer__col" id="lojas">
           <h4>Atendimento</h4>
           <ul>
-            <li><a href={`https://wa.me/5551999990000`}>WhatsApp: {footerHome.atendimento.whatsapp}</a></li>
+            <li>
+              <a href={footerHome.atendimento.whatsappHref} target="_blank" rel="noopener noreferrer">
+                WhatsApp: {footerHome.atendimento.whatsapp}
+              </a>
+            </li>
+            <li>
+              <a href={footerHome.atendimento.instagramHref} target="_blank" rel="noopener noreferrer">
+                Instagram: {footerHome.atendimento.instagram}
+              </a>
+            </li>
             <li><a href={`mailto:${footerHome.atendimento.email}`}>{footerHome.atendimento.email}</a></li>
             <li><span>{footerHome.atendimento.hours}</span></li>
           </ul>
@@ -44,7 +66,7 @@ function Footer() {
       </div>
 
       <div className="container site-footer__bottom">
-        <p>© {new Date().getFullYear()} TerraEstilo. Todos os direitos reservados.</p>
+        <p>© {new Date().getFullYear()} Terra & Estilo. Todos os direitos reservados.</p>
       </div>
     </footer>
   )

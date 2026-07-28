@@ -6,7 +6,7 @@ function BrandValues() {
       <div className="container">
         <div className="section-head">
           <h2 className="section-head__title">Valores que vestimos</h2>
-          <p className="section-head__desc">Pilares que guiam cada coleção TerraEstilo.</p>
+          <p className="section-head__desc">Pilares que guiam cada coleção Terra & Estilo.</p>
         </div>
         <div className="brand-values__grid">
           {brandValuesHome.map((item) => (

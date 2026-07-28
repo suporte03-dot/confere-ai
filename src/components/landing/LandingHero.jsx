@@ -1,3 +1,5 @@
+import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
+
 const VALUES = [
   'RAÍZES',
   'IDENTIDADE',
@@ -21,13 +23,15 @@ function LandingHero() {
 
         <div className="lp-hero__center">
           <img
-            src="/images/brand/logo-terraestilo-stacked.png"
-            alt="TerraEstilo — Moda que veste origens"
+            src={BRAND_LOGO_CIRCULAR_SRC}
+            alt="Terra & Estilo — A marca do agro brasileiro"
             className="lp-hero__logo"
+            width={1024}
+            height={1024}
           />
         </div>
 
-        <aside className="lp-hero__seal" aria-label="Selo TerraEstilo">
+        <aside className="lp-hero__seal" aria-label="Selo Terra & Estilo">
           <div className="lp-hero__seal-ring">
             <svg viewBox="0 0 120 120" aria-hidden="true">
               <defs>

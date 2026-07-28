@@ -1,68 +1,52 @@
-/* ── Pré-visualização desktop / celular ── */
+/* ── Pré-visualização desktop / celular — logo circular oficial ── */
 
 .desktop-preview {
   width: 100%;
-  --header-wordmark-size: clamp(56px, 4.2vw, 80px);
+  --header-logo-size: clamp(82px, 6.2vw, 100px);
+  --hero-logo-size: clamp(290px, 34vw, 440px);
 }
 
-.desktop-preview .brand-name,
-.desktop-preview .header-brand__wordmark {
-  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-size: clamp(56px, 4.2vw, 80px);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -1.5px;
-  margin-top: 8px;
-  text-shadow: none;
+.desktop-preview .header-brand__logo-img {
+  width: var(--header-logo-size);
+  height: var(--header-logo-size);
 }
 
-.desktop-preview .brand-name .te-wordmark__terra,
-.desktop-preview .header-brand__wordmark .te-wordmark__terra {
-  color: #cda86a;
-  font-weight: 700;
-  opacity: 1;
-  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+.desktop-preview .hero-brand-board__logo-img {
+  width: var(--hero-logo-size);
+  height: var(--hero-logo-size);
 }
 
-.desktop-preview .brand-name .te-wordmark__estilo,
-.desktop-preview .header-brand__wordmark .te-wordmark__estilo {
-  color: #f3ede3;
-  font-weight: 700;
-  opacity: 1;
-  -webkit-text-fill-color: #f3ede3;
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+
+.mobile-preview .header-brand__logo-img {
+  width: var(--header-logo-size);
+  height: var(--header-logo-size);
 }
 
-.desktop-preview .hero-brand-board__wordmark.te-wordmark {
-  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  font-size: clamp(56px, 4.2vw, 80px);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -1.5px;
-  margin-top: 8px;
-  text-shadow: none;
+.mobile-preview .hero-brand-board__logo-img {
+  width: var(--hero-logo-size);
+  height: var(--hero-logo-size);
+  max-width: 100%;
 }
 
-.desktop-preview .hero-brand-board__wordmark .te-wordmark__terra {
-  color: #cda86a;
-  font-weight: 700;
-  opacity: 1;
-  text-shadow: 0 3px 12px rgba(31, 61, 46, 0.12);
-}
-
-.desktop-preview .hero-brand-board__wordmark .te-wordmark__estilo {
-  color: #ffffff;
-  font-weight: 700;
-  opacity: 1;
-  -webkit-text-fill-color: #ffffff;
-  text-shadow: 0 2px 12px rgba(31, 61, 46, 0.16);
+.mobile-preview .header-brand__composition,
+.mobile-preview .header-brand__monogram-wrap,
+.mobile-preview .header-brand__wordmark,
+.mobile-preview .header-brand__tagline,
+.mobile-preview .header-brand__rule,
+.mobile-preview .hero-brand-board__wordmark,
+.mobile-preview .hero-brand-board__tagline,
+.mobile-preview .hero-brand-board__rule,
+.mobile-preview .hero-brand-board__monogram-wrap {
+  display: none !important;
 }
 
 .mobile-preview {
   --header-main-h: auto;
   --header-brand-w: 100%;
+  --header-logo-size: 76px;
   --header-monogram-size: 48px;
   --header-wordmark-size: clamp(1.5rem, 7.5vw, 1.875rem);
+  --hero-logo-size: min(280px, 68vw);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
   position: relative;
@@ -389,8 +373,8 @@
 }
 
 .mobile-preview .hero-brand-board__plate {
-  min-height: 260px;
-  padding: 24px 14px;
+  min-height: 340px;
+  padding: 32px 16px;
 }
 
 .mobile-preview .hero-brand-board__wordmark.te-wordmark {
@@ -488,7 +472,7 @@
   border-bottom: none;
   border-radius: 24px 24px 0 0;
   padding: 24px 14px 20px;
-  box-shadow: 0 -8px 28px rgba(16, 49, 38, 0.1);
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-preview .collection-vitrine .categorias-section .section-head {
@@ -545,7 +529,7 @@
   border-top: none;
   border-radius: 0 0 24px 24px;
   padding: 20px 14px 28px;
-  box-shadow: 0 10px 28px rgba(16, 49, 38, 0.08);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -578,7 +562,7 @@
 
 .mobile-preview .product-grid-section .product-card {
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(31, 61, 46, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 .mobile-preview .product-grid-section .product-card__image {

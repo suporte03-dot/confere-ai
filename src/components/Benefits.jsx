@@ -5,7 +5,7 @@ function Benefits() {
     <section className="section benefits">
       <div className="container">
         <div className="section-head">
-          <h2 className="section-head__title">Benefícios TerraEstilo</h2>
+          <h2 className="section-head__title">Benefícios Terra & Estilo</h2>
           <p className="section-head__desc">Comprar conosco é simples, seguro e acolhedor.</p>
         </div>
         <div className="benefits__grid">

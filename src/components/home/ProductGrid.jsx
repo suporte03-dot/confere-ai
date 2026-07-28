@@ -26,7 +26,7 @@ function ProductGrid() {
           <p className="section-head__desc">
             {isSearchActive
               ? `Exibindo resultados para ${activeFilterLabel}.`
-              : 'Peças selecionadas com acabamento refinado e identidade TerraEstilo.'}
+              : 'Peças selecionadas com acabamento refinado e identidade Terra & Estilo.'}
           </p>
         </div>
 
