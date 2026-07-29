@@ -1,16 +1,27 @@
 /* ── Terra & Estilo Design Tokens — identidade oficial ── */
 :root {
+  /* Tokens de campanha */
+  --black-primary: #090909;
+  --black-secondary: #151515;
+  --gold-primary: #c9a24d;
+  --gold-secondary: #d8b56a;
+  --gold-light: #e6c98a;
+  --cream: #f8f6f1;
+  --white-soft: #fffdf8;
+  --gray-text: #b8b1a8;
+  --border-gold: rgba(201, 162, 77, 0.45);
+
   /* Paleta oficial */
-  --preto: #0B0B0B;
-  --preto-sec: #161616;
-  --ouro: #C9A24D;
-  --ouro-suave: #D8B56A;
-  --ouro-claro: #E6C98A;
-  --branco-suave: #F8F6F1;
+  --preto: var(--black-primary);
+  --preto-sec: var(--black-secondary);
+  --ouro: var(--gold-primary);
+  --ouro-suave: var(--gold-secondary);
+  --ouro-claro: var(--gold-light);
+  --branco-suave: var(--cream);
   --cinza-claro: #EAE7E1;
-  --cinza-texto: #A9A39A;
-  --fundo-escuro: #0B0B0B;
-  --fundo-claro: #F7F4EE;
+  --cinza-texto: var(--gray-text);
+  --fundo-escuro: var(--black-primary);
+  --fundo-claro: var(--cream);
 
   /* Compat / legado (sem greens) */
   --tb-green-950: var(--preto);
@@ -258,27 +269,29 @@
 }
 
 .btn--primary {
-  background: var(--ouro);
-  color: var(--preto);
+  background: var(--gold-primary);
+  color: var(--black-primary);
+  border-color: var(--gold-primary);
   box-shadow: 0 6px 20px rgba(201, 162, 77, 0.28);
 }
 
 .btn--primary:hover {
-  background: var(--ouro-suave);
-  color: var(--preto);
-  box-shadow: var(--shadow-md);
+  background: var(--gold-secondary);
+  color: var(--black-primary);
+  border-color: var(--gold-secondary);
+  box-shadow: 0 10px 26px rgba(201, 162, 77, 0.38);
 }
 
 .btn--outline {
   background: transparent;
-  color: var(--preto);
-  border-color: var(--ouro);
+  color: var(--gold-primary);
+  border-color: var(--gold-primary);
 }
 
 .btn--outline:hover {
-  background: rgba(201, 162, 77, 0.1);
-  border-color: var(--ouro-suave);
-  color: var(--preto);
+  background: var(--gold-primary);
+  border-color: var(--gold-primary);
+  color: var(--black-primary);
 }
 
 .btn--secondary {
