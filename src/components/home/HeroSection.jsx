@@ -3,11 +3,12 @@ import { heroContent, footerHome } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
 const AUTOPLAY_MS = 5000
+const HERO_ASSET_V = '20260729b'
 
 const HERO_SLIDES = [
   {
     id: 'campanha',
-    src: '/images/hero/slide-1.jpg',
+    src: `/images/hero/slide-1.jpg?v=${HERO_ASSET_V}`,
     alt: heroContent.imageAlt,
     objectPosition: '46% 38%',
   },
@@ -31,7 +32,7 @@ const HERO_SLIDES = [
   },
   {
     id: 'institucional',
-    src: '/images/hero/slide-5.jpg',
+    src: `/images/hero/slide-5.jpg?v=${HERO_ASSET_V}`,
     alt: 'Arte institucional Terra & Estilo: casal agro chic e logo circular dourado.',
     objectPosition: '42% 36%',
   },

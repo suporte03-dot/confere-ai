@@ -101,13 +101,16 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       const v = (r + g + b) / 3
       let alpha = smoothstep((peopleW - 1 - x) / 55)
 
-      // Transparent where original had flat black header band (let clean bg show)
-      if (y < 58 && v < 16) alpha = 0
-      else if (y < 75 && v < 11) alpha *= 0.08
+      // Dissolve ONLY the top flat-black header strip (y<50). Never eat face shadows.
+      if (v < 16 && y < 50) {
+        const darkness = smoothstep((16 - v) / 16)
+        const topFade = smoothstep((50 - y) / 42)
+        alpha *= 1 - darkness * topFade * 0.98
+      }
 
       // Kill gold lettering crumbs that leak into cutout
-      if (y < 120 && v > 28 && r - b > 6) alpha = 0
-      if (y < 120 && v > 55) alpha = 0
+      if (y < 110 && x > 200 && v > 28 && r - b > 6) alpha = 0
+      if (y < 110 && x > 200 && v > 55) alpha = 0
 
       // Bottom invite icons if any
       if (y > 355 && ((v > 35 && r - b > 6) || v > 60)) alpha *= 0.05
@@ -115,27 +118,27 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       rgba[di] = r
       rgba[di + 1] = g
       rgba[di + 2] = b
-      rgba[di + 3] = Math.round(255 * Math.min(1, alpha))
+      rgba[di + 3] = Math.round(255 * Math.min(1, Math.max(0, alpha)))
     }
   }
 
-  // Paint soft hat crown into cutout (man's hat)
+  // Paint soft hat crown into cutout (man's hat) — small ellipse only, never faces
   {
     const cx = 175
-    const cy = 78
-    const rx = 56
-    const ry = 44
+    const cy = 70
+    const rx = 48
+    const ry = 34
     let br = 0
     let bgc = 0
     let bb = 0
     let bn = 0
-    for (let y = 90; y < 130; y++) {
-      for (let x = 140; x < 210; x++) {
+    for (let y = 95; y < 125; y++) {
+      for (let x = 145; x < 205; x++) {
         if (x >= peopleW) continue
         const di = (y * peopleW + x) * 4
         if (rgba[di + 3] < 80) continue
         const v = (rgba[di] + rgba[di + 1] + rgba[di + 2]) / 3
-        if (v > 22 && v < 100) {
+        if (v > 24 && v < 95) {
           br += rgba[di]
           bgc += rgba[di + 1]
           bb += rgba[di + 2]
@@ -144,7 +147,7 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       }
     }
     if (!bn) {
-      br = 36
+      br = 38
       bgc = 28
       bb = 18
       bn = 1
@@ -158,33 +161,23 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       const nx = (x - cx) / rx
       if (Math.abs(nx) > 1) continue
       const crownY = Math.round(cy - ry * Math.sqrt(Math.max(0, 1 - nx * nx)))
-      let bodyY = -1
-      for (let y = Math.max(60, crownY + 10); y < 130; y++) {
-        const di = (y * peopleW + x) * 4
-        if (rgba[di + 3] < 100) continue
-        const v = (rgba[di] + rgba[di + 1] + rgba[di + 2]) / 3
-        if (v > 22 && v < 105) {
-          bodyY = y
-          break
-        }
-      }
-      if (bodyY < 0) bodyY = 96
-      for (let y = Math.max(2, crownY); y < bodyY; y++) {
-        const t = (y - crownY) / Math.max(1, bodyY - crownY)
-        const shade = 0.58 + t * 0.42
-        const j = (hash01(x, y, 8) - 0.5) * 5
+      const maxY = 88
+      for (let y = Math.max(4, crownY); y < maxY; y++) {
+        const t = (y - crownY) / Math.max(1, maxY - crownY)
+        const shade = 0.65 + t * 0.3
+        const j = (hash01(x, y, 8) - 0.5) * 4
         const edge = smoothstep(1 - Math.abs(nx))
-        const a = edge * (0.65 + 0.35 * smoothstep(t))
+        const a = edge * (0.55 + 0.35 * (1 - t))
         const di = (y * peopleW + x) * 4
+        const curV = (rgba[di] + rgba[di + 1] + rgba[di + 2]) / 3
+        if (rgba[di + 3] > 160 && curV > 40) continue // keep face
         const r = Math.min(255, Math.max(8, Math.round(br * shade + j)))
         const g = Math.min(255, Math.max(6, Math.round(bgc * shade + j * 0.7)))
         const b = Math.min(255, Math.max(5, Math.round(bb * shade * 0.92 + j * 0.35)))
-        const oa = rgba[di + 3] / 255
-        const na = Math.min(1, Math.max(oa, a))
         rgba[di] = Math.round(rgba[di] * (1 - a) + r * a)
         rgba[di + 1] = Math.round(rgba[di + 1] * (1 - a) + g * a)
         rgba[di + 2] = Math.round(rgba[di + 2] * (1 - a) + b * a)
-        rgba[di + 3] = Math.round(255 * na)
+        rgba[di + 3] = Math.max(rgba[di + 3], Math.round(255 * a * 0.95))
       }
     }
   }
@@ -199,7 +192,7 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
     .composite([{ input: peoplePng, left: 0, top: 0, blend: 'over' }])
     .png()
     .toBuffer()
-}
+  }
 
 // Logo
 {
@@ -260,14 +253,17 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       const b = d[i + 2]
       const v = (r + g + b) / 3
       const isGlyph =
-        (y < 120 && ((v > 30 && r - b > 5) || v > 55)) ||
+        (y < 120 && x > 220 && ((v > 30 && r - b > 5) || v > 55)) ||
         (y > 290 && ((v > 32 && r - b > 4) || v > 55 || (Math.abs(r - g) < 20 && v > 45)))
-      if (!isGlyph) continue
+      // Also texture any remaining dead-black strip at the very top (not faces)
+      const isTopDead = y < 42 && v < 9
+      if (!isGlyph && !isTopDead) continue
       const a = bank[Math.floor(hash01(x, y, 20) * bank.length) % bank.length]
       const j = (hash01(x, y, 21) - 0.5) * 4
-      d[i] = Math.min(255, Math.max(6, a[0] + j))
-      d[i + 1] = Math.min(255, Math.max(5, a[1] + j * 0.7))
-      d[i + 2] = Math.min(255, Math.max(4, a[2] + j * 0.4))
+      const spark = hash01(x, y, 22) > 0.97 ? 10 + hash01(x, y, 23) * 20 : 0
+      d[i] = Math.min(255, Math.max(6, a[0] + j + spark))
+      d[i + 1] = Math.min(255, Math.max(5, a[1] + j * 0.7 + spark * 0.7))
+      d[i + 2] = Math.min(255, Math.max(4, a[2] + j * 0.4 + spark * 0.3))
     }
   }
   canvas = await sharp(d, { raw: { width: w, height: h, channels: c } })
