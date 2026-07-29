@@ -387,32 +387,9 @@
   align-items: center;
 }
 
-.mobile-preview .hero-section__media {
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-.mobile-preview .hero-section__thumbs {
-  flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
-  max-height: none;
-  gap: 8px;
-}
-
-.mobile-preview .hero-section__thumb {
-  width: 52px;
-  height: 68px;
-}
-
 .mobile-preview .hero-section__frame {
   max-width: 100%;
   aspect-ratio: 3 / 4;
-}
-
-.mobile-preview .hero-section__arrow {
-  width: 32px;
-  height: 32px;
 }
 
 .mobile-preview .hero-section__copy {
@@ -803,51 +780,9 @@
 }
 
 .mobile-preview .hero-section__image {
-  width: 118%;
-  height: 118%;
+  width: 100%;
+  height: 100%;
   filter: brightness(1.04) contrast(1.04);
-}
-
-.mobile-preview .hero-section__image--campanha {
-  object-position: 32% 36% !important;
-}
-
-.mobile-preview .hero-section__image--institucional {
-  object-position: 30% 34% !important;
-}
-
-.mobile-preview .hero-section__media-overlay {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 40%,
-    rgba(5, 5, 5, 0.36) 68%,
-    rgba(5, 5, 5, 0.8) 100%
-  );
-  opacity: 1;
-}
-
-.mobile-preview .hero-section__panel {
-  align-items: center;
-  text-align: center;
-  min-height: 0;
-  padding: 28px 14px 64px;
-  overflow: visible;
-}
-
-.mobile-preview .hero-section__controls {
-  bottom: 10px;
-  gap: 10px;
-}
-
-.mobile-preview .hero-section__arrow {
-  width: 32px;
-  height: 32px;
-}
-
-.mobile-preview .hero-section__dot {
-  width: 7px;
-  height: 7px;
 }
 
 .mobile-preview .hero-section__copy {
