@@ -987,6 +987,14 @@
 }
 
 /* ── Hero Section — campanha premium (full-bleed) ── */
+.hero-section,
+.hero-section__inner,
+.hero-section__media,
+.hero-section__panel,
+.hero-section__image {
+  box-sizing: border-box;
+}
+
 .hero-section {
   position: relative;
   width: 100%;
@@ -1002,7 +1010,7 @@
 .hero-section__inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   align-items: stretch;
   min-height: min(90vh, 820px);
   width: 100%;
@@ -1013,9 +1021,10 @@
 .hero-section__media {
   position: relative;
   min-width: 0;
-  min-height: 100%;
+  min-height: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
+  align-self: stretch;
   overflow: hidden;
   background: var(--black-primary);
 }
@@ -1026,8 +1035,8 @@
   height: 100%;
   min-height: min(90vh, 820px);
   object-fit: cover;
-  /* Keep hat crowns + faces; source is models-only (no inauguration type) */
-  object-position: 40% 0%;
+  /* Faces + hat crowns; avoid letterbox/black headroom */
+  object-position: 50% 18%;
 }
 
 .hero-section__media-overlay {
@@ -1048,9 +1057,11 @@
   justify-content: center;
   gap: 0;
   min-width: 0;
+  min-height: 0;
   width: 100%;
-  height: 100%;
-  padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 64px);
+  height: auto;
+  align-self: stretch;
+  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 56px);
   background:
     radial-gradient(circle at 70% 30%, rgba(201, 162, 77, 0.1), transparent 42%),
     linear-gradient(160deg, #151515 0%, #090909 100%);
@@ -2168,7 +2179,7 @@
 
   .hero-section__image {
     min-height: min(52vh, 420px);
-    object-position: 38% 0%;
+    object-position: 48% 12%;
   }
 
   .hero-section__media-overlay {

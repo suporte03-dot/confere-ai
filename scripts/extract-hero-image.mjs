@@ -1,4 +1,4 @@
-import sharp from 'sharp'
+﻿import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
@@ -15,30 +15,48 @@ const meta = await sharp(src).metadata()
 console.log('source', meta.width, 'x', meta.height)
 
 /*
-  Instagram screenshot (485×1024). Inauguration graphic sits ~y 166–648.
-  Gold "INAUGURAÇÃO" begins near x≈300 — crop models only (left of text).
-  Artwork has hats flush with the top edge, so add black headroom before resize.
+  Inauguration graphic ≈ y 166–648 in the Instagram screenshot.
+  Models occupy the left ~42% — stop before gold "INAUGURAÇÃO".
+  Output a slightly wider hero crop so desktop media cells (landscape)
+  still frame faces/hats under object-fit: cover.
 */
 const post = { left: 18, top: 166, width: 449, height: 483 }
-const modelsW = 270
+const modelsW = 188
 
-await sharp(src)
+const modelsPng = await sharp(src)
   .extract(post)
   .extract({ left: 0, top: 0, width: modelsW, height: post.height })
+  .png()
+  .toBuffer()
+
+/*
+  Pad sides only (keep hats at the top of the bitmap).
+  Target ~4:5 so cover in a wide cell crops less aggressively than 3:4.
+*/
+const paddedPng = await sharp(modelsPng)
   .extend({
-    top: 96,
-    bottom: 24,
-    left: 12,
-    right: 12,
-    background: { r: 9, g: 9, b: 9, alpha: 1 },
+    top: 0,
+    bottom: 0,
+    left: 16,
+    right: 16,
+    background: { r: 9, g: 9, b: 9 },
   })
-  .resize(1200, 1600, {
+  .png()
+  .toBuffer()
+
+const padMeta = await sharp(paddedPng).metadata()
+console.log('padded', padMeta.width, 'x', padMeta.height)
+
+await sharp(paddedPng)
+  .resize(1200, 1500, {
     fit: 'cover',
     position: 'top',
   })
   .jpeg({ quality: 92, mozjpeg: true })
   .toFile(out)
 
-console.log('wrote', out, `(models ${modelsW}×${post.height} + headroom)`)
+const final = await sharp(out).metadata()
+console.log('wrote', out, `${final.width}x${final.height}`)
+
 await fs.promises.copyFile(logoSrc, logoOut)
 console.log('copied', logoOut)
