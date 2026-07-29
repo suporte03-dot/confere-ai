@@ -353,18 +353,25 @@
 .mobile-preview .hero-section__image {
   width: 118%;
   height: 118%;
-  object-position: 32% 26%;
   filter: brightness(1.04) contrast(1.04);
+}
+
+.mobile-preview .hero-section__image--campanha {
+  object-position: 32% 26% !important;
+}
+
+.mobile-preview .hero-section__image--institucional {
+  object-position: 30% 26% !important;
 }
 
 .mobile-preview .hero-section__media-overlay {
   background: linear-gradient(
     180deg,
-    rgba(5, 5, 5, 0.2) 0%,
+    rgba(5, 5, 5, 0.12) 0%,
     transparent 30%,
     transparent 40%,
-    rgba(5, 5, 5, 0.55) 70%,
-    rgba(5, 5, 5, 0.92) 100%
+    rgba(5, 5, 5, 0.42) 68%,
+    rgba(5, 5, 5, 0.82) 100%
   );
   opacity: 1;
 }
@@ -373,8 +380,23 @@
   align-items: center;
   text-align: center;
   min-height: 0;
-  padding: 28px 14px 36px;
+  padding: 28px 14px 64px;
   overflow: visible;
+}
+
+.mobile-preview .hero-section__controls {
+  bottom: 10px;
+  gap: 10px;
+}
+
+.mobile-preview .hero-section__arrow {
+  width: 32px;
+  height: 32px;
+}
+
+.mobile-preview .hero-section__dot {
+  width: 7px;
+  height: 7px;
 }
 
 .mobile-preview .hero-section__copy {
