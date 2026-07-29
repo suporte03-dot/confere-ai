@@ -1,25 +1,36 @@
 /* ── Terra & Estilo Home — identidade oficial (preto / ouro / off-white) ── */
 
 :root {
-  /* Paleta oficial */
-  --preto: #0B0B0B;
-  --preto-sec: #161616;
-  --ouro: #C9A24D;
-  --ouro-suave: #D8B56A;
-  --ouro-claro: #E6C98A;
-  --branco-suave: #F8F6F1;
+  /* Tokens de campanha */
+  --black-primary: #090909;
+  --black-secondary: #151515;
+  --gold-primary: #c9a24d;
+  --gold-secondary: #d8b56a;
+  --gold-light: #e6c98a;
+  --cream: #f8f6f1;
+  --white-soft: #fffdf8;
+  --gray-text: #b8b1a8;
+  --border-gold: rgba(201, 162, 77, 0.45);
+
+  /* Paleta oficial (aliases) */
+  --preto: var(--black-primary);
+  --preto-sec: var(--black-secondary);
+  --ouro: var(--gold-primary);
+  --ouro-suave: var(--gold-secondary);
+  --ouro-claro: var(--gold-light);
+  --branco-suave: var(--cream);
   --cinza-claro: #EAE7E1;
-  --cinza-texto: #A9A39A;
-  --fundo-escuro: #0B0B0B;
-  --fundo-claro: #F7F4EE;
+  --cinza-texto: var(--gray-text);
+  --fundo-escuro: var(--black-primary);
+  --fundo-claro: var(--cream);
 
   /* Aliases semânticos */
   --preto-puro: var(--preto);
   --ouro-champagne: var(--ouro-suave);
   --ouro-tan: var(--ouro);
   --marmore: var(--branco-suave);
-  --creme: var(--fundo-claro);
-  --branco-puro: #ffffff;
+  --creme: var(--cream);
+  --branco-puro: var(--white-soft);
   --texto-escuro: var(--preto);
 
   /* Remap legado verde / te-* → paleta oficial */
@@ -57,8 +68,8 @@
   --logo-aspect-w: 1024;
   --logo-aspect-h: 1024;
   --logo-footer-max-h: 112px;
-  --hero-board-max-w: 640px;
-  --hero-logo-size: clamp(260px, 34vw, 400px);
+  --hero-board-max-w: 280px;
+  --hero-logo-size: clamp(148px, 18vw, 220px);
   --radius-btn: 8px;
   --shadow-soft: 0 8px 28px rgba(11, 11, 11, 0.08);
   --shadow-premium: 0 16px 40px rgba(11, 11, 11, 0.14);
@@ -715,9 +726,11 @@
   top: 0;
   z-index: 120;
   overflow: visible;
-  background: var(--preto-puro);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  border-bottom: 1px solid rgba(201, 162, 77, 0.22);
+  background: rgba(9, 9, 9, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid var(--border-gold);
 }
 
 /* ── Site Header — composição editorial ── */
@@ -849,7 +862,7 @@
   font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--te-gold);
+  color: var(--white-soft);
   background: none;
   border: none;
   border-radius: 6px;
@@ -862,9 +875,15 @@
   opacity: 0.92;
 }
 
-.site-header__action:hover {
-  color: var(--te-cream);
-  background: rgba(216, 181, 106, 0.12);
+.site-header__action:hover,
+.site-header__action:focus-visible {
+  color: var(--gold-secondary);
+  background: rgba(201, 162, 77, 0.12);
+}
+
+.site-header__action:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 2px;
 }
 
 .site-header__action--search {
