@@ -9,7 +9,7 @@ const HERO_SLIDES = [
     id: 'campanha',
     src: '/images/hero/slide-1.jpg',
     alt: heroContent.imageAlt,
-    objectPosition: '48% 32%',
+    objectPosition: '46% 38%',
   },
   {
     id: 'sacola-marmore',
@@ -33,7 +33,7 @@ const HERO_SLIDES = [
     id: 'institucional',
     src: '/images/hero/slide-5.jpg',
     alt: 'Arte institucional Terra & Estilo: casal agro chic e logo circular dourado.',
-    objectPosition: '42% 30%',
+    objectPosition: '42% 36%',
   },
 ]
 

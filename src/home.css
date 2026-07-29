@@ -1039,7 +1039,7 @@
   border: none;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  object-position: 48% 32%;
+  object-position: 46% 38%;
   filter: brightness(1.04) contrast(1.03);
   opacity: 0;
   visibility: hidden;
@@ -1057,21 +1057,21 @@
   position: absolute;
   inset: 0;
   z-index: 3;
+  /* No top bar — keep vignette only at bottom/sides so hat crown stays visible */
   background:
     linear-gradient(
       180deg,
-      rgba(5, 5, 5, 0.08) 0%,
-      transparent 28%,
-      transparent 48%,
-      rgba(5, 5, 5, 0.32) 70%,
-      rgba(5, 5, 5, 0.78) 100%
+      transparent 0%,
+      transparent 42%,
+      rgba(5, 5, 5, 0.22) 68%,
+      rgba(5, 5, 5, 0.72) 100%
     ),
     linear-gradient(
       90deg,
-      rgba(5, 5, 5, 0.08) 0%,
-      transparent 32%,
-      transparent 64%,
-      rgba(5, 5, 5, 0.16) 100%
+      rgba(5, 5, 5, 0.04) 0%,
+      transparent 28%,
+      transparent 68%,
+      rgba(5, 5, 5, 0.12) 100%
     );
   pointer-events: none;
   opacity: 1;
@@ -2348,11 +2348,10 @@
   .hero-section__media-overlay {
     background: linear-gradient(
       180deg,
-      rgba(5, 5, 5, 0.1) 0%,
-      transparent 28%,
+      transparent 0%,
       transparent 40%,
-      rgba(5, 5, 5, 0.42) 68%,
-      rgba(5, 5, 5, 0.82) 100%
+      rgba(5, 5, 5, 0.36) 68%,
+      rgba(5, 5, 5, 0.8) 100%
     );
   }
 

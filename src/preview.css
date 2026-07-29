@@ -367,11 +367,10 @@
 .mobile-preview .hero-section__media-overlay {
   background: linear-gradient(
     180deg,
-    rgba(5, 5, 5, 0.12) 0%,
-    transparent 30%,
+    transparent 0%,
     transparent 40%,
-    rgba(5, 5, 5, 0.42) 68%,
-    rgba(5, 5, 5, 0.82) 100%
+    rgba(5, 5, 5, 0.36) 68%,
+    rgba(5, 5, 5, 0.8) 100%
   );
   opacity: 1;
 }
