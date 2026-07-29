@@ -21,7 +21,7 @@ console.log('source', meta.width, 'x', meta.height)
   still frame faces/hats under object-fit: cover.
 */
 const post = { left: 18, top: 166, width: 449, height: 483 }
-const modelsW = 188
+const modelsW = 172
 
 const modelsPng = await sharp(src)
   .extract(post)
@@ -30,15 +30,15 @@ const modelsPng = await sharp(src)
   .toBuffer()
 
 /*
-  Pad sides only (keep hats at the top of the bitmap).
-  Target ~4:5 so cover in a wide cell crops less aggressively than 3:4.
+  Slight top pad so hat crowns clear the frame under object-fit:cover.
+  Side pad keeps a dark bleed into the brand panel.
 */
 const paddedPng = await sharp(modelsPng)
   .extend({
-    top: 0,
+    top: 24,
     bottom: 0,
-    left: 16,
-    right: 16,
+    left: 12,
+    right: 20,
     background: { r: 9, g: 9, b: 9 },
   })
   .png()

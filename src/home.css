@@ -1012,7 +1012,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   align-items: stretch;
-  min-height: min(90vh, 820px);
+  min-height: min(88vh, 780px);
+  max-height: min(92vh, 900px);
   width: 100%;
   max-width: none;
   margin: 0;
@@ -1030,13 +1031,14 @@
 }
 
 .hero-section__image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  min-height: min(90vh, 820px);
   object-fit: cover;
-  /* Faces + hat crowns; avoid letterbox/black headroom */
-  object-position: 50% 18%;
+  /* Bias to faces/hats; models-only crop (no inauguration type) */
+  object-position: 42% 14%;
 }
 
 .hero-section__media-overlay {
@@ -1217,6 +1219,7 @@
   width: var(--hero-logo-size);
   height: var(--hero-logo-size);
   max-width: min(100%, 220px);
+  max-height: min(100%, 220px);
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
@@ -2171,6 +2174,7 @@
   .hero-section__inner {
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none;
   }
 
   .hero-section__media {
@@ -2178,8 +2182,8 @@
   }
 
   .hero-section__image {
-    min-height: min(52vh, 420px);
-    object-position: 48% 12%;
+    position: absolute;
+    object-position: 45% 10%;
   }
 
   .hero-section__media-overlay {
@@ -2352,10 +2356,6 @@
   }
 
   .hero-section__media {
-    min-height: min(46vh, 360px);
-  }
-
-  .hero-section__image {
     min-height: min(46vh, 360px);
   }
 
@@ -2662,8 +2662,7 @@
     font-size: 1.625rem;
   }
 
-  .hero-section__media,
-  .hero-section__image {
+  .hero-section__media {
     min-height: 260px;
   }
 
@@ -2787,10 +2786,7 @@
 @media (max-width: 1024px) {
   .hero-section__inner {
     min-height: min(84vh, 720px);
-  }
-
-  .hero-section__image {
-    min-height: min(84vh, 720px);
+    max-height: min(90vh, 800px);
   }
 
   .hero-section__panel {
@@ -2809,8 +2805,7 @@
 }
 
 @media (max-width: 390px) {
-  .hero-section__media,
-  .hero-section__image {
+  .hero-section__media {
     min-height: 240px;
   }
 
@@ -2829,8 +2824,7 @@
 }
 
 @media (max-width: 360px) {
-  .hero-section__media,
-  .hero-section__image {
+  .hero-section__media {
     min-height: 220px;
   }
 
