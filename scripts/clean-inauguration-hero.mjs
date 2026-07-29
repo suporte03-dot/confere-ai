@@ -27,6 +27,8 @@ const candidateSources = [
 const workingSrc = path.join(root, 'public/images/brand/brand-inauguracao-flyer.png')
 const outHero = path.join(root, 'public/images/terra-estilo-hero.jpg')
 const outFullBleed = path.join(root, 'public/images/terra-estilo-hero-full.jpg')
+const outSlide1 = path.join(root, 'public/images/hero/slide-1.jpg')
+const outSlide5 = path.join(root, 'public/images/hero/slide-5.jpg')
 const probeDir = path.join(root, 'public/images/_probe')
 
 function pickSource() {
@@ -57,7 +59,7 @@ const W = meta.width
 const H = meta.height
 console.log('source', W, 'x', H)
 
-// Near-black sample in empty mid-right field.
+// Near-black sample in empty mid-right field (between text and glitter).
 const sample = await sharp(workingSrc)
   .extract({ left: 520, top: 200, width: 24, height: 24 })
   .raw()
@@ -75,9 +77,9 @@ const bgRgb = [Math.round(br / sn), Math.round(bg / sn), Math.round(bb / sn)]
 console.log('bg', bgRgb)
 
 const regions = [
-  // CONVITE ESPECIAL + INAUGURAÇÃO (stay right of models)
-  { left: 242, top: 4, width: 290, height: 108 },
-  // Invitation paragraph / last line below logo
+  // CONVITE ESPECIAL + INAUGURAÇÃO + decorative flourish (stay right of models)
+  { left: 242, top: 4, width: 290, height: 112 },
+  // Invitation paragraph / last lines below logo
   { left: 232, top: 300, width: 320, height: H - 300 - 5 },
 ]
 
@@ -125,13 +127,13 @@ cleanedBuf = await sharp(cleanedBuf)
   .png()
   .toBuffer()
 
-// Cover the gold leaf ornament that sits just above the logo ring.
+// Cover any leftover gold leaf ornament that sits just above the logo ring.
 cleanedBuf = await sharp(cleanedBuf)
   .composite([
     {
-      input: await solidPatch(160, 16, bgRgb),
-      left: 304,
-      top: 95,
+      input: await solidPatch(180, 20, bgRgb),
+      left: 294,
+      top: 92,
     },
   ])
   .removeAlpha()
@@ -161,7 +163,17 @@ const heroJpeg = await sharp(cleanedBuf)
   .jpeg({ quality: 92, mozjpeg: true })
   .toBuffer()
 
+const slide5Jpeg = await sharp(cleanedBuf)
+  .jpeg({ quality: 92, mozjpeg: true })
+  .toBuffer()
+
 await fs.promises.writeFile(outHero, heroJpeg)
 await fs.promises.writeFile(outFullBleed, heroJpeg)
+await fs.promises.writeFile(outSlide1, heroJpeg)
+await fs.promises.writeFile(outSlide5, slide5Jpeg)
+
 const final = await sharp(outHero).metadata()
+const slide5Meta = await sharp(outSlide5).metadata()
 console.log('wrote', outHero, final.width + 'x' + final.height)
+console.log('wrote', outSlide1, final.width + 'x' + final.height)
+console.log('wrote', outSlide5, slide5Meta.width + 'x' + slide5Meta.height)
