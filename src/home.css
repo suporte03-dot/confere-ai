@@ -1037,16 +1037,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Bias to faces/hats; models-only crop (no inauguration type) */
-  object-position: 42% 14%;
+  /* Faces + hats; models-only crop (no inauguration type) */
+  object-position: 40% 8%;
+  filter: brightness(1.14) contrast(1.06) saturate(1.05);
 }
 
 .hero-section__media-overlay {
   position: absolute;
   inset: 0;
+  /* Soft edge blend only — keep faces readable */
   background:
-    linear-gradient(90deg, rgba(9, 9, 9, 0.15) 0%, rgba(9, 9, 9, 0.35) 55%, rgba(9, 9, 9, 0.88) 100%),
-    linear-gradient(180deg, rgba(9, 9, 9, 0.2) 0%, transparent 35%, rgba(9, 9, 9, 0.55) 100%);
+    linear-gradient(90deg, rgba(9, 9, 9, 0.02) 0%, rgba(9, 9, 9, 0.08) 62%, rgba(9, 9, 9, 0.42) 100%),
+    linear-gradient(180deg, rgba(9, 9, 9, 0.06) 0%, transparent 28%, rgba(9, 9, 9, 0.22) 100%);
   pointer-events: none;
 }
 
@@ -1055,7 +1057,7 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 0;
   min-width: 0;
@@ -1063,19 +1065,29 @@
   width: 100%;
   height: auto;
   align-self: stretch;
-  padding: clamp(40px, 5vw, 72px) clamp(24px, 4vw, 56px);
-  background:
-    radial-gradient(circle at 70% 30%, rgba(201, 162, 77, 0.1), transparent 42%),
-    linear-gradient(160deg, #151515 0%, #090909 100%);
+  padding: clamp(36px, 4.5vw, 64px) clamp(28px, 4.5vw, 56px);
+  background: linear-gradient(165deg, #171717 0%, #0c0c0c 100%);
   overflow: hidden;
   animation: hero-fade-in 0.35s ease both;
+}
+
+.hero-section__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 34rem;
+  margin: 0 auto;
 }
 
 .hero-section__particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.28;
   background-image:
     radial-gradient(1px 1px at 12% 22%, rgba(230, 201, 138, 0.55), transparent),
     radial-gradient(1.5px 1.5px at 78% 18%, rgba(201, 162, 77, 0.45), transparent),
@@ -1087,16 +1099,7 @@
 }
 
 .hero-section__glow {
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  width: min(320px, 70%);
-  height: min(320px, 70%);
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 162, 77, 0.18) 0%, transparent 68%);
-  pointer-events: none;
-  filter: blur(8px);
+  display: none;
 }
 
 .hero-section__label {
@@ -1110,14 +1113,16 @@
 }
 
 .hero-section__title {
-  margin: 14px 0 0;
-  max-width: 18ch;
+  margin: 14px auto 0;
+  max-width: 22ch;
+  width: 100%;
   font-family: 'Cormorant Garamond', var(--font-serif);
-  font-size: clamp(2.15rem, 3.6vw, 3.35rem);
+  font-size: clamp(2rem, 3.2vw, 3.1rem);
   font-weight: 600;
   color: var(--white-soft);
   letter-spacing: 0.01em;
-  line-height: 1.12;
+  line-height: 1.18;
+  text-wrap: balance;
 }
 
 .hero-section__slogan {
@@ -1131,8 +1136,9 @@
 }
 
 .hero-section__support {
-  margin: 18px 0 0;
-  max-width: 38ch;
+  margin: 18px auto 0;
+  max-width: 36ch;
+  width: 100%;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
   font-weight: 400;
@@ -1143,8 +1149,10 @@
 .hero-section__actions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
   margin-top: 32px;
+  width: 100%;
 }
 
 .hero-section__actions .btn--primary {
@@ -1183,7 +1191,7 @@
 }
 
 .hero-brand-board {
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   width: auto;
   max-width: var(--hero-board-max-w);
@@ -1195,14 +1203,13 @@
   position: relative;
   display: grid;
   place-items: center;
-  padding: 6px;
+  padding: 5px;
   border-radius: 50%;
   background:
-    linear-gradient(145deg, rgba(230, 201, 138, 0.55), rgba(201, 162, 77, 0.2) 40%, rgba(216, 181, 106, 0.45));
+    linear-gradient(145deg, rgba(230, 201, 138, 0.5), rgba(201, 162, 77, 0.18) 42%, rgba(216, 181, 106, 0.4));
   box-shadow:
-    0 0 0 1px rgba(201, 162, 77, 0.35),
-    0 0 28px rgba(201, 162, 77, 0.22),
-    0 16px 36px rgba(0, 0, 0, 0.35);
+    0 0 0 1px rgba(201, 162, 77, 0.32),
+    0 10px 28px rgba(0, 0, 0, 0.32);
 }
 
 .hero-brand-board__ring::after {
@@ -2197,8 +2204,12 @@
     padding: 36px 24px 48px;
   }
 
+  .hero-section__copy {
+    max-width: 36rem;
+  }
+
   .hero-section__title {
-    max-width: 20ch;
+    max-width: 22ch;
   }
 
   .hero-section__support {

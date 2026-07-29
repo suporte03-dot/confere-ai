@@ -23,29 +23,30 @@ function HeroSection() {
 
         <div className="hero-section__panel">
           <div className="hero-section__particles" aria-hidden="true" />
-          <div className="hero-section__glow" aria-hidden="true" />
 
-          <HeroBrandBoard logoSrc={BRAND_LOGO_CIRCULAR_SRC} />
+          <div className="hero-section__copy">
+            <HeroBrandBoard logoSrc={BRAND_LOGO_CIRCULAR_SRC} />
 
-          <p className="hero-section__label">{heroContent.label}</p>
-          <h1 id="hero-title" className="hero-section__title">
-            {heroContent.title}
-          </h1>
-          <p className="hero-section__slogan">{heroContent.slogan}</p>
-          <p className="hero-section__support">{heroContent.support}</p>
+            <p className="hero-section__label">{heroContent.label}</p>
+            <h1 id="hero-title" className="hero-section__title">
+              {heroContent.title}
+            </h1>
+            <p className="hero-section__slogan">{heroContent.slogan}</p>
+            <p className="hero-section__support">{heroContent.support}</p>
 
-          <div className="hero-section__actions">
-            <a href="#produtos" className="btn btn--primary">
-              {heroContent.primaryCta}
-            </a>
-            <a
-              href={whatsappHref}
-              className="btn btn--outline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {heroContent.secondaryCta}
-            </a>
+            <div className="hero-section__actions">
+              <a href="#produtos" className="btn btn--primary">
+                {heroContent.primaryCta}
+              </a>
+              <a
+                href={whatsappHref}
+                className="btn btn--outline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {heroContent.secondaryCta}
+              </a>
+            </div>
           </div>
         </div>
       </div>

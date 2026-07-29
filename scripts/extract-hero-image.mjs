@@ -15,13 +15,12 @@ const meta = await sharp(src).metadata()
 console.log('source', meta.width, 'x', meta.height)
 
 /*
-  Inauguration graphic ≈ y 166–648 in the Instagram screenshot.
-  Models occupy the left ~42% — stop before gold "INAUGURAÇÃO".
-  Output a slightly wider hero crop so desktop media cells (landscape)
-  still frame faces/hats under object-fit: cover.
+  Inauguration graphic ≈ y 166–648.
+  Models only — stop well before gold "INAUGURAÇÃO" (~x 200+ in post space).
+  Top pad keeps hat crowns clear under object-fit: cover.
 */
 const post = { left: 18, top: 166, width: 449, height: 483 }
-const modelsW = 172
+const modelsW = 158
 
 const modelsPng = await sharp(src)
   .extract(post)
@@ -29,17 +28,13 @@ const modelsPng = await sharp(src)
   .png()
   .toBuffer()
 
-/*
-  Slight top pad so hat crowns clear the frame under object-fit:cover.
-  Side pad keeps a dark bleed into the brand panel.
-*/
 const paddedPng = await sharp(modelsPng)
   .extend({
-    top: 24,
-    bottom: 0,
-    left: 12,
-    right: 20,
-    background: { r: 9, g: 9, b: 9 },
+    top: 40,
+    bottom: 8,
+    left: 10,
+    right: 24,
+    background: { r: 18, g: 16, b: 14 },
   })
   .png()
   .toBuffer()
@@ -52,6 +47,8 @@ await sharp(paddedPng)
     fit: 'cover',
     position: 'top',
   })
+  .modulate({ brightness: 1.22, saturation: 1.08 })
+  .linear(1.12, -8)
   .jpeg({ quality: 92, mozjpeg: true })
   .toFile(out)
 
