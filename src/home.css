@@ -989,7 +989,7 @@
 /* ── Hero Section — full-bleed models + content (~52/48) ── */
 .hero-section,
 .hero-section__inner,
-.hero-section__media,
+.hero-section__bg,
 .hero-section__panel,
 .hero-section__image {
   box-sizing: border-box;
@@ -1000,44 +1000,19 @@
   width: 100%;
   max-width: none;
   margin: 0;
-  min-height: 740px;
+  min-height: min(92vh, 860px);
   height: auto;
   overflow: hidden;
   color: var(--white-soft);
-  background:
-    radial-gradient(circle at 78% 28%, rgba(201, 162, 77, 0.1), transparent 34%),
-    linear-gradient(110deg, #11100d 0%, #17140f 50%, #0e0e0d 100%);
+  background: #050505;
 }
 
-.hero-section__inner {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  align-items: stretch;
-  gap: 0;
-  min-height: 740px;
-  height: auto;
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 0;
-}
-
-.hero-section__media {
-  position: relative;
-  display: block;
-  min-width: 0;
-  min-height: 740px;
-  width: 100%;
-  height: 100%;
-  align-self: stretch;
-  padding: 0;
+.hero-section__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
-  background: #0a0a09;
-}
-
-.hero-section__media::before {
-  content: none;
+  background: #050505;
 }
 
 .hero-section__image {
@@ -1051,23 +1026,47 @@
   max-height: none;
   margin: 0;
   object-fit: cover;
-  object-position: 50% 25%;
-  filter: brightness(1.1) contrast(1.03);
+  object-position: 42% 35%;
+  filter: brightness(1.04) contrast(1.04);
 }
 
 .hero-section__media-overlay {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    transparent 48%,
-    rgba(14, 14, 13, 0.28) 72%,
-    rgba(14, 14, 13, 0.72) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 5, 5, 0.18) 0%,
+      transparent 28%,
+      transparent 48%,
+      rgba(5, 5, 5, 0.45) 68%,
+      rgba(5, 5, 5, 0.88) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(5, 5, 5, 0.22) 0%,
+      transparent 28%,
+      transparent 58%,
+      rgba(5, 5, 5, 0.35) 100%
+    );
   pointer-events: none;
   opacity: 1;
+}
+
+.hero-section__inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  min-height: min(92vh, 860px);
+  height: auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .hero-section__panel {
@@ -1076,14 +1075,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0;
   min-width: 0;
-  min-height: 740px;
+  min-height: 0;
   width: 100%;
   height: auto;
-  align-self: stretch;
-  padding: 48px clamp(28px, 4.5vw, 72px);
+  padding: 56px clamp(20px, 4vw, 64px) 64px;
   background: transparent;
   overflow: visible;
   animation: hero-fade-in 0.35s ease both;
@@ -1098,7 +1096,7 @@
   justify-content: center;
   text-align: center;
   width: 100%;
-  max-width: 650px;
+  max-width: 720px;
   margin-inline: auto;
 }
 
@@ -2209,31 +2207,28 @@
     min-height: 0;
   }
 
+  .hero-section {
+    min-height: min(88vh, 760px);
+  }
+
   .hero-section__inner {
-    grid-template-columns: 1fr;
-    gap: 0;
-    min-height: 0;
+    min-height: min(88vh, 760px);
     max-height: none;
     padding: 0;
   }
 
-  .hero-section__media {
-    min-height: clamp(420px, 50vh, 520px);
-    height: clamp(420px, 50vh, 520px);
-    width: 100%;
-  }
-
   .hero-section__image {
-    object-position: 50% 22%;
+    object-position: 38% 30%;
   }
 
   .hero-section__media-overlay {
     background: linear-gradient(
       180deg,
-      transparent 0%,
-      transparent 55%,
-      rgba(14, 14, 13, 0.35) 78%,
-      rgba(14, 14, 13, 0.78) 100%
+      rgba(5, 5, 5, 0.2) 0%,
+      transparent 30%,
+      transparent 42%,
+      rgba(5, 5, 5, 0.55) 70%,
+      rgba(5, 5, 5, 0.92) 100%
     );
   }
 
@@ -2400,13 +2395,13 @@
     letter-spacing: 0.14em;
   }
 
-  .hero-section__media {
-    min-height: clamp(400px, 48vh, 480px);
-    height: clamp(400px, 48vh, 480px);
+  .hero-section,
+  .hero-section__inner {
+    min-height: min(86vh, 700px);
   }
 
   .hero-section__image {
-    object-position: 50% 20%;
+    object-position: 35% 28%;
   }
 
   .hero-section__panel {
@@ -2831,13 +2826,13 @@
     gap: 0;
   }
 
-  .hero-section__media {
-    min-height: clamp(380px, 50vh, 460px);
-    height: clamp(380px, 50vh, 460px);
+  .hero-section,
+  .hero-section__inner {
+    min-height: min(84vh, 680px);
   }
 
   .hero-section__image {
-    object-position: 50% 18%;
+    object-position: 32% 26%;
   }
 
   .hero-section__panel {

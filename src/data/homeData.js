@@ -49,7 +49,7 @@ export const heroContent = {
   primaryCta: 'Conheça nossa coleção',
   secondaryCta: 'Fale conosco',
   imageAlt:
-    'Casal usando camisas pretas Terra & Estilo e chapéus country, em ensaio de campanha preto e ouro.',
+    'Campanha Terra & Estilo: modelos em camisas pretas e chapéus country ao lado do logo circular dourado sobre fundo preto com poeira de ouro.',
   boardAlt:
     'Terra & Estilo — A marca do agro brasileiro. Logo circular oficial em ouro sobre preto.',
 }
