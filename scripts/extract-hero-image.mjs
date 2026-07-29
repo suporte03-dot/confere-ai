@@ -15,26 +15,21 @@ const meta = await sharp(src).metadata()
 console.log('source', meta.width, 'x', meta.height)
 
 /*
-  Inauguration graphic ≈ y 166–648.
-  Models only — stop well before gold "INAUGURAÇÃO" (~x 200+ in post space).
-  Top pad keeps hat crowns clear under object-fit: cover.
+  Extract only the models photo frame from the inauguration graphic.
+  Avoids gold "INAUGURAÇÃO" type, date row, and invite copy on the right.
+  Extra top pad (#15130f) protects hat crowns under object-fit: contain.
 */
-const post = { left: 18, top: 166, width: 449, height: 483 }
-const modelsW = 158
+const models = { left: 14, top: 168, width: 158, height: 350 }
 
-const modelsPng = await sharp(src)
-  .extract(post)
-  .extract({ left: 0, top: 0, width: modelsW, height: post.height })
-  .png()
-  .toBuffer()
+const modelsPng = await sharp(src).extract(models).png().toBuffer()
 
 const paddedPng = await sharp(modelsPng)
   .extend({
-    top: 40,
-    bottom: 8,
-    left: 10,
-    right: 24,
-    background: { r: 18, g: 16, b: 14 },
+    top: 96,
+    bottom: 64,
+    left: 40,
+    right: 48,
+    background: { r: 21, g: 19, b: 15 },
   })
   .png()
   .toBuffer()
@@ -44,12 +39,12 @@ console.log('padded', padMeta.width, 'x', padMeta.height)
 
 await sharp(paddedPng)
   .resize(1200, 1500, {
-    fit: 'cover',
-    position: 'top',
+    fit: 'contain',
+    background: { r: 21, g: 19, b: 15 },
   })
-  .modulate({ brightness: 1.22, saturation: 1.08 })
-  .linear(1.12, -8)
-  .jpeg({ quality: 92, mozjpeg: true })
+  .modulate({ brightness: 1.32, saturation: 1.05 })
+  .linear(1.1, -6)
+  .jpeg({ quality: 93, mozjpeg: true })
   .toFile(out)
 
 const final = await sharp(out).metadata()
@@ -57,3 +52,16 @@ console.log('wrote', out, `${final.width}x${final.height}`)
 
 await fs.promises.copyFile(logoSrc, logoOut)
 console.log('copied', logoOut)
+
+// cleanup probes
+for (const name of [
+  '_probe-models.jpg',
+  '_probe-models2.jpg',
+  '_probe-models3.jpg',
+  '_probe-frame.jpg',
+  '_probe-frame2.jpg',
+]) {
+  const p = path.join(root, 'public/images', name)
+  if (fs.existsSync(p)) fs.unlinkSync(p)
+}
+console.log('probes cleaned')

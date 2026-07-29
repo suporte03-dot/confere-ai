@@ -3,7 +3,7 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(82px, 6.2vw, 100px);
-  --hero-logo-size: clamp(290px, 34vw, 440px);
+  --hero-logo-size: clamp(180px, 22vw, 310px);
 }
 
 .desktop-preview .header-brand__logo-img {
@@ -12,8 +12,8 @@
 }
 
 .desktop-preview .hero-brand-board__logo-img {
-  width: var(--hero-logo-size);
-  height: var(--hero-logo-size);
+  width: clamp(180px, 22vw, 310px);
+  height: auto;
 }
 
 
@@ -46,7 +46,7 @@
   --header-logo-size: 72px;
   --header-monogram-size: 48px;
   --header-wordmark-size: clamp(1.5rem, 7.5vw, 1.875rem);
-  --hero-logo-size: min(260px, 64vw);
+  --hero-logo-size: clamp(170px, 48vw, 220px);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
   position: relative;
@@ -333,54 +333,81 @@
 /* ── Hero e seções ── */
 .mobile-preview .hero-section {
   overflow: hidden;
+  min-height: 0;
 }
 
 .mobile-preview .hero-section__inner {
   grid-template-columns: 1fr;
-  min-height: auto;
+  min-height: 0;
+  gap: 0;
+  padding: 0 16px;
 }
 
 .mobile-preview .hero-section__media {
-  min-height: 280px;
+  min-height: 420px;
+  max-height: none;
+  background: #15130f;
 }
 
 .mobile-preview .hero-section__image {
-  min-height: 280px;
-  object-position: 30% 12%;
+  max-height: 420px;
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(1.15) contrast(1.03);
+}
+
+.mobile-preview .hero-section__media-overlay {
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.08), rgba(8, 8, 8, 0.32));
 }
 
 .mobile-preview .hero-section__panel {
   align-items: center;
   text-align: center;
-  padding: 28px 16px 36px;
+  padding: 28px 14px 36px;
+  overflow: visible;
+}
+
+.mobile-preview .hero-section__copy {
+  max-width: 100%;
 }
 
 .mobile-preview .hero-section__title {
-  font-size: clamp(1.625rem, 7vw, 1.875rem);
-  line-height: 1.14;
-  max-width: 18ch;
+  font-size: clamp(36px, 9vw, 44px);
+  line-height: 1.04;
+  max-width: 100%;
+  margin: 0 auto 18px;
 }
 
 .mobile-preview .hero-section__support {
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.7;
+  color: #c7c0b5;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 
 .mobile-preview .hero-section__actions {
   justify-content: center;
+  flex-direction: column;
+  gap: 12px;
   width: 100%;
+  margin-top: 24px;
 }
 
 .mobile-preview .hero-section__actions .btn {
   flex: 1 1 100%;
+  width: 100%;
   max-width: 100%;
 }
 
+.mobile-preview .hero-brand-board {
+  margin-bottom: 20px;
+}
+
 .mobile-preview .hero-brand-board__logo-img {
-  width: clamp(120px, 36vw, 160px);
-  height: clamp(120px, 36vw, 160px);
+  width: clamp(170px, 48vw, 220px);
+  height: auto;
 }
 
 .mobile-preview .section {
