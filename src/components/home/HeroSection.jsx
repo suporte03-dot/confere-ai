@@ -24,11 +24,9 @@ function HeroSection() {
           <div className="hero-section__particles" aria-hidden="true" />
 
           <div className="hero-section__copy">
-            <p className="hero-section__label">{heroContent.label}</p>
             <h1 id="hero-title" className="hero-section__title">
               {heroContent.title}
             </h1>
-            <p className="hero-section__slogan">{heroContent.slogan}</p>
             <p className="hero-section__support">{heroContent.support}</p>
 
             <div className="hero-section__actions">

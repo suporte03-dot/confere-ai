@@ -75,10 +75,10 @@ const bgRgb = [Math.round(br / sn), Math.round(bg / sn), Math.round(bb / sn)]
 console.log('bg', bgRgb)
 
 const regions = [
-  // CONVITE ESPECIAL + INAUGURAÇÃO
-  { left: 228, top: 4, width: 312, height: 108 },
+  // CONVITE ESPECIAL + INAUGURAÇÃO (stay right of models)
+  { left: 242, top: 4, width: 290, height: 108 },
   // Invitation paragraph / last line below logo
-  { left: 218, top: 300, width: 340, height: H - 300 - 5 },
+  { left: 232, top: 300, width: 320, height: H - 300 - 5 },
 ]
 
 const composites = []
