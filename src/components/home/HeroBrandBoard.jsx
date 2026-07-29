@@ -1,22 +1,16 @@
-import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
-
-function HeroBrandBoard() {
+function HeroBrandBoard({ logoSrc }) {
   return (
     <figure className="hero-brand-board">
-      <div className="hero-brand-board__frame">
-        <div className="hero-brand-board__plate">
-          <div className="hero-brand-board__composition">
-            <img
-              src={BRAND_LOGO_CIRCULAR_SRC}
-              alt="Terra & Estilo — A marca do agro brasileiro"
-              className="hero-brand-board__logo-img"
-              width={1024}
-              height={1024}
-              decoding="async"
-              fetchPriority="high"
-            />
-          </div>
-        </div>
+      <div className="hero-brand-board__ring">
+        <img
+          src={logoSrc}
+          alt="Terra & Estilo — A marca do agro brasileiro"
+          className="hero-brand-board__logo-img"
+          width={512}
+          height={512}
+          decoding="async"
+          fetchPriority="high"
+        />
       </div>
     </figure>
   )
