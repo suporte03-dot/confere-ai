@@ -986,9 +986,12 @@
   outline-offset: 2px;
 }
 
-/* ── Hero Section — campanha premium ── */
+/* ── Hero Section — campanha premium (full-bleed) ── */
 .hero-section {
   position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   background:
     radial-gradient(ellipse 50% 40% at 85% 20%, rgba(201, 162, 77, 0.08), transparent 55%),
     linear-gradient(135deg, var(--black-primary) 0%, var(--black-secondary) 55%, #0d0d0d 100%);
@@ -999,17 +1002,20 @@
 .hero-section__inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
   align-items: stretch;
   min-height: min(90vh, 820px);
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
 .hero-section__media {
   position: relative;
+  min-width: 0;
   min-height: 100%;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: var(--black-primary);
 }
@@ -1020,7 +1026,8 @@
   height: 100%;
   min-height: min(90vh, 820px);
   object-fit: cover;
-  object-position: 28% 18%;
+  /* Keep hat crowns + faces; source is models-only (no inauguration type) */
+  object-position: 40% 0%;
 }
 
 .hero-section__media-overlay {
@@ -1040,10 +1047,13 @@
   align-items: flex-start;
   justify-content: center;
   gap: 0;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
   padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 64px);
   background:
     radial-gradient(circle at 70% 30%, rgba(201, 162, 77, 0.1), transparent 42%),
-    linear-gradient(160deg, rgba(21, 21, 21, 0.55) 0%, rgba(9, 9, 9, 0.92) 100%);
+    linear-gradient(160deg, #151515 0%, #090909 100%);
   overflow: hidden;
   animation: hero-fade-in 0.35s ease both;
 }
@@ -2158,7 +2168,7 @@
 
   .hero-section__image {
     min-height: min(52vh, 420px);
-    object-position: 30% 12%;
+    object-position: 38% 0%;
   }
 
   .hero-section__media-overlay {
@@ -2782,10 +2792,6 @@
 }
 
 @media (min-width: 1440px) {
-  .hero-section__inner {
-    max-width: 1440px;
-  }
-
   .hero-section__title {
     font-size: 3.35rem;
   }
