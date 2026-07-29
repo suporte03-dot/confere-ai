@@ -986,7 +986,7 @@
   outline-offset: 2px;
 }
 
-/* ── Hero Section — full-bleed models + content (~52/48) ── */
+/* ── Hero Section — full-bleed edge-to-edge ── */
 .hero-section,
 .hero-section__inner,
 .hero-section__bg,
@@ -997,9 +997,14 @@
 
 .hero-section {
   position: relative;
-  width: 100%;
-  max-width: none;
-  margin: 0;
+  width: 100vw;
+  max-width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   min-height: min(92vh, 860px);
   height: auto;
   overflow: hidden;
@@ -1012,19 +1017,27 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: none;
   background: #050505;
 }
 
 .hero-section__image {
   position: absolute;
-  inset: 0;
+  /* Crop baked-in black margins + gold frame from the hero asset */
+  top: 50%;
+  left: 50%;
   z-index: 1;
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 112%;
+  height: 112%;
   max-width: none;
   max-height: none;
   margin: 0;
+  padding: 0;
+  border: none;
+  transform: translate(-50%, -50%);
   object-fit: cover;
   object-position: 48% 32%;
   filter: brightness(1.03) contrast(1.03);
@@ -1067,6 +1080,7 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  border: none;
 }
 
 .hero-section__panel {
@@ -1082,6 +1096,10 @@
   width: 100%;
   height: auto;
   padding: 56px clamp(20px, 4vw, 64px) 64px;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   background: transparent;
   overflow: visible;
   animation: hero-fade-in 0.35s ease both;

@@ -332,11 +332,14 @@
 
 /* ── Hero e seções ── */
 .mobile-preview .hero-section {
+  /* Keep hero inside the phone shell — do not break out with 100vw */
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  border: none;
   overflow: hidden;
-  min-height: 0;
-}
-
-.mobile-preview .hero-section {
   min-height: 640px;
 }
 
@@ -348,6 +351,8 @@
 }
 
 .mobile-preview .hero-section__image {
+  width: 118%;
+  height: 118%;
   object-position: 32% 26%;
   filter: brightness(1.04) contrast(1.04);
 }
