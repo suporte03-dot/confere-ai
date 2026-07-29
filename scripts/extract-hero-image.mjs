@@ -19,16 +19,16 @@ console.log('source', meta.width, 'x', meta.height)
   Avoids gold "INAUGURAÇÃO" type, date row, and invite copy on the right.
   Extra top pad (#15130f) protects hat crowns under object-fit: contain.
 */
-const models = { left: 14, top: 168, width: 158, height: 350 }
+const models = { left: 20, top: 174, width: 148, height: 338 }
 
 const modelsPng = await sharp(src).extract(models).png().toBuffer()
 
 const paddedPng = await sharp(modelsPng)
   .extend({
-    top: 96,
-    bottom: 64,
-    left: 40,
-    right: 48,
+    top: 110,
+    bottom: 70,
+    left: 48,
+    right: 56,
     background: { r: 21, g: 19, b: 15 },
   })
   .png()
@@ -42,8 +42,8 @@ await sharp(paddedPng)
     fit: 'contain',
     background: { r: 21, g: 19, b: 15 },
   })
-  .modulate({ brightness: 1.32, saturation: 1.05 })
-  .linear(1.1, -6)
+  .modulate({ brightness: 1.35, saturation: 1.06 })
+  .linear(1.12, -8)
   .jpeg({ quality: 93, mozjpeg: true })
   .toFile(out)
 
