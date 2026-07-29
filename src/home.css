@@ -2197,6 +2197,17 @@
     border-radius: 8px;
   }
 
+  .featured-collection__inner {
+    grid-template-columns: 1fr;
+    padding: 48px 0;
+  }
+
+  .about-brand__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
   .hero-section {
     min-height: 0;
   }
@@ -2259,15 +2270,6 @@
 
   .hero-brand-board__logo-img {
     width: clamp(200px, 28vw, 300px);
-  }
-
-  .featured-collection__inner {
-    grid-template-columns: 1fr;
-    padding: 48px 0;
-  }
-
-  .about-brand__inner {
-    grid-template-columns: 1fr;
   }
 }
 
