@@ -80,7 +80,6 @@ function smoothstep(t) {
   return x * x * (3 - 2 * x)
 }
 
-/** Asymmetric edge weight — full cover in core, soft only where requested. */
 function edgeWeight(x, y, box) {
   const { left, top, width: zw, height: zh, featherL, featherR, featherT, featherB } = box
   const dl = x - left
@@ -88,7 +87,6 @@ function edgeWeight(x, y, box) {
   const dt = y - top
   const db = top + zh - 1 - y
   if (dl < 0 || dr < 0 || dt < 0 || db < 0) return 0
-
   const wl = featherL > 0 ? smoothstep(dl / featherL) : 1
   const wr = featherR > 0 ? smoothstep(dr / featherR) : 1
   const wt = featherT > 0 ? smoothstep(dt / featherT) : 1
@@ -97,41 +95,52 @@ function edgeWeight(x, y, box) {
 }
 
 /**
- * Build a textured fill plate from large donor patches (dark grain + gold dust),
- * then soft-composite over a zone. Core of the zone is 100% replaced — no ghosts.
+ * Clone from nearby textured columns (left smoke + right gold-dust),
+ * skipping bright glyph/ornament donors. Adds tiny hash noise so fill
+ * never looks like a flat #000 rectangle.
  */
-async function buildTexturePlate(srcPath, w, h) {
-  // Large mid-right dark textured field (subtle grain, no glyphs)
-  const dark = await sharp(srcPath)
-    .extract({ left: 470, top: 150, width: 120, height: 160 })
-    .resize(w, h, { fit: 'cover', kernel: sharp.kernel.lanczos3 })
-    .png()
-    .toBuffer()
-
-  // Gold-dust strip from upper-right, darkened so it doesn't dominate
-  const dust = await sharp(srcPath)
-    .extract({ left: 520, top: 20, width: 70, height: 120 })
-    .resize(w, h, { fit: 'cover', kernel: sharp.kernel.lanczos3 })
-    .modulate({ brightness: 0.55, saturation: 0.7 })
-    .blur(1.2)
-    .png()
-    .toBuffer()
-
-  // Soft blend dust into dark plate at low opacity for natural sparkle
-  return sharp(dark)
-    .composite([{ input: dust, blend: 'screen', gravity: 'centre' }])
-    .modulate({ brightness: 0.88, saturation: 0.75 })
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true })
+function sampleClone(src, w, h, ch, x, y, donorXs, maxDonorLum = 38) {
+  let rr = 0
+  let gg = 0
+  let bb = 0
+  let n = 0
+  for (const dx of donorXs) {
+    // Bias donor Y toward mid-dark field when wiping header (avoid frame gold)
+    const baseY = y < 120 ? Math.max(140, Math.min(h - 30, 160 + (y % 40))) : y
+    for (const oy of [-10, -5, -2, 0, 2, 5, 10]) {
+      const yy = Math.min(h - 1, Math.max(0, baseY + oy))
+      for (const ox of [-6, -3, 0, 3, 6]) {
+        const xx = Math.min(w - 1, Math.max(0, dx + ox))
+        const di = (yy * w + xx) * ch
+        const dLum = (src[di] + src[di + 1] + src[di + 2]) / 3
+        if (dLum > maxDonorLum) continue
+        // Skip warm gold ornaments in donors
+        if (src[di] - src[di + 2] > 18 && dLum > 22) continue
+        rr += src[di]
+        gg += src[di + 1]
+        bb += src[di + 2]
+        n++
+      }
+    }
+  }
+  if (n === 0) {
+    const di = (Math.min(h - 1, Math.max(150, y)) * w + 510) * ch
+    return [src[di], src[di + 1], src[di + 2]]
+  }
+  // Micro grain from position hash so fill isn't poster-flat
+  const jitter = ((x * 374761 + y * 668265) % 7) - 3
+  return [
+    Math.min(255, Math.max(0, Math.round(rr / n) + jitter)),
+    Math.min(255, Math.max(0, Math.round(gg / n) + jitter)),
+    Math.min(255, Math.max(0, Math.round(bb / n) + Math.floor(jitter * 0.5))),
+  ]
 }
 
-function applySoftZone(base, plate, w, h, ch, zone, blurRadius = 10) {
+function wipeZone(dst, src, w, h, ch, zone, donorXs, blurRadius = 10) {
   const mask = new Float32Array(w * h)
   for (let y = zone.top; y < zone.top + zone.height; y++) {
     for (let x = zone.left; x < zone.left + zone.width; x++) {
       if (x < 0 || y < 0 || x >= w || y >= h) continue
-      // Force full strength in core; feather only at configured edges
       mask[y * w + x] = edgeWeight(x, y, zone)
     }
   }
@@ -140,47 +149,45 @@ function applySoftZone(base, plate, w, h, ch, zone, blurRadius = 10) {
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       let a = soft[y * w + x]
-      if (a < 0.01) continue
-      // Boost core so residual ghosts cannot survive mid-tones
-      if (a > 0.55) a = 1
-      else a = smoothstep(a / 0.55)
+      if (a < 0.012) continue
+      // Core = full replace (kills ghost lettering + gold line)
+      if (a > 0.5) a = 1
+      else a = smoothstep(a / 0.5)
 
+      const [rr, gg, bb] = sampleClone(src, w, h, ch, x, y, donorXs)
       const i = (y * w + x) * ch
-      const pi = (y * w + x) * plate.info.channels
-      const pr = plate.data[pi]
-      const pg = plate.data[pi + 1]
-      const pb = plate.data[pi + 2]
-      base[i] = Math.round(base[i] * (1 - a) + pr * a)
-      base[i + 1] = Math.round(base[i + 1] * (1 - a) + pg * a)
-      base[i + 2] = Math.round(base[i + 2] * (1 - a) + pb * a)
+      dst[i] = Math.round(dst[i] * (1 - a) + rr * a)
+      dst[i + 1] = Math.round(dst[i + 1] * (1 - a) + gg * a)
+      dst[i + 2] = Math.round(dst[i + 2] * (1 - a) + bb * a)
     }
   }
 }
 
-/** Extra pass: wipe any remaining warm/bright crumbs inside zone. */
-function wipeBrightCrumbs(base, plate, w, h, ch, zone) {
-  const { left, top, width: zw, height: zh } = zone
-  for (let y = top; y < top + zh; y++) {
-    for (let x = left; x < left + zw; x++) {
+/** Aggressive pass: any warm/bright pixel in zone is forced to clone. */
+function wipeCrumbs(dst, src, w, h, ch, zone, donorXs, logoSkip = null) {
+  for (let y = zone.top; y < zone.top + zone.height; y++) {
+    for (let x = zone.left; x < zone.left + zone.width; x++) {
       if (x < 0 || y < 0 || x >= w || y >= h) continue
+      if (logoSkip) {
+        const dist = Math.hypot(x - logoSkip.cx, y - logoSkip.cy)
+        if (dist <= logoSkip.r) continue
+      }
       const i = (y * w + x) * ch
-      const r = base[i]
-      const g = base[i + 1]
-      const b = base[i + 2]
+      const r = dst[i]
+      const g = dst[i + 1]
+      const b = dst[i + 2]
       const lum = (r + g + b) / 3
-      const warm = r >= b && r - b >= 3
-      // Catch faint bronze ghosts + gold flourish crumbs
-      if (lum < 10 && !warm) continue
-      if (lum < 14 && !warm) continue
-      if (!(lum >= 14 || (warm && lum >= 10))) continue
-
+      const warm = r - b >= 4
+      // Faint bronze ghosts + any gold leaf crumbs
+      if (lum < 9 && !warm) continue
+      if (lum < 11 && !(warm && lum >= 8)) continue
       const ew = edgeWeight(x, y, zone)
-      if (ew < 0.2) continue
-      const a = ew > 0.5 ? 1 : ew
-      const pi = (y * w + x) * plate.info.channels
-      base[i] = Math.round(base[i] * (1 - a) + plate.data[pi] * a)
-      base[i + 1] = Math.round(base[i + 1] * (1 - a) + plate.data[pi + 1] * a)
-      base[i + 2] = Math.round(base[i + 2] * (1 - a) + plate.data[pi + 2] * a)
+      if (ew < 0.12) continue
+      const a = ew > 0.4 ? 1 : Math.max(0.9, ew)
+      const [rr, gg, bb] = sampleClone(src, w, h, ch, x, y, donorXs)
+      dst[i] = Math.round(dst[i] * (1 - a) + rr * a)
+      dst[i + 1] = Math.round(dst[i + 1] * (1 - a) + gg * a)
+      dst[i + 2] = Math.round(dst[i + 2] * (1 - a) + bb * a)
     }
   }
 }
@@ -193,97 +200,106 @@ const W = meta.width
 const H = meta.height
 console.log('source', W, 'x', H, 'from', path.basename(source))
 
-const { data, info } = await sharp(workingSrc)
+const { data: srcData, info } = await sharp(workingSrc)
   .ensureAlpha()
   .raw()
   .toBuffer({ resolveWithObject: true })
 const ch = info.channels
+const data = Buffer.from(srcData)
 
 const logoCx = 384
 const logoCy = 205
 const logoR = 96
+const donors = [175, 195, 490, 515, 540, 565]
 
-const plate = await buildTexturePlate(workingSrc, W, H)
-
-// Header: CONVITE ESPECIAL + INAUGURAÇÃO + gold leaf flourish (y≈10–92).
-// NO logo-protect during fill — restore logo after so flourish can be wiped.
+// Pass 1: full soft wipe of header (CONVITE + INAUGURAÇÃO + flourish)
+// Height to 108 covers flourish (y≈86–95). Logo restored AFTER.
 const headerZone = {
-  left: 210,
+  left: 200,
   top: 0,
-  width: 360,
-  height: 104,
-  featherL: 22,
-  featherR: 28,
-  featherT: 2, // almost full at top (kills CONVITE lines)
-  featherB: 16, // soft into logo glow area
+  width: 380,
+  height: 108,
+  featherL: 24,
+  featherR: 30,
+  featherT: 1,
+  featherB: 14,
 }
+wipeZone(data, srcData, W, H, ch, headerZone, donors, 11)
+wipeCrumbs(data, srcData, W, H, ch, headerZone, donors)
 
-applySoftZone(data, plate, W, H, ch, headerZone, 12)
-wipeBrightCrumbs(data, plate, W, H, ch, headerZone)
-// Second hard pass on flourish band specifically
+// Pass 2: dedicated flourish band (force obliterate gold line + leaf)
 const flourishZone = {
-  left: 250,
-  top: 82,
-  width: 280,
-  height: 22,
-  featherL: 18,
-  featherR: 18,
-  featherT: 6,
-  featherB: 8,
+  left: 240,
+  top: 78,
+  width: 300,
+  height: 28,
+  featherL: 16,
+  featherR: 16,
+  featherT: 5,
+  featherB: 6,
 }
-applySoftZone(data, plate, W, H, ch, flourishZone, 8)
-wipeBrightCrumbs(data, plate, W, H, ch, flourishZone)
+wipeZone(data, srcData, W, H, ch, flourishZone, donors, 7)
+wipeCrumbs(data, srcData, W, H, ch, flourishZone, donors)
 
-// Invitation paragraph under logo
+// Pass 3: invitation paragraph
 const bottomZone = {
-  left: 210,
-  top: 298,
-  width: 360,
-  height: H - 298 - 2,
+  left: 205,
+  top: 295,
+  width: 365,
+  height: H - 295 - 2,
   featherL: 18,
-  featherR: 22,
-  featherT: 14,
-  featherB: 4,
+  featherR: 24,
+  featherT: 12,
+  featherB: 3,
 }
-applySoftZone(data, plate, W, H, ch, bottomZone, 10)
-wipeBrightCrumbs(data, plate, W, H, ch, bottomZone)
+wipeZone(data, srcData, W, H, ch, bottomZone, donors, 10)
+wipeCrumbs(data, srcData, W, H, ch, bottomZone, donors)
 
-let cleanedBuf = await sharp(Buffer.from(data), {
-  raw: { width: W, height: H, channels: ch },
-})
+let cleanedBuf = await sharp(data, { raw: { width: W, height: H, channels: ch } })
   .png()
   .toBuffer()
 
-// Restore circular logo + soft outer glow from pristine original (after text wipe)
+// Restore logo ring + soft glow, but NEVER reintroduce flourish above the ring.
 {
-  const glowPad = 20
+  const sidePad = 18
+  const topPad = 4 // stay below flourish (flourish ends ~y95, ring top=109)
+  const botPad = 18
   const box = {
-    left: logoCx - logoR - glowPad,
-    top: logoCy - logoR - glowPad,
-    width: (logoR + glowPad) * 2,
-    height: (logoR + glowPad) * 2,
+    left: logoCx - logoR - sidePad,
+    top: logoCy - logoR - topPad,
+    width: (logoR + sidePad) * 2,
+    height: logoR + topPad + logoR + botPad,
   }
-  const logoExtract = await sharp(workingSrc).extract(box).ensureAlpha().png().toBuffer()
-  // Hard-exclude anything above the ring interior so we don't bring INAUGURAÇÃO back
-  const softCircle = Buffer.from(
-    `<svg width="${box.width}" height="${box.height}" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="g" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="white" stop-opacity="1"/>
-          <stop offset="70%" stop-color="white" stop-opacity="1"/>
-          <stop offset="85%" stop-color="white" stop-opacity="0.65"/>
-          <stop offset="100%" stop-color="white" stop-opacity="0"/>
-        </radialGradient>
-        <mask id="m">
-          <rect width="100%" height="100%" fill="black"/>
-          <circle cx="${logoR + glowPad}" cy="${logoR + glowPad}" r="${logoR + glowPad}" fill="url(#g)"/>
-        </mask>
-      </defs>
-      <circle cx="${logoR + glowPad}" cy="${logoR + glowPad}" r="${logoR + glowPad}" fill="url(#g)"/>
-    </svg>`,
-  )
-  const logoMasked = await sharp(logoExtract)
-    .composite([{ input: softCircle, blend: 'dest-in' }])
+  const logoExtract = await sharp(workingSrc).extract(box).ensureAlpha().raw().toBuffer({
+    resolveWithObject: true,
+  })
+
+  // Zero-out any pixels above the true ring top inside the extract
+  const ringTopLocal = topPad // global y = logoCy - logoR
+  const cx = logoR + sidePad
+  const cy = logoR + topPad
+  const { data: ld, info: li } = logoExtract
+  for (let y = 0; y < li.height; y++) {
+    for (let x = 0; x < li.width; x++) {
+      const i = (y * li.width + x) * li.channels
+      const dist = Math.hypot(x - cx, y - cy)
+      // Soft radial alpha for glow; hard-kill rows above ring with only tiny pad
+      let alpha = 0
+      if (y < ringTopLocal - 1) {
+        alpha = 0
+      } else if (dist <= logoR) {
+        alpha = 1
+      } else if (dist < logoR + sidePad) {
+        const t = 1 - (dist - logoR) / sidePad
+        alpha = smoothstep(t)
+      }
+      ld[i + 3] = Math.round(255 * alpha)
+    }
+  }
+
+  const logoMasked = await sharp(ld, {
+    raw: { width: li.width, height: li.height, channels: li.channels },
+  })
     .png()
     .toBuffer()
 
@@ -293,42 +309,28 @@ let cleanedBuf = await sharp(Buffer.from(data), {
     .toBuffer()
 }
 
-// Final crumb wipe ABOVE the logo ring only (don't touch restored logo)
+// Final crumb wipe above logo (outside ring)
 {
   const again = await sharp(cleanedBuf).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
-  const plate2 = await buildTexturePlate(workingSrc, W, H)
-  const aboveLogo = {
-    left: 220,
-    top: 0,
-    width: 350,
-    height: 108,
-    featherL: 16,
-    featherR: 20,
-    featherT: 1,
-    featherB: 10,
-  }
-  // Only wipe pixels that are still warm/bright AND outside the logo circle
-  const { left, top, width: zw, height: zh } = aboveLogo
-  for (let y = top; y < top + zh; y++) {
-    for (let x = left; x < left + zw; x++) {
-      const dist = Math.hypot(x - logoCx, y - logoCy)
-      if (dist <= logoR + 6) continue
-      const i = (y * again.info.width + x) * again.info.channels
-      const r = again.data[i]
-      const g = again.data[i + 1]
-      const b = again.data[i + 2]
-      const lum = (r + g + b) / 3
-      const warm = r >= b && r - b >= 3
-      if (lum < 12 && !(warm && lum >= 9)) continue
-      const ew = edgeWeight(x, y, aboveLogo)
-      if (ew < 0.15) continue
-      const a = ew > 0.45 ? 1 : Math.max(ew, 0.85)
-      const pi = (y * W + x) * plate2.info.channels
-      again.data[i] = Math.round(again.data[i] * (1 - a) + plate2.data[pi] * a)
-      again.data[i + 1] = Math.round(again.data[i + 1] * (1 - a) + plate2.data[pi + 1] * a)
-      again.data[i + 2] = Math.round(again.data[i + 2] * (1 - a) + plate2.data[pi + 2] * a)
-    }
-  }
+  wipeCrumbs(
+    again.data,
+    srcData,
+    W,
+    H,
+    again.info.channels,
+    {
+      left: 210,
+      top: 0,
+      width: 370,
+      height: 110,
+      featherL: 14,
+      featherR: 18,
+      featherT: 1,
+      featherB: 8,
+    },
+    donors,
+    { cx: logoCx, cy: logoCy, r: logoR + 3 },
+  )
   cleanedBuf = await sharp(again.data, {
     raw: { width: W, height: H, channels: again.info.channels },
   })
@@ -363,12 +365,10 @@ await sharp(cleanedBuf)
   let sum = 0
   let sum2 = 0
   let n = 0
-  let flat = 0
-  for (let y = 8; y < 100; y++) {
-    let rowSum = 0
-    let rowSum2 = 0
-    let rowN = 0
-    for (let x = 240; x < 520; x++) {
+  const goldRows = []
+  for (let y = 5; y < 105; y++) {
+    let rowGold = 0
+    for (let x = 250; x < 500; x++) {
       const i = (y * ci.width + x) * ci.channels
       const r = cd[i]
       const g = cd[i + 1]
@@ -377,28 +377,30 @@ await sharp(cleanedBuf)
       sum += v
       sum2 += v * v
       n++
-      rowSum += v
-      rowSum2 += v * v
-      rowN++
-      if (v > 35 && r > b + 8) gold++
+      if (v > 35 && r > b + 8) {
+        gold++
+        rowGold++
+      }
       if (v > 45) bright++
     }
-    const m = rowSum / rowN
-    const sd = Math.sqrt(Math.max(0, rowSum2 / rowN - m * m))
-    if (sd < 1.0 && m < 6) flat++
+    if (rowGold > 5) goldRows.push(`y${y}:${rowGold}`)
   }
   const mean = sum / n
   const std = Math.sqrt(Math.max(0, sum2 / n - mean * mean))
-  console.log(
-    'header gold/bright/mean/std/flatRows',
-    gold,
-    bright,
-    mean.toFixed(2),
-    std.toFixed(2),
-    flat,
-  )
-  if (gold > 30) console.warn('WARN: residual gold still high')
-  if (flat > 40) console.warn('WARN: too many flat rows (mancha risk)')
+  console.log('header gold/bright/mean/std', gold, bright, mean.toFixed(2), std.toFixed(2))
+  console.log('gold rows', goldRows.join(' ') || 'none')
+  // Flourish band must be clean
+  let flourishGold = 0
+  for (let y = 80; y < 98; y++) {
+    for (let x = 260; x < 500; x++) {
+      const i = (y * ci.width + x) * ci.channels
+      const r = cd[i]
+      const b = cd[i + 2]
+      const v = (r + cd[i + 1] + b) / 3
+      if (v > 30 && r > b + 6) flourishGold++
+    }
+  }
+  console.log('flourish-band gold', flourishGold, flourishGold > 20 ? 'FAIL' : 'ok')
 }
 
 const targetW = 1920
@@ -427,6 +429,4 @@ await sharp(outSlide5)
   .toFile(path.join(probeDir, 'verify-s5-top.png'))
 await sharp(outSlide5).png().toFile(path.join(probeDir, 'verify-s5-full.png'))
 
-console.log('wrote', path.basename(outHero), targetW + 'x' + targetH)
-console.log('wrote', path.basename(outSlide1))
-console.log('wrote', path.basename(outSlide5), '601x433')
+console.log('wrote heroes')
