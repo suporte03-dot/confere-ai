@@ -3,14 +3,20 @@ import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/hom
 import { assetUrl } from '../../utils/assetUrl'
 
 const AUTOPLAY_MS = 5500
-const HERO_ASSET_V = '20260729b'
+const HERO_ASSET_V = '20260729c'
 
 const HERO_SLIDES = [
   {
-    id: 'campanha',
-    src: `/images/hero/slide-1.jpg?v=${HERO_ASSET_V}`,
+    id: 'casal',
+    src: `/images/hero/couple.jpg?v=${HERO_ASSET_V}`,
     alt: heroContent.imageAlt,
-    objectPosition: '46% 38%',
+    objectPosition: '48% 28%',
+  },
+  {
+    id: 'detalhe',
+    src: `/images/hero/thumb-couple-detail.jpg?v=${HERO_ASSET_V}`,
+    alt: 'Detalhe da campanha Terra & Estilo com modelos em chapéu country.',
+    objectPosition: '50% 30%',
   },
   {
     id: 'sacola-marmore',
@@ -23,12 +29,6 @@ const HERO_SLIDES = [
     src: '/images/hero/slide-3.jpg',
     alt: 'Sacola Terra & Estilo com painel lateral preto, monograma dourado e Nossa Senhora Aparecida.',
     objectPosition: '50% 40%',
-  },
-  {
-    id: 'institucional',
-    src: `/images/hero/slide-5.jpg?v=${HERO_ASSET_V}`,
-    alt: 'Arte institucional Terra & Estilo: casal agro chic e logo circular dourado.',
-    objectPosition: '42% 36%',
   },
 ]
 
@@ -92,7 +92,7 @@ function HeroSection() {
                 type="button"
                 role="tab"
                 className={`hero-section__thumb${i === index ? ' is-active' : ''}`}
-                aria-label={`Ir para slide ${i + 1}`}
+                aria-label={`Ir para imagem ${i + 1}`}
                 aria-selected={i === index}
                 onClick={() => goTo(i)}
               >
@@ -113,7 +113,7 @@ function HeroSection() {
               type="button"
               className="hero-section__arrow hero-section__arrow--prev"
               onClick={goPrev}
-              aria-label="Slide anterior"
+              aria-label="Imagem anterior"
             >
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
                 <path
@@ -135,8 +135,8 @@ function HeroSection() {
                   alt={i === index ? slide.alt : ''}
                   className={`hero-section__image hero-section__image--${slide.id}${i === index ? ' is-active' : ''}`}
                   style={{ objectPosition: slide.objectPosition }}
-                  width={i === 0 ? 1200 : 800}
-                  height={i === 0 ? 1500 : 1100}
+                  width={i === 0 ? 900 : 800}
+                  height={i === 0 ? 1125 : 1100}
                   decoding={i === 0 ? 'sync' : 'async'}
                   fetchPriority={i === 0 ? 'high' : 'low'}
                   aria-hidden={i !== index}
@@ -148,7 +148,7 @@ function HeroSection() {
               type="button"
               className="hero-section__arrow hero-section__arrow--next"
               onClick={goNext}
-              aria-label="Próximo slide"
+              aria-label="Próxima imagem"
             >
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
                 <path

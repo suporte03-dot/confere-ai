@@ -1,5 +1,5 @@
 /**
- * Marca oficial no header — logo circular + tagline.
+ * Marca no header — logo circular + nome da marca.
  */
 import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 
@@ -13,14 +13,16 @@ function HeaderBrandMark({ className = '' }) {
       <span className="header-brand__logo-ring">
         <img
           src={BRAND_LOGO_CIRCULAR_SRC}
-          alt="Terra & Estilo"
+          alt=""
           className="header-brand__logo-img"
           width={512}
           height={512}
           decoding="async"
         />
       </span>
-      <span className="header-brand__tagline">A marca do agro brasileiro</span>
+      <span className="header-brand__name" aria-hidden="true">
+        Terra &amp; Estilo
+      </span>
     </a>
   )
 }

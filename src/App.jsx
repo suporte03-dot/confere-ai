@@ -35,6 +35,7 @@ function SiteContent({
             setPreviewMode={setPreviewMode}
             showPreviewControls={showPreviewControls}
           />
+          {/* Header unificado: logo + MainNavigation + busca/conta/carrinho */}
           <Header
             menuOpen={menuOpen}
             onMenuToggle={() => setMenuOpen((v) => !v)}
