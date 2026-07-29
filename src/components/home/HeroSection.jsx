@@ -32,7 +32,7 @@ const HERO_SLIDES = [
   {
     id: 'institucional',
     src: '/images/hero/slide-5.jpg',
-    alt: 'Arte institucional Terra & Estilo: casal agro chic ao lado do logo circular dourado.',
+    alt: 'Arte institucional Terra & Estilo: casal agro chic e logo circular dourado.',
     objectPosition: '42% 30%',
   },
 ]
