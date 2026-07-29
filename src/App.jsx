@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
-import MainNavigation from './components/home/MainNavigation'
 import HeroSection from './components/home/HeroSection'
+import TrustBadges from './components/home/TrustBadges'
 import CollectionVitrine from './components/home/CollectionVitrine'
 import ProductGrid from './components/home/ProductGrid'
 import BrandValues from './components/home/BrandValues'
@@ -40,11 +40,12 @@ function SiteContent({
             onMenuToggle={() => setMenuOpen((v) => !v)}
             searchOpen={searchOpen}
             onSearchToggle={() => setSearchOpen((v) => !v)}
+            onNavClose={() => setMenuOpen(false)}
           />
-          <MainNavigation open={menuOpen} onClose={() => setMenuOpen(false)} />
         </header>
       </div>
       <HeroSection />
+      <TrustBadges />
       <main>
         <CollectionVitrine />
         <ProductGrid />

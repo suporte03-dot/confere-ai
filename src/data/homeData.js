@@ -8,9 +8,22 @@ export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 
 export const topBarMessages = [
-  'FRETE GRÁTIS ACIMA DE R$ 499',
-  'ATÉ 12X SEM JUROS',
-  'A MARCA DO AGRO BRASILEIRO',
+  {
+    id: 'frete',
+    icon: 'truck',
+    text: 'Frete grátis acima de R$ 299,00 para Sul e Sudeste',
+  },
+  {
+    id: 'cupom',
+    icon: 'tag',
+    text: '10% OFF na primeira compra | Cupom: PRIMEIRA10',
+  },
+  {
+    id: 'atendimento',
+    icon: 'phone',
+    text: 'Atendimento (54) 99939-8038',
+    href: 'https://wa.me/5554999398038',
+  },
 ]
 
 export const headerBrandPillars = [
@@ -22,7 +35,7 @@ export const headerBrandPillars = [
 ]
 
 export const mainNavigation = [
-  { label: 'Coleções', href: '#colecoes' },
+  { label: 'Coleções', href: '#colecoes', hasChevron: true },
   { label: 'Feminino', href: '#produtos', filter: 'Feminino' },
   { label: 'Masculino', href: '#produtos', filter: 'Masculino' },
   { label: 'Calçados', href: '#produtos', filter: 'Calçados' },
@@ -42,17 +55,47 @@ export const heroBrandPillars = [
 
 export const heroContent = {
   label: 'Terra & Estilo',
+  titleBefore: 'A essência e a ',
+  titleHighlight: 'elegância',
+  titleAfter: ' do agro brasileiro',
   title: 'A essência e a elegância do agro brasileiro',
   slogan: 'A marca do agro brasileiro',
   support:
     'Uma marca construída com dedicação, amor e propósito, pensada para quem valoriza a força, a autenticidade e o estilo do campo.',
-  primaryCta: 'Conheça nossa coleção',
+  primaryCta: 'Conheça a coleção',
   secondaryCta: 'Fale conosco',
   imageAlt:
     'Campanha Terra & Estilo: modelos em camisas pretas e chapéus country ao lado do logo circular dourado sobre fundo preto com poeira de ouro.',
   boardAlt:
     'Terra & Estilo — A marca do agro brasileiro. Logo circular oficial em ouro sobre preto.',
 }
+
+export const trustBadges = [
+  {
+    id: 'qualidade',
+    icon: 'diamond',
+    title: 'Qualidade premium',
+    description: 'Materiais selecionados',
+  },
+  {
+    id: 'seguro',
+    icon: 'shield',
+    title: 'Compra segura',
+    description: 'Ambiente 100% protegido',
+  },
+  {
+    id: 'troca',
+    icon: 'return',
+    title: 'Troca fácil',
+    description: 'Até 7 dias para trocar',
+  },
+  {
+    id: 'atendimento',
+    icon: 'headset',
+    title: 'Atendimento especializado',
+    description: 'Suporte rápido e humanizado',
+  },
+]
 
 export const heroVisualCard = {
   title: 'Coleção Agro Chic',

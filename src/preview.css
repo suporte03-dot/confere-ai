@@ -2,8 +2,8 @@
 
 .desktop-preview {
   width: 100%;
-  --header-logo-size: clamp(82px, 6.2vw, 100px);
-  --hero-logo-size: clamp(180px, 16vw, 260px);
+  --header-logo-size: clamp(56px, 5vw, 68px);
+  --hero-logo-size: clamp(150px, 16vw, 230px);
 }
 
 .desktop-preview .header-brand__logo-img {
@@ -31,7 +31,6 @@
 .mobile-preview .header-brand__composition,
 .mobile-preview .header-brand__monogram-wrap,
 .mobile-preview .header-brand__wordmark,
-.mobile-preview .header-brand__tagline,
 .mobile-preview .header-brand__rule,
 .mobile-preview .hero-brand-board__wordmark,
 .mobile-preview .hero-brand-board__tagline,
@@ -135,43 +134,42 @@
   height: 10px;
 }
 
-/* ── Header em coluna ── */
+/* ── Header compacto (mockup) ── */
 .mobile-preview .site-header {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .mobile-preview .brand-main,
 .mobile-preview .header-main {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
   align-items: center;
-  grid-template-columns: 1fr;
-  min-height: auto;
-  padding: 10px 14px 14px;
-  gap: 0;
+  min-height: 68px;
+  padding: 8px 10px;
+  gap: 6px;
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   box-sizing: border-box;
 }
 
 .mobile-preview .site-header__menu {
   display: flex;
-  position: absolute;
-  top: 12px;
-  left: 14px;
+  position: static;
+  grid-column: 1;
   z-index: 2;
 }
 
 /* ── Logo proporcional ── */
 .mobile-preview .terra-brand-header,
 .mobile-preview .header-brand {
-  order: 1;
-  width: 100%;
+  order: unset;
+  grid-column: 2;
+  width: auto;
   max-width: 100%;
-  padding: 16px 8px 0;
-  overflow: hidden;
+  padding: 0;
+  overflow: visible;
   justify-self: center;
 }
 
@@ -232,29 +230,35 @@
 
 .mobile-preview .brand-slogan,
 .mobile-preview .header-brand__tagline {
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  display: block !important;
+  font-size: 8px;
+  letter-spacing: 0.08em;
   white-space: nowrap;
-  margin-top: 6px;
+  margin-top: 0;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .mobile-preview .header-brand__rule {
-  width: min(100%, 180px);
-  margin-top: 6px;
+  display: none;
 }
 
-/* ── Busca abaixo da logo ── */
+/* ── Busca overlay no ícone ── */
 .mobile-preview .search-area {
-  display: flex !important;
-  order: 2;
-  width: 100%;
-  max-width: 100%;
-  margin-top: 14px;
+  display: none;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: calc(100% + 6px);
+  z-index: 40;
+  width: auto;
+  transform: none;
+  margin-top: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.mobile-preview .search-area--open {
+  display: flex !important;
 }
 
 .mobile-preview .brand-search,
@@ -263,11 +267,12 @@
   position: static !important;
   width: 100%;
   max-width: 100%;
-  height: 52px;
-  padding: 0 18px;
+  height: 46px;
+  padding: 0 14px;
   margin: 0;
   font-size: 14px;
   box-sizing: border-box;
+  border-radius: 8px;
 }
 
 .mobile-preview .site-header__search input {
@@ -275,26 +280,29 @@
   min-width: 0;
 }
 
-/* ── Ícones centralizados ── */
+/* ── Ícones à direita ── */
 .mobile-preview .header-actions {
   display: flex;
-  order: 3;
-  justify-content: center;
-  gap: 22px;
-  margin-top: 16px;
-  width: 100%;
+  grid-column: 3;
+  order: unset;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-top: 0;
+  width: auto;
   flex-wrap: nowrap;
 }
 
 .mobile-preview .site-header__actions {
   display: flex;
-  justify-content: center;
-  gap: 18px;
+  justify-content: flex-end;
+  gap: 2px;
   flex-wrap: nowrap;
 }
 
 .mobile-preview .site-header__action {
-  padding: 6px 4px;
+  width: 36px;
+  height: 36px;
+  padding: 0;
 }
 
 .mobile-preview .site-header__action span {
@@ -302,12 +310,18 @@
 }
 
 .mobile-preview .site-header__action--search {
-  display: none !important;
+  display: inline-flex !important;
 }
 
 /* ── Navegação mobile ── */
 .mobile-preview .main-nav {
   display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 50;
+  background: #000;
   border-top: 1px solid rgba(216, 181, 106, 0.14);
 }
 
@@ -328,6 +342,423 @@
   padding: 12px 10px;
   letter-spacing: 0.14em;
   border-radius: 8px;
+  justify-content: center;
+}
+
+/* ── Hero e seções ── */
+.mobile-preview .hero-section {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 20px 12px 28px;
+  border: none;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.mobile-preview .hero-section__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 0;
+  gap: 22px;
+  padding: 0;
+  align-items: center;
+}
+
+.mobile-preview .hero-section__media {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.mobile-preview .hero-section__thumbs {
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: none;
+  gap: 8px;
+}
+
+.mobile-preview .hero-section__thumb {
+  width: 52px;
+  height: 68px;
+}
+
+.mobile-preview .hero-section__frame {
+  max-width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.mobile-preview .hero-section__arrow {
+  width: 32px;
+  height: 32px;
+}
+
+.mobile-preview .hero-section__copy {
+  align-items: center;
+  text-align: center;
+  max-width: 100%;
+}
+
+.mobile-preview .hero-section__title {
+  text-align: center;
+  font-size: clamp(1.6rem, 8vw, 2rem);
+  margin-bottom: 12px;
+}
+
+.mobile-preview .hero-section__support {
+  text-align: center;
+  font-size: 0.8125rem;
+  max-width: 100%;
+}
+
+.mobile-preview .hero-section__actions {
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-preview .hero-section__actions .btn {
+  width: 100%;
+  max-width: 100%;
+  justify-content: center;
+}
+
+.mobile-preview .trust-badges__inner {
+  grid-template-columns: 1fr;
+}
+
+.mobile-preview .trust-badges__item {
+  border-right: none;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.22);
+  justify-content: flex-start;
+}
+
+.mobile-preview .trust-badges__item:last-child {
+  border-bottom: none;
+}
+
+.mobile-preview .hero-brand-board__logo-img {
+  width: var(--hero-logo-size);
+  height: var(--hero-logo-size);
+  max-width: 100%;
+}
+
+.mobile-preview .header-brand__composition,
+.mobile-preview .header-brand__monogram-wrap,
+.mobile-preview .header-brand__wordmark,
+.mobile-preview .header-brand__rule,
+.mobile-preview .hero-brand-board__wordmark,
+.mobile-preview .hero-brand-board__tagline,
+.mobile-preview .hero-brand-board__rule,
+.mobile-preview .hero-brand-board__monogram-wrap {
+  display: none !important;
+}
+
+.mobile-preview {
+  --header-main-h: auto;
+  --header-brand-w: 100%;
+  --header-logo-size: 72px;
+  --header-monogram-size: 48px;
+  --header-wordmark-size: clamp(1.5rem, 7.5vw, 1.875rem);
+  --hero-logo-size: clamp(160px, 46vw, 210px);
+  --sticky-offset: 0px;
+  --main-nav-h: 0px;
+  position: relative;
+  min-height: 100vh;
+  padding: 48px 16px 32px;
+  background: linear-gradient(180deg, var(--cinza-claro, #EAE7E1) 0%, var(--fundo-claro, #F7F4EE) 100%);
+  overflow-x: hidden;
+}
+
+.mobile-preview .preview-shell {
+  container-type: inline-size;
+  container-name: site-preview;
+  width: 390px;
+  min-height: 844px;
+  margin: 0 auto;
+  border-radius: 32px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 10px solid #0B0B0B;
+  box-shadow: 0 24px 60px rgba(11, 11, 11, 0.35);
+  background: #F8F6F1;
+}
+
+.mobile-preview .app {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.mobile-preview .site-chrome {
+  overflow: hidden;
+}
+
+/* ── Topbar compacta ── */
+.mobile-preview .top-bar {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.mobile-preview .top-bar__inner {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  padding: 8px 14px 10px;
+  min-height: auto;
+}
+
+.mobile-preview .top-bar__messages {
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mobile-preview .top-bar__item + .top-bar__item::before {
+  display: none;
+}
+
+.mobile-preview .top-bar__item:nth-child(n + 2) {
+  display: none;
+}
+
+/* Visualização — compacta na topbar do mockup */
+.mobile-preview .preview-menu {
+  right: 10px;
+}
+
+.mobile-preview .preview-menu-button {
+  height: 26px;
+  padding: 0 10px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.mobile-preview .preview-dropdown {
+  min-width: 120px;
+}
+
+.mobile-preview .preview-dropdown__option {
+  font-size: 9px;
+  padding: 6px 8px;
+}
+
+.mobile-preview .preview-dropdown__icon {
+  width: 10px;
+  height: 10px;
+}
+
+/* ── Header compacto (mockup) ── */
+.mobile-preview .site-header {
+  position: relative;
+  overflow: visible;
+}
+
+.mobile-preview .brand-main,
+.mobile-preview .header-main {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  align-items: center;
+  min-height: 68px;
+  padding: 8px 10px;
+  gap: 6px;
+  text-align: center;
+  overflow: visible;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-preview .site-header__menu {
+  display: flex;
+  position: static;
+  grid-column: 1;
+  z-index: 2;
+}
+
+/* ── Logo proporcional ── */
+.mobile-preview .terra-brand-header,
+.mobile-preview .header-brand {
+  order: unset;
+  grid-column: 2;
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  overflow: visible;
+  justify-self: center;
+}
+
+.mobile-preview .header-brand::after {
+  display: none;
+}
+
+.mobile-preview .terra-brand-header__logo,
+.mobile-preview .header-brand__mark {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.mobile-preview .brand-logo-composition,
+.mobile-preview .header-brand__composition {
+  transform: none;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 0 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.mobile-preview .brand-symbol-wrap,
+.mobile-preview .header-brand__monogram-wrap {
+  width: min(100%, 148px);
+  max-width: 148px;
+  height: calc(var(--header-monogram-size) * 1.15);
+  margin: 0 auto;
+}
+
+.mobile-preview .header-brand__rs-map {
+  width: 130%;
+  height: 130%;
+}
+
+.mobile-preview .brand-symbol,
+.mobile-preview .header-brand__symbol {
+  font-size: var(--header-monogram-size);
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+.mobile-preview .brand-name,
+.mobile-preview .header-brand__wordmark {
+  font-size: clamp(1.5rem, 7.5vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+  margin-top: 6px;
+  max-width: 100%;
+  text-align: center;
+  text-shadow: none;
+}
+
+.mobile-preview .brand-slogan,
+.mobile-preview .header-brand__tagline {
+  display: block !important;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  margin-top: 0;
+  max-width: 100%;
+}
+
+.mobile-preview .header-brand__rule {
+  display: none;
+}
+
+/* ── Busca overlay no ícone ── */
+.mobile-preview .search-area {
+  display: none;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: calc(100% + 6px);
+  z-index: 40;
+  width: auto;
+  transform: none;
+  margin-top: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mobile-preview .search-area--open {
+  display: flex !important;
+}
+
+.mobile-preview .brand-search,
+.mobile-preview .site-header__search {
+  display: flex !important;
+  position: static !important;
+  width: 100%;
+  max-width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  margin: 0;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.mobile-preview .site-header__search input {
+  font-size: 14px;
+  min-width: 0;
+}
+
+/* ── Ícones à direita ── */
+.mobile-preview .header-actions {
+  display: flex;
+  grid-column: 3;
+  order: unset;
+  justify-content: flex-end;
+  gap: 2px;
+  margin-top: 0;
+  width: auto;
+  flex-wrap: nowrap;
+}
+
+.mobile-preview .site-header__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+  flex-wrap: nowrap;
+}
+
+.mobile-preview .site-header__action {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.mobile-preview .site-header__action span {
+  display: none;
+}
+
+.mobile-preview .site-header__action--search {
+  display: inline-flex !important;
+}
+
+/* ── Navegação mobile ── */
+.mobile-preview .main-nav {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 50;
+  background: #000;
+  border-top: 1px solid rgba(216, 181, 106, 0.14);
+}
+
+.mobile-preview .main-nav--open {
+  display: block;
+}
+
+.mobile-preview .main-nav__inner {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  padding: 10px 14px 14px;
+  min-height: auto;
+}
+
+.mobile-preview .main-nav__link {
+  text-align: center;
+  padding: 12px 10px;
+  letter-spacing: 0.14em;
+  border-radius: 8px;
+  justify-content: center;
 }
 
 /* ── Hero e seções ── */

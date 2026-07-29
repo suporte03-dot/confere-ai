@@ -1,5 +1,5 @@
 /**
- * Marca oficial no header — logo circular Instagram (imagem).
+ * Marca oficial no header — logo circular + tagline.
  */
 import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 
@@ -10,14 +10,17 @@ function HeaderBrandMark({ className = '' }) {
 
   return (
     <a href="#inicio" className={linkClass} aria-label="Terra & Estilo — Página inicial">
-      <img
-        src={BRAND_LOGO_CIRCULAR_SRC}
-        alt="Terra & Estilo — A marca do agro brasileiro"
-        className="header-brand__logo-img"
-        width={512}
-        height={512}
-        decoding="async"
-      />
+      <span className="header-brand__logo-ring">
+        <img
+          src={BRAND_LOGO_CIRCULAR_SRC}
+          alt="Terra & Estilo"
+          className="header-brand__logo-img"
+          width={512}
+          height={512}
+          decoding="async"
+        />
+      </span>
+      <span className="header-brand__tagline">A marca do agro brasileiro</span>
     </a>
   )
 }
