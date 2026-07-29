@@ -1,7 +1,6 @@
 /**
- * Most reliable fix: rebuild hero on a CLEAN gold-dust field.
- * Keep only the couple (left) + circular logo from the ORIGINAL flyer.
- * Invitation text / black header band are never copied over.
+ * Rebuild hero: clean gold-dust canvas + couple (no invite text) + logo.
+ * Aggressively excludes header text / black band pixels from the people layer.
  */
 import sharp from 'sharp'
 import path from 'path'
@@ -32,78 +31,67 @@ const hash01 = (x, y, s = 0) => {
   return n - Math.floor(n)
 }
 
-if (!fs.existsSync(sourcePath)) throw new Error('missing original flyer')
 await fs.promises.copyFile(sourcePath, workingSrc)
-
-const meta = await sharp(sourcePath).metadata()
-const W = meta.width
-const H = meta.height
-console.log('source', W, 'x', H)
-
 const { data: src, info } = await sharp(sourcePath).ensureAlpha().raw().toBuffer({
   resolveWithObject: true,
 })
+const W = info.width
+const H = info.height
 const C = info.channels
+console.log('source', W, 'x', H)
 
-// --- Build clean background from gold-dust bank (right side + mid field) ---
 const bank = []
-for (let y = 15; y < H - 15; y++) {
-  for (let x = 480; x < W - 8; x++) {
+for (let y = 10; y < H - 10; y++) {
+  for (let x = 470; x < W - 6; x++) {
     const i = (y * W + x) * C
     const r = src[i]
     const g = src[i + 1]
     const b = src[i + 2]
     const v = (r + g + b) / 3
-    if (v >= 5 && v <= 85 && !(v > 40 && r - b > 16)) bank.push([r, g, b])
+    if (v >= 5 && v <= 80 && !(v > 38 && r - b > 14)) bank.push([r, g, b])
   }
 }
-for (let y = 130; y < 250; y++) {
-  for (let x = 240; x < 340; x++) {
+for (let y = 140; y < 260; y++) {
+  for (let x = 250; x < 350; x++) {
     const i = (y * W + x) * C
-    const r = src[i]
-    const g = src[i + 1]
-    const b = src[i + 2]
-    const v = (r + g + b) / 3
-    if (v >= 5 && v <= 45) bank.push([r, g, b])
+    const v = (src[i] + src[i + 1] + src[i + 2]) / 3
+    if (v >= 5 && v <= 40) bank.push([src[i], src[i + 1], src[i + 2]])
   }
 }
-console.log('bank', bank.length)
 
 const bg = Buffer.alloc(W * H * 3)
 for (let y = 0; y < H; y++) {
   for (let x = 0; x < W; x++) {
     const i3 = (y * W + x) * 3
-    const idx = Math.floor(hash01(x, y, 1) * bank.length) % bank.length
-    const idx2 = Math.floor(hash01(x + 3, y + 5, 2) * bank.length) % bank.length
+    const a = bank[Math.floor(hash01(x, y, 1) * bank.length) % bank.length]
+    const b = bank[Math.floor(hash01(x, y, 2) * bank.length) % bank.length]
     const t = hash01(x, y, 3)
-    const a = bank[idx]
-    const b = bank[idx2]
-    const j = (hash01(x, y, 4) - 0.5) * 5
-    const spark = hash01(x, y, 5) > 0.968 ? 10 + hash01(x, y, 6) * 28 : 0
-    bg[i3] = Math.min(255, Math.max(5, Math.round(a[0] * (1 - t) + b[0] * t + j + spark)))
+    const j = (hash01(x, y, 4) - 0.5) * 4
+    const spark = hash01(x, y, 5) > 0.97 ? 11 + hash01(x, y, 6) * 26 : 0
+    bg[i3] = Math.min(255, Math.max(6, Math.round(a[0] * (1 - t) + b[0] * t + j + spark)))
     bg[i3 + 1] = Math.min(
       255,
-      Math.max(4, Math.round(a[1] * (1 - t) + b[1] * t + j * 0.7 + spark * 0.7)),
+      Math.max(5, Math.round(a[1] * (1 - t) + b[1] * t + j * 0.7 + spark * 0.7)),
     )
     bg[i3 + 2] = Math.min(
       255,
-      Math.max(3, Math.round(a[2] * (1 - t) + b[2] * t + j * 0.4 + spark * 0.3)),
+      Math.max(4, Math.round(a[2] * (1 - t) + b[2] * t + j * 0.4 + spark * 0.25)),
     )
   }
 }
 
-// Mild blur of bg so it doesn't look noisy/hashy
 let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
-  .blur(0.6)
+  .blur(0.55)
   .png()
   .toBuffer()
 
-// --- Extract couple with soft alpha (left side), skip flat-black header band over hats ---
+// People cutout — stop before "INAUGURAÇÃO" glyphs (~x230+)
 {
-  const peopleW = 300
-  const peopleH = H
-  const rgba = Buffer.alloc(peopleW * peopleH * 4)
-  for (let y = 0; y < peopleH; y++) {
+  const peopleW = 235
+  const rgba = Buffer.alloc(peopleW * H * 4)
+
+  // First copy + alpha
+  for (let y = 0; y < H; y++) {
     for (let x = 0; x < peopleW; x++) {
       const si = (y * W + x) * C
       const di = (y * peopleW + x) * 4
@@ -111,19 +99,18 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       const g = src[si + 1]
       const b = src[si + 2]
       const v = (r + g + b) / 3
+      let alpha = smoothstep((peopleW - 1 - x) / 55)
 
-      // Soft horizontal falloff toward right (blend into bg)
-      let alpha = smoothstep((peopleW - 1 - x) / 70)
+      // Transparent where original had flat black header band (let clean bg show)
+      if (y < 58 && v < 16) alpha = 0
+      else if (y < 75 && v < 11) alpha *= 0.08
 
-      // Drop near-black header band pixels so bg texture shows through over hat crown
-      if (y < 55 && v < 14) alpha *= 0.05
-      else if (y < 70 && v < 10) alpha *= 0.15
+      // Kill gold lettering crumbs that leak into cutout
+      if (y < 120 && v > 28 && r - b > 6) alpha = 0
+      if (y < 120 && v > 55) alpha = 0
 
-      // Drop invitation / date chrome at bottom if any bright gold icons on left
-      if (y > 360 && v > 40 && r - b > 8) alpha *= 0.1
-
-      // Keep faces/clothes strongly
-      if (v > 18 && y > 50 && y < 360) alpha = Math.max(alpha, smoothstep((peopleW - x) / 90))
+      // Bottom invite icons if any
+      if (y > 355 && ((v > 35 && r - b > 6) || v > 60)) alpha *= 0.05
 
       rgba[di] = r
       rgba[di + 1] = g
@@ -131,8 +118,79 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       rgba[di + 3] = Math.round(255 * Math.min(1, alpha))
     }
   }
+
+  // Paint soft hat crown into cutout (man's hat)
+  {
+    const cx = 175
+    const cy = 78
+    const rx = 56
+    const ry = 44
+    let br = 0
+    let bgc = 0
+    let bb = 0
+    let bn = 0
+    for (let y = 90; y < 130; y++) {
+      for (let x = 140; x < 210; x++) {
+        if (x >= peopleW) continue
+        const di = (y * peopleW + x) * 4
+        if (rgba[di + 3] < 80) continue
+        const v = (rgba[di] + rgba[di + 1] + rgba[di + 2]) / 3
+        if (v > 22 && v < 100) {
+          br += rgba[di]
+          bgc += rgba[di + 1]
+          bb += rgba[di + 2]
+          bn++
+        }
+      }
+    }
+    if (!bn) {
+      br = 36
+      bgc = 28
+      bb = 18
+      bn = 1
+    }
+    br /= bn
+    bgc /= bn
+    bb /= bn
+
+    for (let x = cx - rx; x <= cx + rx; x++) {
+      if (x < 2 || x >= peopleW - 2) continue
+      const nx = (x - cx) / rx
+      if (Math.abs(nx) > 1) continue
+      const crownY = Math.round(cy - ry * Math.sqrt(Math.max(0, 1 - nx * nx)))
+      let bodyY = -1
+      for (let y = Math.max(60, crownY + 10); y < 130; y++) {
+        const di = (y * peopleW + x) * 4
+        if (rgba[di + 3] < 100) continue
+        const v = (rgba[di] + rgba[di + 1] + rgba[di + 2]) / 3
+        if (v > 22 && v < 105) {
+          bodyY = y
+          break
+        }
+      }
+      if (bodyY < 0) bodyY = 96
+      for (let y = Math.max(2, crownY); y < bodyY; y++) {
+        const t = (y - crownY) / Math.max(1, bodyY - crownY)
+        const shade = 0.58 + t * 0.42
+        const j = (hash01(x, y, 8) - 0.5) * 5
+        const edge = smoothstep(1 - Math.abs(nx))
+        const a = edge * (0.65 + 0.35 * smoothstep(t))
+        const di = (y * peopleW + x) * 4
+        const r = Math.min(255, Math.max(8, Math.round(br * shade + j)))
+        const g = Math.min(255, Math.max(6, Math.round(bgc * shade + j * 0.7)))
+        const b = Math.min(255, Math.max(5, Math.round(bb * shade * 0.92 + j * 0.35)))
+        const oa = rgba[di + 3] / 255
+        const na = Math.min(1, Math.max(oa, a))
+        rgba[di] = Math.round(rgba[di] * (1 - a) + r * a)
+        rgba[di + 1] = Math.round(rgba[di + 1] * (1 - a) + g * a)
+        rgba[di + 2] = Math.round(rgba[di + 2] * (1 - a) + b * a)
+        rgba[di + 3] = Math.round(255 * na)
+      }
+    }
+  }
+
   const peoplePng = await sharp(rgba, {
-    raw: { width: peopleW, height: peopleH, channels: 4 },
+    raw: { width: peopleW, height: H, channels: 4 },
   })
     .png()
     .toBuffer()
@@ -143,12 +201,12 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
     .toBuffer()
 }
 
-// --- Extract circular logo with soft glow ---
+// Logo
 {
   const logoCx = 384
   const logoCy = 205
   const logoR = 96
-  const pad = 22
+  const pad = 24
   const box = {
     left: logoCx - logoR - pad,
     top: logoCy - logoR - pad,
@@ -168,8 +226,7 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       let alpha = 0
       if (dist <= logoR) alpha = 1
       else if (dist < logoR + pad) alpha = smoothstep(1 - (dist - logoR) / pad)
-      // Kill any flourish pixels above ring that sneak into pad
-      if (y < pad - 4 && dist > logoR - 2) alpha = 0
+      if (y < pad - 6 && dist > logoR - 4) alpha = 0
       ld[i + 3] = Math.round(255 * alpha)
     }
   }
@@ -178,34 +235,39 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
   })
     .png()
     .toBuffer()
-
   canvas = await sharp(canvas)
     .composite([{ input: logoPng, left: box.left, top: box.top, blend: 'over' }])
     .png()
     .toBuffer()
 }
 
-// Thin gold frame (subtle, not a black bar)
+// Final: scrub ANY leftover gold/white invitation glyphs outside logo
 {
-  const frame = await sharp(canvas).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
-  const d = frame.data
-  const w = frame.info.width
-  const h = frame.info.height
-  const c = frame.info.channels
-  for (let x = 8; x < w - 8; x++) {
-    for (const y of [6, 7, h - 8, h - 7]) {
+  const again = await sharp(canvas).ensureAlpha().raw().toBuffer({ resolveWithObject: true })
+  const d = again.data
+  const w = again.info.width
+  const h = again.info.height
+  const c = again.info.channels
+  const logoCx = 384
+  const logoCy = 205
+  const logoR = 100
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (Math.hypot(x - logoCx, y - logoCy) <= logoR) continue
       const i = (y * w + x) * c
-      d[i] = Math.min(255, d[i] + 40)
-      d[i + 1] = Math.min(255, d[i + 1] + 28)
-      d[i + 2] = Math.min(255, d[i + 2] + 8)
-    }
-  }
-  for (let y = 8; y < h - 8; y++) {
-    for (const x of [6, 7, w - 8, w - 7]) {
-      const i = (y * w + x) * c
-      d[i] = Math.min(255, d[i] + 40)
-      d[i + 1] = Math.min(255, d[i + 1] + 28)
-      d[i + 2] = Math.min(255, d[i + 2] + 8)
+      const r = d[i]
+      const g = d[i + 1]
+      const b = d[i + 2]
+      const v = (r + g + b) / 3
+      const isGlyph =
+        (y < 120 && ((v > 30 && r - b > 5) || v > 55)) ||
+        (y > 290 && ((v > 32 && r - b > 4) || v > 55 || (Math.abs(r - g) < 20 && v > 45)))
+      if (!isGlyph) continue
+      const a = bank[Math.floor(hash01(x, y, 20) * bank.length) % bank.length]
+      const j = (hash01(x, y, 21) - 0.5) * 4
+      d[i] = Math.min(255, Math.max(6, a[0] + j))
+      d[i + 1] = Math.min(255, Math.max(5, a[1] + j * 0.7))
+      d[i + 2] = Math.min(255, Math.max(4, a[2] + j * 0.4))
     }
   }
   canvas = await sharp(d, { raw: { width: w, height: h, channels: c } })
@@ -222,7 +284,7 @@ await sharp(canvas)
   .png()
   .toFile(path.join(probeDir, 'check-top.png'))
 await sharp(canvas)
-  .extract({ left: 100, top: 0, width: Math.min(220, cm.width - 100), height: Math.min(130, cm.height) })
+  .extract({ left: 105, top: 0, width: Math.min(210, cm.width - 105), height: Math.min(125, cm.height) })
   .png()
   .toFile(path.join(probeDir, 'check-hat.png'))
 await sharp(canvas)
@@ -247,11 +309,12 @@ await sharp(canvas)
 {
   const { data: cd, info: ci } = await sharp(canvas).raw().toBuffer({ resolveWithObject: true })
   let flat = 0
-  let goldText = 0
+  let gold = 0
+  let bright = 0
   let sum = 0
   let sum2 = 0
   let n = 0
-  for (let y = 0; y < 60; y++) {
+  for (let y = 0; y < 55; y++) {
     for (let x = 120; x < 500; x++) {
       const i = (y * ci.width + x) * ci.channels
       const r = cd[i]
@@ -260,18 +323,27 @@ await sharp(canvas)
       sum2 += v * v
       n++
       if (v < 4) flat++
-      if (v > 45 && r > cd[i + 2] + 12) goldText++
+      if (v > 40 && r > cd[i + 2] + 12) gold++
+      if (v > 70) bright++
     }
   }
-  const mean = sum / n
-  const std = Math.sqrt(Math.max(0, sum2 / n - mean * mean))
+  let bBright = 0
+  for (let y = 300; y < ci.height - 4; y++) {
+    for (let x = 200; x < 520; x++) {
+      const i = (y * ci.width + x) * ci.channels
+      const v = (cd[i] + cd[i + 1] + cd[i + 2]) / 3
+      if (v > 55) bBright++
+    }
+  }
   console.log(
-    'header flat/goldText/mean/std',
+    'header flat/gold/bright/mean/std',
     flat,
-    goldText,
-    mean.toFixed(2),
-    std.toFixed(2),
-    std < 2.5 ? 'WARN-FLAT' : 'ok',
+    gold,
+    bright,
+    (sum / n).toFixed(1),
+    Math.sqrt(Math.max(0, sum2 / n - (sum / n) ** 2)).toFixed(1),
+    'bottomBright',
+    bBright,
   )
 }
 
@@ -282,16 +354,13 @@ const heroJpeg = await sharp(canvas)
   .jpeg({ quality: 93, mozjpeg: true })
   .toBuffer()
 const slide5Jpeg = await sharp(canvas).jpeg({ quality: 93, mozjpeg: true }).toBuffer()
-
 await fs.promises.writeFile(path.join(root, 'public/images/terra-estilo-hero.jpg'), heroJpeg)
 await fs.promises.writeFile(path.join(root, 'public/images/terra-estilo-hero-full.jpg'), heroJpeg)
 await fs.promises.writeFile(path.join(root, 'public/images/hero/slide-1.jpg'), heroJpeg)
 await fs.promises.writeFile(path.join(root, 'public/images/hero/slide-5.jpg'), slide5Jpeg)
-
 await sharp(heroJpeg)
   .extract({ left: 350, top: 0, width: 1100, height: 400 })
   .png()
   .toFile(path.join(probeDir, 'verify-s1-top.png'))
 await sharp(slide5Jpeg).png().toFile(path.join(probeDir, 'verify-s5-full.png'))
-
 console.log('wrote heroes')
