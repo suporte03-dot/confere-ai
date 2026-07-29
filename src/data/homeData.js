@@ -41,14 +41,17 @@ export const heroBrandPillars = [
 ]
 
 export const heroContent = {
-  badge: 'Nova coleção Terra & Estilo',
-  title: 'A marca do agro brasileiro',
-  subtitle:
-    'Peças premium com identidade, elegância e autenticidade — do campo ao estilo contemporâneo.',
-  primaryCta: 'Ver coleção',
-  secondaryCta: 'Conheça a marca',
+  label: 'Terra & Estilo',
+  title: 'A essência e a elegância do agro brasileiro',
+  slogan: 'A marca do agro brasileiro',
+  support:
+    'Uma marca construída com dedicação, amor e propósito, pensada para quem valoriza a força, a autenticidade e o estilo do campo.',
+  primaryCta: 'Conheça nossa coleção',
+  secondaryCta: 'Fale conosco',
+  imageAlt:
+    'Casal usando camisas pretas Terra & Estilo e chapéus country, em ensaio de campanha preto e ouro.',
   boardAlt:
-    'Terra & Estilo — A marca do agro brasileiro. Monograma T&E em ouro sobre preto.',
+    'Terra & Estilo — A marca do agro brasileiro. Logo circular oficial em ouro sobre preto.',
 }
 
 export const heroVisualCard = {

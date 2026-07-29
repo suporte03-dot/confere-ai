@@ -1,8 +1,9 @@
 ﻿const COLORS = [
-  { name: 'Preto', hex: '#0a0a0a' },
-  { name: 'Ouro Metálico', hex: '#D4AF37' },
-  { name: 'Ouro Champagne', hex: '#C9A064' },
-  { name: 'Mármore', hex: '#F7F5F2' },
+  { name: 'Preto', hex: '#0B0B0B' },
+  { name: 'Ouro', hex: '#C9A24D' },
+  { name: 'Ouro suave', hex: '#D8B56A' },
+  { name: 'Branco suave', hex: '#F8F6F1' },
+  { name: 'Fundo claro', hex: '#F7F4EE' },
 ]
 
 function ColorPalette() {

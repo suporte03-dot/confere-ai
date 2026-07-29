@@ -4,14 +4,14 @@
 
 body {
   font-family: 'Montserrat', system-ui, sans-serif;
-  color: #0a0a0a;
+  color: #0B0B0B;
 }
 
 [id] {
-  scroll-margin-top: var(--sticky-offset, 228px);
+  scroll-margin-top: var(--sticky-offset, 184px);
 }
 
 ::selection {
-  background: rgba(212, 175, 55, 0.28);
-  color: #0a0a0a;
+  background: rgba(201, 162, 77, 0.28);
+  color: #0B0B0B;
 }
