@@ -3,7 +3,7 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(82px, 6.2vw, 100px);
-  --hero-logo-size: clamp(220px, 22vw, 350px);
+  --hero-logo-size: clamp(180px, 16vw, 260px);
 }
 
 .desktop-preview .header-brand__logo-img {
@@ -12,7 +12,7 @@
 }
 
 .desktop-preview .hero-brand-board__logo-img {
-  width: clamp(220px, 22vw, 350px);
+  width: clamp(180px, 16vw, 260px);
   height: auto;
 }
 
@@ -46,7 +46,7 @@
   --header-logo-size: 72px;
   --header-monogram-size: 48px;
   --header-wordmark-size: clamp(1.5rem, 7.5vw, 1.875rem);
-  --hero-logo-size: clamp(170px, 48vw, 220px);
+  --hero-logo-size: clamp(160px, 46vw, 210px);
   --sticky-offset: 0px;
   --main-nav-h: 0px;
   position: relative;
@@ -349,13 +349,14 @@
 }
 
 .mobile-preview .hero-section__media::before {
-  inset: 3% 2%;
+  inset: 1.5% 1%;
 }
 
 .mobile-preview .hero-section__image {
-  width: 90%;
+  width: auto;
+  max-width: 100%;
   height: auto;
-  max-height: 560px;
+  max-height: min(560px, 70vh);
   object-fit: contain;
   object-position: center center;
   filter: brightness(1.12) contrast(1.04);
@@ -412,7 +413,7 @@
 }
 
 .mobile-preview .hero-brand-board__logo-img {
-  width: clamp(190px, 52vw, 240px);
+  width: clamp(160px, 46vw, 210px);
   height: auto;
 }
 
