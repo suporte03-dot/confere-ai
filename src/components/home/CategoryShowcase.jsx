@@ -1,58 +1,32 @@
-import { useCallback, useState } from 'react'
-import { categorias } from '../../data/homeData'
+import { categoryCards } from '../../data/homeData'
+import { useShop } from '../../context/ShopContext'
+import CategoryCard from './CategoryCard'
 
 function CategoryShowcase() {
-  const [failedImages, setFailedImages] = useState(() => new Set())
-
-  const handleImageError = useCallback((imagem) => {
-    setFailedImages((prev) => {
-      if (prev.has(imagem)) return prev
-      const next = new Set(prev)
-      next.add(imagem)
-      return next
-    })
-  }, [])
+  const { navigateToCollection, toggleFavorite, isFavorite } = useShop()
 
   return (
-    <section id="colecoes" className="categorias-section section">
+    <section id="colecoes" className="categorias-section section" aria-labelledby="categorias-title">
       <div className="container categorias-section__container">
-        <div className="section-head">
-          <h2 className="section-head__title">Navegue por categoria</h2>
+        <div className="section-head section-head--light">
+          <h2 id="categorias-title" className="section-head__title">
+            Navegue por categoria
+          </h2>
           <p className="section-head__desc">
-            Explore as principais categorias da coleção.
+            Explore as coleções essenciais da Terra &amp; Estilo.
           </p>
         </div>
-        <div className="categorias-grid">
-          {categorias.map((categoria) => {
-            const imageFailed = failedImages.has(categoria.imagem)
 
-            return (
-              <a
-                key={categoria.url}
-                href={categoria.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="categoria-card"
-              >
-                <div className="categoria-card__media">
-                  <span className="categoria-card__glow" aria-hidden="true" />
-                  {!imageFailed && (
-                    <img
-                      src={categoria.imagem}
-                      alt={categoria.nome}
-                      className="categoria-card__img"
-                      loading="lazy"
-                      onError={() => handleImageError(categoria.imagem)}
-                    />
-                  )}
-                </div>
-                <div className="categoria-card__body">
-                  <h3>{categoria.nome}</h3>
-                  <span className="categoria-card__cta">Ver produtos</span>
-                </div>
-              </a>
-            )
-          })}
+        <div className="category-grid">
+          {categoryCards.map((category) => (
+            <CategoryCard
+              key={category.id}
+              category={category}
+              favorite={isFavorite(category.id)}
+              onToggleFavorite={toggleFavorite}
+              onNavigate={navigateToCollection}
+            />
+          ))}
         </div>
       </div>
     </section>

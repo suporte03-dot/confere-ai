@@ -6,6 +6,8 @@ export const BRAND_LOGO_HEADER_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
+export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
+export const COUPLE_HERO_SRC = assetUrl('/images/hero/couple-hero.png')
 
 export const topBarMessages = [
   {
@@ -126,12 +128,58 @@ export const categorias = [
 /** @deprecated use categorias */
 export const categoryShowcase = categorias
 
+/** Cards premium de categoria (home) — Camisas, Vestidos, Jaquetas, Bolsas */
+export const categoryCards = [
+  {
+    id: 'cat-camisas',
+    title: 'Camisas',
+    badge: 'NOVO',
+    tone: 'dark',
+    filter: 'camisas-masculinas',
+    icon: 'camisa',
+    image: assetUrl('/images/categorias/camisas.jpg'),
+  },
+  {
+    id: 'cat-vestidos',
+    title: 'Vestidos',
+    badge: 'DESTAQUE',
+    tone: 'light',
+    filter: 'vestidos',
+    icon: 'vestido',
+    image: assetUrl('/images/categorias/acessorios.jpg'),
+  },
+  {
+    id: 'cat-jaquetas',
+    title: 'Jaquetas',
+    badge: 'NOVO',
+    tone: 'dark',
+    filter: 'jaquetas-masculinas',
+    icon: 'jaqueta',
+    image: assetUrl('/images/categorias/jaquetas-masculinas.jpg'),
+  },
+  {
+    id: 'cat-bolsas',
+    title: 'Bolsas',
+    badge: 'DESTAQUE',
+    tone: 'light',
+    filter: 'bolsas-acessorios',
+    icon: 'bolsa',
+    image: assetUrl('/images/categorias/acessorios.jpg'),
+  },
+]
+
 export const featuredCollection = {
+  eyebrow: 'Coleção em destaque',
   title: 'Coleção Raízes do Sul',
   description:
     'Uma seleção de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar agora',
   secondaryCta: 'Ver lookbook',
+  image: COUPLE_HERO_SRC,
+  imageAlt:
+    'Casal Terra & Estilo em campanha da Coleção Raízes do Sul — camisas pretas e estilo country.',
+  marble: BRAND_MARBLE_SRC,
+  logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
 }
 
@@ -254,26 +302,32 @@ export const brandValuesHome = [
   {
     title: 'Raízes',
     description: 'Uma moda inspirada na origem, na terra e na autenticidade regional.',
+    icon: 'raizes',
   },
   {
     title: 'Identidade',
     description: 'Uma linguagem visual própria, reconhecível e fiel ao propósito da marca.',
+    icon: 'identidade',
   },
   {
     title: 'Sofisticação',
     description: 'Elegância natural traduzida em cortes, materiais e acabamentos refinados.',
+    icon: 'sofisticacao',
   },
   {
     title: 'Sul do Brasil',
     description: 'Inspiração regional com olhar contemporâneo e respeito às origens.',
+    icon: 'sul',
   },
   {
     title: 'Autenticidade',
     description: 'Moda com verdade, personalidade e conexão com quem veste.',
+    icon: 'autenticidade',
   },
 ]
 
 export const aboutBrand = {
+  eyebrow: 'Nossa essência',
   title: 'Terra & Estilo',
   text:
     'Terra & Estilo nasce da união entre elegância, origem e autenticidade. A marca do agro brasileiro — moda que honra suas raízes e traduz o estilo do campo com sofisticação e propósito.',
@@ -281,11 +335,11 @@ export const aboutBrand = {
 }
 
 export const benefitsBar = [
-  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.' },
-  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.' },
-  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.' },
-  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.' },
-  { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.' },
+  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
+  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
+  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
+  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.', icon: 'heart' },
+  { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.', icon: 'card' },
 ]
 
 export const newsletterHome = {

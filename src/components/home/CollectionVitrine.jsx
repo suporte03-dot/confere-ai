@@ -1,11 +1,11 @@
-import CategoryShowcase from './CategoryShowcase'
 import FeaturedCollection from './FeaturedCollection'
+import CategoryShowcase from './CategoryShowcase'
 
 function CollectionVitrine() {
   return (
     <div className="collection-vitrine" aria-label="Vitrine de coleções Terra & Estilo">
-      <CategoryShowcase />
       <FeaturedCollection />
+      <CategoryShowcase />
     </div>
   )
 }
