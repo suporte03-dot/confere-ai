@@ -16,7 +16,7 @@
 
 .desktop-preview .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.28fr) auto minmax(0, 0.92fr);
   align-items: stretch;
   max-width: none;
   min-height: min(760px, calc(100vh - var(--sticky-offset) - 110px));
@@ -29,25 +29,26 @@
   align-items: center;
   justify-content: center;
   min-height: 560px;
-  overflow: hidden;
+  overflow: visible;
+  padding: 8px 18px 8px 4px;
 }
 
 .desktop-preview .hero-models {
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .desktop-preview .hero-models__img {
-  width: 92%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
+  width: 90%;
+  height: auto;
+  max-width: min(100%, 720px);
+  max-height: min(92%, 640px);
   margin: 0 auto;
   object-fit: contain;
-  object-position: center center;
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(90deg, #000 0%, #000 78%, transparent 100%);
+  object-position: center 32%;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 .desktop-preview .hero-zone--right {
@@ -441,12 +442,12 @@
 }
 
 .mobile-preview .hero-models__img {
-  width: 92%;
+  width: min(92%, 560px);
   height: auto;
-  max-height: none;
+  max-height: min(58vh, 600px);
   object-fit: contain;
-  object-position: center bottom;
-  filter: brightness(1.06) contrast(1.03);
+  object-position: center 28%;
+  filter: brightness(1.08) contrast(1.04);
   -webkit-mask-image: none;
   mask-image: none;
 }
@@ -850,11 +851,11 @@
 }
 
 .mobile-preview .hero-models__img {
-  width: 92%;
+  width: min(92%, 560px);
   height: auto;
-  max-height: none;
+  max-height: min(58vh, 600px);
   object-fit: contain;
-  object-position: center bottom;
+  object-position: center 28%;
   -webkit-mask-image: none;
   mask-image: none;
 }
@@ -954,7 +955,15 @@
 }
 
 .mobile-preview .featured-collection__media {
-  min-height: 240px;
+  min-height: 300px;
+  padding: 16px 12px 56px;
+}
+
+.mobile-preview .featured-collection__media-img {
+  width: min(94%, 480px);
+  max-height: 280px;
+  object-fit: contain;
+  object-position: center 26%;
 }
 
 .mobile-preview .featured-collection__logo {
