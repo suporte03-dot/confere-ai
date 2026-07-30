@@ -6,6 +6,24 @@
   --hero-logo-size: clamp(150px, 16vw, 230px);
 }
 
+.desktop-preview .hero-section {
+  min-height: 850px;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.desktop-preview .hero-section__inner {
+  max-width: none;
+  width: 100%;
+  min-height: 850px;
+  gap: 0;
+}
+
+.desktop-preview .hero-section__media {
+  min-height: 850px;
+}
+
 .desktop-preview .header-brand__logo-img {
   width: var(--header-logo-size);
   height: var(--header-logo-size);
@@ -14,6 +32,12 @@
 .desktop-preview .hero-brand-board__ring {
   width: var(--hero-logo-size);
   height: var(--hero-logo-size);
+  filter: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(201, 162, 39, 0.7),
+    0 0 0 4px #050505,
+    0 0 0 5px rgba(201, 162, 39, 0.55);
+  border: 1px solid rgba(201, 162, 39, 0.95);
 }
 
 .desktop-preview .hero-brand-board__logo-img {
@@ -32,9 +56,10 @@
   height: var(--hero-logo-size);
   filter: none;
   box-shadow:
-    inset 0 0 0 1px rgba(201, 162, 39, 0.55),
-    0 0 0 1px rgba(201, 162, 39, 0.35);
-  border: 1px solid rgba(201, 162, 39, 0.9);
+    inset 0 0 0 1px rgba(201, 162, 39, 0.7),
+    0 0 0 4px #050505,
+    0 0 0 5px rgba(201, 162, 39, 0.55);
+  border: 1px solid rgba(201, 162, 39, 0.95);
 }
 
 .mobile-preview .hero-brand-board__logo-img {
@@ -372,7 +397,7 @@
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding: 20px 12px 28px;
+  padding: 0;
   border: none;
   overflow: hidden;
   min-height: 0;
@@ -382,20 +407,37 @@
   display: grid;
   grid-template-columns: 1fr;
   min-height: 0;
-  gap: 22px;
+  gap: 0;
   padding: 0;
-  align-items: center;
+  align-items: stretch;
+}
+
+.mobile-preview .hero-section__media {
+  min-height: 360px;
+}
+
+.mobile-preview .hero-section__media-fade {
+  background:
+    linear-gradient(
+      180deg,
+      transparent 40%,
+      rgba(5, 5, 5, 0.55) 72%,
+      #050505 100%
+    );
 }
 
 .mobile-preview .hero-section__frame {
-  max-width: 100%;
-  aspect-ratio: 3 / 4;
+  max-width: none;
+  aspect-ratio: auto;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .mobile-preview .hero-section__copy {
   align-items: center;
   text-align: center;
   max-width: 100%;
+  padding: 22px 16px 32px;
 }
 
 .mobile-preview .hero-section__title {
@@ -769,14 +811,19 @@
   padding: 0;
   border: none;
   overflow: hidden;
-  min-height: 640px;
+  min-height: 0;
 }
 
 .mobile-preview .hero-section__inner {
-  min-height: 640px;
+  min-height: 0;
   gap: 0;
   padding: 0;
-  align-items: flex-end;
+  align-items: stretch;
+  grid-template-columns: 1fr;
+}
+
+.mobile-preview .hero-section__media {
+  min-height: 340px;
 }
 
 .mobile-preview .hero-section__image {
@@ -787,30 +834,35 @@
 
 .mobile-preview .hero-section__copy {
   max-width: 100%;
+  padding: 20px 16px 28px;
+  align-items: center;
+  text-align: center;
 }
 
 .mobile-preview .hero-section__title {
-  font-size: clamp(38px, 9vw, 48px);
-  line-height: 1.02;
+  font-size: clamp(1.55rem, 7.5vw, 1.95rem);
+  line-height: 1.1;
   max-width: 100%;
-  margin: 0 auto 18px;
+  margin: 0 auto 14px;
+  text-align: center;
 }
 
 .mobile-preview .hero-section__support {
-  font-size: 0.875rem;
-  line-height: 1.7;
+  font-size: 0.8125rem;
+  line-height: 1.65;
   color: #c7c0b5;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 }
 
 .mobile-preview .hero-section__actions {
   justify-content: center;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  margin-top: 24px;
+  margin-top: 20px;
 }
 
 .mobile-preview .hero-section__actions .btn {
@@ -820,12 +872,18 @@
 }
 
 .mobile-preview .hero-brand-board {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .mobile-preview .hero-brand-board__ring {
-  width: clamp(160px, 46vw, 210px);
-  height: clamp(160px, 46vw, 210px);
+  width: clamp(140px, 42vw, 190px);
+  height: clamp(140px, 42vw, 190px);
+  filter: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(201, 162, 39, 0.7),
+    0 0 0 4px #050505,
+    0 0 0 5px rgba(201, 162, 39, 0.55);
+  border: 1px solid rgba(201, 162, 39, 0.95);
 }
 
 .mobile-preview .hero-brand-board__logo-img {

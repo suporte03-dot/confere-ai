@@ -1,7 +1,7 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260729c'
+const HERO_ASSET_V = '20260729d'
 const HERO_IMAGE_SRC = `/images/hero/couple.jpg?v=${HERO_ASSET_V}`
 
 function HeroSection() {
@@ -19,12 +19,13 @@ function HeroSection() {
               src={assetUrl(HERO_IMAGE_SRC)}
               alt={heroContent.imageAlt}
               className="hero-section__image"
-              style={{ objectPosition: '48% 28%' }}
-              width={900}
-              height={1125}
+              style={{ objectPosition: '42% 22%' }}
+              width={1200}
+              height={1500}
               decoding="sync"
               fetchPriority="high"
             />
+            <div className="hero-section__media-fade" aria-hidden="true" />
           </div>
         </div>
 
