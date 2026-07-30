@@ -20,7 +20,7 @@ function HeaderBrandMark({ className = '' }) {
           decoding="async"
         />
       </span>
-      <span className="header-brand__name" aria-hidden="true">
+      <span className="header-brand__name visually-hidden">
         Terra &amp; Estilo
       </span>
     </a>

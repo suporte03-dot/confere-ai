@@ -1,0 +1,28 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" fill="none" aria-hidden="true">
+  <g stroke="#C9A03A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- crown -->
+    <path d="M44 28 L48 18 L54 26 L60 14 L66 26 L72 18 L76 28"/>
+    <path d="M44 28 H76"/>
+    <circle cx="60" cy="12" r="2.2" fill="#C9A03A" stroke="none"/>
+    <!-- head oval -->
+    <ellipse cx="60" cy="40" rx="10" ry="12"/>
+    <!-- cloak outer -->
+    <path d="M38 48 C28 72 24 108 30 148 L60 152 L90 148 C96 108 92 72 82 48"/>
+    <!-- cloak inner scroll -->
+    <path d="M44 56 C36 80 34 112 40 140"/>
+    <path d="M76 56 C84 80 86 112 80 140"/>
+    <path d="M48 70 C44 90 44 112 48 132"/>
+    <path d="M72 70 C76 90 76 112 72 132"/>
+    <!-- filigree curves -->
+    <path d="M50 88 C46 96 46 108 52 116"/>
+    <path d="M70 88 C74 96 74 108 68 116"/>
+    <!-- rosary center -->
+    <path d="M60 54 V128"/>
+    <circle cx="60" cy="68" r="1.8" fill="#C9A03A" stroke="none"/>
+    <circle cx="60" cy="84" r="1.8" fill="#C9A03A" stroke="none"/>
+    <circle cx="60" cy="100" r="1.8" fill="#C9A03A" stroke="none"/>
+    <circle cx="60" cy="116" r="1.8" fill="#C9A03A" stroke="none"/>
+    <!-- cross -->
+    <path d="M60 132 V148 M54 138 H66"/>
+  </g>
+</svg>

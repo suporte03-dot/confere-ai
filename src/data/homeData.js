@@ -55,18 +55,17 @@ export const heroBrandPillars = [
 
 export const heroContent = {
   label: 'Terra & Estilo',
-  titleLead: 'A ',
-  titleSerif1: 'essência',
-  titleMid1: ' e a',
-  titleScript1: 'elegância',
-  titleMid2: ' do ',
-  titleSerif2: 'agro',
-  titleMid3: ' ',
-  titleScript2: 'brasileiro',
+  titleLead: 'A essência e a elegância do ',
+  titleAccent: 'agro brasileiro',
   title: 'A essência e a elegância do agro brasileiro',
   slogan: 'A marca do agro brasileiro',
   support:
-    'Uma marca construída com dedicação, amor e propósito, pensada para quem valoriza a força, a autenticidade e o estilo do campo.',
+    'Cada detalhe carrega a força do campo e o cuidado de quem vive essa história. Roupas que traduzem dedicação, autenticidade e orgulho de ser do agro. Terra & Estilo é o encontro entre tradição, qualidade e estilo que inspiram gerações.',
+  supportParagraphs: [
+    'Cada detalhe carrega a força do campo e o cuidado de quem vive essa história.',
+    'Roupas que traduzem dedicação, autenticidade e orgulho de ser do agro.',
+    'Terra & Estilo é o encontro entre tradição, qualidade e estilo que inspiram gerações.',
+  ],
   primaryCta: 'Conheça a coleção',
   secondaryCta: 'Fale conosco',
   imageAlt:
