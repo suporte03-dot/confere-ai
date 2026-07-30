@@ -1,7 +1,7 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260730d'
+const HERO_ASSET_V = '20260730e'
 const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
@@ -11,68 +11,55 @@ function HeroSection() {
     <section id="inicio" className="hero-section" aria-labelledby="hero-title">
       <div className="hero-section__stage" aria-hidden="true">
         <div className="hero-section__stage-glow" />
-        <div className="hero-section__stage-wash" />
         <div className="hero-section__stage-texture" />
-        <div className="hero-section__stage-wisps" />
         <div className="hero-section__particles" />
       </div>
 
-      <div className="hero-section__scene">
-        <div className="hero-section__cast" aria-hidden="true">
-          <div className="hero-section__cast-glow" />
-          <div className="hero-section__cast-lift" />
+      <div className="hero-container">
+        <div className="hero-models" aria-hidden="true">
           <img
             src={assetUrl(HERO_IMAGE_SRC)}
             alt=""
-            className="hero-section__image"
-            width={1044}
-            height={1283}
+            className="hero-models__img"
+            width={1148}
+            height={1371}
             decoding="sync"
             fetchPriority="high"
           />
         </div>
 
-        <div className="hero-section__brand">
-          <div className="hero-brand-board">
-            <div className="hero-brand-board__halo" aria-hidden="true" />
-            <div className="hero-brand-board__ring">
-              <img
-                src={BRAND_LOGO_CIRCULAR_SRC}
-                alt={heroContent.boardAlt}
-                className="hero-brand-board__logo-img"
-                width={512}
-                height={512}
-                decoding="async"
-              />
-            </div>
+        <div className="hero-content">
+          <img
+            src={BRAND_LOGO_CIRCULAR_SRC}
+            alt={heroContent.boardAlt}
+            className="hero-logo"
+            width={512}
+            height={512}
+            decoding="async"
+          />
+
+          <h1 id="hero-title" className="hero-title">
+            <span className="hero-title__line">
+              {heroContent.titleLead}
+              <span className="hero-title__serif">{heroContent.titleSerif1}</span>
+              {heroContent.titleMid1}
+            </span>
+            <span className="hero-title__line">
+              <em className="hero-title__script">{heroContent.titleScript1}</em>
+              {heroContent.titleMid2}
+              <span className="hero-title__serif">{heroContent.titleSerif2}</span>
+              {heroContent.titleMid3}
+              <em className="hero-title__script">{heroContent.titleScript2}</em>
+            </span>
+          </h1>
+
+          <div className="hero-section__rule" aria-hidden="true">
+            <span className="hero-section__rule-line" />
+            <span className="hero-section__rule-leaf">❧</span>
+            <span className="hero-section__rule-line" />
           </div>
-        </div>
 
-        <div className="hero-section__copy">
-          <div className="hero-section__copy-main">
-            <h1 id="hero-title" className="hero-section__title">
-              <span className="hero-section__title-line">
-                {heroContent.titleLead}
-                <span className="hero-section__title-serif-em">{heroContent.titleSerif1}</span>
-                {heroContent.titleMid1}
-              </span>
-              <span className="hero-section__title-line">
-                <em className="hero-section__title-script">{heroContent.titleScript1}</em>
-                {heroContent.titleMid2}
-                <span className="hero-section__title-serif-em">{heroContent.titleSerif2}</span>
-                {heroContent.titleMid3}
-                <em className="hero-section__title-script">{heroContent.titleScript2}</em>
-              </span>
-            </h1>
-
-            <div className="hero-section__rule" aria-hidden="true">
-              <span className="hero-section__rule-line" />
-              <span className="hero-section__rule-leaf">❧</span>
-              <span className="hero-section__rule-line" />
-            </div>
-
-            <p className="hero-section__support">{heroContent.support}</p>
-          </div>
+          <p className="hero-section__support">{heroContent.support}</p>
 
           <div className="hero-section__actions">
             <a href="#produtos" className="btn btn--primary hero-section__cta-primary">
