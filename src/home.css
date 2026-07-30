@@ -1091,7 +1091,7 @@
   --hero-logo-size: clamp(200px, 22vw, 300px);
   position: relative;
   width: 100%;
-  max-width: 100%;
+  max-width: none;
   margin: 0;
   padding: 0;
   border: none;
@@ -1101,10 +1101,10 @@
   overflow: hidden;
   color: var(--white-soft);
   background:
-    radial-gradient(ellipse 58% 70% at 48% 48%, rgba(201, 162, 39, 0.28), transparent 62%),
-    radial-gradient(ellipse 50% 55% at 22% 58%, rgba(140, 90, 36, 0.22), transparent 68%),
-    radial-gradient(ellipse 48% 50% at 82% 42%, rgba(90, 58, 24, 0.2), transparent 70%),
-    linear-gradient(160deg, #14110e 0%, #2a1f14 38%, #3a2a18 58%, #1a140f 82%, #100d0a 100%);
+    radial-gradient(ellipse 52% 62% at 50% 46%, rgba(201, 162, 39, 0.1), transparent 68%),
+    radial-gradient(ellipse 46% 50% at 20% 60%, rgba(90, 68, 40, 0.1), transparent 72%),
+    radial-gradient(ellipse 44% 48% at 84% 40%, rgba(60, 46, 30, 0.12), transparent 72%),
+    linear-gradient(160deg, #100e0c 0%, #1a1612 40%, #221c16 58%, #14110e 82%, #0c0a08 100%);
 }
 
 .hero-section__stage {
@@ -1119,25 +1119,25 @@
   position: absolute;
   inset: -14% -10%;
   background:
-    radial-gradient(ellipse 42% 52% at 48% 46%, rgba(230, 201, 138, 0.32), transparent 68%),
-    radial-gradient(ellipse 36% 42% at 30% 60%, rgba(201, 162, 39, 0.18), transparent 72%);
+    radial-gradient(ellipse 40% 48% at 50% 46%, rgba(230, 201, 138, 0.12), transparent 70%),
+    radial-gradient(ellipse 32% 38% at 28% 62%, rgba(201, 162, 39, 0.06), transparent 74%);
 }
 
 .hero-section__stage-wash {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(20, 14, 10, 0.35) 0%, transparent 28%, transparent 68%, rgba(16, 12, 9, 0.28) 100%),
-    linear-gradient(180deg, rgba(16, 12, 9, 0.22) 0%, transparent 28%, transparent 72%, rgba(12, 9, 7, 0.45) 100%);
+    linear-gradient(90deg, rgba(14, 11, 9, 0.1) 0%, transparent 14%, transparent 72%, rgba(12, 9, 7, 0.22) 100%),
+    linear-gradient(180deg, rgba(12, 9, 7, 0.18) 0%, transparent 26%, transparent 74%, rgba(10, 8, 6, 0.42) 100%);
 }
 
 .hero-section__stage-texture {
   position: absolute;
   inset: 0;
-  opacity: 0.22;
+  opacity: 0.16;
   background-image:
-    radial-gradient(rgba(230, 201, 138, 0.1) 0.6px, transparent 0.7px),
-    radial-gradient(rgba(0, 0, 0, 0.18) 0.8px, transparent 0.9px);
+    radial-gradient(rgba(230, 201, 138, 0.06) 0.6px, transparent 0.7px),
+    radial-gradient(rgba(0, 0, 0, 0.16) 0.8px, transparent 0.9px);
   background-size: 3px 3px, 5px 5px;
   background-position: 0 0, 1px 2px;
   mix-blend-mode: soft-light;
@@ -1150,11 +1150,11 @@
   bottom: -8%;
   height: 42%;
   background:
-    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(201, 162, 39, 0.16), transparent 70%),
-    radial-gradient(ellipse 28% 18% at 22% 78%, rgba(230, 201, 138, 0.12), transparent 72%),
-    radial-gradient(ellipse 24% 16% at 78% 82%, rgba(201, 162, 39, 0.1), transparent 72%);
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(201, 162, 39, 0.07), transparent 70%),
+    radial-gradient(ellipse 28% 18% at 22% 78%, rgba(230, 201, 138, 0.05), transparent 72%),
+    radial-gradient(ellipse 24% 16% at 78% 82%, rgba(201, 162, 39, 0.05), transparent 72%);
   filter: blur(1px);
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 .hero-section__particles {
@@ -1162,23 +1162,23 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.2;
   background-image:
-    radial-gradient(1.5px 1.5px at 18% 28%, rgba(230, 201, 138, 0.55), transparent),
-    radial-gradient(1px 1px at 72% 22%, rgba(201, 162, 39, 0.45), transparent),
-    radial-gradient(1.5px 1.5px at 58% 68%, rgba(216, 181, 106, 0.35), transparent),
-    radial-gradient(1px 1px at 34% 78%, rgba(230, 201, 138, 0.3), transparent),
-    radial-gradient(1px 1px at 84% 54%, rgba(201, 162, 39, 0.32), transparent);
+    radial-gradient(1.5px 1.5px at 18% 28%, rgba(230, 201, 138, 0.35), transparent),
+    radial-gradient(1px 1px at 72% 22%, rgba(201, 162, 39, 0.28), transparent),
+    radial-gradient(1.5px 1.5px at 58% 68%, rgba(216, 181, 106, 0.22), transparent),
+    radial-gradient(1px 1px at 34% 78%, rgba(230, 201, 138, 0.2), transparent),
+    radial-gradient(1px 1px at 84% 54%, rgba(201, 162, 39, 0.2), transparent);
   background-size: 100% 100%;
   animation: hero-dust 18s ease-in-out infinite alternate;
 }
 
 @keyframes hero-dust {
-  from { opacity: 0.2; transform: translateY(0); }
-  to { opacity: 0.34; transform: translateY(-6px); }
+  from { opacity: 0.14; transform: translateY(0); }
+  to { opacity: 0.24; transform: translateY(-6px); }
 }
 
-/* Campaign layers: cast | logo | copy */
+/* Campaign layers: cast | logo | copy — full viewport width */
 .hero-section__scene {
   position: relative;
   z-index: 2;
@@ -1186,23 +1186,26 @@
   grid-template-columns: minmax(0, 1.05fr) auto minmax(0, 1.05fr);
   align-items: center;
   width: 100%;
-  max-width: 1480px;
+  max-width: none;
   min-height: clamp(700px, 76vh, 860px);
-  margin: 0 auto;
+  margin: 0;
   padding: 0 clamp(24px, 4.5vw, 56px);
   column-gap: clamp(8px, 1.8vw, 28px);
 }
 
 .hero-section__cast {
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
   z-index: 1;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
-  margin-right: -42%;
+  width: min(54vw, 760px);
+  height: auto;
+  min-height: 100%;
+  margin: 0;
   padding: 20px 0 0;
   overflow: visible;
   pointer-events: none;
@@ -1218,8 +1221,8 @@
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    rgba(201, 162, 39, 0.34) 0%,
-    rgba(120, 78, 24, 0.12) 46%,
+    rgba(201, 162, 39, 0.1) 0%,
+    rgba(90, 68, 36, 0.05) 48%,
     transparent 74%
   );
   pointer-events: none;
@@ -1232,8 +1235,8 @@
   display: block;
   width: auto;
   max-width: none;
-  height: min(780px, 92%);
-  max-height: min(780px, calc(78vh - 24px));
+  height: min(820px, 96%);
+  max-height: min(820px, calc(80vh - 12px));
   margin: 0;
   padding: 0;
   border: none;
@@ -1242,18 +1245,18 @@
   box-shadow: none;
   object-fit: contain;
   object-position: left bottom;
-  opacity: 0.58;
+  opacity: 0.8;
   filter:
-    saturate(0.92)
-    brightness(1.08)
-    contrast(1.02)
-    drop-shadow(0 0 28px rgba(201, 162, 39, 0.18));
+    saturate(0.96)
+    brightness(1.12)
+    contrast(1.04)
+    drop-shadow(0 0 16px rgba(201, 162, 39, 0.08));
   -webkit-mask-image:
-    linear-gradient(90deg, #000 0%, #000 42%, rgba(0, 0, 0, 0.55) 68%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 7%, #000 72%, transparent 100%);
+    linear-gradient(90deg, #000 0%, #000 48%, rgba(0, 0, 0, 0.62) 72%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 6%, #000 78%, transparent 100%);
   mask-image:
-    linear-gradient(90deg, #000 0%, #000 42%, rgba(0, 0, 0, 0.55) 68%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 7%, #000 72%, transparent 100%);
+    linear-gradient(90deg, #000 0%, #000 48%, rgba(0, 0, 0, 0.62) 72%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 6%, #000 78%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -1261,6 +1264,7 @@
 .hero-section__brand {
   position: relative;
   z-index: 5;
+  grid-column: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1282,15 +1286,15 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 138%;
-  height: 138%;
+  width: 128%;
+  height: 128%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(230, 201, 138, 0.38) 0%,
-    rgba(201, 162, 39, 0.18) 38%,
-    transparent 70%
+    rgba(230, 201, 138, 0.14) 0%,
+    rgba(201, 162, 39, 0.06) 40%,
+    transparent 72%
   );
   filter: blur(2px);
   pointer-events: none;
@@ -1311,9 +1315,9 @@
   box-shadow:
     inset 0 0 0 1px rgba(201, 162, 39, 0.75),
     0 0 0 5px rgba(8, 6, 5, 0.5),
-    0 0 0 6px rgba(201, 162, 39, 0.45),
+    0 0 0 6px rgba(201, 162, 39, 0.4),
     0 22px 56px rgba(0, 0, 0, 0.5),
-    0 0 56px rgba(201, 162, 39, 0.32);
+    0 0 36px rgba(201, 162, 39, 0.12);
   filter: none;
 }
 
@@ -1338,6 +1342,7 @@
 .hero-section__copy {
   position: relative;
   z-index: 4;
+  grid-column: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1536,13 +1541,13 @@
     --hero-logo-size: clamp(180px, 20vw, 270px);
   }
 
-  .hero-section__scene {
-    max-width: 1320px;
+  .hero-section__cast {
+    width: min(52vw, 700px);
   }
 
   .hero-section__image {
-    height: min(720px, 90%);
-    max-height: min(720px, 74vh);
+    height: min(740px, 92%);
+    max-height: min(740px, 76vh);
   }
 }
 
@@ -1557,13 +1562,13 @@
   }
 
   .hero-section__cast {
-    margin-right: -36%;
+    width: min(50vw, 620px);
   }
 
   .hero-section__image {
-    height: min(660px, 88%);
-    max-height: min(660px, 70vh);
-    opacity: 0.56;
+    height: min(680px, 90%);
+    max-height: min(680px, 72vh);
+    opacity: 0.78;
   }
 }
 
@@ -1581,12 +1586,12 @@
   }
 
   .hero-section__cast {
-    margin-right: -30%;
+    width: min(48vw, 540px);
   }
 
   .hero-section__image {
-    height: min(580px, 86%);
-    max-height: min(580px, 64vh);
+    height: min(600px, 88%);
+    max-height: min(600px, 66vh);
   }
 
   .hero-section__title {
@@ -1611,6 +1616,10 @@
   }
 
   .hero-section__cast {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
     order: 1;
     width: 100%;
     min-height: 0;
@@ -1624,7 +1633,7 @@
     max-height: min(420px, 50vh);
     max-width: min(100%, 400px);
     margin: 0 auto;
-    opacity: 0.62;
+    opacity: 0.76;
     object-position: center bottom;
     -webkit-mask-image:
       linear-gradient(180deg, transparent 0%, #000 8%, #000 68%, transparent 100%);
@@ -1633,11 +1642,13 @@
   }
 
   .hero-section__brand {
+    grid-column: auto;
     order: 2;
     margin-top: -88px;
   }
 
   .hero-section__copy {
+    grid-column: auto;
     order: 3;
     align-items: center;
     text-align: center;
@@ -1677,7 +1688,7 @@
     height: min(340px, 44vh);
     max-height: min(340px, 44vh);
     max-width: min(100%, 320px);
-    opacity: 0.6;
+    opacity: 0.74;
   }
 
   .hero-section__brand {
