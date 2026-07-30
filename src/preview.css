@@ -7,14 +7,31 @@
 }
 
 .desktop-preview .hero-section {
-  min-height: clamp(720px, 78vh, 880px);
+  min-height: clamp(700px, 76vh, 860px);
   padding: 0;
   width: 100%;
   max-width: 100%;
 }
 
+.desktop-preview .hero-section__scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) auto minmax(0, 1.05fr);
+  align-items: center;
+}
+
 .desktop-preview .hero-section__cast {
   display: flex !important;
+}
+
+.desktop-preview .hero-section__brand {
+  display: flex;
+  z-index: 5;
+}
+
+.desktop-preview .hero-section__copy {
+  justify-self: start;
+  text-align: left;
+  align-items: flex-start;
 }
 
 .desktop-preview .header-brand__logo-img {
@@ -404,7 +421,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 0;
-  padding: 18px 16px 28px;
+  padding: 16px 16px 26px;
 }
 
 .mobile-preview .hero-section__cast {
@@ -417,26 +434,35 @@
 
 .mobile-preview .hero-section__image {
   max-width: min(100%, 320px);
-  height: min(360px, 46vh);
-  max-height: min(360px, 46vh);
+  height: min(340px, 44vh);
+  max-height: min(340px, 44vh);
   width: auto;
+  opacity: 0.6;
   object-fit: contain;
   object-position: center bottom;
   filter:
-    drop-shadow(0 0 18px rgba(201, 162, 39, 0.16))
-    drop-shadow(0 16px 28px rgba(0, 0, 0, 0.45));
+    saturate(0.92)
+    brightness(1.08)
+    contrast(1.02)
+    drop-shadow(0 0 18px rgba(201, 162, 39, 0.16));
   -webkit-mask-image:
-    linear-gradient(180deg, transparent 0%, #000 8%, #000 78%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 68%, transparent 100%);
   mask-image:
-    linear-gradient(180deg, transparent 0%, #000 8%, #000 78%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 68%, transparent 100%);
+}
+
+.mobile-preview .hero-section__brand {
+  order: 2;
+  margin-top: -68px;
+  z-index: 5;
 }
 
 .mobile-preview .hero-section__copy {
-  order: 2;
+  order: 3;
   align-items: center;
   text-align: center;
   max-width: 100%;
-  margin: -56px auto 0;
+  margin: 10px auto 0;
   padding: 0 4px 8px;
 }
 
@@ -452,6 +478,11 @@
   max-width: 100%;
 }
 
+.mobile-preview .hero-section__rule {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .mobile-preview .hero-section__actions {
   justify-content: center;
   flex-direction: column;
@@ -465,7 +496,7 @@
 }
 
 .mobile-preview .hero-brand-board {
-  margin: 0 0 12px;
+  margin: 0;
 }
 
 .mobile-preview .hero-brand-board__logo-img {
@@ -791,7 +822,7 @@
   justify-content: center;
 }
 
-/* ── Hero e seções (shell mobile) ── */
+/* ── Hero e seções (mobile preview) ── */
 .mobile-preview .hero-section {
   width: 100%;
   max-width: 100%;
@@ -809,7 +840,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 0;
-  padding: 18px 16px 28px;
+  padding: 16px 16px 26px;
 }
 
 .mobile-preview .hero-section__cast {
@@ -822,23 +853,32 @@
 .mobile-preview .hero-section__image {
   width: auto;
   max-width: min(100%, 320px);
-  height: min(360px, 46vh);
-  max-height: min(360px, 46vh);
+  height: min(340px, 44vh);
+  max-height: min(340px, 44vh);
+  opacity: 0.6;
   object-fit: contain;
   object-position: center bottom;
   filter:
-    drop-shadow(0 0 18px rgba(201, 162, 39, 0.16))
-    drop-shadow(0 16px 28px rgba(0, 0, 0, 0.45));
+    saturate(0.92)
+    brightness(1.08)
+    contrast(1.02)
+    drop-shadow(0 0 18px rgba(201, 162, 39, 0.16));
   -webkit-mask-image:
-    linear-gradient(180deg, transparent 0%, #000 8%, #000 78%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 68%, transparent 100%);
   mask-image:
-    linear-gradient(180deg, transparent 0%, #000 8%, #000 78%, transparent 100%);
+    linear-gradient(180deg, transparent 0%, #000 8%, #000 68%, transparent 100%);
+}
+
+.mobile-preview .hero-section__brand {
+  order: 2;
+  margin-top: -68px;
+  z-index: 5;
 }
 
 .mobile-preview .hero-section__copy {
-  order: 2;
+  order: 3;
   max-width: 100%;
-  margin: -56px auto 0;
+  margin: 10px auto 0;
   padding: 0 4px 8px;
   align-items: center;
   text-align: center;
@@ -855,11 +895,16 @@
 .mobile-preview .hero-section__support {
   font-size: 0.8125rem;
   line-height: 1.65;
-  color: #c7c0b5;
+  color: rgba(247, 242, 232, 0.88);
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.mobile-preview .hero-section__rule {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mobile-preview .hero-section__actions {
@@ -877,7 +922,7 @@
 }
 
 .mobile-preview .hero-brand-board {
-  margin: 0 0 12px;
+  margin: 0;
 }
 
 .mobile-preview .hero-brand-board__ring {

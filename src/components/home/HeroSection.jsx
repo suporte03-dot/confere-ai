@@ -1,7 +1,7 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260729i'
+const HERO_ASSET_V = '20260730a'
 const HERO_IMAGE_SRC = `/images/hero/couple.jpg?v=${HERO_ASSET_V}`
 
 function HeroSection() {
@@ -11,16 +11,18 @@ function HeroSection() {
     <section id="inicio" className="hero-section" aria-labelledby="hero-title">
       <div className="hero-section__stage" aria-hidden="true">
         <div className="hero-section__stage-glow" />
+        <div className="hero-section__stage-wash" />
         <div className="hero-section__stage-texture" />
+        <div className="hero-section__stage-wisps" />
         <div className="hero-section__particles" />
       </div>
 
       <div className="hero-section__scene">
-        <div className="hero-section__cast">
-          <div className="hero-section__cast-glow" aria-hidden="true" />
+        <div className="hero-section__cast" aria-hidden="true">
+          <div className="hero-section__cast-glow" />
           <img
             src={assetUrl(HERO_IMAGE_SRC)}
-            alt={heroContent.imageAlt}
+            alt=""
             className="hero-section__image"
             width={900}
             height={1125}
@@ -29,8 +31,9 @@ function HeroSection() {
           />
         </div>
 
-        <div className="hero-section__copy">
+        <div className="hero-section__brand">
           <div className="hero-brand-board">
+            <div className="hero-brand-board__halo" aria-hidden="true" />
             <div className="hero-brand-board__ring">
               <img
                 src={BRAND_LOGO_CIRCULAR_SRC}
@@ -42,12 +45,20 @@ function HeroSection() {
               />
             </div>
           </div>
+        </div>
 
+        <div className="hero-section__copy">
           <h1 id="hero-title" className="hero-section__title">
             {heroContent.titleBefore}
             <em className="hero-section__title-script">{heroContent.titleHighlight}</em>
             {heroContent.titleAfter}
           </h1>
+
+          <div className="hero-section__rule" aria-hidden="true">
+            <span className="hero-section__rule-line" />
+            <span className="hero-section__rule-leaf">◆</span>
+            <span className="hero-section__rule-line" />
+          </div>
 
           <p className="hero-section__support">{heroContent.support}</p>
 
@@ -79,6 +90,8 @@ function HeroSection() {
           </div>
         </div>
       </div>
+
+      <span className="visually-hidden">{heroContent.imageAlt}</span>
     </section>
   )
 }
