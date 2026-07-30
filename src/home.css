@@ -1149,7 +1149,7 @@
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) auto minmax(0, 1fr);
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   max-width: 1680px;
   min-height: min(760px, calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
@@ -1165,7 +1165,7 @@
   align-items: flex-end;
   justify-content: center;
   min-width: 0;
-  min-height: 560px;
+  min-height: 0;
   padding: 12px 0 8px;
 }
 
@@ -1210,6 +1210,7 @@
   margin: 0 -28px;
   padding: 0;
   pointer-events: none;
+  align-self: center;
 }
 
 .hero-logo-wrap {
@@ -1259,11 +1260,12 @@
   align-items: center;
   justify-content: center;
   min-width: 0;
-  min-height: 560px;
+  min-height: 0;
+  height: 100%;
   padding: 40px clamp(28px, 3.5vw, 56px) 48px clamp(40px, 4vw, 72px);
   background:
     linear-gradient(105deg, rgba(237, 230, 216, 0.55) 0%, rgba(245, 241, 232, 0.2) 40%, transparent 70%),
-    url('/images/brand/marble-texture.png');
+    url('/images/brand/marble-texture.svg');
   background-size: cover, cover;
   background-position: center, center;
   border-radius: 0;
@@ -1572,11 +1574,6 @@
     padding: 24px clamp(16px, 2.5vw, 36px) 28px;
   }
 
-  .hero-zone--left,
-  .hero-zone--right {
-    min-height: 520px;
-  }
-
   .hero-models__img {
     max-height: min(640px, 72vh);
   }
@@ -1649,7 +1646,7 @@
     padding: 28px 20px 36px;
     background:
       linear-gradient(180deg, rgba(245, 241, 232, 0.82), rgba(237, 230, 216, 0.92)),
-      url('/images/brand/marble-texture.png');
+      url('/images/brand/marble-texture.svg');
     background-size: cover, cover;
     border-radius: 16px 16px 0 0;
   }
