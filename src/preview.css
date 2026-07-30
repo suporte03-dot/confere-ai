@@ -898,124 +898,113 @@
 
 .mobile-preview .brand-values__grid,
 .mobile-preview .benefits-bar__grid,
-.mobile-preview .about-brand__inner,
+.mobile-preview .about-brand__panel,
 .mobile-preview .site-footer__grid {
   grid-template-columns: 1fr;
 }
 
-/* ── Vitrine unificada (categorias + destaque) ── */
+/* ── Vitrine unificada (destaque + categorias) ── */
 .mobile-preview .collection-vitrine {
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(
-    180deg,
-    var(--verde-profundo) 0%,
-    var(--te-forest) 36%,
-    #EAE7E1 36%,
-    #F7F4EE 100%
-  );
+  display: block;
   overflow: hidden;
 }
 
-.mobile-preview .collection-vitrine .featured-collection {
-  order: 1;
-  background: transparent;
+.mobile-preview .featured-collection.section,
+.mobile-preview .categorias-section.section {
+  padding-block: 48px;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__inner {
+.mobile-preview .featured-collection > .container,
+.mobile-preview .categorias-section > .container {
+  width: min(calc(100% - 32px), var(--container-width));
+}
+
+.mobile-preview .featured-collection__panel {
   grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 36px 0 24px;
+  min-height: 0;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__visual {
-  min-height: 200px;
-  border-radius: 18px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+.mobile-preview .featured-collection__visual {
+  min-height: 240px;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__media {
-  min-height: 200px;
+.mobile-preview .featured-collection__logo-wrap {
+  left: 50%;
+  top: auto;
+  bottom: -6%;
+  transform: translate(-50%, 0);
+  width: 180px;
+  height: 180px;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__content {
-  text-align: center;
+.mobile-preview .featured-collection__content {
+  padding: 72px 22px 28px;
+  align-items: flex-start;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__content h2 {
-  font-size: 1.5rem;
+.mobile-preview .featured-collection__content h2 {
+  font-size: 1.75rem;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__content p {
-  font-size: 0.875rem;
+.mobile-preview .featured-collection__content p {
+  font-size: 0.9375rem;
   max-width: 100%;
 }
 
-.mobile-preview .collection-vitrine .featured-collection__actions {
-  justify-content: center;
-  margin-top: 18px;
-  flex-wrap: wrap;
+.mobile-preview .featured-collection__actions {
+  flex-direction: column;
+  width: 100%;
 }
 
-.mobile-preview .collection-vitrine .categorias-section {
-  order: 2;
+.mobile-preview .featured-collection__actions .btn {
+  width: 100%;
 }
 
-.mobile-preview .collection-vitrine .categorias-section.section {
+.mobile-preview .categorias-section.section {
   padding: 36px 0 44px;
 }
 
-.mobile-preview .collection-vitrine .categorias-section > .container {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 0 16px;
-  box-shadow: none;
-  max-width: 1280px;
-}
-
-.mobile-preview .collection-vitrine .categorias-section .section-head {
+.mobile-preview .categorias-section .section-head {
   text-align: center;
   margin-bottom: 22px;
 }
 
-.mobile-preview .collection-vitrine .categorias-section .section-head__title {
-  font-size: 1.2rem;
-  color: var(--creme, #f8f6f1);
+.mobile-preview .categorias-section .section-head__title {
+  font-size: 1.5rem;
+  color: var(--color-text-light, #f7f1e8);
 }
 
-.mobile-preview .collection-vitrine .categorias-grid {
+.mobile-preview .category-grid {
   display: grid;
   grid-template-columns: 1fr;
-  overflow: visible;
-  scroll-snap-type: none;
-  gap: 24px;
+  gap: 16px;
   max-width: 390px;
   margin: 0 auto;
 }
 
-.mobile-preview .collection-vitrine .categoria-card {
-  flex: none;
-  width: 100%;
+.mobile-preview .category-card {
+  min-height: 300px;
 }
 
-.mobile-preview .collection-vitrine .categoria-card__media {
-  aspect-ratio: 4 / 5;
-  max-height: 380px;
+.mobile-preview .about-brand__panel {
+  text-align: center;
+  padding: 36px 24px;
 }
 
-.mobile-preview .collection-vitrine .categoria-card__body {
-  padding: 12px 14px 16px;
+.mobile-preview .benefits-bar {
+  background:
+    linear-gradient(180deg, var(--color-black-soft, #11100d) 0%, var(--color-brown-dark, #1a1510) 100%);
 }
 
-.mobile-preview .collection-vitrine .categoria-card__body h3 {
-  font-size: 0.9375rem;
-  color: var(--creme, #f8f6f1);
+.mobile-preview .benefits-bar .section-head__title,
+.mobile-preview .benefits-bar .section-head__desc,
+.mobile-preview .benefits-bar__item h3,
+.mobile-preview .benefits-bar__item p {
+  color: var(--color-text-light, #f7f1e8);
 }
 
-.mobile-preview .collection-vitrine .categoria-card__cta {
-  margin-top: 8px;
-  font-size: 0.6875rem;
+.mobile-preview .benefits-bar__item p {
+  color: rgba(247, 241, 232, 0.8);
 }
 
 .mobile-preview .product-grid-section.section {
