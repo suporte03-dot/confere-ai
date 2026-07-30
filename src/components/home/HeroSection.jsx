@@ -1,8 +1,8 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260730a'
-const HERO_IMAGE_SRC = `/images/hero/couple.jpg?v=${HERO_ASSET_V}`
+const HERO_ASSET_V = '20260730d'
+const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
   const whatsappHref = footerHome.atendimento.whatsappHref
@@ -20,12 +20,13 @@ function HeroSection() {
       <div className="hero-section__scene">
         <div className="hero-section__cast" aria-hidden="true">
           <div className="hero-section__cast-glow" />
+          <div className="hero-section__cast-lift" />
           <img
             src={assetUrl(HERO_IMAGE_SRC)}
             alt=""
             className="hero-section__image"
-            width={900}
-            height={1125}
+            width={1044}
+            height={1283}
             decoding="sync"
             fetchPriority="high"
           />
@@ -48,22 +49,30 @@ function HeroSection() {
         </div>
 
         <div className="hero-section__copy">
-          <h1 id="hero-title" className="hero-section__title">
-            <span className="hero-section__title-line">{heroContent.titleLine1}</span>
-            <span className="hero-section__title-line">
-              <em className="hero-section__title-script">{heroContent.titleScript1}</em>
-              {heroContent.titleMid}
-              <em className="hero-section__title-script">{heroContent.titleScript2}</em>
-            </span>
-          </h1>
+          <div className="hero-section__copy-main">
+            <h1 id="hero-title" className="hero-section__title">
+              <span className="hero-section__title-line">
+                {heroContent.titleLead}
+                <span className="hero-section__title-serif-em">{heroContent.titleSerif1}</span>
+                {heroContent.titleMid1}
+              </span>
+              <span className="hero-section__title-line">
+                <em className="hero-section__title-script">{heroContent.titleScript1}</em>
+                {heroContent.titleMid2}
+                <span className="hero-section__title-serif-em">{heroContent.titleSerif2}</span>
+                {heroContent.titleMid3}
+                <em className="hero-section__title-script">{heroContent.titleScript2}</em>
+              </span>
+            </h1>
 
-          <div className="hero-section__rule" aria-hidden="true">
-            <span className="hero-section__rule-line" />
-            <span className="hero-section__rule-leaf">❧</span>
-            <span className="hero-section__rule-line" />
+            <div className="hero-section__rule" aria-hidden="true">
+              <span className="hero-section__rule-line" />
+              <span className="hero-section__rule-leaf">❧</span>
+              <span className="hero-section__rule-line" />
+            </div>
+
+            <p className="hero-section__support">{heroContent.support}</p>
           </div>
-
-          <p className="hero-section__support">{heroContent.support}</p>
 
           <div className="hero-section__actions">
             <a href="#produtos" className="btn btn--primary hero-section__cta-primary">
