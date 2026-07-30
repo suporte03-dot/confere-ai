@@ -11,7 +11,7 @@ const couplePath = join(root, 'public/images/hero/couple.jpg')
 const W = 720
 const H = 900
 /** Uniform subject scale so every character matches visually */
-const SUBJECT_SCALE = 0.86
+const SUBJECT_SCALE = 0.96
 
 function bgSvg() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
