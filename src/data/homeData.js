@@ -172,7 +172,7 @@ export const featuredCollection = {
   eyebrow: 'Coleção em destaque',
   title: 'Coleção Raízes do Sul',
   description:
-    'Uma seleção de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
+    'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar agora',
   secondaryCta: 'Ver lookbook',
   image: COUPLE_HERO_SRC,
