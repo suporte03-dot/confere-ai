@@ -966,62 +966,62 @@
 
 .mobile-preview .collection-vitrine .categorias-section {
   order: 2;
-  background: transparent;
 }
 
 .mobile-preview .collection-vitrine .categorias-section.section {
-  padding: 0;
+  padding: 36px 0 44px;
 }
 
 .mobile-preview .collection-vitrine .categorias-section > .container {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(216, 181, 106, 0.22);
-  border-bottom: none;
-  border-radius: 24px 24px 0 0;
-  padding: 24px 14px 20px;
-  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0 16px;
+  box-shadow: none;
+  max-width: 1280px;
 }
 
 .mobile-preview .collection-vitrine .categorias-section .section-head {
-  text-align: left;
-  margin-bottom: 16px;
+  text-align: center;
+  margin-bottom: 22px;
 }
 
 .mobile-preview .collection-vitrine .categorias-section .section-head__title {
-  font-size: 1.125rem;
+  font-size: 1.2rem;
+  color: var(--creme, #f8f6f1);
 }
 
 .mobile-preview .collection-vitrine .categorias-grid {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 10px;
-  scrollbar-width: none;
-}
-
-.mobile-preview .collection-vitrine .categorias-grid::-webkit-scrollbar {
-  display: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: visible;
+  scroll-snap-type: none;
+  gap: 24px;
+  max-width: 390px;
+  margin: 0 auto;
 }
 
 .mobile-preview .collection-vitrine .categoria-card {
-  flex: 0 0 min(72vw, 200px);
-  scroll-snap-align: start;
+  flex: none;
+  width: 100%;
 }
 
 .mobile-preview .collection-vitrine .categoria-card__media {
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
+  max-height: 380px;
 }
 
 .mobile-preview .collection-vitrine .categoria-card__body {
-  padding: 10px 10px 12px;
+  padding: 12px 14px 16px;
 }
 
 .mobile-preview .collection-vitrine .categoria-card__body h3 {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
+  color: var(--creme, #f8f6f1);
 }
 
 .mobile-preview .collection-vitrine .categoria-card__cta {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 0.6875rem;
 }
 

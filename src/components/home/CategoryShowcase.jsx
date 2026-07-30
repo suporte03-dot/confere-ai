@@ -15,7 +15,7 @@ function CategoryShowcase() {
 
   return (
     <section id="colecoes" className="categorias-section section">
-      <div className="container">
+      <div className="container categorias-section__container">
         <div className="section-head">
           <h2 className="section-head__title">Navegue por categoria</h2>
           <p className="section-head__desc">
@@ -35,6 +35,7 @@ function CategoryShowcase() {
                 className="categoria-card"
               >
                 <div className="categoria-card__media">
+                  <span className="categoria-card__glow" aria-hidden="true" />
                   {!imageFailed && (
                     <img
                       src={categoria.imagem}
@@ -44,7 +45,6 @@ function CategoryShowcase() {
                       onError={() => handleImageError(categoria.imagem)}
                     />
                   )}
-                  <div className="categoria-card__overlay" aria-hidden="true" />
                 </div>
                 <div className="categoria-card__body">
                   <h3>{categoria.nome}</h3>
