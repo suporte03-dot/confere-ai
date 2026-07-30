@@ -49,14 +49,17 @@ function HeroSection() {
 
         <div className="hero-section__copy">
           <h1 id="hero-title" className="hero-section__title">
-            {heroContent.titleBefore}
-            <em className="hero-section__title-script">{heroContent.titleHighlight}</em>
-            {heroContent.titleAfter}
+            <span className="hero-section__title-line">{heroContent.titleLine1}</span>
+            <span className="hero-section__title-line">
+              <em className="hero-section__title-script">{heroContent.titleScript1}</em>
+              {heroContent.titleMid}
+              <em className="hero-section__title-script">{heroContent.titleScript2}</em>
+            </span>
           </h1>
 
           <div className="hero-section__rule" aria-hidden="true">
             <span className="hero-section__rule-line" />
-            <span className="hero-section__rule-leaf">◆</span>
+            <span className="hero-section__rule-leaf">❧</span>
             <span className="hero-section__rule-line" />
           </div>
 
