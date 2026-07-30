@@ -1093,7 +1093,7 @@
   outline-offset: 2px;
 }
 
-/* ── Hero Section — three-zone brand reference ── */
+/* ── Hero Section — three-zone premium composition ── */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -1118,8 +1118,9 @@
 }
 
 .hero-section {
-  --hero-logo-size: clamp(200px, 15vw, 270px);
-  --hero-band-h: clamp(88px, 10vw, 120px);
+  --hero-logo-size: clamp(188px, 14.5vw, 248px);
+  --hero-band-h: clamp(72px, 8vw, 96px);
+  --hero-h: clamp(680px, 78vh, 740px);
   position: relative;
   width: 100%;
   max-width: none;
@@ -1128,17 +1129,23 @@
   border: none;
   border-radius: 0;
   box-shadow: none;
-  min-height: min(860px, calc(100vh - var(--sticky-offset)));
+  min-height: calc(var(--hero-h) + var(--hero-band-h));
   overflow: hidden;
   color: var(--preto);
-  background: linear-gradient(
-    90deg,
-    #0A0A0A 0%,
-    #111111 52%,
-    #1a1612 58%,
-    #EDE6D8 62%,
-    #F5F1E8 100%
-  );
+  /* Layer 1 — refined dark→brown→smoky gold→cream (no flat chapado black) */
+  background:
+    linear-gradient(
+      98deg,
+      #0c0a08 0%,
+      #14110e 18%,
+      #1c1610 34%,
+      #2a2118 46%,
+      #3d3224 52%,
+      #6b5738 56%,
+      #c4b496 60%,
+      #ebe3d4 68%,
+      #f5f0e6 100%
+    );
 }
 
 .hero-section__atmosphere {
@@ -1146,41 +1153,80 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+}
+
+/* Soft brown wash under cast — elevates figures */
+.hero-section__wash {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(ellipse 42% 58% at 18% 48%, rgba(92, 68, 42, 0.22), transparent 70%),
-    radial-gradient(ellipse 28% 40% at 48% 42%, rgba(201, 160, 58, 0.14), transparent 72%);
+    radial-gradient(ellipse 48% 72% at 16% 52%, rgba(72, 52, 32, 0.45), transparent 68%),
+    radial-gradient(ellipse 36% 58% at 32% 44%, rgba(120, 88, 48, 0.22), transparent 70%),
+    linear-gradient(180deg, rgba(12, 10, 8, 0.18) 0%, transparent 22%, transparent 78%, rgba(12, 10, 8, 0.28) 100%);
+}
+
+/* Layer 3 — center gold glow toward logo / transition */
+.hero-section__glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 34% 62% at 48% 46%, rgba(216, 180, 91, 0.28) 0%, rgba(201, 160, 58, 0.12) 38%, transparent 72%),
+    radial-gradient(ellipse 22% 40% at 52% 50%, rgba(230, 201, 138, 0.16), transparent 68%);
+  animation: hero-ambient-glow 7s ease-in-out infinite alternate;
+}
+
+/* Soft bridge across dark→light (kills hard cut) */
+.hero-section__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 42%,
+    rgba(42, 33, 24, 0.35) 50%,
+    rgba(196, 180, 150, 0.28) 56%,
+    rgba(245, 240, 230, 0.55) 62%,
+    transparent 74%
+  );
 }
 
 .hero-section__dust {
   position: absolute;
   inset: 0;
-  opacity: 0.28;
+  opacity: 0.22;
   background-image:
-    radial-gradient(1.4px 1.4px at 12% 18%, rgba(216, 180, 91, 0.35), transparent),
-    radial-gradient(1px 1px at 28% 72%, rgba(201, 160, 58, 0.22), transparent),
-    radial-gradient(1.2px 1.2px at 40% 30%, rgba(230, 201, 138, 0.18), transparent);
+    radial-gradient(1.4px 1.4px at 14% 22%, rgba(216, 180, 91, 0.4), transparent),
+    radial-gradient(1px 1px at 26% 68%, rgba(201, 160, 58, 0.28), transparent),
+    radial-gradient(1.2px 1.2px at 38% 36%, rgba(230, 201, 138, 0.22), transparent),
+    radial-gradient(1px 1px at 44% 54%, rgba(216, 180, 91, 0.18), transparent);
   background-size: 100% 100%;
   animation: hero-dust 18s ease-in-out infinite alternate;
-  mask-image: linear-gradient(90deg, #000 0%, #000 56%, transparent 68%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 50%, transparent 64%);
 }
 
 @keyframes hero-dust {
-  from { opacity: 0.16; transform: translateY(0); }
-  to { opacity: 0.3; transform: translateY(-5px); }
+  from { opacity: 0.12; transform: translateY(0); }
+  to { opacity: 0.24; transform: translateY(-4px); }
+}
+
+@keyframes hero-ambient-glow {
+  from { opacity: 0.72; }
+  to { opacity: 1; }
 }
 
 .hero-layout {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.28fr) auto minmax(0, 0.92fr);
+  /* Cast presence ↑ without crushing copy */
+  grid-template-columns: minmax(0, 1.38fr) auto minmax(280px, 0.9fr);
   align-items: stretch;
   width: 100%;
   max-width: none;
-  height: min(820px, calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
-  min-height: 620px;
+  height: min(var(--hero-h), calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
+  min-height: 680px;
   margin: 0;
-  padding: 16px clamp(16px, 2.5vw, 40px) 20px 0;
+  padding: 10px clamp(12px, 2vw, 32px) 8px 0;
   gap: 0;
 }
 
@@ -1188,27 +1234,42 @@
   position: relative;
   z-index: 2;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-start;
   min-width: 0;
   min-height: 0;
   height: 100%;
   margin: 0;
-  padding: 8px 48px 8px 8px;
+  padding: 4px 20px 0 4px;
   overflow: hidden;
 }
 
 .hero-models {
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-end;
   width: 100%;
   height: 100%;
   min-height: 0;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
+}
+
+/* Soft lift behind cast — keeps figures readable on dark wash */
+.hero-models__lift {
+  position: absolute;
+  left: 8%;
+  right: 6%;
+  bottom: 4%;
+  top: 18%;
+  z-index: 0;
+  border-radius: 48% 42% 38% 44%;
+  background:
+    radial-gradient(ellipse 70% 80% at 42% 48%, rgba(90, 68, 42, 0.38) 0%, rgba(42, 33, 24, 0.12) 52%, transparent 78%);
+  filter: blur(28px);
+  pointer-events: none;
 }
 
 .hero-models__img {
@@ -1216,21 +1277,22 @@
   z-index: 1;
   display: block;
   width: auto;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0 auto;
+  height: 104%;
+  max-width: none;
+  max-height: none;
+  margin: 0 0 -2% -2%;
   padding: 0;
   border: none;
   border-radius: 0;
   background: none;
   box-shadow: none;
   object-fit: contain;
-  object-position: center 12%;
-  filter: brightness(1.1) contrast(1.05);
+  object-position: left 8% bottom;
+  /* Premium brighten — faces/hats/shirts clear, no blow-out */
+  filter: brightness(1.2) contrast(1.08) saturate(1.02);
   -webkit-mask-image: none;
   mask-image: none;
-  animation: hero-fade-in 0.7s ease both;
+  animation: hero-fade-in 0.75s ease both;
 }
 
 .hero-zone--center {
@@ -1239,8 +1301,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(176px, 15vw, 260px);
-  margin: 0 -4px;
+  width: clamp(160px, 13.5vw, 228px);
+  margin: 0 -28px;
   padding: 0;
   pointer-events: none;
   align-self: center;
@@ -1258,16 +1320,16 @@
 
 .hero-logo-glow {
   position: absolute;
-  inset: -18%;
+  inset: -22%;
   border-radius: 50%;
   background:
     radial-gradient(
       circle at 50% 48%,
-      rgba(216, 180, 91, 0.38) 0%,
-      rgba(201, 160, 58, 0.16) 42%,
-      transparent 72%
+      rgba(230, 201, 138, 0.42) 0%,
+      rgba(201, 160, 58, 0.2) 40%,
+      transparent 74%
     );
-  filter: blur(6px);
+  filter: blur(8px);
   pointer-events: none;
   animation: hero-glow-pulse 5.5s ease-in-out infinite alternate;
 }
@@ -1282,22 +1344,22 @@
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
-  filter: drop-shadow(0 0 22px rgba(201, 160, 58, 0.32))
-    drop-shadow(0 14px 32px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 0 26px rgba(201, 160, 58, 0.36))
+    drop-shadow(0 12px 28px rgba(0, 0, 0, 0.38));
 }
 
 .hero-zone--right {
   position: relative;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 0;
   min-height: 0;
   height: 100%;
-  padding: 40px clamp(28px, 3.5vw, 56px) 48px clamp(40px, 4vw, 72px);
+  padding: 28px clamp(24px, 3.2vw, 52px) 36px clamp(36px, 3.8vw, 64px);
   background:
-    linear-gradient(105deg, rgba(237, 230, 216, 0.55) 0%, rgba(245, 241, 232, 0.2) 40%, transparent 70%),
+    linear-gradient(110deg, rgba(237, 230, 216, 0.42) 0%, rgba(245, 241, 232, 0.18) 36%, transparent 68%),
     url('/images/brand/marble-texture.svg');
   background-size: cover, cover;
   background-position: center, center;
@@ -1309,12 +1371,12 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(26, 22, 18, 0.12) 0%, transparent 18%),
-    linear-gradient(180deg, rgba(245, 241, 232, 0.55) 0%, rgba(237, 230, 216, 0.35) 100%),
+    linear-gradient(90deg, rgba(26, 22, 18, 0.08) 0%, transparent 14%),
+    linear-gradient(180deg, rgba(245, 241, 232, 0.5) 0%, rgba(237, 230, 216, 0.28) 100%),
     repeating-linear-gradient(
       118deg,
       transparent 0 42px,
-      rgba(201, 160, 58, 0.035) 42px 43px,
+      rgba(201, 160, 58, 0.03) 42px 43px,
       transparent 43px 86px
     );
   pointer-events: none;
@@ -1329,22 +1391,22 @@
   align-items: flex-start;
   text-align: left;
   width: 100%;
-  max-width: 520px;
+  max-width: 480px;
   margin: 0;
   padding: 0;
-  animation: hero-fade-in 0.65s ease 0.08s both;
+  animation: hero-fade-in 0.7s ease 0.06s both;
 }
 
 .hero-title {
-  margin: 0 0 18px;
-  max-width: 520px;
+  margin: 0 0 14px;
+  max-width: 480px;
   width: 100%;
   font-family: var(--font-serif);
-  font-size: clamp(2.15rem, 3.4vw, 3.35rem);
+  font-size: clamp(2rem, 3.1vw, 3.05rem);
   font-weight: 500;
   color: #1a1612;
   letter-spacing: 0.01em;
-  line-height: 1.12;
+  line-height: 1.14;
   text-align: left;
   text-wrap: balance;
   overflow: visible;
@@ -1361,8 +1423,8 @@
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
-  width: min(100%, 200px);
-  margin: 0 0 18px;
+  width: min(100%, 180px);
+  margin: 0 0 14px;
 }
 
 .hero-section__rule-line {
@@ -1373,26 +1435,26 @@
 
 .hero-section__rule-leaf {
   flex: 0 0 auto;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: rgba(201, 160, 58, 0.9);
   line-height: 1;
 }
 
 .hero-section__support {
   margin: 0;
-  max-width: 460px;
+  max-width: 420px;
   width: 100%;
   font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.68;
   letter-spacing: 0.01em;
   color: #5c564c;
   text-align: left;
 }
 
 .hero-section__support p {
-  margin: 0 0 0.7em;
+  margin: 0 0 0.55em;
 }
 
 .hero-section__support p:last-child {
@@ -1405,7 +1467,7 @@
   justify-content: flex-start;
   align-items: stretch;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 22px;
   width: 100%;
 }
 
@@ -1413,10 +1475,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 14px 22px;
+  min-height: 46px;
+  padding: 13px 22px;
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1434,7 +1496,7 @@
   background: linear-gradient(180deg, #1a1a1a 0%, #0A0A0A 100%);
   color: var(--gold-secondary);
   border: 1px solid var(--gold-primary);
-  box-shadow: 0 8px 22px rgba(10, 10, 10, 0.18);
+  box-shadow: 0 8px 20px rgba(10, 10, 10, 0.16);
 }
 
 .hero-btn--primary:hover,
@@ -1447,9 +1509,9 @@
 }
 
 .hero-btn--secondary {
-  background: rgba(245, 241, 232, 0.72);
+  background: rgba(245, 241, 232, 0.78);
   color: #1a1612;
-  border: 1px solid rgba(201, 160, 58, 0.85);
+  border: 1px solid rgba(201, 160, 58, 0.9);
 }
 
 .hero-btn--secondary:hover,
@@ -1465,13 +1527,13 @@
   outline-offset: 3px;
 }
 
-/* Decorative curved bottom band */
+/* Decorative curved bottom band — discreet, does not inflate hero */
 .hero-band {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 5;
+  z-index: 6;
   height: var(--hero-band-h);
   pointer-events: none;
 }
@@ -1509,7 +1571,7 @@
 .hero-band__pattern {
   position: absolute;
   inset: 0;
-  opacity: 0.16;
+  opacity: 0.14;
   background-image: url('/images/brand/te-monogram-pattern.svg');
   background-size: 140px 88px;
   background-repeat: repeat;
@@ -1520,9 +1582,9 @@
 .hero-band__aparecida {
   position: absolute;
   left: 50%;
-  bottom: clamp(10px, 1.6vw, 18px);
+  bottom: clamp(8px, 1.4vw, 14px);
   transform: translateX(-50%);
-  width: clamp(44px, 5vw, 68px);
+  width: clamp(36px, 4.2vw, 56px);
   height: auto;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
 }
@@ -1537,7 +1599,6 @@
 .hero-section__overlay,
 .hero-section__label,
 .hero-section__slogan,
-.hero-section__glow,
 .hero-section__controls,
 .hero-section__dots,
 .hero-section__dot,
@@ -1562,7 +1623,7 @@
 @keyframes hero-fade-in {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -1573,7 +1634,7 @@
 @keyframes hero-logo-rise {
   from {
     opacity: 0;
-    transform: scale(0.92) translateY(10px);
+    transform: scale(0.94) translateY(8px);
   }
   to {
     opacity: 1;
@@ -1582,7 +1643,7 @@
 }
 
 @keyframes hero-glow-pulse {
-  from { opacity: 0.7; transform: scale(0.96); }
+  from { opacity: 0.68; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1.04); }
 }
 
@@ -1591,6 +1652,7 @@
   .hero-models__img,
   .hero-logo-wrap,
   .hero-section__dust,
+  .hero-section__glow,
   .hero-logo-glow {
     animation: none;
   }
@@ -1602,42 +1664,45 @@
 }
 
 @media (max-width: 1366px) {
+  .hero-section {
+    --hero-h: clamp(660px, 76vh, 720px);
+  }
+
   .hero-layout {
-    height: min(720px, calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
-    min-height: 580px;
-    grid-template-columns: minmax(0, 1.22fr) auto minmax(0, 0.95fr);
-    padding: 14px clamp(12px, 2vw, 28px) 16px 0;
+    height: min(var(--hero-h), calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
+    min-height: 660px;
+    grid-template-columns: minmax(0, 1.32fr) auto minmax(260px, 0.92fr);
+    padding: 8px clamp(10px, 1.8vw, 24px) 6px 0;
   }
 
   .hero-models__img {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    object-position: center 10%;
+    height: 102%;
+    object-position: left 6% bottom;
   }
 }
 
 @media (max-width: 1100px) {
   .hero-section {
-    --hero-logo-size: clamp(170px, 20vw, 230px);
+    --hero-logo-size: clamp(160px, 18vw, 210px);
+    --hero-h: clamp(640px, 74vh, 700px);
   }
 
   .hero-layout {
-    grid-template-columns: minmax(0, 1.18fr) auto minmax(0, 0.98fr);
+    grid-template-columns: minmax(0, 1.26fr) auto minmax(240px, 0.96fr);
+    min-height: 640px;
   }
 
   .hero-zone--center {
-    width: clamp(150px, 18vw, 220px);
-    margin: 0 -6px;
+    width: clamp(140px, 16vw, 200px);
+    margin: 0 -20px;
   }
 
   .hero-title {
-    font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+    font-size: clamp(1.85rem, 3vw, 2.55rem);
   }
 
   .hero-zone--right {
-    padding: 32px 28px 40px 40px;
+    padding: 24px 24px 32px 36px;
   }
 }
 
@@ -1645,13 +1710,38 @@
 @media (max-width: 900px) {
   .hero-section {
     --hero-logo-size: clamp(170px, 42vw, 220px);
-    --hero-band-h: 96px;
+    --hero-band-h: 88px;
+    --hero-h: auto;
     min-height: 0;
-    background: linear-gradient(180deg, #0A0A0A 0%, #111111 42%, #EDE6D8 58%, #F5F1E8 100%);
+    background: linear-gradient(
+      180deg,
+      #0c0a08 0%,
+      #1c1610 28%,
+      #2a2118 40%,
+      #6b5738 48%,
+      #ebe3d4 58%,
+      #f5f0e6 100%
+    );
+  }
+
+  .hero-section__glow {
+    background:
+      radial-gradient(ellipse 70% 36% at 50% 28%, rgba(216, 180, 91, 0.26) 0%, transparent 70%);
+  }
+
+  .hero-section__veil {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(42, 33, 24, 0.28) 46%,
+      rgba(245, 240, 230, 0.5) 56%,
+      transparent 68%
+    );
   }
 
   .hero-section__dust {
-    mask-image: linear-gradient(180deg, #000 0%, #000 48%, transparent 68%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 62%);
   }
 
   .hero-layout {
@@ -1662,38 +1752,48 @@
     height: auto;
     min-height: 0;
     margin: 0 auto;
-    padding: 28px 18px 20px;
-    gap: 8px;
+    padding: 24px 18px 16px;
+    gap: 6px;
   }
 
   .hero-zone--center {
     order: 1;
     width: auto;
-    margin: 0 0 4px;
+    margin: 0 0 2px;
   }
 
   .hero-zone--left {
     order: 2;
     width: 100%;
-    min-height: min(58vh, 600px);
+    min-height: min(52vh, 520px);
     padding: 0 8px;
     overflow: visible;
     justify-content: center;
+    align-items: center;
   }
 
   .hero-models {
     min-height: inherit;
     justify-content: center;
+    align-items: center;
     overflow: visible;
   }
 
+  .hero-models__lift {
+    left: 12%;
+    right: 12%;
+    top: 12%;
+    bottom: 8%;
+  }
+
   .hero-models__img {
-    width: min(96%, 620px);
+    width: min(96%, 580px);
     height: auto;
-    max-height: min(58vh, 600px);
+    max-height: min(52vh, 520px);
     margin: 0 auto;
     object-fit: contain;
-    object-position: center 18%;
+    object-position: center 16%;
+    filter: brightness(1.18) contrast(1.07) saturate(1.02);
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -1702,9 +1802,9 @@
     order: 3;
     width: 100%;
     min-height: 0;
-    padding: 28px 20px 36px;
+    padding: 26px 20px 32px;
     background:
-      linear-gradient(180deg, rgba(245, 241, 232, 0.82), rgba(237, 230, 216, 0.92)),
+      linear-gradient(180deg, rgba(245, 241, 232, 0.86), rgba(237, 230, 216, 0.94)),
       url('/images/brand/marble-texture.svg');
     background-size: cover, cover;
     border-radius: 16px 16px 0 0;
@@ -1755,27 +1855,35 @@
 @media (max-width: 600px) {
   .hero-section {
     --hero-logo-size: clamp(150px, 48vw, 200px);
-    --hero-band-h: 88px;
+    --hero-band-h: 80px;
     overflow-x: hidden;
   }
 
   .hero-layout {
-    padding: 20px 14px 12px;
+    padding: 18px 14px 10px;
+  }
+
+  .hero-zone--left {
+    min-height: min(48vh, 460px);
+  }
+
+  .hero-models__img {
+    max-height: min(48vh, 460px);
   }
 
   .hero-zone--right {
-    padding: 24px 16px 32px;
+    padding: 22px 16px 28px;
   }
 
   .hero-title {
     font-size: clamp(1.7rem, 7.5vw, 2.1rem);
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .hero-buttons {
     flex-direction: column;
     gap: 10px;
-    margin-top: 22px;
+    margin-top: 18px;
   }
 
   .hero-btn {
@@ -1783,7 +1891,7 @@
   }
 
   .hero-band__aparecida {
-    width: 40px;
+    width: 36px;
   }
 }
 

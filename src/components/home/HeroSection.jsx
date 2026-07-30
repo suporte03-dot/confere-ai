@@ -10,12 +10,16 @@ function HeroSection() {
   return (
     <section id="inicio" className="hero-section" aria-labelledby="hero-title">
       <div className="hero-section__atmosphere" aria-hidden="true">
+        <div className="hero-section__wash" />
+        <div className="hero-section__glow" />
+        <div className="hero-section__veil" />
         <div className="hero-section__dust" />
       </div>
 
       <div className="hero-layout">
         <div className="hero-zone hero-zone--left">
           <div className="hero-models">
+            <span className="hero-models__lift" aria-hidden="true" />
             <img
               src={assetUrl(HERO_IMAGE_SRC)}
               alt=""
