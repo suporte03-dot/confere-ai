@@ -11,7 +11,7 @@ const couplePath = join(root, 'public/images/hero/couple.jpg')
 const W = 720
 const H = 900
 /** Uniform subject scale so every character matches visually */
-const SUBJECT_SCALE = 0.96
+const SUBJECT_SCALE = 0.98
 
 function bgSvg() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
@@ -49,7 +49,7 @@ async function makePortrait({ file, left, width }) {
   const meta = await sharp(subject).metadata()
   const leftPos = Math.round((W - meta.width) / 2)
   // Align all subjects to the same baseline
-  const baseline = H - 28
+  const baseline = H - 8
   const topPos = baseline - meta.height
 
   const shadowW = Math.max(1, Math.round(meta.width * 0.78))
@@ -72,7 +72,7 @@ async function makePortrait({ file, left, width }) {
         left: Math.round((W - shadowW) / 2),
         top: baseline - 16,
       },
-      { input: subject, left: leftPos, top: Math.max(20, topPos) },
+      { input: subject, left: leftPos, top: Math.max(8, topPos) },
     ])
     .jpeg({ quality: 91 })
     .toFile(join(outDir, file))
@@ -127,14 +127,16 @@ async function makeFromProduct({ file, source }) {
 
 await mkdir(outDir, { recursive: true })
 
-// Full-height extracts only — keep hats inside frame with SUBJECT_SCALE headroom
-await makePortrait({ file: 'camisas.jpg', left: 30, width: 840 })
-await makePortrait({ file: 'jaquetas-masculinas.jpg', left: 140, width: 760 })
-await makePortrait({ file: 'camisetas-masculinas.jpg', left: 0, width: 700 })
-await makePortrait({ file: 'polos.jpg', left: 50, width: 820 })
-await makePortrait({ file: 'bones.jpg', left: 20, width: 800 })
-await makePortrait({ file: 'calca-jeans-masculinas.jpg', left: 10, width: 880 })
-await makePortrait({ file: 'moletons-masculinos.jpg', left: 160, width: 740 })
+// Same editorial framing for every character card — uniform scale & baseline.
+// Category identity comes from titles/links; accessories uses product art.
+const characterFrame = { left: 20, width: 860 }
+await makePortrait({ file: 'camisas.jpg', ...characterFrame })
+await makePortrait({ file: 'jaquetas-masculinas.jpg', ...characterFrame })
+await makePortrait({ file: 'camisetas-masculinas.jpg', ...characterFrame })
+await makePortrait({ file: 'polos.jpg', ...characterFrame })
+await makePortrait({ file: 'bones.jpg', ...characterFrame })
+await makePortrait({ file: 'calca-jeans-masculinas.jpg', ...characterFrame })
+await makePortrait({ file: 'moletons-masculinos.jpg', ...characterFrame })
 await makeFromProduct({
   file: 'acessorios.jpg',
   source: 'public/images/hero/slide-3.jpg',
