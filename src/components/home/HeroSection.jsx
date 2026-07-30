@@ -1,8 +1,8 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260729h'
-const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
+const HERO_ASSET_V = '20260729i'
+const HERO_IMAGE_SRC = `/images/hero/couple.jpg?v=${HERO_ASSET_V}`
 
 function HeroSection() {
   const whatsappHref = footerHome.atendimento.whatsappHref
@@ -11,12 +11,13 @@ function HeroSection() {
     <section id="inicio" className="hero-section" aria-labelledby="hero-title">
       <div className="hero-section__stage" aria-hidden="true">
         <div className="hero-section__stage-glow" />
+        <div className="hero-section__stage-texture" />
         <div className="hero-section__particles" />
       </div>
 
-      <div className="hero-section__shell">
-        <div className="hero-section__visual">
-          <div className="hero-section__visual-glow" aria-hidden="true" />
+      <div className="hero-section__scene">
+        <div className="hero-section__cast">
+          <div className="hero-section__cast-glow" aria-hidden="true" />
           <img
             src={assetUrl(HERO_IMAGE_SRC)}
             alt={heroContent.imageAlt}
