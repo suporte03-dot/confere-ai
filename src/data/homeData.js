@@ -70,33 +70,6 @@ export const heroContent = {
     'Terra & Estilo — A marca do agro brasileiro. Logo circular oficial em ouro sobre preto.',
 }
 
-export const trustBadges = [
-  {
-    id: 'qualidade',
-    icon: 'diamond',
-    title: 'Qualidade premium',
-    description: 'Materiais selecionados',
-  },
-  {
-    id: 'seguro',
-    icon: 'shield',
-    title: 'Compra segura',
-    description: 'Ambiente 100% protegido',
-  },
-  {
-    id: 'troca',
-    icon: 'return',
-    title: 'Troca fácil',
-    description: 'Até 7 dias para trocar',
-  },
-  {
-    id: 'atendimento',
-    icon: 'headset',
-    title: 'Atendimento especializado',
-    description: 'Suporte rápido e humanizado',
-  },
-]
-
 export const heroVisualCard = {
   title: 'Coleção Agro Chic',
   subtitle: 'Terra & Estilo',

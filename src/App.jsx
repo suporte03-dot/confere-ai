@@ -3,7 +3,6 @@ import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
-import TrustBadges from './components/home/TrustBadges'
 import CollectionVitrine from './components/home/CollectionVitrine'
 import ProductGrid from './components/home/ProductGrid'
 import BrandValues from './components/home/BrandValues'
@@ -46,7 +45,6 @@ function SiteContent({
         </header>
       </div>
       <HeroSection />
-      <TrustBadges />
       <main>
         <CollectionVitrine />
         <ProductGrid />
