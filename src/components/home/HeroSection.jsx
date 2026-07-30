@@ -3,7 +3,7 @@ import { assetUrl } from '../../utils/assetUrl'
 import HeroButtons from './HeroButtons'
 import DecorativeBottomBand from './DecorativeBottomBand'
 
-const HERO_ASSET_V = '20260730g'
+const HERO_ASSET_V = '20260730k'
 const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
@@ -20,8 +20,8 @@ function HeroSection() {
               src={assetUrl(HERO_IMAGE_SRC)}
               alt=""
               className="hero-models__img"
-              width={1148}
-              height={1371}
+              width={1324}
+              height={1575}
               decoding="sync"
               fetchPriority="high"
             />
