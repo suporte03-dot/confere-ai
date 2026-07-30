@@ -1218,8 +1218,8 @@
   position: relative;
   z-index: 2;
   display: grid;
-  /* Cast presence ↑ without crushing copy */
-  grid-template-columns: minmax(0, 1.38fr) auto minmax(280px, 0.9fr);
+  /* Cast column slightly wider for open framing */
+  grid-template-columns: minmax(0, 1.48fr) auto minmax(280px, 0.86fr);
   align-items: stretch;
   width: 100%;
   max-width: none;
@@ -1240,7 +1240,7 @@
   min-height: 0;
   height: 100%;
   margin: 0;
-  padding: 4px 20px 0 4px;
+  padding: 8px 16px 0 10px;
   overflow: hidden;
 }
 
@@ -1277,17 +1277,17 @@
   z-index: 1;
   display: block;
   width: auto;
-  height: 104%;
-  max-width: none;
+  height: 95%;
+  max-width: 100%;
   max-height: none;
-  margin: 0 0 -2% -2%;
+  margin: 0;
   padding: 0;
   border: none;
   border-radius: 0;
   background: none;
   box-shadow: none;
   object-fit: contain;
-  object-position: left 8% bottom;
+  object-position: left 4% bottom;
   /* Premium brighten — faces/hats/shirts clear, no blow-out */
   filter: brightness(1.2) contrast(1.08) saturate(1.02);
   -webkit-mask-image: none;
@@ -1297,23 +1297,26 @@
 
 .hero-zone--center {
   position: relative;
-  z-index: 4;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
   width: clamp(160px, 13.5vw, 228px);
   margin: 0 -28px;
   padding: 0;
+  overflow: visible;
   pointer-events: none;
   align-self: center;
 }
 
 .hero-logo-wrap {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: var(--hero-logo-size);
   height: var(--hero-logo-size);
+  overflow: visible;
   pointer-events: auto;
   animation: hero-logo-rise 0.85s ease both;
 }
@@ -1350,7 +1353,7 @@
 
 .hero-zone--right {
   position: relative;
-  z-index: 5;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1358,6 +1361,7 @@
   min-height: 0;
   height: 100%;
   padding: 28px clamp(24px, 3.2vw, 52px) 36px clamp(36px, 3.8vw, 64px);
+  overflow: visible;
   background:
     linear-gradient(110deg, rgba(237, 230, 216, 0.42) 0%, rgba(245, 241, 232, 0.18) 36%, transparent 68%),
     url('/images/brand/marble-texture.svg');
@@ -1671,13 +1675,13 @@
   .hero-layout {
     height: min(var(--hero-h), calc(100vh - var(--sticky-offset) - var(--hero-band-h)));
     min-height: 660px;
-    grid-template-columns: minmax(0, 1.32fr) auto minmax(260px, 0.92fr);
+    grid-template-columns: minmax(0, 1.42fr) auto minmax(260px, 0.88fr);
     padding: 8px clamp(10px, 1.8vw, 24px) 6px 0;
   }
 
   .hero-models__img {
-    height: 102%;
-    object-position: left 6% bottom;
+    height: 94%;
+    object-position: left 3% bottom;
   }
 }
 
@@ -1688,7 +1692,7 @@
   }
 
   .hero-layout {
-    grid-template-columns: minmax(0, 1.26fr) auto minmax(240px, 0.96fr);
+    grid-template-columns: minmax(0, 1.36fr) auto minmax(240px, 0.92fr);
     min-height: 640px;
   }
 
@@ -1787,12 +1791,12 @@
   }
 
   .hero-models__img {
-    width: min(96%, 580px);
+    width: min(90%, 540px);
     height: auto;
-    max-height: min(52vh, 520px);
+    max-height: min(48vh, 480px);
     margin: 0 auto;
     object-fit: contain;
-    object-position: center 16%;
+    object-position: center 12%;
     filter: brightness(1.18) contrast(1.07) saturate(1.02);
     -webkit-mask-image: none;
     mask-image: none;
