@@ -7,23 +7,14 @@
 }
 
 .desktop-preview .hero-section {
-  min-height: 850px;
-  padding: 0;
+  min-height: 0;
+  padding: clamp(28px, 3.5vw, 48px) 0;
   width: 100%;
   max-width: 100%;
 }
 
-.desktop-preview .hero-section__inner {
-  max-width: none;
-  width: 100%;
-  min-height: 850px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.desktop-preview .hero-section__bg {
-  display: block !important;
+.desktop-preview .hero-section__visual {
+  display: flex !important;
 }
 
 .desktop-preview .header-brand__logo-img {
@@ -401,48 +392,48 @@
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding: 0;
+  padding: 20px 0 28px;
   border: none;
   overflow: hidden;
-  min-height: min(108vw, 560px);
+  min-height: 0;
 }
 
-.mobile-preview .hero-section__inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+.mobile-preview .hero-section__shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: start;
   align-items: center;
-  min-height: min(108vw, 560px);
-  gap: 0;
-  padding: 0;
+  min-height: 0;
+  gap: 8px;
+  padding: 0 16px;
 }
 
-.mobile-preview .hero-section__bg {
-  display: block !important;
+.mobile-preview .hero-section__visual {
+  display: flex !important;
+  order: 2;
 }
 
-.mobile-preview .hero-section__overlay {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(5, 5, 5, 0.15) 0%,
-      transparent 28%,
-      rgba(5, 5, 5, 0.45) 58%,
-      rgba(5, 5, 5, 0.88) 82%,
-      #050505 100%
-    );
+.mobile-preview .hero-section__image {
+  max-width: min(100%, 300px);
+  max-height: 320px;
+  width: auto;
+  height: min(320px, 42vh);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.4));
 }
 
 .mobile-preview .hero-section__copy {
+  order: 1;
   align-items: center;
   text-align: center;
   max-width: 100%;
-  padding: 22px 16px 32px;
+  padding: 4px 4px 8px;
 }
 
 .mobile-preview .hero-section__title {
   text-align: center;
-  font-size: clamp(1.6rem, 8vw, 2rem);
+  font-size: clamp(1.55rem, 7.5vw, 1.95rem);
   margin-bottom: 12px;
 }
 
@@ -787,64 +778,56 @@
   justify-content: center;
 }
 
-/* ── Hero e seções ── */
+/* ── Hero e seções (shell mobile) ── */
 .mobile-preview .hero-section {
-  /* Keep hero inside the phone shell — do not break out with 100vw */
   width: 100%;
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding: 0;
+  padding: 20px 0 28px;
   border: none;
   overflow: hidden;
-  min-height: min(108vw, 560px);
+  min-height: 0;
 }
 
-.mobile-preview .hero-section__inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+.mobile-preview .hero-section__shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: start;
   align-items: center;
-  min-height: min(108vw, 560px);
-  gap: 0;
-  padding: 0;
+  min-height: 0;
+  gap: 8px;
+  padding: 0 16px;
 }
 
-.mobile-preview .hero-section__bg {
-  display: block !important;
+.mobile-preview .hero-section__visual {
+  display: flex !important;
+  order: 2;
 }
 
 .mobile-preview .hero-section__image {
-  width: 100%;
-  height: 100%;
-  filter: brightness(1.04) contrast(1.04);
-  object-position: 50% 40%;
-}
-
-.mobile-preview .hero-section__overlay {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(5, 5, 5, 0.12) 0%,
-      transparent 28%,
-      rgba(5, 5, 5, 0.38) 58%,
-      rgba(5, 5, 5, 0.82) 82%,
-      #050505 100%
-    );
+  width: auto;
+  max-width: min(100%, 300px);
+  height: min(320px, 42vh);
+  max-height: 320px;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.4));
 }
 
 .mobile-preview .hero-section__copy {
+  order: 1;
   max-width: 100%;
-  padding: 20px 16px 28px;
+  padding: 4px 4px 8px;
   align-items: center;
   text-align: center;
 }
 
 .mobile-preview .hero-section__title {
   font-size: clamp(1.55rem, 7.5vw, 1.95rem);
-  line-height: 1.1;
+  line-height: 1.12;
   max-width: 100%;
-  margin: 0 auto 14px;
+  margin: 0 auto 12px;
   text-align: center;
 }
 
@@ -863,7 +846,7 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .mobile-preview .hero-section__actions .btn {

@@ -1,30 +1,33 @@
 import { heroContent, footerHome, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
 
-const HERO_ASSET_V = '20260729e'
-const HERO_IMAGE_SRC = `/images/hero/couple.jpg?v=${HERO_ASSET_V}`
+const HERO_ASSET_V = '20260729h'
+const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
   const whatsappHref = footerHome.atendimento.whatsappHref
 
   return (
     <section id="inicio" className="hero-section" aria-labelledby="hero-title">
-      <div className="hero-section__bg" aria-hidden="true">
-        <img
-          src={assetUrl(HERO_IMAGE_SRC)}
-          alt=""
-          className="hero-section__image"
-          width={1200}
-          height={1500}
-          decoding="sync"
-          fetchPriority="high"
-        />
-        <div className="hero-section__overlay" />
+      <div className="hero-section__stage" aria-hidden="true">
+        <div className="hero-section__stage-glow" />
+        <div className="hero-section__particles" />
       </div>
 
-      <div className="hero-section__particles" aria-hidden="true" />
+      <div className="hero-section__shell">
+        <div className="hero-section__visual">
+          <div className="hero-section__visual-glow" aria-hidden="true" />
+          <img
+            src={assetUrl(HERO_IMAGE_SRC)}
+            alt={heroContent.imageAlt}
+            className="hero-section__image"
+            width={900}
+            height={1125}
+            decoding="sync"
+            fetchPriority="high"
+          />
+        </div>
 
-      <div className="hero-section__inner">
         <div className="hero-section__copy">
           <div className="hero-brand-board">
             <div className="hero-brand-board__ring">
@@ -75,8 +78,6 @@ function HeroSection() {
           </div>
         </div>
       </div>
-
-      <span className="visually-hidden">{heroContent.imageAlt}</span>
     </section>
   )
 }
