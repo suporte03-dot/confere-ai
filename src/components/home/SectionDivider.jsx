@@ -5,7 +5,7 @@ const PATTERN_SRC = assetUrl('/images/brand/te-monogram-pattern.svg')
 
 /**
  * Site-wide module separator: black strip + gold lines + T&E pattern.
- * Pass `withSanta` only for Featured Collection (uses full-strip santa-nova asset).
+ * Pass `withSanta` only for Featured Collection (transparent santa on the band).
  */
 function SectionDivider({ withSanta = false, className = '', embedded = false }) {
   const classes = [
@@ -23,11 +23,9 @@ function SectionDivider({ withSanta = false, className = '', embedded = false })
       aria-hidden="true"
       style={{ '--section-divider-pattern': `url(${PATTERN_SRC})` }}
     >
-      {!withSanta ? (
-        <div className="section-divider__gold-line section-divider__gold-line--top" />
-      ) : null}
+      <div className="section-divider__gold-line section-divider__gold-line--top" />
       <div className="section-divider__body">
-        {!withSanta ? <span className="section-divider__pattern" /> : null}
+        <span className="section-divider__pattern" />
         {withSanta ? (
           <div className="section-divider__saint-wrapper">
             <img
@@ -39,9 +37,7 @@ function SectionDivider({ withSanta = false, className = '', embedded = false })
           </div>
         ) : null}
       </div>
-      {!withSanta ? (
-        <div className="section-divider__gold-line section-divider__gold-line--bottom" />
-      ) : null}
+      <div className="section-divider__gold-line section-divider__gold-line--bottom" />
     </div>
   )
 }
