@@ -7,7 +7,7 @@ export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-export const COUPLE_HERO_SRC = assetUrl('/images/hero/couple-hero.png?v=20260730t')
+export const COUPLE_HERO_SRC = assetUrl('/images/hero/couple-hero.png?v=20260731a')
 
 export const topBarMessages = [
   {

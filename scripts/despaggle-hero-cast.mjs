@@ -1,6 +1,6 @@
 /**
  * Remove baked-in gold glitter ("bolinhas") + left/top frame junk from couple-hero,
- * then lift midtones for a cleaner editorial cast panel.
+ * then apply a mild midtone lift — faces stay natural, clothes stay readable.
  *
  * Source of bolinhas: inauguration flyer processing (scripts/clean-inauguration-hero.mjs
  * previously injected hash-based spark noise into the dark canvas). Also present in
@@ -88,46 +88,49 @@ for (let y = 0; y < h; y++) {
   }
 }
 
-for (let y = 0; y < h; y++) {
-  const si = (y * w + 24) * c
-  for (let x = 0; x < 16; x++) {
-    const i = (y * w + x) * c
-    out[i] = out[si]
-    out[i + 1] = out[si + 1]
-    out[i + 2] = out[si + 2]
-  }
-}
-for (let x = 0; x < w; x++) {
-  const si = (20 * w + x) * c
-  for (let y = 0; y < 12; y++) {
-    const i = (y * w + x) * c
-    out[i] = out[si]
-    out[i + 1] = out[si + 1]
-    out[i + 2] = out[si + 2]
-  }
-}
-
+/* Soft midtone lift; compress highlights so faces stay natural */
 for (let i = 0; i < out.length; i += c) {
   const r = out[i]
   const g = out[i + 1]
   const b = out[i + 2]
   const L = 0.2126 * r + 0.7152 * g + 0.0722 * b
-  if (L < 5) continue
-  const t = Math.max(0, Math.min(1, (L - 5) / 95))
-  const gain = 1 + 0.75 * t
-  const gamma = 1 - 0.2 * t
-  const f = (v) => Math.min(255, Math.round(Math.pow(v / 255, gamma) * 255 * gain))
+  if (L < 4) continue
+
+  let gain = 1
+  if (L < 90) {
+    /* lift shadows/clothes slightly */
+    gain = 1 + 0.18 * (L / 90)
+  } else if (L < 160) {
+    /* gentle midtones */
+    gain = 1.18 - 0.1 * ((L - 90) / 70)
+  } else {
+    /* pull highlights back toward skin detail */
+    gain = 1.08 - 0.22 * Math.min(1, (L - 160) / 95)
+  }
+
+  const f = (v) => Math.min(255, Math.max(0, Math.round(v * gain)))
   out[i] = f(r)
   out[i + 1] = f(g)
   out[i + 2] = f(b)
 }
 
+/*
+ * Flyer canvas has ~84px dead left gutter + gold L-frame near top.
+ * Crop flush to subject, keep original aspect via cover-extract.
+ */
+const CROP_LEFT = 84
+const CROP_TOP = 18
+const cropW = w - CROP_LEFT
+const cropH = h - CROP_TOP
+
 const buf = await sharp(out, { raw: { width: w, height: h, channels: c } })
-  .modulate({ brightness: 1.24, saturation: 1.02 })
-  .linear(1.07, -5)
+  .extract({ left: CROP_LEFT, top: CROP_TOP, width: cropW, height: cropH })
+  .resize(w, h, { fit: 'cover', position: 'left top' })
+  .modulate({ brightness: 1.06, saturation: 1.01 })
+  .linear(1.02, -2)
   .png({ compressionLevel: 8 })
   .toBuffer()
 
 await fs.promises.writeFile(outPng, buf)
 await sharp(buf).jpeg({ quality: 94, mozjpeg: true }).toFile(outJpg)
-console.log({ changed, outPng, outJpg })
+console.log({ changed, cropLeft: CROP_LEFT, cropTop: CROP_TOP, outPng, outJpg })

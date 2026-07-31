@@ -3,7 +3,7 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(44px, 3.8vw, 54px);
-  --hero-logo-size: clamp(230px, 20vw, 330px);
+  --hero-logo-size: clamp(200px, 17vw, 280px);
 }
 
 .desktop-preview .hero-section {
@@ -21,12 +21,12 @@
   display: grid;
   grid-template-columns: 47% 53%;
   align-items: stretch;
-  width: min(100%, 1600px);
-  max-width: 1600px;
+  width: 100%;
+  max-width: none;
   height: var(--hero-h);
   min-height: 680px;
   max-height: 720px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   overflow: hidden;
 }
@@ -37,6 +37,7 @@
   height: 100%;
   overflow: hidden;
   padding: 0;
+  margin: 0;
   z-index: 2;
 }
 
@@ -44,14 +45,16 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .desktop-preview .hero-models__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 48% 28%;
-  filter: brightness(1.22) contrast(1.05) saturate(0.98);
+  object-position: 12% 22%;
+  filter: brightness(1.08) contrast(1.02) saturate(1.01);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -59,10 +62,10 @@
 
 .desktop-preview .hero-logo-wrap {
   position: absolute;
-  left: 47%;
+  left: 50%;
   top: 48%;
   z-index: 5;
-  transform: translate(-50%, -50%);
+  transform: translate(-28%, -50%);
   width: var(--hero-logo-size);
   height: var(--hero-logo-size);
 }
@@ -463,8 +466,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 24%;
-  filter: brightness(1.22) contrast(1.05) saturate(0.98);
+  object-position: 20% 20%;
+  filter: brightness(1.08) contrast(1.02) saturate(1.01);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -886,8 +889,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 24%;
-  filter: brightness(1.22) contrast(1.05) saturate(0.98);
+  object-position: 20% 20%;
+  filter: brightness(1.08) contrast(1.02) saturate(1.01);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;

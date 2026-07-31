@@ -1118,7 +1118,7 @@
 }
 
 .hero-section {
-  --hero-logo-size: clamp(210px, 18vw, 300px);
+  --hero-logo-size: clamp(190px, 16vw, 270px);
   --hero-band-h: clamp(64px, 7vw, 84px);
   --hero-h: 700px;
   position: relative;
@@ -1143,12 +1143,12 @@
   display: grid;
   grid-template-columns: 47% 53%;
   align-items: stretch;
-  width: min(100%, 1600px);
-  max-width: 1600px;
+  width: 100%;
+  max-width: none;
   height: var(--hero-h);
   min-height: 680px;
   max-height: 720px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   gap: 0;
   overflow: hidden;
@@ -1218,9 +1218,9 @@
   background: none;
   box-shadow: none;
   object-fit: cover;
-  /* Keep faces clear of the logo seam */
-  object-position: 36% 26%;
-  filter: brightness(1.38) contrast(1.06) saturate(1.02);
+  /* Flush left subjects; slight top room for hats */
+  object-position: 12% 22%;
+  filter: brightness(1.08) contrast(1.02) saturate(1.01);
   -webkit-mask-image: none;
   mask-image: none;
   transform: none;
@@ -1241,7 +1241,7 @@
   padding: 0;
   overflow: visible;
   pointer-events: auto;
-  transform: translate(-40%, -50%);
+  transform: translate(-28%, -50%);
   animation: hero-logo-rise 0.85s ease both;
 }
 
@@ -1567,11 +1567,11 @@
 @keyframes hero-logo-rise {
   from {
     opacity: 0;
-    transform: translate(-40%, -46%) scale(0.94);
+    transform: translate(-28%, -46%) scale(0.94);
   }
   to {
     opacity: 1;
-    transform: translate(-40%, -50%) scale(1);
+    transform: translate(-28%, -50%) scale(1);
   }
 }
 
@@ -1589,7 +1589,7 @@
   }
 
   .hero-logo-wrap {
-    transform: translate(-40%, -50%);
+    transform: translate(-28%, -50%);
   }
 
   .hero-btn--primary:hover,
@@ -1668,8 +1668,8 @@
 
   .hero-models__img {
     object-fit: cover;
-    object-position: 50% 24%;
-    filter: brightness(1.38) contrast(1.06) saturate(1.02);
+    object-position: 20% 20%;
+    filter: brightness(1.08) contrast(1.02) saturate(1.01);
     -webkit-mask-image: none;
     mask-image: none;
   }
