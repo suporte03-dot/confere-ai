@@ -1728,6 +1728,74 @@
   --section-divider-line-soft: rgba(223, 189, 105, 0.12);
 }
 
+/* Hero → Novidades only — compact bridge (other dividers unchanged) */
+.section-divider--after-hero {
+  --section-divider-line: rgba(168, 124, 36, 0.5);
+  --section-divider-line-soft: rgba(168, 124, 36, 0.12);
+  z-index: 3;
+  min-height: 80px;
+  max-height: 100px;
+  height: 88px;
+  gap: 16px;
+  margin: -6px 0 0;
+  padding: 6px 28px;
+  background: #f6efe4;
+  overflow: hidden;
+}
+
+.section-divider--after-hero .section-divider__line {
+  height: 1px;
+  max-width: 360px;
+}
+
+.section-divider--after-hero .section-divider__medallion {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Soft gold halo — no frame / box / border */
+.section-divider--after-hero .section-divider__medallion::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  z-index: 0;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgba(201, 155, 50, 0.2) 0%,
+    rgba(201, 155, 50, 0.08) 38%,
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.section-divider--after-hero .section-divider__saint {
+  position: relative;
+  z-index: 1;
+  width: auto;
+  max-width: 48px;
+  height: 60px;
+  object-fit: contain;
+  object-position: center center;
+  background: transparent;
+  border: none;
+  filter: drop-shadow(0 1px 2px rgba(26, 21, 16, 0.16));
+}
+
+/* Contain botanical stroke bleed so nothing sits over the saint */
+.brand-hero:has(+ .section-divider--after-hero) {
+  overflow: hidden;
+}
+
+.brand-hero:has(+ .section-divider--after-hero) .brand-hero__ornament--br {
+  bottom: 0;
+}
+
 .section-divider__line {
   flex: 1 1 auto;
   height: 1px;
@@ -2163,6 +2231,25 @@
   .section-divider__saint {
     width: 34px;
     height: 50px;
+  }
+
+  .section-divider--after-hero {
+    min-height: 80px;
+    max-height: 96px;
+    height: 84px;
+    gap: 12px;
+    margin-top: -4px;
+    padding: 4px 16px;
+  }
+
+  .section-divider--after-hero .section-divider__medallion {
+    width: 56px;
+    height: 56px;
+  }
+
+  .section-divider--after-hero .section-divider__saint {
+    max-width: 44px;
+    height: 56px;
   }
 
   .featured-collection--campaign {

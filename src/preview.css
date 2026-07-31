@@ -1011,6 +1011,27 @@
   height: 50px;
 }
 
+.mobile-preview .section-divider--after-hero {
+  min-height: 80px;
+  max-height: 96px;
+  height: 84px;
+  gap: 12px;
+  margin-top: -4px;
+  padding: 4px 16px;
+  background: #f6efe4;
+}
+
+.mobile-preview .section-divider--after-hero .section-divider__medallion {
+  width: 56px;
+  height: 56px;
+}
+
+.mobile-preview .section-divider--after-hero .section-divider__saint {
+  width: auto;
+  max-width: 44px;
+  height: 56px;
+}
+
 .mobile-preview .categorias-section.section {
   padding: 36px 0 44px;
 }

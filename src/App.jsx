@@ -50,7 +50,11 @@ function SiteContent({
         </header>
       </div>
       <HeroSection />
-      <SectionDivider variant="light" showSaint />
+      <SectionDivider
+        variant="light"
+        showSaint
+        className="section-divider--after-hero"
+      />
       <main>
         <NovidadesSection />
         <SectionDivider variant="light" showSaint />

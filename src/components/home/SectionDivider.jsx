@@ -3,6 +3,7 @@ import santaHero from '../../assets/santa-hero.png'
 /**
  * Module separator: thin gold lines + centered saint (when shown).
  * `variant` tunes line color for light (ivory) or dark section contexts.
+ * Pass `className="section-divider--after-hero"` for the compact hero bridge.
  */
 function SectionDivider({ variant = 'light', showSaint = false, className = '' }) {
   const classes = ['section-divider', `section-divider--${variant}`, className]
