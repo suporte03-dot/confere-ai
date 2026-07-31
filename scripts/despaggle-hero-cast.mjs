@@ -1,6 +1,10 @@
 /**
- * Aggressively remove baked-in gold glitter / edge frame from couple-hero,
- * then brighten for editorial cast panel.
+ * Remove baked-in gold glitter ("bolinhas") + left/top frame junk from couple-hero,
+ * then lift midtones for a cleaner editorial cast panel.
+ *
+ * Source of bolinhas: inauguration flyer processing (scripts/clean-inauguration-hero.mjs
+ * previously injected hash-based spark noise into the dark canvas). Also present in
+ * the flyer artwork itself. Not CSS particles.
  */
 import sharp from 'sharp'
 import fs from 'fs'
@@ -9,219 +13,121 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
-const srcPath = path.join(root, 'public/images/hero/couple-hero.png')
-const outPng = srcPath
+const backupPath = path.join(root, 'public/images/hero/couple-hero-pre-despaggle.png')
+const outPng = path.join(root, 'public/images/hero/couple-hero.png')
 const outJpg = path.join(root, 'public/images/hero/couple-hero.jpg')
-const debugDir = path.join(root, 'tmp-hero-debug')
 
-const { data, info } = await sharp(srcPath).ensureAlpha().raw().toBuffer({
-  resolveWithObject: true,
-})
-const W = info.width
-const H = info.height
-const C = info.channels
-const src = Buffer.from(data)
-const out = Buffer.from(data)
-
-const lumAt = (buf, i) => 0.2126 * buf[i] + 0.7152 * buf[i + 1] + 0.0722 * buf[i + 2]
-
-function neighborhoodMean(buf, x, y, r, skipHot = true) {
-  let sr = 0
-  let sg = 0
-  let sb = 0
-  let n = 0
-  for (let dy = -r; dy <= r; dy++) {
-    for (let dx = -r; dx <= r; dx++) {
-      if (dx === 0 && dy === 0) continue
-      const xx = x + dx
-      const yy = y + dy
-      if (xx < 0 || yy < 0 || xx >= W || yy >= H) continue
-      const j = (yy * W + xx) * C
-      const r0 = buf[j]
-      const g0 = buf[j + 1]
-      const b0 = buf[j + 2]
-      const v = 0.2126 * r0 + 0.7152 * g0 + 0.0722 * b0
-      const warm = r0 - b0
-      if (skipHot && warm > 16 && v > 38) continue
-      sr += r0
-      sg += g0
-      sb += b0
-      n++
-    }
-  }
-  if (!n) return [14, 11, 8]
-  return [Math.round(sr / n), Math.round(sg / n), Math.round(sb / n)]
+const srcPath = fs.existsSync(backupPath) ? backupPath : outPng
+if (!fs.existsSync(backupPath) && fs.existsSync(outPng)) {
+  fs.copyFileSync(outPng, backupPath)
 }
 
-let killed = 0
+const { data: src, info } = await sharp(srcPath).ensureAlpha().raw().toBuffer({
+  resolveWithObject: true,
+})
+const w = info.width
+const h = info.height
+const c = info.channels
+const out = Buffer.from(src)
+const median = await sharp(srcPath).median(11).ensureAlpha().raw().toBuffer()
+const soft = await sharp(srcPath)
+  .blur(4)
+  .modulate({ saturation: 0.65, brightness: 0.95 })
+  .ensureAlpha()
+  .raw()
+  .toBuffer()
 
-// Pass A: left/top gold frame line — paint solid dark
-for (let y = 0; y < H; y++) {
-  for (let x = 0; x < Math.min(16, W); x++) {
-    const i = (y * W + x) * C
+let changed = 0
+for (let y = 0; y < h; y++) {
+  for (let x = 0; x < w; x++) {
+    const i = (y * w + x) * c
+    if (src[i + 3] < 12) continue
     const r = src[i]
     const g = src[i + 1]
     const b = src[i + 2]
-    const v = lumAt(src, i)
-    if ((r - b > 12 && v > 28) || (x < 5 && v > 40)) {
-      const [fr, fg, fb] = neighborhoodMean(src, Math.min(x + 18, W - 1), y, 2, false)
-      out[i] = fr
-      out[i + 1] = fg
-      out[i + 2] = fb
-      killed++
-    }
-  }
-}
-for (let y = 0; y < Math.min(14, H); y++) {
-  for (let x = 0; x < W; x++) {
-    const i = (y * W + x) * C
-    const r = src[i]
-    const b = src[i + 2]
-    const v = lumAt(src, i)
-    if (r - b > 12 && v > 30) {
-      const [fr, fg, fb] = neighborhoodMean(src, x, Math.min(y + 16, H - 1), 2, false)
-      out[i] = fr
-      out[i + 1] = fg
-      out[i + 2] = fb
-      killed++
-    }
-  }
-}
+    const L = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    const warm = r - b
+    const nx = x / w
+    const ny = y / h
 
-// Pass B: kill warm bright outliers (bolinhas) — low threshold, multi-radius
-for (let pass = 0; pass < 3; pass++) {
-  const read = pass === 0 ? src : out
-  for (let y = 1; y < H - 1; y++) {
-    for (let x = 1; x < W - 1; x++) {
-      const i = (y * W + x) * C
-      if (out[i + 3] < 12) continue
-      const r = read[i]
-      const g = read[i + 1]
-      const b = read[i + 2]
-      const v = 0.2126 * r + 0.7152 * g + 0.0722 * b
-      const warm = r - b
-      const nx = x / W
-      const ny = y / H
-
-      // warm speckles / glitter
-      const warmish = warm >= 10 && r >= 32 && r >= g - 8
-      if (!warmish && !(v > 55 && warm > 6)) continue
-
-      const [nr, ng, nb] = neighborhoodMean(read, x, y, pass === 0 ? 2 : 3, true)
-      const nv = 0.2126 * nr + 0.7152 * ng + 0.0722 * nb
-      const delta = v - nv
-
-      // denser kill on bg fields (right side / top) where flyer dust lives
-      const bgField = nx > 0.52 || ny < 0.18 || nx < 0.06 || (nx > 0.7 && ny < 0.7)
-      const thresh = bgField ? 6 : 10
-
-      if (delta >= thresh || (warm >= 22 && v > nv + 4 && v < 200)) {
-        out[i] = nr
-        out[i + 1] = ng
-        out[i + 2] = nb
-        killed++
-      }
-    }
-  }
-}
-
-// Pass C: soft despeckle residual grain on dark regions (median-ish 3x3)
-const mid = Buffer.from(out)
-for (let y = 1; y < H - 1; y++) {
-  for (let x = 1; x < W - 1; x++) {
-    const i = (y * W + x) * C
-    const v = lumAt(mid, i)
-    if (v > 85 || mid[i + 3] < 20) continue
-    const rs = []
-    const gs = []
-    const bs = []
+    let s = 0
+    let n = 0
     for (let dy = -1; dy <= 1; dy++) {
       for (let dx = -1; dx <= 1; dx++) {
-        const j = ((y + dy) * W + (x + dx)) * C
-        rs.push(mid[j])
-        gs.push(mid[j + 1])
-        bs.push(mid[j + 2])
+        if (!dx && !dy) continue
+        const xx = x + dx
+        const yy = y + dy
+        if (xx < 0 || yy < 0 || xx >= w || yy >= h) continue
+        const j = (yy * w + xx) * c
+        s += 0.2126 * src[j] + 0.7152 * src[j + 1] + 0.0722 * src[j + 2]
+        n++
       }
     }
-    rs.sort((a, b) => a - b)
-    gs.sort((a, b) => a - b)
-    bs.sort((a, b) => a - b)
-    const mr = rs[4]
-    const mg = gs[4]
-    const mb = bs[4]
-    // only pull toward median when current pixel is a hot speck
-    if (mid[i] - mr > 8 || lumAt(mid, i) - (0.2126 * mr + 0.7152 * mg + 0.0722 * mb) > 8) {
-      out[i] = Math.round(mid[i] * 0.25 + mr * 0.75)
-      out[i + 1] = Math.round(mid[i + 1] * 0.25 + mg * 0.75)
-      out[i + 2] = Math.round(mid[i + 2] * 0.25 + mb * 0.75)
-      killed++
+    const peak = L - s / Math.max(1, n)
+
+    const face1 = ((nx - 0.32) / 0.18) ** 2 + ((ny - 0.32) / 0.16) ** 2 < 1
+    const face2 = ((nx - 0.55) / 0.16) ** 2 + ((ny - 0.3) / 0.15) ** 2 < 1
+    const protect = (face1 || face2) && L > 35 && peak < 20
+
+    const bgDust = ny < 0.25 || nx > 0.6 || nx < 0.07 || y < 14 || x < 16
+    const isSpark =
+      !protect &&
+      ((x < 16 && warm > 6) ||
+        (y < 12 && warm > 8 && L > 28) ||
+        (warm > 9 && peak > 3 && L > 14 && L < 160) ||
+        (bgDust && warm > 6 && L > 14 && L < 150) ||
+        (warm > 14 && peak > 1.5 && L > 20 && L < 140))
+
+    if (isSpark) {
+      const fill = bgDust || L < 38 ? soft : median
+      out[i] = fill[i]
+      out[i + 1] = fill[i + 1]
+      out[i + 2] = fill[i + 2]
+      changed++
     }
   }
 }
 
-// Pass D: brighten midtones hard (faces were ~mean 15)
-for (let i = 0; i < out.length; i += C) {
-  if (out[i + 3] < 8) continue
-  let r = out[i] / 255
-  let g = out[i + 1] / 255
-  let b = out[i + 2] / 255
-  // strong gamma lift + gain
-  r = Math.pow(r, 0.72) * 1.32
-  g = Math.pow(g, 0.72) * 1.3
-  b = Math.pow(b, 0.72) * 1.26
-  let R = Math.min(255, Math.round(r * 255))
-  let G = Math.min(255, Math.round(g * 255))
-  let B = Math.min(255, Math.round(b * 255))
-  const v = 0.2126 * R + 0.7152 * G + 0.0722 * B
-  if (v > 20 && v < 200) {
-    const t = 1 - Math.abs(v - 105) / 110
-    const add = Math.round(18 * Math.max(0, t))
-    R = Math.min(255, R + add + 3)
-    G = Math.min(255, G + add + 1)
-    B = Math.min(255, B + Math.round(add * 0.65))
+for (let y = 0; y < h; y++) {
+  const si = (y * w + 24) * c
+  for (let x = 0; x < 16; x++) {
+    const i = (y * w + x) * c
+    out[i] = out[si]
+    out[i + 1] = out[si + 1]
+    out[i + 2] = out[si + 2]
   }
-  out[i] = R
-  out[i + 1] = G
-  out[i + 2] = B
+}
+for (let x = 0; x < w; x++) {
+  const si = (20 * w + x) * c
+  for (let y = 0; y < 12; y++) {
+    const i = (y * w + x) * c
+    out[i] = out[si]
+    out[i + 1] = out[si + 1]
+    out[i + 2] = out[si + 2]
+  }
 }
 
-fs.mkdirSync(debugDir, { recursive: true })
-const cleaned = await sharp(out, { raw: { width: W, height: H, channels: C } })
-  .modulate({ brightness: 1.06, saturation: 1.02 })
-  .linear(1.04, -2)
+for (let i = 0; i < out.length; i += c) {
+  const r = out[i]
+  const g = out[i + 1]
+  const b = out[i + 2]
+  const L = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  if (L < 5) continue
+  const t = Math.max(0, Math.min(1, (L - 5) / 95))
+  const gain = 1 + 0.75 * t
+  const gamma = 1 - 0.2 * t
+  const f = (v) => Math.min(255, Math.round(Math.pow(v / 255, gamma) * 255 * gain))
+  out[i] = f(r)
+  out[i + 1] = f(g)
+  out[i + 2] = f(b)
+}
+
+const buf = await sharp(out, { raw: { width: w, height: h, channels: c } })
+  .modulate({ brightness: 1.24, saturation: 1.02 })
+  .linear(1.07, -5)
   .png({ compressionLevel: 8 })
   .toBuffer()
 
-await fs.promises.writeFile(outPng, cleaned)
-await sharp(cleaned).jpeg({ quality: 94, mozjpeg: true }).toFile(outJpg)
-
-await sharp(cleaned)
-  .extract({ left: 0, top: 0, width: Math.min(480, W), height: Math.min(200, H) })
-  .png()
-  .toFile(path.join(debugDir, 'despaggle-top.png'))
-await sharp(cleaned)
-  .extract({
-    left: Math.round(W * 0.2),
-    top: Math.round(H * 0.1),
-    width: Math.min(520, W - Math.round(W * 0.2)),
-    height: Math.min(420, H - Math.round(H * 0.1)),
-  })
-  .png()
-  .toFile(path.join(debugDir, 'despaggle-faces.png'))
-await sharp(cleaned).png().toFile(path.join(debugDir, 'despaggle-full.png'))
-
-const { data: cd, info: ci } = await sharp(cleaned).raw().ensureAlpha().toBuffer({
-  resolveWithObject: true,
-})
-let sum = 0
-let n = 0
-let gold = 0
-for (let y = Math.round(H * 0.15); y < Math.round(H * 0.55); y++) {
-  for (let x = Math.round(W * 0.15); x < Math.round(W * 0.7); x++) {
-    const i = (y * W + x) * ci.channels
-    sum += 0.2126 * cd[i] + 0.7152 * cd[i + 1] + 0.0722 * cd[i + 2]
-    n++
-    if (cd[i] - cd[i + 2] >= 18 && cd[i] >= 48) gold++
-  }
-}
-console.log({ killed, faceMean: (sum / n).toFixed(1), goldInFaces: gold })
+await fs.promises.writeFile(outPng, buf)
+await sharp(buf).jpeg({ quality: 94, mozjpeg: true }).toFile(outJpg)
+console.log({ changed, outPng, outJpg })
