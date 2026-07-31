@@ -91,7 +91,7 @@ function HeroSection() {
       <div className="brand-hero__logo">
         <img
           src={logoImage}
-          alt={heroContent.boardAlt}
+          alt="Terra & Estilo — A marca do agro brasileiro"
           width={1024}
           height={1024}
           decoding="async"

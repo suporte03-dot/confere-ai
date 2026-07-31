@@ -3,7 +3,7 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(44px, 3.8vw, 54px);
-  --brand-hero-logo-size: clamp(210px, 17vw, 280px);
+  --brand-hero-logo-size: clamp(220px, 18vw, 310px);
 }
 
 .desktop-preview .brand-hero {
@@ -52,7 +52,9 @@
 
 .desktop-preview .brand-hero__logo img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
 }
 
 
@@ -64,7 +66,9 @@
 
 .mobile-preview .brand-hero__logo img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
 }
 
 .mobile-preview .header-brand__name {
