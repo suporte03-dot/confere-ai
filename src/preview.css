@@ -28,9 +28,7 @@
 }
 
 .desktop-preview .hero-zone--left {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  display: block;
   min-height: 0;
   height: 100%;
   overflow: visible;
@@ -39,30 +37,33 @@
 }
 
 .desktop-preview .hero-models {
-  justify-content: flex-start;
-  align-items: flex-end;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -72px;
   width: auto;
-  height: 100%;
+  height: auto;
   max-width: none;
-  min-height: 0;
-  margin: 0 -72px 0 0;
-  overflow: visible;
+  margin: 0;
+  overflow: hidden;
 }
 
 .desktop-preview .hero-models__img {
-  width: auto;
-  height: 106%;
+  --cast-left-crop: 6.5%;
+  width: calc(100% + var(--cast-left-crop));
+  height: 100%;
   max-width: none;
   max-height: none;
-  margin: 0 0 0 -4px;
-  object-fit: contain;
-  object-position: left bottom;
+  margin: 0 0 0 calc(-1 * var(--cast-left-crop));
+  object-fit: cover;
+  object-position: left top;
   filter: brightness(1.22) contrast(1.08) saturate(1.04);
   transform: none;
   -webkit-mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 74%,
+    #000 72%,
     rgba(0, 0, 0, 0.9) 84%,
     rgba(0, 0, 0, 0.4) 93%,
     transparent 100%
@@ -70,7 +71,7 @@
   mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 74%,
+    #000 72%,
     rgba(0, 0, 0, 0.9) 84%,
     rgba(0, 0, 0, 0.4) 93%,
     transparent 100%
