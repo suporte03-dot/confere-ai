@@ -478,13 +478,11 @@
 
 .mobile-preview .brand-hero__actions {
   justify-content: center;
-  flex-direction: column;
-  gap: 10px;
   width: 100%;
 }
 
 .mobile-preview .brand-hero__btn {
-  width: 100%;
+  width: min(100%, 320px);
 }
 
 
@@ -892,14 +890,12 @@
 
 .mobile-preview .brand-hero__actions {
   justify-content: center;
-  flex-direction: column;
-  gap: 10px;
   width: 100%;
   margin-top: 16px;
 }
 
 .mobile-preview .brand-hero__btn {
-  width: 100%;
+  width: min(100%, 320px);
   max-width: 100%;
 }
 

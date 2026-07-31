@@ -74,7 +74,6 @@ export const heroContent = {
     'Terra & Estilo é o encontro entre tradição, qualidade e estilo que inspiram gerações.',
   ],
   primaryCta: 'Conheça a coleção',
-  secondaryCta: 'Fale conosco',
   imageAlt:
     'Casal Terra & Estilo em camisas pretas e chapéus country — foto da campanha sem overlays de texto.',
   boardAlt:
