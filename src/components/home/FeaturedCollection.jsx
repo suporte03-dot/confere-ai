@@ -4,7 +4,6 @@ import {
   COUPLE_HERO_WIDTH,
   COUPLE_HERO_HEIGHT,
 } from '../../data/homeData'
-import SectionDivider from './SectionDivider'
 
 function FeaturedCollection() {
   const {
@@ -112,8 +111,6 @@ function FeaturedCollection() {
             </a>
           </div>
         </div>
-
-        <SectionDivider withSanta embedded className="featured-collection__divider" />
       </div>
     </section>
   )

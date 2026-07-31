@@ -992,21 +992,23 @@
 }
 
 .mobile-preview .featured-collection--campaign {
-  padding-bottom: clamp(64px, 14%, 88px);
+  padding-bottom: 0;
 }
 
-.mobile-preview .section-divider--santa {
-  --section-divider-height: 56px;
+.mobile-preview .section-divider {
+  min-height: 64px;
+  gap: 10px;
+  padding: 8px 16px;
 }
 
-.mobile-preview .section-divider__saint-wrapper {
-  width: min(58vw, 300px);
-  max-width: 300px;
+.mobile-preview .section-divider__medallion {
+  width: 58px;
+  height: 68px;
 }
 
 .mobile-preview .section-divider__saint {
-  max-height: 60px;
-  max-width: 300px;
+  width: 34px;
+  height: 50px;
 }
 
 .mobile-preview .categorias-section.section {

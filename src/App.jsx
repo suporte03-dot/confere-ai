@@ -50,26 +50,23 @@ function SiteContent({
         </header>
       </div>
       <HeroSection />
-      <SectionDivider />
+      <SectionDivider variant="light" showSaint />
       <main>
         <NovidadesSection />
-        <SectionDivider />
+        <SectionDivider variant="light" showSaint />
         <CategoryShowcase />
-        <SectionDivider />
+        <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
         <BestsellersSection />
-        <SectionDivider />
+        <SectionDivider variant="dark" showSaint />
         <LookbookSection />
-        <SectionDivider />
+        <SectionDivider variant="light" showSaint />
         <BenefitsBar />
-        <SectionDivider />
         <AboutBrand />
-        <SectionDivider />
         <BrandValues />
-        <SectionDivider />
         <InstagramSection />
-        <SectionDivider />
         <Newsletter />
+        <SectionDivider variant="light" showSaint />
       </main>
       <Footer />
       <CartDrawer />
