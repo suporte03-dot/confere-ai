@@ -1,13 +1,16 @@
 import { assetUrl } from '../utils/assetUrl'
+import coupleHeroAsset from '../assets/personagens-terra-estilo.webp'
+import brandLogoCircular from '../assets/logo-terra-estilo.png'
 
-export const BRAND_LOGO_CIRCULAR_SRC = assetUrl('/images/brand/terra-e-estilo-logo.png')
+export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
 export const BRAND_LOGO_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_HEADER_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-export const COUPLE_HERO_SRC = assetUrl('/images/hero/couple-hero.png?v=20260731a')
+/** Swap-ready cast photo — replace file at src/assets/personagens-terra-estilo.webp (≥1600px when available). */
+export const COUPLE_HERO_SRC = coupleHeroAsset
 
 export const topBarMessages = [
   {

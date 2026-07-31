@@ -3,85 +3,43 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(44px, 3.8vw, 54px);
-  --hero-logo-size: clamp(200px, 17vw, 280px);
+  --brand-hero-logo-size: clamp(220px, 18vw, 310px);
 }
 
-.desktop-preview .hero-section {
-  --hero-h: 700px;
-  --hero-band-h: clamp(64px, 7vw, 84px);
-  min-height: calc(var(--hero-h) + var(--hero-band-h));
-  padding: 0 0 var(--hero-band-h);
+.desktop-preview .brand-hero {
+  min-height: 640px;
+  height: min(72vh, 720px);
+  grid-template-columns: 52% 48%;
   width: 100%;
   max-width: none;
   overflow: hidden;
-  background: #15110d;
+  background: #1a1510;
 }
 
-.desktop-preview .hero-layout {
-  display: grid;
-  grid-template-columns: 47% 53%;
-  align-items: stretch;
-  width: 100%;
-  max-width: none;
-  height: var(--hero-h);
-  min-height: 680px;
-  max-height: 720px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.desktop-preview .hero-zone--left {
-  display: block;
-  min-height: 0;
-  height: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  z-index: 2;
-}
-
-.desktop-preview .hero-models {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-
-.desktop-preview .hero-models__img {
-  width: 100%;
-  height: 100%;
+.desktop-preview .brand-hero__models-image {
   object-fit: cover;
-  object-position: 12% 22%;
-  filter: brightness(1.08) contrast(1.02) saturate(1.01);
-  transform: none;
+  object-position: 48% 24%;
+  filter: brightness(1.14) contrast(1.03) saturate(0.98);
+  transform: scale(1.02);
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-.desktop-preview .hero-logo-wrap {
-  position: absolute;
-  left: 50%;
-  top: 48%;
+.desktop-preview .brand-hero__logo {
+  left: 52%;
+  top: 50%;
   z-index: 5;
-  transform: translate(-28%, -50%);
-  width: var(--hero-logo-size);
-  height: var(--hero-logo-size);
+  transform: translate(-42%, -50%);
+  width: var(--brand-hero-logo-size);
+  height: var(--brand-hero-logo-size);
 }
 
-.desktop-preview .hero-zone--right {
-  display: flex;
-  align-items: center;
-  min-height: 0;
-  z-index: 1;
-  padding-left: clamp(150px, 14vw, 210px);
+.desktop-preview .brand-hero__content {
+  padding-left: clamp(140px, 14vw, 190px);
 }
 
-.desktop-preview .hero-content {
-  display: flex;
+.desktop-preview .brand-hero__copy {
   max-width: 520px;
-  margin: 0;
   align-items: flex-start;
   text-align: left;
 }
@@ -91,10 +49,11 @@
   height: 100%;
 }
 
-.desktop-preview .hero-logo {
+.desktop-preview .brand-hero__logo img {
   width: 100%;
   height: 100%;
 }
+
 
 
 .mobile-preview .header-brand__logo-img {
@@ -102,7 +61,7 @@
   height: 100%;
 }
 
-.mobile-preview .hero-logo {
+.mobile-preview .brand-hero__logo img {
   width: 100%;
   height: 100%;
 }
@@ -429,71 +388,59 @@
 }
 
 /* ── Hero e seções ── */
-.mobile-preview .hero-section {
+.mobile-preview .brand-hero {
   width: 100%;
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding: 0 0 var(--hero-band-h, 80px);
+  padding: 0;
   border: none;
   overflow: hidden;
   min-height: 0;
-  --hero-logo-size: clamp(150px, 48vw, 200px);
-  --hero-band-h: 80px;
-}
-
-.mobile-preview .hero-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 0;
-  max-height: none;
   height: auto;
-  padding: 0 0 12px;
-  gap: 0;
+  --brand-hero-logo-size: clamp(150px, 48vw, 200px);
 }
 
-.mobile-preview .hero-zone--left {
+.mobile-preview .brand-hero__models {
   order: 1;
-  z-index: 2;
   width: 100%;
   height: min(48vh, 420px);
   min-height: 300px;
   overflow: hidden;
 }
 
-.mobile-preview .hero-models__img {
+.mobile-preview .brand-hero__models-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 20% 20%;
-  filter: brightness(1.08) contrast(1.02) saturate(1.01);
-  transform: none;
+  object-position: 48% 18%;
+  filter: brightness(1.14) contrast(1.03) saturate(0.98);
+  transform: scale(1.02);
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-.mobile-preview .hero-logo-wrap {
+.mobile-preview .brand-hero__logo {
   order: 2;
   position: relative;
   left: auto;
   top: auto;
   z-index: 5;
-  width: var(--hero-logo-size);
-  height: var(--hero-logo-size);
+  width: var(--brand-hero-logo-size);
+  height: var(--brand-hero-logo-size);
   margin: -95px auto 8px;
   transform: none;
 }
 
-.mobile-preview .hero-zone--right {
+.mobile-preview .brand-hero__content {
   order: 3;
-  z-index: 1;
   width: 100%;
   min-height: 0;
+  height: auto;
   padding: 12px 16px 32px;
 }
 
-.mobile-preview .hero-content {
+.mobile-preview .brand-hero__copy {
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
@@ -501,16 +448,16 @@
   text-align: center;
 }
 
-.mobile-preview .hero-title {
+.mobile-preview .brand-hero__title {
   text-align: center;
   font-size: clamp(1.7rem, 7.5vw, 2.1rem);
   line-height: 1.12;
   max-width: 100%;
   margin: 0 auto 14px;
-  color: #1a1612;
+  color: #1a1510;
 }
 
-.mobile-preview .hero-section__support {
+.mobile-preview .brand-hero__support {
   text-align: center;
   font-size: 0.875rem;
   font-family: var(--font-sans);
@@ -518,21 +465,22 @@
   max-width: 100%;
 }
 
-.mobile-preview .hero-section__rule {
+.mobile-preview .brand-hero__rule {
   margin-left: auto;
   margin-right: auto;
 }
 
-.mobile-preview .hero-buttons {
+.mobile-preview .brand-hero__actions {
   justify-content: center;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
 
-.mobile-preview .hero-btn {
+.mobile-preview .brand-hero__btn {
   width: 100%;
 }
+
 
 .mobile-preview .header-brand__composition,
 .mobile-preview .header-brand__monogram-wrap,
@@ -853,50 +801,39 @@
 }
 
 /* ── Hero e seções (mobile preview) ── */
-.mobile-preview .hero-section {
+.mobile-preview .brand-hero {
   width: 100%;
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding: 0 0 var(--hero-band-h, 80px);
+  padding: 0;
   border: none;
   overflow: hidden;
   min-height: 0;
-  --hero-logo-size: clamp(150px, 48vw, 200px);
-}
-
-.mobile-preview .hero-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 0;
-  max-height: none;
   height: auto;
-  padding: 0 0 12px;
-  gap: 0;
+  --brand-hero-logo-size: clamp(150px, 48vw, 200px);
 }
 
-.mobile-preview .hero-zone--left {
+.mobile-preview .brand-hero__models {
   order: 1;
-  z-index: 2;
   width: 100%;
   height: min(48vh, 420px);
   min-height: 300px;
   overflow: hidden;
 }
 
-.mobile-preview .hero-models__img {
+.mobile-preview .brand-hero__models-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 20% 20%;
-  filter: brightness(1.08) contrast(1.02) saturate(1.01);
-  transform: none;
+  object-position: 48% 18%;
+  filter: brightness(1.14) contrast(1.03) saturate(0.98);
+  transform: scale(1.02);
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-.mobile-preview .hero-logo-wrap {
+.mobile-preview .brand-hero__logo {
   order: 2;
   position: relative;
   left: auto;
@@ -906,14 +843,14 @@
   transform: none;
 }
 
-.mobile-preview .hero-zone--right {
+.mobile-preview .brand-hero__content {
   order: 3;
-  z-index: 1;
   width: 100%;
   min-height: 0;
+  height: auto;
 }
 
-.mobile-preview .hero-content {
+.mobile-preview .brand-hero__copy {
   max-width: 100%;
   margin: 0 auto;
   padding: 0;
@@ -921,16 +858,16 @@
   text-align: center;
 }
 
-.mobile-preview .hero-title {
+.mobile-preview .brand-hero__title {
   font-size: clamp(1.7rem, 7.5vw, 2.1rem);
   line-height: 1.12;
   max-width: 100%;
   margin: 0 auto 14px;
   text-align: center;
-  color: #1a1612;
+  color: #1a1510;
 }
 
-.mobile-preview .hero-section__support {
+.mobile-preview .brand-hero__support {
   font-size: 0.875rem;
   line-height: 1.65;
   font-family: var(--font-sans);
@@ -941,12 +878,12 @@
   text-align: center;
 }
 
-.mobile-preview .hero-section__rule {
+.mobile-preview .brand-hero__rule {
   margin-left: auto;
   margin-right: auto;
 }
 
-.mobile-preview .hero-buttons {
+.mobile-preview .brand-hero__actions {
   justify-content: center;
   flex-direction: column;
   gap: 10px;
@@ -954,10 +891,11 @@
   margin-top: 16px;
 }
 
-.mobile-preview .hero-btn {
+.mobile-preview .brand-hero__btn {
   width: 100%;
   max-width: 100%;
 }
+
 
 .mobile-preview .section {
   padding: 48px 0;

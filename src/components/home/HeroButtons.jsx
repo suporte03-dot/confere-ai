@@ -1,19 +1,12 @@
-import { heroContent, footerHome } from '../../data/homeData'
+import { heroContent } from '../../data/homeData'
 
 function HeroButtons() {
-  const whatsappHref = footerHome.atendimento.whatsappHref
-
   return (
-    <div className="hero-buttons">
-      <a href="#produtos" className="hero-btn hero-btn--primary">
+    <div className="brand-hero__actions">
+      <a href="#colecoes" className="brand-hero__btn brand-hero__btn--primary">
         {heroContent.primaryCta}
       </a>
-      <a
-        href={whatsappHref}
-        className="hero-btn hero-btn--secondary"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href="#contato" className="brand-hero__btn brand-hero__btn--secondary">
         {heroContent.secondaryCta}
       </a>
     </div>
