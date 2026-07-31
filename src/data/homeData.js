@@ -196,7 +196,7 @@ export const lookbookHome = {
   collage: [
     { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
     { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
-    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Acessórios Terra & Estilo', productId: 16 },
+    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Acessórios Terra & Estilo' },
     { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Polos Terra & Estilo', productId: 4 },
   ],
   hotspots: [
