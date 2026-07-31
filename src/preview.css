@@ -1000,9 +1000,13 @@
 .mobile-preview .featured-collection__saint-wrapper {
   width: 80px;
   height: 96px;
-  padding: 7px;
+  padding: 0;
   bottom: 8px;
   overflow: visible;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .mobile-preview .featured-collection__saint-wrapper::before,
