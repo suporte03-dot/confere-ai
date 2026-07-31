@@ -997,6 +997,22 @@
   height: 96px;
 }
 
+.mobile-preview .featured-collection__saint-wrapper {
+  width: 80px;
+  height: 98px;
+  bottom: 4px;
+}
+
+.mobile-preview .featured-collection__saint-wrapper::before,
+.mobile-preview .featured-collection__saint-wrapper::after {
+  width: 40px;
+}
+
+.mobile-preview .featured-collection__saint {
+  width: 52px;
+  height: 72px;
+}
+
 .mobile-preview .categorias-section.section {
   padding: 36px 0 44px;
 }

@@ -3,9 +3,9 @@ import {
   BRAND_LOGO_CIRCULAR_SRC,
 } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
+import nossaSenhoraImage from '../../assets/santa.png'
 
 const PATTERN_SRC = assetUrl('/images/brand/te-monogram-pattern.svg')
-const SAINT_SRC = assetUrl('/images/brand/nossa-senhora-aparecida.svg')
 
 function FeaturedCollection() {
   const {
@@ -135,14 +135,13 @@ function FeaturedCollection() {
           </svg>
           <div className="featured-collection__bottom-band-body">
             <span className="featured-collection__bottom-band-pattern" />
-            <img
-              src={SAINT_SRC}
-              alt=""
-              className="featured-collection__saint"
-              width={86}
-              height={116}
-              decoding="async"
-            />
+            <div className="featured-collection__saint-wrapper">
+              <img
+                src={nossaSenhoraImage}
+                alt="Nossa Senhora Aparecida"
+                className="featured-collection__saint"
+              />
+            </div>
           </div>
         </div>
       </div>

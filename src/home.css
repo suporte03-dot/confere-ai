@@ -2042,15 +2042,61 @@
   transform-origin: center;
 }
 
-.featured-collection__saint {
+.featured-collection__saint-wrapper {
   position: absolute;
   left: 50%;
-  bottom: clamp(14px, 2vw, 22px);
-  width: 86px;
-  height: auto;
+  bottom: clamp(10px, 1.6vw, 18px);
+  width: 118px;
+  height: 142px;
   transform: translateX(-50%);
-  opacity: 0.96;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1.5px solid rgba(211, 166, 68, 0.72);
+  box-shadow:
+    inset 0 0 0 1px rgba(211, 166, 68, 0.28),
+    0 0 18px rgba(211, 166, 68, 0.12);
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 42%,
+    rgba(211, 166, 68, 0.16),
+    transparent 68%
+  );
+}
+
+.featured-collection__saint-wrapper::before,
+.featured-collection__saint-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 58%;
+  width: min(120px, 18vw);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(211, 166, 68, 0.55),
+    rgba(211, 166, 68, 0.18)
+  );
+  pointer-events: none;
+}
+
+.featured-collection__saint-wrapper::before {
+  right: calc(100% + 10px);
+  transform: scaleX(-1);
+}
+
+.featured-collection__saint-wrapper::after {
+  left: calc(100% + 10px);
+}
+
+.featured-collection__saint {
+  width: 82px;
+  height: 112px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: transparent;
+  filter: drop-shadow(0 0 8px rgba(211, 166, 68, 0.26));
   image-rendering: auto;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -2169,8 +2215,38 @@
     height: 110px;
   }
 
+  .featured-collection__saint-wrapper {
+    width: 96px;
+    height: 118px;
+    bottom: 8px;
+  }
+
+  .featured-collection__saint-wrapper::before,
+  .featured-collection__saint-wrapper::after {
+    width: min(72px, 14vw);
+  }
+
   .featured-collection__saint {
-    width: 72px;
+    width: 66px;
+    height: 92px;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-collection__saint-wrapper {
+    width: 88px;
+    height: 108px;
+    bottom: 6px;
+  }
+
+  .featured-collection__saint-wrapper::before,
+  .featured-collection__saint-wrapper::after {
+    width: min(56px, 12vw);
+  }
+
+  .featured-collection__saint {
+    width: 58px;
+    height: 82px;
   }
 }
 
