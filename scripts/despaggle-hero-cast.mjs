@@ -97,15 +97,15 @@ for (let i = 0; i < out.length; i += c) {
   if (L < 4) continue
 
   let gain = 1
-  if (L < 90) {
+  if (L < 80) {
     /* lift shadows/clothes slightly */
-    gain = 1 + 0.18 * (L / 90)
-  } else if (L < 160) {
+    gain = 1 + 0.12 * (L / 80)
+  } else if (L < 140) {
     /* gentle midtones */
-    gain = 1.18 - 0.1 * ((L - 90) / 70)
+    gain = 1.12 - 0.08 * ((L - 80) / 60)
   } else {
     /* pull highlights back toward skin detail */
-    gain = 1.08 - 0.22 * Math.min(1, (L - 160) / 95)
+    gain = 1.04 - 0.28 * Math.min(1, (L - 140) / 115)
   }
 
   const f = (v) => Math.min(255, Math.max(0, Math.round(v * gain)))
@@ -115,19 +115,47 @@ for (let i = 0; i < out.length; i += c) {
 }
 
 /*
- * Flyer canvas has ~84px dead left gutter + gold L-frame near top.
- * Crop flush to subject, keep original aspect via cover-extract.
+ * Flyer canvas has ~84px dead left gutter + gold L-frame just inside content.
+ * Crop past the frame so subjects sit flush left; mild top trim for the L arm.
  */
-const CROP_LEFT = 84
-const CROP_TOP = 18
+const CROP_LEFT = 110
+const CROP_TOP = 28
 const cropW = w - CROP_LEFT
 const cropH = h - CROP_TOP
+
+/* Scrub leftover gold frame strokes near the new crop edges (pre-extract coords) */
+for (let y = 0; y < h; y++) {
+  for (let x = CROP_LEFT; x < Math.min(w, CROP_LEFT + 14); x++) {
+    const i = (y * w + x) * c
+    const warm = out[i] - out[i + 2]
+    const L = 0.2126 * out[i] + 0.7152 * out[i + 1] + 0.0722 * out[i + 2]
+    if (warm > 8 && L > 18 && L < 140) {
+      const si = (y * w + Math.min(w - 1, CROP_LEFT + 18)) * c
+      out[i] = out[si]
+      out[i + 1] = out[si + 1]
+      out[i + 2] = out[si + 2]
+    }
+  }
+}
+for (let x = 0; x < w; x++) {
+  for (let y = CROP_TOP; y < Math.min(h, CROP_TOP + 12); y++) {
+    const i = (y * w + x) * c
+    const warm = out[i] - out[i + 2]
+    const L = 0.2126 * out[i] + 0.7152 * out[i + 1] + 0.0722 * out[i + 2]
+    if (warm > 8 && L > 18 && L < 140) {
+      const si = (Math.min(h - 1, CROP_TOP + 16) * w + x) * c
+      out[i] = out[si]
+      out[i + 1] = out[si + 1]
+      out[i + 2] = out[si + 2]
+    }
+  }
+}
 
 const buf = await sharp(out, { raw: { width: w, height: h, channels: c } })
   .extract({ left: CROP_LEFT, top: CROP_TOP, width: cropW, height: cropH })
   .resize(w, h, { fit: 'cover', position: 'left top' })
-  .modulate({ brightness: 1.06, saturation: 1.01 })
-  .linear(1.02, -2)
+  .modulate({ brightness: 1.05, saturation: 1.01 })
+  .linear(1.01, -1)
   .png({ compressionLevel: 8 })
   .toBuffer()
 
