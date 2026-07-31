@@ -139,8 +139,8 @@ function FeaturedCollection() {
               src={SAINT_SRC}
               alt=""
               className="featured-collection__saint"
-              width={82}
-              height={110}
+              width={86}
+              height={116}
               decoding="async"
             />
           </div>

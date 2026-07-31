@@ -12,8 +12,8 @@ function DecorativeBottomBand() {
           src={APARECIDA_SRC}
           alt=""
           className="hero-band__aparecida"
-          width={72}
-          height={96}
+          width={80}
+          height={108}
           decoding="async"
         />
       </div>

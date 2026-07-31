@@ -1,28 +1,41 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" fill="none" aria-hidden="true">
-  <g stroke="#C9A03A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <!-- crown -->
-    <path d="M44 28 L48 18 L54 26 L60 14 L66 26 L72 18 L76 28"/>
-    <path d="M44 28 H76"/>
-    <circle cx="60" cy="12" r="2.2" fill="#C9A03A" stroke="none"/>
-    <!-- head oval -->
-    <ellipse cx="60" cy="40" rx="10" ry="12"/>
-    <!-- cloak outer -->
-    <path d="M38 48 C28 72 24 108 30 148 L60 152 L90 148 C96 108 92 72 82 48"/>
-    <!-- cloak inner scroll -->
-    <path d="M44 56 C36 80 34 112 40 140"/>
-    <path d="M76 56 C84 80 86 112 80 140"/>
-    <path d="M48 70 C44 90 44 112 48 132"/>
-    <path d="M72 70 C76 90 76 112 72 132"/>
-    <!-- filigree curves -->
-    <path d="M50 88 C46 96 46 108 52 116"/>
-    <path d="M70 88 C74 96 74 108 68 116"/>
-    <!-- rosary center -->
-    <path d="M60 54 V128"/>
-    <circle cx="60" cy="68" r="1.8" fill="#C9A03A" stroke="none"/>
-    <circle cx="60" cy="84" r="1.8" fill="#C9A03A" stroke="none"/>
-    <circle cx="60" cy="100" r="1.8" fill="#C9A03A" stroke="none"/>
-    <circle cx="60" cy="116" r="1.8" fill="#C9A03A" stroke="none"/>
-    <!-- cross -->
-    <path d="M60 132 V148 M54 138 H66"/>
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 108" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="te-aparecida-gold" x1="40" y1="2" x2="40" y2="106" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8B45B"/>
+      <stop offset="0.55" stop-color="#C99B32"/>
+      <stop offset="1" stop-color="#B8872A"/>
+    </linearGradient>
+  </defs>
+  <g
+    stroke="url(#te-aparecida-gold)"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    shape-rendering="geometricPrecision"
+  >
+    <!-- crown: three triangular points on a bar -->
+    <path stroke-width="2" d="M29 20 L33.5 9 L37.5 18.5 L40 5 L42.5 18.5 L46.5 9 L51 20"/>
+    <path stroke-width="1.75" d="M29 20 H51"/>
+    <!-- circular head -->
+    <circle cx="40" cy="31.5" r="8" stroke-width="2"/>
+    <!-- shoulder / cloak opening -->
+    <path stroke-width="1.6" d="M33.5 39 C34.5 42.5 36.5 44.5 40 44.5 C43.5 44.5 45.5 42.5 46.5 39"/>
+    <!-- bell-shaped cloak -->
+    <path
+      stroke-width="2"
+      d="M30 45.5
+         C21 58 16.5 76 18.5 97.5
+         L40 103
+         L61.5 97.5
+         C63.5 76 59 58 50 45.5"
+    />
+    <!-- fine vertical folds -->
+    <path stroke-width="1.35" d="M33.5 51 C28.5 66 27.5 82 30.5 97"/>
+    <path stroke-width="1.35" d="M46.5 51 C51.5 66 52.5 82 49.5 97"/>
+    <path stroke-width="1.15" d="M37 55 C35.2 70 35.2 85 37 98.5"/>
+    <path stroke-width="1.15" d="M43 55 C44.8 70 44.8 85 43 98.5"/>
+    <!-- center fold -->
+    <path stroke-width="1.2" d="M40 46.5 V93"/>
+    <!-- tiny cross at base -->
+    <path stroke-width="1.85" d="M40 94.5 V103.5 M36.5 98 H43.5"/>
   </g>
 </svg>
