@@ -1000,6 +1000,7 @@
 .mobile-preview .featured-collection__saint-wrapper {
   width: 80px;
   height: 98px;
+  min-height: 92px;
   bottom: 4px;
 }
 
@@ -1009,8 +1010,9 @@
 }
 
 .mobile-preview .featured-collection__saint {
-  width: 52px;
-  height: 72px;
+  width: auto;
+  height: 70px;
+  max-width: 58px;
 }
 
 .mobile-preview .categorias-section.section {
