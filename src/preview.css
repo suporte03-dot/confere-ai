@@ -30,46 +30,50 @@
 .desktop-preview .hero-zone--left {
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
   min-height: 0;
   height: 100%;
   overflow: visible;
-  padding: 4px 0 0 clamp(4px, 1vw, 16px);
+  padding: 0;
   z-index: 2;
 }
 
 .desktop-preview .hero-models {
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-end;
+  width: auto;
   height: 100%;
-  max-width: min(100%, 780px);
+  max-width: none;
   min-height: 0;
+  margin: 0 -72px 0 0;
   overflow: visible;
 }
 
 .desktop-preview .hero-models__img {
   width: auto;
-  height: 102%;
-  max-width: min(100%, 760px);
+  height: 106%;
+  max-width: none;
   max-height: none;
-  margin: 0;
+  margin: 0 0 0 -4px;
   object-fit: contain;
-  object-position: center bottom;
+  object-position: left bottom;
   filter: brightness(1.22) contrast(1.08) saturate(1.04);
-  transform: translateX(clamp(12px, 2.4vw, 44px));
+  transform: none;
   -webkit-mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 78%,
-    rgba(0, 0, 0, 0.92) 90%,
-    rgba(0, 0, 0, 0.72) 100%
+    #000 74%,
+    rgba(0, 0, 0, 0.9) 84%,
+    rgba(0, 0, 0, 0.4) 93%,
+    transparent 100%
   );
   mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 78%,
-    rgba(0, 0, 0, 0.92) 90%,
-    rgba(0, 0, 0, 0.72) 100%
+    #000 74%,
+    rgba(0, 0, 0, 0.9) 84%,
+    rgba(0, 0, 0, 0.4) 93%,
+    transparent 100%
   );
 }
 
