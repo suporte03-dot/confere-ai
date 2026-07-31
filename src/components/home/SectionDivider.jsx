@@ -1,7 +1,7 @@
 import santaHero from '../../assets/santa-hero.png'
 
 /**
- * Jewelry-like module separator: thin gold lines + oval medallion.
+ * Module separator: thin gold lines + centered saint (when shown).
  * `variant` tunes line color for light (ivory) or dark section contexts.
  */
 function SectionDivider({ variant = 'light', showSaint = false, className = '' }) {
