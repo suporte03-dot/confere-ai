@@ -1204,15 +1204,6 @@
   pointer-events: none;
 }
 
-.brand-hero__ornament--tl {
-  top: 16px;
-  left: 16px;
-  z-index: 4;
-  width: clamp(40px, 4.2vw, 64px);
-  height: clamp(40px, 4.2vw, 64px);
-  color: rgba(197, 160, 89, 0.78);
-}
-
 .brand-hero__ornament--br {
   right: -8px;
   bottom: -18px;
@@ -1614,13 +1605,6 @@
 
   .brand-hero__btn {
     width: min(100%, 320px);
-  }
-
-  .brand-hero__ornament--tl {
-    width: 32px;
-    height: 32px;
-    top: 12px;
-    left: 12px;
   }
 
   .brand-hero__ornament--br {

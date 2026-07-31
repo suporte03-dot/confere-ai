@@ -7,38 +7,6 @@ import {
 } from '../../data/homeData'
 import HeroButtons from './HeroButtons'
 
-/** Thin gold corner frame — top-left of models panel (matches ref ornament). */
-function BrandHeroCorner({ className }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 72 72"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M10 62V16c0-3.3 2.7-6 6-6h46"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 62V18c0-2.2 1.8-4 4-4h44"
-        stroke="currentColor"
-        strokeWidth="0.7"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-      <path
-        d="M52 8c2.2 1.4 3.6 3.4 4.2 5.6 1.8-1.6 4.4-2.2 6.8-1.4-1.6 2.4-1.8 5.2-.6 7.6-2.4-.4-4.8.6-6.4 2.6-.6-2.4-2.2-4.4-4.4-5.4 1.4-1.8 1.8-4.2.4-6.4z"
-        fill="currentColor"
-        opacity="0.85"
-      />
-    </svg>
-  )
-}
-
 /** Soft botanical wash — bottom-right of ivory panel (faint, as in ref). */
 function BrandHeroBotanical({ className }) {
   return (
@@ -88,7 +56,6 @@ function HeroSection() {
           fetchPriority="high"
         />
         <div className="brand-hero__transition" aria-hidden="true" />
-        <BrandHeroCorner className="brand-hero__ornament brand-hero__ornament--tl" />
       </div>
 
       {/* Layer 4: circular logo on the seam (above ivory, clear of faces/title) */}
