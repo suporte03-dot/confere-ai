@@ -992,31 +992,11 @@
 }
 
 .mobile-preview .featured-collection--campaign {
-  padding-bottom: 96px;
-}
-
-.mobile-preview .section-divider--santa {
-  --section-divider-height: 96px;
+  padding-bottom: clamp(140px, 48%, 220px);
 }
 
 .mobile-preview .section-divider__saint-wrapper {
-  width: min(86%, 240px);
-  height: calc(var(--section-divider-height) - 4px);
-}
-
-.mobile-preview .section-divider__saint-wrapper::before {
-  width: min(78%, 220px);
-}
-
-.mobile-preview .section-divider__saint-wrapper::after {
-  width: 96px;
-  height: 88px;
-  filter: blur(6px);
-}
-
-.mobile-preview .section-divider__saint {
-  height: min(68px, calc(var(--section-divider-height) - 12px));
-  max-width: min(86%, 220px);
+  width: min(100%, 560px);
 }
 
 .mobile-preview .categorias-section.section {

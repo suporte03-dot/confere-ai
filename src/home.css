@@ -1728,8 +1728,10 @@
   pointer-events: none;
 }
 
+/* Full-strip santa-nova asset (band + gold lines baked in) — no CSS double-draw */
 .section-divider--santa {
-  --section-divider-height: 120px;
+  height: auto;
+  background: #0e0e0e;
 }
 
 .section-divider--embedded {
@@ -1775,6 +1777,16 @@
     linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
 }
 
+.section-divider--santa .section-divider__body {
+  position: relative;
+  inset: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: #0e0e0e;
+}
+
 .section-divider__pattern {
   position: absolute;
   inset: -10%;
@@ -1788,15 +1800,15 @@
 }
 
 .section-divider__saint-wrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  position: relative;
   z-index: 3;
-  width: min(90vw, 420px);
-  height: calc(var(--section-divider-height) - 8px);
-  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 760px);
+  height: auto;
+  margin: 0 auto;
   padding: 0;
-  transform: translate(-50%, -50%);
   overflow: visible;
   border: none;
   background: transparent;
@@ -1804,86 +1816,17 @@
   pointer-events: none;
 }
 
-.section-divider__saint-wrapper::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 0;
-  width: 160px;
-  height: 120px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    ellipse 52% 58% at 50% 48%,
-    rgba(201, 155, 50, 0.12) 0%,
-    rgba(201, 155, 50, 0.05) 40%,
-    transparent 74%
-  );
-  filter: blur(10px);
-  pointer-events: none;
-}
-
-.section-divider__saint-wrapper::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 0;
-  width: min(88vw, 640px);
-  height: 1px;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 155, 50, 0.12) 10%,
-    rgba(201, 155, 50, 0.48) 26%,
-    rgba(201, 155, 50, 0.42) 34%,
-    transparent 42%,
-    transparent 58%,
-    rgba(201, 155, 50, 0.42) 66%,
-    rgba(201, 155, 50, 0.48) 74%,
-    rgba(201, 155, 50, 0.12) 90%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-/* PNG has a baked flat-black plate — lighten drops those pixels into the band */
 .section-divider__saint {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
   display: block;
-  width: auto;
-  height: min(98px, calc(var(--section-divider-height) - 16px));
-  max-width: min(90vw, 380px);
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  max-width: none;
   object-fit: contain;
   object-position: center center;
   background: transparent;
   border: none;
   box-shadow: none;
-  mix-blend-mode: lighten;
-  filter:
-    drop-shadow(0 0 10px rgba(201, 155, 50, 0.08))
-    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
-  -webkit-mask-image: radial-gradient(
-    ellipse 94% 88% at 50% 50%,
-    #000 48%,
-    rgba(0, 0, 0, 0.97) 68%,
-    rgba(0, 0, 0, 0.65) 84%,
-    rgba(0, 0, 0, 0.2) 94%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 94% 88% at 50% 50%,
-    #000 48%,
-    rgba(0, 0, 0, 0.97) 68%,
-    rgba(0, 0, 0, 0.65) 84%,
-    rgba(0, 0, 0, 0.2) 94%,
-    transparent 100%
-  );
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.28));
 }
 
 .featured-collection-wrapper {
@@ -1911,7 +1854,8 @@
 
 .featured-collection--campaign {
   min-height: 520px;
-  padding-bottom: 120px;
+  /* Reserves space for embedded santa-nova strip (~760×292 at max) */
+  padding-bottom: clamp(168px, 38vw, 292px);
 }
 
 .featured-collection__media {
@@ -2177,7 +2121,7 @@
   }
 
   .featured-collection--campaign {
-    padding-bottom: 110px;
+    padding-bottom: clamp(156px, 42vw, 260px);
   }
 
   .featured-collection__media {
@@ -2262,29 +2206,6 @@
   .featured-collection__button {
     width: 100%;
   }
-
-  .section-divider--santa {
-    --section-divider-height: 110px;
-  }
-
-  .section-divider__saint-wrapper {
-    width: min(88vw, 360px);
-    height: calc(var(--section-divider-height) - 6px);
-  }
-
-  .section-divider__saint-wrapper::before {
-    width: min(86vw, 420px);
-  }
-
-  .section-divider__saint-wrapper::after {
-    width: 128px;
-    height: 112px;
-  }
-
-  .section-divider__saint {
-    height: min(88px, calc(var(--section-divider-height) - 14px));
-    max-width: min(88vw, 320px);
-  }
 }
 
 @media (max-width: 768px) {
@@ -2292,32 +2213,12 @@
     --section-divider-height: 44px;
   }
 
-  .section-divider--santa {
-    --section-divider-height: 96px;
-  }
-
   .section-divider__saint-wrapper {
-    width: min(86vw, 280px);
-    height: calc(var(--section-divider-height) - 4px);
-  }
-
-  .section-divider__saint-wrapper::before {
-    width: min(84vw, 300px);
-  }
-
-  .section-divider__saint-wrapper::after {
-    width: 108px;
-    height: 96px;
-    filter: blur(7px);
-  }
-
-  .section-divider__saint {
-    height: min(74px, calc(var(--section-divider-height) - 12px));
-    max-width: min(86vw, 260px);
+    width: min(100%, 560px);
   }
 
   .featured-collection--campaign {
-    padding-bottom: 96px;
+    padding-bottom: clamp(140px, 48vw, 220px);
   }
 }
 
