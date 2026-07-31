@@ -1,4 +1,6 @@
-import nossaSenhoraImage from '../../assets/santa.png'
+import { assetUrl } from '../../utils/assetUrl'
+
+const NOSSA_SENHORA_SRC = assetUrl('/images/brand/nossa-senhora-aparecida.svg')
 
 function DecorativeBottomBand() {
   return (
@@ -7,7 +9,7 @@ function DecorativeBottomBand() {
         <div className="hero-band__pattern" />
         <div className="hero-band__gold-edge" />
         <img
-          src={nossaSenhoraImage}
+          src={NOSSA_SENHORA_SRC}
           alt=""
           className="hero-band__aparecida"
           width={80}
