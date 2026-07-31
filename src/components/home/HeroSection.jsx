@@ -1,6 +1,10 @@
-import modelsImage from '../../assets/personagens-terra-estilo.webp'
 import logoImage from '../../assets/logo-terra-estilo.png'
-import { heroContent } from '../../data/homeData'
+import {
+  heroContent,
+  COUPLE_HERO_SRC,
+  COUPLE_HERO_WIDTH,
+  COUPLE_HERO_HEIGHT,
+} from '../../data/homeData'
 import HeroButtons from './HeroButtons'
 
 /** Thin gold corner frame — top-left of models panel (matches ref ornament). */
@@ -76,10 +80,10 @@ function HeroSection() {
         <div className="brand-hero__models-light" aria-hidden="true" />
         <img
           className="brand-hero__models-image"
-          src={modelsImage}
+          src={COUPLE_HERO_SRC}
           alt=""
-          width={1600}
-          height={1506}
+          width={COUPLE_HERO_WIDTH}
+          height={COUPLE_HERO_HEIGHT}
           decoding="sync"
           fetchPriority="high"
         />

@@ -3,6 +3,7 @@ import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
+import SectionDivider from './components/home/SectionDivider'
 import NovidadesSection from './components/home/NovidadesSection'
 import CategoryShowcase from './components/home/CategoryShowcase'
 import FeaturedCollection from './components/home/FeaturedCollection'
@@ -49,16 +50,25 @@ function SiteContent({
         </header>
       </div>
       <HeroSection />
+      <SectionDivider />
       <main>
         <NovidadesSection />
+        <SectionDivider />
         <CategoryShowcase />
+        <SectionDivider />
         <FeaturedCollection />
         <BestsellersSection />
+        <SectionDivider />
         <LookbookSection />
+        <SectionDivider />
         <BenefitsBar />
+        <SectionDivider />
         <AboutBrand />
+        <SectionDivider />
         <BrandValues />
+        <SectionDivider />
         <InstagramSection />
+        <SectionDivider />
         <Newsletter />
       </main>
       <Footer />

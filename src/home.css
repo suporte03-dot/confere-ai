@@ -1170,8 +1170,9 @@
   padding: 0;
   border: none;
   object-fit: cover;
-  object-position: 50% 28%;
-  filter: brightness(1.03) contrast(1.02) saturate(0.92);
+  /* Hats near top; faces + embroidery readable; logo seam clear of faces */
+  object-position: 46% 18%;
+  filter: brightness(1.05) contrast(1.03) saturate(0.95);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -1488,8 +1489,8 @@
   }
 
   .brand-hero__models-image {
-    object-position: 48% 26%;
-    filter: brightness(1.03) contrast(1.02) saturate(0.92);
+    object-position: 44% 16%;
+    filter: brightness(1.05) contrast(1.03) saturate(0.95);
     transform: none;
   }
 
@@ -1591,7 +1592,7 @@
   }
 
   .brand-hero__models-image {
-    object-position: 46% 24%;
+    object-position: 42% 14%;
   }
 
   .brand-hero__logo {
@@ -1714,56 +1715,198 @@
 }
 
 /* ── Featured Collection — premium editorial panel ── */
+/* ── Section divider (black + gold + T&E pattern; santa only on Featured) ── */
+.section-divider {
+  --section-divider-height: 56px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: var(--section-divider-height);
+  margin: 0;
+  overflow: visible;
+  background: #0a0a0a;
+  pointer-events: none;
+}
+
+.section-divider--santa {
+  --section-divider-height: 120px;
+}
+
+.section-divider--embedded {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+}
+
+.section-divider__gold-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 155, 50, 0.28) 12%,
+    rgba(201, 155, 50, 0.78) 50%,
+    rgba(201, 155, 50, 0.28) 88%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.section-divider__gold-line--top {
+  top: 0;
+}
+
+.section-divider__gold-line--bottom {
+  bottom: 0;
+  opacity: 0.72;
+}
+
+.section-divider__body {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 55% 90% at 50% 0%, rgba(201, 155, 50, 0.08), transparent 58%),
+    linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
+}
+
+.section-divider__pattern {
+  position: absolute;
+  inset: -10%;
+  opacity: 0.12;
+  background-image: var(--section-divider-pattern);
+  background-size: 140px 88px;
+  background-repeat: repeat;
+  transform: rotate(-6deg) scale(1.06);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.section-divider__saint-wrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  z-index: 3;
+  width: 0;
+  height: 100px;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  overflow: visible;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+.section-divider__saint-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: 0;
+  width: 150px;
+  height: 130px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse 50% 55% at 50% 48%,
+    rgba(201, 155, 50, 0.14) 0%,
+    rgba(201, 155, 50, 0.06) 42%,
+    transparent 72%
+  );
+  filter: blur(9px);
+  pointer-events: none;
+}
+
+.section-divider__saint-wrapper::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  z-index: 0;
+  width: min(88vw, 640px);
+  height: 1px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 155, 50, 0.12) 10%,
+    rgba(201, 155, 50, 0.48) 26%,
+    rgba(201, 155, 50, 0.42) 34%,
+    transparent 42%,
+    transparent 58%,
+    rgba(201, 155, 50, 0.42) 66%,
+    rgba(201, 155, 50, 0.48) 74%,
+    rgba(201, 155, 50, 0.12) 90%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.section-divider__saint {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  width: auto;
+  height: 98px;
+  max-width: min(90vw, 380px);
+  transform: translateX(-50%);
+  object-fit: contain;
+  object-position: center bottom;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.22));
+}
+
 .featured-collection-wrapper {
   width: min(calc(100% - 48px), 1520px);
   margin-inline: auto;
-  padding-block: clamp(72px, 8vw, 120px);
+  padding-block: clamp(56px, 6vw, 96px);
 }
 
 .featured-collection {
+  --featured-ivory: #f7f0e5;
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-columns: 52% 48%;
+  align-items: stretch;
   min-height: 520px;
   max-height: none;
   overflow: hidden;
-  border: 1px solid rgba(201, 155, 50, 0.72);
-  border-radius: 22px;
-  background:
-    linear-gradient(
-      100deg,
-      #16120e 0%,
-      #1c1712 28%,
-      #2a2118 48%,
-      #4a3a26 56%,
-      #ebe4d6 64%,
-      #f6f0e5 100%
-    );
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  border: none;
+  border-radius: 0;
+  background: #0e0c0a;
+  box-shadow: none;
   color: var(--color-text-dark);
 }
 
 .featured-collection--campaign {
   min-height: 520px;
+  padding-bottom: 120px;
 }
 
 .featured-collection__media {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   display: block;
   min-height: 520px;
-  max-height: 560px;
   height: 100%;
   padding: 0;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 70% 80% at 42% 48%, rgba(110, 82, 48, 0.38), transparent 72%),
-    radial-gradient(ellipse 40% 50% at 58% 40%, rgba(201, 160, 58, 0.14), transparent 70%),
-    linear-gradient(180deg, rgba(22, 18, 14, 0.2) 0%, transparent 30%, transparent 78%, rgba(22, 18, 14, 0.28) 100%);
+  background: #0e0c0a;
 }
 
 .featured-collection__media-img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -1771,62 +1914,49 @@
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Campaign crop: more embroidery / torso, less face focus */
-  object-position: 18% 72%;
-  filter: brightness(1.18) contrast(1.08) saturate(1.04);
-  transform: scale(1.08);
-  -webkit-mask-image: linear-gradient(
+  /* Shorter band: favor embroidery / shoulders while keeping hats */
+  object-position: 44% 28%;
+  filter: brightness(1.05) contrast(1.03) saturate(0.95);
+  transform: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+  mix-blend-mode: normal;
+}
+
+.featured-collection__transition {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 22%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
     90deg,
-    #000 0%,
-    #000 78%,
-    rgba(0, 0, 0, 0.9) 92%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    #000 0%,
-    #000 78%,
-    rgba(0, 0, 0, 0.9) 92%,
-    rgba(0, 0, 0, 0.7) 100%
+    transparent 0%,
+    rgba(247, 240, 229, 0.16) 34%,
+    rgba(247, 240, 229, 0.64) 76%,
+    #f7f0e5 100%
   );
 }
 
 .featured-collection__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 70%,
-    rgba(201, 160, 58, 0.08) 86%,
-    rgba(246, 240, 229, 0.28) 100%
-  );
-  pointer-events: none;
+  display: none;
 }
 
 .featured-collection__logo {
   position: absolute;
-  left: 52%;
-  top: 44%;
-  z-index: 20;
-  width: clamp(190px, 17vw, 280px);
+  left: 51%;
+  top: 46%;
+  z-index: 5;
+  width: clamp(180px, 15vw, 250px);
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
 .featured-collection__logo::before {
-  content: '';
-  position: absolute;
-  inset: -12%;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(245, 220, 160, 0.42) 0%,
-    rgba(201, 155, 50, 0.18) 42%,
-    transparent 74%
-  );
-  z-index: 0;
+  display: none;
 }
 
 .featured-collection__logo img {
@@ -1836,35 +1966,24 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 50%;
+  border-radius: 0;
   background: transparent;
-  filter: drop-shadow(0 0 28px rgba(201, 160, 58, 0.36))
-    drop-shadow(0 14px 32px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
 }
 
 .featured-collection__content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-block: clamp(40px, 4vw, 72px) clamp(110px, 10vw, 140px);
-  padding-inline: clamp(96px, 10vw, 160px) clamp(36px, 4vw, 64px);
-  overflow: visible;
-  background-color: transparent;
-  background-image:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(246, 240, 229, 0.55) 40px,
-      rgba(246, 240, 229, 0.94) 96px,
-      #f6f0e5 130px
-    ),
-    linear-gradient(165deg, rgba(250, 246, 238, 0.7) 0%, rgba(246, 240, 229, 0.5) 100%),
-    var(--featured-marble);
-  background-size: auto, auto, cover;
-  background-position: center;
+  padding-block: clamp(36px, 4vw, 64px) clamp(48px, 5vw, 72px);
+  padding-inline: clamp(100px, 11vw, 160px) clamp(36px, 4vw, 64px);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 40%),
+    var(--featured-ivory);
   color: var(--color-text-dark);
 }
 
@@ -1992,138 +2111,19 @@
   flex-shrink: 0;
 }
 
-.featured-collection__bottom-band {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  height: 155px;
-  pointer-events: none;
-}
-
-.featured-collection__bottom-band-curve {
-  position: absolute;
-  left: -2%;
-  width: 104%;
-  bottom: 105px;
-  height: 50px;
-  display: block;
-}
-
-.featured-collection__bottom-band-body {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 120px;
-  background:
-    radial-gradient(ellipse 60% 80% at 50% 0%, rgba(201, 155, 50, 0.1), transparent 55%),
-    linear-gradient(180deg, #141414 0%, #0a0a0a 100%);
-  box-shadow: inset 0 1px 0 rgba(201, 155, 50, 0.55);
-  overflow: visible;
-}
-
-.featured-collection__bottom-band-pattern {
-  position: absolute;
-  inset: -8%;
-  opacity: 0.14;
-  background-image: var(--featured-pattern);
-  background-size: 140px 88px;
-  background-repeat: repeat;
-  transform: rotate(-6deg) scale(1.06);
-  transform-origin: center;
-}
-
-.featured-collection__saint-wrapper {
-  position: absolute;
-  left: 50%;
-  bottom: 14px;
-  z-index: 3;
-  width: 0;
-  height: 100px;
-  padding: 0;
-  margin: 0;
-  transform: translateX(-50%);
-  overflow: visible;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
-  pointer-events: none;
-}
-
-/* Soft gold halo behind the figure — no plate / no box */
-.featured-collection__saint-wrapper::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  z-index: 0;
-  width: 150px;
-  height: 130px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    ellipse 50% 55% at 50% 48%,
-    rgba(201, 155, 50, 0.14) 0%,
-    rgba(201, 155, 50, 0.06) 42%,
-    transparent 72%
-  );
-  filter: blur(9px);
-  pointer-events: none;
-}
-
-/* Fine symmetrical ornamental side lines at mid-figure height */
-.featured-collection__saint-wrapper::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 52%;
-  z-index: 0;
-  width: min(88vw, 640px);
-  height: 1px;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 155, 50, 0.12) 10%,
-    rgba(201, 155, 50, 0.48) 26%,
-    rgba(201, 155, 50, 0.42) 34%,
-    transparent 42%,
-    transparent 58%,
-    rgba(201, 155, 50, 0.42) 66%,
-    rgba(201, 155, 50, 0.48) 74%,
-    rgba(201, 155, 50, 0.12) 90%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
+/* Legacy featured bottom-band selectors — superseded by .section-divider */
+.featured-collection__bottom-band,
+.featured-collection__bottom-band-curve,
+.featured-collection__bottom-band-body,
+.featured-collection__bottom-band-pattern,
+.featured-collection__saint-wrapper,
 .featured-collection__saint {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  z-index: 1;
-  display: block;
-  width: auto;
-  height: 98px;
-  max-width: min(90vw, 380px);
-  transform: translateX(-50%);
-  object-fit: contain;
-  object-position: center bottom;
-  opacity: 1;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.22));
-  image-rendering: auto;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  display: none !important;
 }
 
 @media (max-width: 1199px) and (min-width: 900px) {
   .featured-collection__logo {
-    width: 250px;
+    width: 220px;
   }
 
   .featured-collection__content {
@@ -2138,73 +2138,85 @@
 @media (max-width: 899px) {
   .featured-collection-wrapper {
     width: min(calc(100% - 36px), 1520px);
-    padding-block: clamp(56px, 10vw, 88px);
+    padding-block: clamp(40px, 8vw, 72px);
   }
 
   .featured-collection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     grid-template-columns: 1fr;
     min-height: 0;
+    background: linear-gradient(
+      180deg,
+      #0e0c0a 0%,
+      #0e0c0a 38%,
+      var(--featured-ivory) 38%
+    );
+  }
+
+  .featured-collection--campaign {
+    padding-bottom: 110px;
   }
 
   .featured-collection__media {
-    min-height: 400px;
-    padding: 20px 16px 64px;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
+    order: 1;
+    width: 100%;
+    min-height: 360px;
+    height: min(48vh, 420px);
   }
 
   .featured-collection__media-img {
-    width: min(92%, 520px);
-    height: auto;
-    max-height: 380px;
-    object-fit: contain;
-    object-position: center 65%;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: 42% 16%;
     transform: none;
-    filter: brightness(1.2) contrast(1.08) saturate(1.04);
-    -webkit-mask-image: linear-gradient(
-      180deg,
-      #000 0%,
-      #000 82%,
-      rgba(0, 0, 0, 0.88) 94%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
-    mask-image: linear-gradient(
-      180deg,
-      #000 0%,
-      #000 82%,
-      rgba(0, 0, 0, 0.88) 94%,
-      rgba(0, 0, 0, 0.7) 100%
-    );
+    filter: brightness(1.05) contrast(1.03) saturate(0.95);
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
-  .featured-collection__media::after {
+  .featured-collection__transition {
+    width: 100%;
+    height: 22%;
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
     background: linear-gradient(
       180deg,
-      transparent 58%,
-      rgba(246, 240, 229, 0.22) 82%,
-      #f6f0e5 100%
+      transparent 0%,
+      rgba(247, 240, 229, 0.16) 34%,
+      rgba(247, 240, 229, 0.64) 76%,
+      #f7f0e5 100%
     );
   }
 
   .featured-collection__logo {
+    order: 2;
     position: relative;
     left: auto;
     top: auto;
-    z-index: 20;
-    width: clamp(160px, 38vw, 220px);
-    margin: -72px auto 0;
+    z-index: 5;
+    width: clamp(150px, 36vw, 200px);
+    margin: -56px auto 8px;
     transform: none;
   }
 
   .featured-collection__content {
+    order: 3;
     z-index: 1;
     align-items: center;
     text-align: center;
-    padding: 28px 28px clamp(88px, 18vw, 110px);
-    background-image:
-      linear-gradient(180deg, rgba(246, 240, 229, 0.72) 0%, #f6f0e5 24%),
-      var(--featured-marble);
+    width: 100%;
+    padding: 12px 28px 36px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 36%),
+      var(--featured-ivory);
   }
 
   .featured-collection__ornament {
@@ -2230,55 +2242,61 @@
     width: 100%;
   }
 
-  .featured-collection__bottom-band {
-    height: 110px;
+  .section-divider--santa {
+    --section-divider-height: 110px;
   }
 
-  .featured-collection__saint-wrapper {
-    width: 0;
+  .section-divider__saint-wrapper {
     height: 90px;
-    padding: 0;
-    bottom: 10px;
+    bottom: 8px;
   }
 
-  .featured-collection__saint-wrapper::before {
+  .section-divider__saint-wrapper::before {
     width: min(86vw, 420px);
   }
 
-  .featured-collection__saint-wrapper::after {
+  .section-divider__saint-wrapper::after {
     width: 128px;
     height: 112px;
   }
 
-  .featured-collection__saint {
-    width: auto;
+  .section-divider__saint {
     height: 88px;
     max-width: min(88vw, 320px);
   }
 }
 
 @media (max-width: 768px) {
-  .featured-collection__saint-wrapper {
-    width: 0;
-    height: 78px;
-    padding: 0;
-    bottom: 8px;
+  .section-divider {
+    --section-divider-height: 44px;
   }
 
-  .featured-collection__saint-wrapper::before {
+  .section-divider--santa {
+    --section-divider-height: 96px;
+  }
+
+  .section-divider__saint-wrapper {
+    height: 78px;
+    bottom: 6px;
+  }
+
+  .section-divider__saint-wrapper::before {
     width: min(84vw, 300px);
   }
 
-  .featured-collection__saint-wrapper::after {
+  .section-divider__saint-wrapper::after {
     width: 108px;
     height: 96px;
     filter: blur(7px);
   }
 
-  .featured-collection__saint {
-    width: auto;
+  .section-divider__saint {
     height: 74px;
     max-width: min(86vw, 260px);
+  }
+
+  .featured-collection--campaign {
+    padding-bottom: 96px;
   }
 }
 

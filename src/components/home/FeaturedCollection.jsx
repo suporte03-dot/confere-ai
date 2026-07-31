@@ -1,11 +1,10 @@
 import {
   featuredCollection,
   BRAND_LOGO_CIRCULAR_SRC,
+  COUPLE_HERO_WIDTH,
+  COUPLE_HERO_HEIGHT,
 } from '../../data/homeData'
-import { assetUrl } from '../../utils/assetUrl'
-import santaHero from '../../assets/santa-hero.png'
-
-const PATTERN_SRC = assetUrl('/images/brand/te-monogram-pattern.svg')
+import SectionDivider from './SectionDivider'
 
 function FeaturedCollection() {
   const {
@@ -16,7 +15,6 @@ function FeaturedCollection() {
     secondaryCta,
     image,
     imageAlt,
-    marble,
     primaryHref = '#mais-vendidos',
     secondaryHref = '#lookbook',
   } = featuredCollection
@@ -26,10 +24,6 @@ function FeaturedCollection() {
       id="colecoes"
       className="featured-collection-wrapper"
       aria-labelledby="featured-collection-title"
-      style={{
-        '--featured-marble': `url(${marble})`,
-        '--featured-pattern': `url(${PATTERN_SRC})`,
-      }}
     >
       <div className="featured-collection featured-collection--campaign">
         <div className="featured-collection__media">
@@ -37,11 +31,12 @@ function FeaturedCollection() {
             src={image}
             alt={imageAlt}
             className="featured-collection__media-img"
-            width={1246}
-            height={1575}
+            width={COUPLE_HERO_WIDTH}
+            height={COUPLE_HERO_HEIGHT}
             loading="lazy"
             decoding="async"
           />
+          <div className="featured-collection__transition" aria-hidden="true" />
         </div>
 
         <div className="featured-collection__logo" aria-hidden="true">
@@ -118,36 +113,7 @@ function FeaturedCollection() {
           </div>
         </div>
 
-        <div className="featured-collection__bottom-band" aria-hidden="true">
-          <svg
-            className="featured-collection__bottom-band-curve"
-            viewBox="0 0 1440 48"
-            preserveAspectRatio="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 48V18C240 4 480 0 720 0s480 4 720 18v30H0Z"
-              fill="#0a0a0a"
-            />
-            <path
-              d="M0 18C240 4 480 0 720 0s480 4 720 18"
-              fill="none"
-              stroke="rgba(201,155,50,0.72)"
-              strokeWidth="1.5"
-            />
-          </svg>
-          <div className="featured-collection__bottom-band-body">
-            <span className="featured-collection__bottom-band-pattern" />
-            <div className="featured-collection__saint-wrapper">
-              <img
-                src={santaHero}
-                alt="Nossa Senhora Aparecida"
-                className="featured-collection__saint"
-                decoding="async"
-              />
-            </div>
-          </div>
-        </div>
+        <SectionDivider withSanta embedded className="featured-collection__divider" />
       </div>
     </section>
   )

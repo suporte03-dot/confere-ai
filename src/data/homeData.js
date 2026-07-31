@@ -1,5 +1,5 @@
 import { assetUrl } from '../utils/assetUrl'
-import coupleHeroAsset from '../assets/personagens-terra-estilo.webp'
+import coupleHeroAsset from '../assets/hero-terra-estilo-novo.png'
 import brandLogoCircular from '../assets/logo-terra-estilo.png'
 
 export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
@@ -9,8 +9,10 @@ export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-/** Swap-ready cast photo — sourced from hero-terra-estilo-cast.png → personagens-terra-estilo.webp. */
+/** Cast photo cropped from hero-terra-estilo-novo mockup (left panel only). */
 export const COUPLE_HERO_SRC = coupleHeroAsset
+export const COUPLE_HERO_WIDTH = 698
+export const COUPLE_HERO_HEIGHT = 694
 
 export const topBarMessages = [
   {
