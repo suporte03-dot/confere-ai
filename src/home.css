@@ -1790,16 +1790,17 @@
 .section-divider__saint-wrapper {
   position: absolute;
   left: 50%;
-  bottom: 10px;
+  top: 50%;
   z-index: 3;
-  width: 0;
-  height: 100px;
+  width: min(90vw, 420px);
+  height: calc(var(--section-divider-height) - 8px);
   margin: 0;
   padding: 0;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   overflow: visible;
   border: none;
   background: transparent;
+  box-shadow: none;
   pointer-events: none;
 }
 
@@ -1807,18 +1808,18 @@
   content: '';
   position: absolute;
   left: 50%;
-  top: 48%;
+  top: 50%;
   z-index: 0;
-  width: 150px;
-  height: 130px;
+  width: 160px;
+  height: 120px;
   transform: translate(-50%, -50%);
   background: radial-gradient(
-    ellipse 50% 55% at 50% 48%,
-    rgba(201, 155, 50, 0.14) 0%,
-    rgba(201, 155, 50, 0.06) 42%,
-    transparent 72%
+    ellipse 52% 58% at 50% 48%,
+    rgba(201, 155, 50, 0.12) 0%,
+    rgba(201, 155, 50, 0.05) 40%,
+    transparent 74%
   );
-  filter: blur(9px);
+  filter: blur(10px);
   pointer-events: none;
 }
 
@@ -1826,7 +1827,7 @@
   content: '';
   position: absolute;
   left: 50%;
-  top: 52%;
+  top: 50%;
   z-index: 0;
   width: min(88vw, 640px);
   height: 1px;
@@ -1847,22 +1848,42 @@
   pointer-events: none;
 }
 
+/* PNG has a baked flat-black plate — lighten drops those pixels into the band */
 .section-divider__saint {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  top: 50%;
   z-index: 1;
   display: block;
   width: auto;
-  height: 98px;
+  height: min(98px, calc(var(--section-divider-height) - 16px));
   max-width: min(90vw, 380px);
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   object-fit: contain;
-  object-position: center bottom;
+  object-position: center center;
   background: transparent;
   border: none;
   box-shadow: none;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.22));
+  mix-blend-mode: lighten;
+  filter:
+    drop-shadow(0 0 10px rgba(201, 155, 50, 0.08))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+  -webkit-mask-image: radial-gradient(
+    ellipse 94% 88% at 50% 50%,
+    #000 48%,
+    rgba(0, 0, 0, 0.97) 68%,
+    rgba(0, 0, 0, 0.65) 84%,
+    rgba(0, 0, 0, 0.2) 94%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 94% 88% at 50% 50%,
+    #000 48%,
+    rgba(0, 0, 0, 0.97) 68%,
+    rgba(0, 0, 0, 0.65) 84%,
+    rgba(0, 0, 0, 0.2) 94%,
+    transparent 100%
+  );
 }
 
 .featured-collection-wrapper {
@@ -2247,8 +2268,8 @@
   }
 
   .section-divider__saint-wrapper {
-    height: 90px;
-    bottom: 8px;
+    width: min(88vw, 360px);
+    height: calc(var(--section-divider-height) - 6px);
   }
 
   .section-divider__saint-wrapper::before {
@@ -2261,7 +2282,7 @@
   }
 
   .section-divider__saint {
-    height: 88px;
+    height: min(88px, calc(var(--section-divider-height) - 14px));
     max-width: min(88vw, 320px);
   }
 }
@@ -2276,8 +2297,8 @@
   }
 
   .section-divider__saint-wrapper {
-    height: 78px;
-    bottom: 6px;
+    width: min(86vw, 280px);
+    height: calc(var(--section-divider-height) - 4px);
   }
 
   .section-divider__saint-wrapper::before {
@@ -2291,7 +2312,7 @@
   }
 
   .section-divider__saint {
-    height: 74px;
+    height: min(74px, calc(var(--section-divider-height) - 12px));
     max-width: min(86vw, 260px);
   }
 

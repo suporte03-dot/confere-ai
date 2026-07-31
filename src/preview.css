@@ -1000,8 +1000,8 @@
 }
 
 .mobile-preview .section-divider__saint-wrapper {
-  height: 72px;
-  bottom: 6px;
+  width: min(86%, 240px);
+  height: calc(var(--section-divider-height) - 4px);
 }
 
 .mobile-preview .section-divider__saint-wrapper::before {
@@ -1015,7 +1015,7 @@
 }
 
 .mobile-preview .section-divider__saint {
-  height: 68px;
+  height: min(68px, calc(var(--section-divider-height) - 12px));
   max-width: min(86%, 220px);
 }
 
