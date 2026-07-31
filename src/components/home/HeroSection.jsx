@@ -3,7 +3,7 @@ import { assetUrl } from '../../utils/assetUrl'
 import HeroButtons from './HeroButtons'
 import DecorativeBottomBand from './DecorativeBottomBand'
 
-const HERO_ASSET_V = '20260730r'
+const HERO_ASSET_V = '20260730s'
 const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
@@ -12,7 +12,6 @@ function HeroSection() {
       <div className="hero-layout">
         <div className="hero-zone hero-zone--left">
           <div className="hero-models">
-            <span className="hero-models__lift" aria-hidden="true" />
             <img
               src={assetUrl(HERO_IMAGE_SRC)}
               alt=""
@@ -26,7 +25,6 @@ function HeroSection() {
         </div>
 
         <div className="hero-logo-wrap">
-          <span className="hero-logo-glow" aria-hidden="true" />
           <img
             src={BRAND_LOGO_CIRCULAR_SRC}
             alt={heroContent.boardAlt}

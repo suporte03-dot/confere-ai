@@ -51,7 +51,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 48% 28%;
-  filter: brightness(1.28) contrast(1.04) saturate(1.02);
+  filter: brightness(1.22) contrast(1.05) saturate(0.98);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -464,7 +464,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 24%;
-  filter: brightness(1.28) contrast(1.04) saturate(1.02);
+  filter: brightness(1.22) contrast(1.05) saturate(0.98);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -887,7 +887,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 24%;
-  filter: brightness(1.28) contrast(1.04) saturate(1.02);
+  filter: brightness(1.22) contrast(1.05) saturate(0.98);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;

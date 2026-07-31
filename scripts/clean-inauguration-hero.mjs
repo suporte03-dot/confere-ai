@@ -67,15 +67,15 @@ for (let y = 0; y < H; y++) {
     const b = bank[Math.floor(hash01(x, y, 2) * bank.length) % bank.length]
     const t = hash01(x, y, 3)
     const j = (hash01(x, y, 4) - 0.5) * 4
-    const spark = hash01(x, y, 5) > 0.97 ? 11 + hash01(x, y, 6) * 26 : 0
-    bg[i3] = Math.min(255, Math.max(6, Math.round(a[0] * (1 - t) + b[0] * t + j + spark)))
+    // No sparkle/dust bolinhas — smooth dark fill only
+    bg[i3] = Math.min(255, Math.max(6, Math.round(a[0] * (1 - t) + b[0] * t + j)))
     bg[i3 + 1] = Math.min(
       255,
-      Math.max(5, Math.round(a[1] * (1 - t) + b[1] * t + j * 0.7 + spark * 0.7)),
+      Math.max(5, Math.round(a[1] * (1 - t) + b[1] * t + j * 0.7)),
     )
     bg[i3 + 2] = Math.min(
       255,
-      Math.max(4, Math.round(a[2] * (1 - t) + b[2] * t + j * 0.4 + spark * 0.25)),
+      Math.max(4, Math.round(a[2] * (1 - t) + b[2] * t + j * 0.4)),
     )
   }
 }
@@ -260,10 +260,9 @@ let canvas = await sharp(bg, { raw: { width: W, height: H, channels: 3 } })
       if (!isGlyph && !isTopDead) continue
       const a = bank[Math.floor(hash01(x, y, 20) * bank.length) % bank.length]
       const j = (hash01(x, y, 21) - 0.5) * 4
-      const spark = hash01(x, y, 22) > 0.97 ? 10 + hash01(x, y, 23) * 20 : 0
-      d[i] = Math.min(255, Math.max(6, a[0] + j + spark))
-      d[i + 1] = Math.min(255, Math.max(5, a[1] + j * 0.7 + spark * 0.7))
-      d[i + 2] = Math.min(255, Math.max(4, a[2] + j * 0.4 + spark * 0.3))
+      d[i] = Math.min(255, Math.max(6, a[0] + j))
+      d[i + 1] = Math.min(255, Math.max(5, a[1] + j * 0.7))
+      d[i + 2] = Math.min(255, Math.max(4, a[2] + j * 0.4))
     }
   }
   canvas = await sharp(d, { raw: { width: w, height: h, channels: c } })
