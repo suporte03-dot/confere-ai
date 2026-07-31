@@ -3,7 +3,7 @@ import { assetUrl } from '../../utils/assetUrl'
 import HeroButtons from './HeroButtons'
 import DecorativeBottomBand from './DecorativeBottomBand'
 
-const HERO_ASSET_V = '20260730s'
+const HERO_ASSET_V = '20260730t'
 const HERO_IMAGE_SRC = `/images/hero/couple-hero.png?v=${HERO_ASSET_V}`
 
 function HeroSection() {
