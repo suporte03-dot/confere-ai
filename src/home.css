@@ -1171,10 +1171,10 @@
   padding: 0;
   border: none;
   object-fit: cover;
-  object-position: 46% 22%;
-  filter: brightness(1.12) contrast(1.06) saturate(0.97);
-  transform: scale(1.03);
-  transform-origin: 42% 30%;
+  object-position: 42% 28%;
+  filter: brightness(1.06) contrast(1.04) saturate(1.02);
+  transform: scale(1.04);
+  transform-origin: 40% 32%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -1506,8 +1506,8 @@
   }
 
   .brand-hero__models-image {
-    object-position: 46% 18%;
-    transform: scale(1.03);
+    object-position: 40% 22%;
+    transform: scale(1.06);
   }
 
   .brand-hero__transition {

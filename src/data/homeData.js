@@ -9,7 +9,7 @@ export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-/** Swap-ready cast photo — replace file at src/assets/personagens-terra-estilo.webp (≥1600px when available). */
+/** Swap-ready cast photo — sourced from hero-terra-estilo-cast.png → personagens-terra-estilo.webp. */
 export const COUPLE_HERO_SRC = coupleHeroAsset
 
 export const topBarMessages = [

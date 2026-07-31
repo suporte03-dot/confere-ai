@@ -78,8 +78,8 @@ function HeroSection() {
           className="brand-hero__models-image"
           src={modelsImage}
           alt=""
-          width={1246}
-          height={1575}
+          width={1600}
+          height={1506}
           decoding="sync"
           fetchPriority="high"
         />
