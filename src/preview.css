@@ -3,11 +3,11 @@
 .desktop-preview {
   width: 100%;
   --header-logo-size: clamp(44px, 3.8vw, 54px);
-  --brand-hero-logo-size: clamp(220px, 18vw, 310px);
+  --brand-hero-logo-size: clamp(210px, 16vw, 285px);
 }
 
 .desktop-preview .brand-hero {
-  min-height: 640px;
+  min-height: 620px;
   height: min(70vh, 700px);
   grid-template-columns: 52% 48%;
   width: 100%;
@@ -18,17 +18,17 @@
 
 .desktop-preview .brand-hero__models-image {
   object-fit: cover;
-  object-position: 42% 28%;
-  filter: brightness(1.06) contrast(1.04) saturate(1.02);
-  transform: scale(1.04);
+  object-position: 50% 28%;
+  filter: brightness(1.03) contrast(1.02) saturate(0.92);
+  transform: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
 
 .desktop-preview .brand-hero__logo {
-  left: 52%;
+  left: 51%;
   top: 50%;
-  z-index: 6;
+  z-index: 5;
   transform: translate(-50%, -50%);
   width: var(--brand-hero-logo-size);
   height: var(--brand-hero-logo-size);
@@ -54,7 +54,7 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
 }
 
 
@@ -68,7 +68,7 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
 }
 
 .mobile-preview .header-brand__name {
@@ -401,9 +401,10 @@
   padding: 0;
   border: none;
   overflow: hidden;
+  overflow-x: hidden;
   min-height: 0;
   height: auto;
-  --brand-hero-logo-size: clamp(150px, 48vw, 200px);
+  --brand-hero-logo-size: clamp(140px, 42vw, 180px);
 }
 
 .mobile-preview .brand-hero__models {
@@ -418,9 +419,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 40% 22%;
-  filter: brightness(1.12) contrast(1.06) saturate(0.97);
-  transform: scale(1.03);
+  object-position: 46% 24%;
+  filter: brightness(1.03) contrast(1.02) saturate(0.92);
+  transform: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
@@ -430,10 +431,10 @@
   position: relative;
   left: auto;
   top: auto;
-  z-index: 6;
+  z-index: 5;
   width: var(--brand-hero-logo-size);
   height: var(--brand-hero-logo-size);
-  margin: -95px auto 8px;
+  margin: 10px auto 6px;
   transform: none;
 }
 
@@ -814,9 +815,10 @@
   padding: 0;
   border: none;
   overflow: hidden;
+  overflow-x: hidden;
   min-height: 0;
   height: auto;
-  --brand-hero-logo-size: clamp(150px, 48vw, 200px);
+  --brand-hero-logo-size: clamp(140px, 42vw, 180px);
 }
 
 .mobile-preview .brand-hero__models {
@@ -831,9 +833,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 40% 22%;
-  filter: brightness(1.12) contrast(1.06) saturate(0.97);
-  transform: scale(1.03);
+  object-position: 46% 24%;
+  filter: brightness(1.03) contrast(1.02) saturate(0.92);
+  transform: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
@@ -843,8 +845,8 @@
   position: relative;
   left: auto;
   top: auto;
-  z-index: 6;
-  margin: -95px auto 8px;
+  z-index: 5;
+  margin: 10px auto 6px;
   transform: none;
 }
 

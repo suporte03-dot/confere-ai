@@ -1117,8 +1117,8 @@
 
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
 .brand-hero {
-  --brand-hero-logo-size: clamp(220px, 18vw, 310px);
-  --brand-hero-ivory: #f5f2ea;
+  --brand-hero-logo-size: clamp(210px, 16vw, 285px);
+  --brand-hero-ivory: #f7f0e5;
   --brand-hero-gold: #c5a059;
   --brand-hero-ink: #1a1510;
   --brand-hero-muted: #5c564c;
@@ -1128,7 +1128,7 @@
   grid-template-columns: 52% 48%;
   align-items: stretch;
   width: 100%;
-  min-height: 640px;
+  min-height: 620px;
   height: min(70vh, 700px);
   margin: 0;
   padding: 0;
@@ -1147,16 +1147,15 @@
   background: #0e0c0a;
 }
 
-/* Soft gold light + dark models stage behind cast */
+/* Soft gold light behind cast — not washing faces */
 .brand-hero__models-light {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 62% 58% at 38% 40%, rgba(197, 160, 89, 0.28) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 36% at 52% 58%, rgba(197, 160, 89, 0.16) 0%, transparent 74%),
-    radial-gradient(ellipse 48% 42% at 60% 72%, rgba(255, 248, 230, 0.06) 0%, transparent 72%),
+    radial-gradient(ellipse 58% 52% at 36% 68%, rgba(197, 160, 89, 0.14) 0%, transparent 72%),
+    radial-gradient(ellipse 44% 40% at 58% 78%, rgba(197, 160, 89, 0.08) 0%, transparent 74%),
     linear-gradient(160deg, #16120e 0%, #0e0c0a 55%, #1a1510 100%);
 }
 
@@ -1171,10 +1170,9 @@
   padding: 0;
   border: none;
   object-fit: cover;
-  object-position: 42% 28%;
-  filter: brightness(1.06) contrast(1.04) saturate(1.02);
-  transform: scale(1.04);
-  transform-origin: 40% 32%;
+  object-position: 50% 28%;
+  filter: brightness(1.03) contrast(1.02) saturate(0.92);
+  transform: none;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -1182,22 +1180,21 @@
   animation: brand-hero-fade-in 0.75s ease both;
 }
 
-/* Soft feather into ivory — independent CSS layer */
+/* Narrow ivory seam on right edge only — never over faces */
 .brand-hero__transition {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 32%;
+  width: 22%;
   z-index: 3;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(245, 242, 234, 0.06) 28%,
-    rgba(245, 242, 234, 0.28) 58%,
-    rgba(245, 242, 234, 0.72) 82%,
-    rgba(245, 242, 234, 0.96) 100%
+    rgba(247, 240, 229, 0.16) 34%,
+    rgba(247, 240, 229, 0.64) 76%,
+    #f7f0e5 100%
   );
 }
 
@@ -1226,9 +1223,9 @@
 
 .brand-hero__logo {
   position: absolute;
-  left: 52%;
+  left: 51%;
   top: 50%;
-  z-index: 6;
+  z-index: 5;
   display: grid;
   place-items: center;
   width: var(--brand-hero-logo-size);
@@ -1248,7 +1245,7 @@
   object-fit: contain;
   object-position: center;
   background: transparent;
-  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
 }
 
 .brand-hero__content {
@@ -1483,12 +1480,13 @@
 
 @media (max-width: 960px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(170px, 42vw, 230px);
+    --brand-hero-logo-size: clamp(160px, 38vw, 210px);
     display: flex;
     flex-direction: column;
     align-items: center;
     height: auto;
     min-height: 0;
+    overflow-x: hidden;
     background: linear-gradient(
       180deg,
       #0e0c0a 0%,
@@ -1505,13 +1503,14 @@
   }
 
   .brand-hero__models-image {
-    object-position: 40% 22%;
-    transform: scale(1.06);
+    object-position: 48% 26%;
+    filter: brightness(1.03) contrast(1.02) saturate(0.92);
+    transform: none;
   }
 
   .brand-hero__transition {
     width: 100%;
-    height: 36%;
+    height: 22%;
     top: auto;
     right: 0;
     left: 0;
@@ -1519,8 +1518,9 @@
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(245, 242, 234, 0.32) 52%,
-      var(--brand-hero-ivory) 100%
+      rgba(247, 240, 229, 0.16) 34%,
+      rgba(247, 240, 229, 0.64) 76%,
+      #f7f0e5 100%
     );
   }
 
@@ -1529,9 +1529,10 @@
     position: relative;
     left: auto;
     top: auto;
+    z-index: 5;
     width: var(--brand-hero-logo-size);
     height: var(--brand-hero-logo-size);
-    margin: -95px auto 8px;
+    margin: 12px auto 8px;
     transform: none;
   }
 
@@ -1595,7 +1596,7 @@
 
 @media (max-width: 560px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(150px, 48vw, 200px);
+    --brand-hero-logo-size: clamp(140px, 42vw, 180px);
     overflow-x: hidden;
   }
 
@@ -1604,8 +1605,12 @@
     min-height: 300px;
   }
 
+  .brand-hero__models-image {
+    object-position: 46% 24%;
+  }
+
   .brand-hero__logo {
-    margin-top: -80px;
+    margin: 10px auto 6px;
   }
 
   .brand-hero__content {
