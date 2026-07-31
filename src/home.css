@@ -1236,9 +1236,7 @@
 .hero-zone--left {
   position: relative;
   z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  display: block;
   min-width: 0;
   min-height: 0;
   height: 100%;
@@ -1248,26 +1246,30 @@
 }
 
 .hero-models {
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  /* Extend under logo; overflow clips baked left letterbox only */
+  right: -72px;
+  z-index: 1;
+  display: block;
   width: auto;
   max-width: none;
-  height: 100%;
+  height: auto;
   min-height: 0;
-  margin: 0 -72px 0 0;
+  margin: 0;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Soft lift behind cast — warm gold nuance, not flat black */
 .hero-models__lift {
   position: absolute;
   left: 0;
-  right: -4%;
+  right: 10%;
   bottom: 0;
-  top: 8%;
+  top: 6%;
   z-index: 0;
   border-radius: 0 46% 40% 0;
   background:
@@ -1284,17 +1286,17 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 22%;
+  width: 24%;
   z-index: 2;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(28, 22, 16, 0.1) 22%,
-    rgba(42, 32, 20, 0.36) 48%,
-    rgba(74, 56, 32, 0.5) 68%,
-    rgba(122, 98, 64, 0.38) 84%,
-    rgba(201, 160, 58, 0.16) 100%
+    rgba(28, 22, 16, 0.08) 18%,
+    rgba(42, 32, 20, 0.32) 45%,
+    rgba(74, 56, 32, 0.48) 68%,
+    rgba(122, 98, 64, 0.36) 84%,
+    rgba(201, 160, 58, 0.14) 100%
   );
 }
 
@@ -1302,25 +1304,30 @@
   position: relative;
   z-index: 1;
   display: block;
-  width: auto;
-  height: 106%;
+  /*
+    Root cause: couple-hero.png has ~80px (~6%) pure-black left letterbox.
+    Pull bitmap left + widen so photo content is flush to the hero edge.
+  */
+  --cast-left-crop: 6.5%;
+  width: calc(100% + var(--cast-left-crop));
+  height: 100%;
   max-width: none;
   max-height: none;
-  margin: 0 0 0 -4px;
+  margin: 0 0 0 calc(-1 * var(--cast-left-crop));
   padding: 0;
   border: none;
   border-radius: 0;
   background: none;
   box-shadow: none;
-  object-fit: contain;
-  object-position: left bottom;
+  object-fit: cover;
+  object-position: left top;
   /* Premium brighten — faces, hats, shirts readable */
   filter: brightness(1.22) contrast(1.08) saturate(1.04);
   /* Soft dissolve on far-right of bitmap only — man stays visible */
   -webkit-mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 74%,
+    #000 72%,
     rgba(0, 0, 0, 0.9) 84%,
     rgba(0, 0, 0, 0.4) 93%,
     transparent 100%
@@ -1328,7 +1335,7 @@
   mask-image: linear-gradient(
     90deg,
     #000 0%,
-    #000 74%,
+    #000 72%,
     rgba(0, 0, 0, 0.9) 84%,
     rgba(0, 0, 0, 0.4) 93%,
     transparent 100%
@@ -1742,12 +1749,13 @@
     margin: 0 -44px;
   }
 
+  .hero-models {
+    right: -56px;
+  }
+
   .hero-models__img {
-    height: 104%;
-    max-width: none;
-    object-position: left bottom;
-    transform: none;
-    margin-left: -4px;
+    --cast-left-crop: 6.5%;
+    object-position: left top;
   }
 }
 
@@ -1775,8 +1783,8 @@
     padding: 24px 24px 32px 72px;
   }
 
-  .hero-models__img {
-    max-width: none;
+  .hero-models {
+    right: -48px;
   }
 }
 
@@ -1840,28 +1848,25 @@
   .hero-zone--left {
     order: 2;
     z-index: 2;
+    position: relative;
     width: 100%;
     min-height: min(54vh, 540px);
     padding: 0;
     overflow: visible;
-    justify-content: center;
-    align-items: center;
   }
 
   .hero-models {
-    width: auto;
-    max-width: min(100%, 560px);
-    min-height: inherit;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
+    position: absolute;
+    inset: 0;
+    right: 0;
+    margin: 0;
+    overflow: hidden;
   }
 
   .hero-models__lift {
-    left: 0;
-    right: 0;
-    top: 10%;
+    left: 8%;
+    right: 8%;
+    top: 8%;
     bottom: 6%;
   }
 
@@ -1882,11 +1887,11 @@
   }
 
   .hero-models__img {
-    width: min(100%, 560px);
-    height: auto;
-    max-height: min(52vh, 520px);
-    margin: 0 auto;
-    object-fit: contain;
+    --cast-left-crop: 4%;
+    width: calc(100% + var(--cast-left-crop));
+    height: 100%;
+    margin: 0 0 0 calc(-1 * var(--cast-left-crop));
+    object-fit: cover;
     object-position: center 8%;
     filter: brightness(1.22) contrast(1.08) saturate(1.04);
     transform: none;
