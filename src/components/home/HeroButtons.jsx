@@ -3,7 +3,7 @@ import { heroContent } from '../../data/homeData'
 function HeroButtons() {
   return (
     <div className="brand-hero__actions">
-      <a href="#colecoes" className="brand-hero__btn brand-hero__btn--primary">
+      <a href="#novidades" className="brand-hero__btn brand-hero__btn--primary">
         {heroContent.primaryCta}
       </a>
       <a href="#contato" className="brand-hero__btn brand-hero__btn--secondary">

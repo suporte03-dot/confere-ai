@@ -1095,7 +1095,124 @@ export function getColorHex(name) {
 }
 
 export function getProductImage(product) {
-  return assetUrl(product.image || imageMap.produtos[product.imageKey] || imageMap.fallback)
+  const primary = product.image || imageMap.produtos[product.imageKey]
+  // Product pack under /terraestilo/ is not shipped yet — use real category assets.
+  if (!primary || String(primary).includes('/terraestilo/')) {
+    return assetUrl(getCategoryFallbackImage(product) || imageMap.fallback)
+  }
+  return assetUrl(primary)
+}
+
+/** Fallback photos from available category imagery when product files are absent. */
+const COLLECTION_IMAGE_FALLBACK = {
+  'camisas-masculinas': '/images/categorias/camisas.jpg',
+  'camisas-femininas': '/images/categorias/camisas.jpg',
+  'jaquetas-masculinas': '/images/categorias/jaquetas-masculinas.jpg',
+  'jaquetas-femininas': '/images/categorias/jaquetas-masculinas.jpg',
+  'camisetas-masculinas': '/images/categorias/camisetas-masculinas.jpg',
+  'camisetas-femininas': '/images/categorias/camisetas-masculinas.jpg',
+  polos: '/images/categorias/polos.jpg',
+  bones: '/images/categorias/bones.jpg',
+  'moletons-masculinos': '/images/categorias/moletons-masculinos.jpg',
+  'moletons-infantis': '/images/categorias/moletons-masculinos.jpg',
+  'calca-jeans-masculina': '/images/categorias/calca-jeans-masculinas.jpg',
+  'calca-jeans-feminina': '/images/categorias/calca-jeans-masculinas.jpg',
+  'calcas-infantis': '/images/categorias/calca-jeans-masculinas.jpg',
+  'bermudas-masculinas': '/images/categorias/calca-jeans-masculinas.jpg',
+  vestidos: '/images/categorias/camisas.jpg',
+  'vestidos-infantis': '/images/categorias/camisas.jpg',
+  cropped: '/images/categorias/camisetas-masculinas.jpg',
+  body: '/images/categorias/camisetas-masculinas.jpg',
+  'bolsas-femininas': '/images/categorias/acessorios.jpg',
+  'bolsas-acessorios': '/images/categorias/acessorios.jpg',
+  'acessorios-masculinos': '/images/categorias/acessorios.jpg',
+  'acessorios-femininos': '/images/categorias/acessorios.jpg',
+  cintos: '/images/categorias/acessorios.jpg',
+  mochilas: '/images/categorias/acessorios.jpg',
+  botas: '/images/categorias/jaquetas-masculinas.jpg',
+  coturnos: '/images/categorias/jaquetas-masculinas.jpg',
+  tenis: '/images/categorias/polos.jpg',
+  chinelos: '/images/categorias/bones.jpg',
+  'camisetas-infantis': '/images/categorias/camisetas-masculinas.jpg',
+  'conjuntos-infantis': '/images/categorias/moletons-masculinos.jpg',
+}
+
+const HOVER_IMAGE_CYCLE = [
+  '/images/categorias/camisas.jpg',
+  '/images/categorias/jaquetas-masculinas.jpg',
+  '/images/categorias/polos.jpg',
+  '/images/categorias/camisetas-masculinas.jpg',
+  '/images/categorias/moletons-masculinos.jpg',
+  '/images/categorias/acessorios.jpg',
+  '/images/categorias/calca-jeans-masculinas.jpg',
+  '/images/categorias/bones.jpg',
+]
+
+export function getCategoryFallbackImage(product) {
+  if (!product) return null
+  if (COLLECTION_IMAGE_FALLBACK[product.collectionId]) {
+    return COLLECTION_IMAGE_FALLBACK[product.collectionId]
+  }
+  const dept = String(product.department || '').toLowerCase()
+  if (dept.includes('femin')) return '/images/categorias/camisas.jpg'
+  if (dept.includes('mascul')) return '/images/categorias/jaquetas-masculinas.jpg'
+  if (dept.includes('calç') || dept.includes('calc')) return '/images/categorias/jaquetas-masculinas.jpg'
+  if (dept.includes('acess')) return '/images/categorias/acessorios.jpg'
+  return '/images/categorias/camisas.jpg'
+}
+
+export function getProductHoverImage(product) {
+  if (product?.hoverImage) return assetUrl(product.hoverImage)
+  const primary = getProductImage(product)
+  const cycleIndex = Math.abs(Number(product?.id) || 0) % HOVER_IMAGE_CYCLE.length
+  const secondary = assetUrl(HOVER_IMAGE_CYCLE[cycleIndex])
+  return secondary === primary
+    ? assetUrl(HOVER_IMAGE_CYCLE[(cycleIndex + 1) % HOVER_IMAGE_CYCLE.length])
+    : secondary
+}
+
+export function getProductSizes(product) {
+  if (Array.isArray(product?.sizes) && product.sizes.length) return product.sizes
+  const dept = product?.department
+  if (dept === 'Calçados') return ['37', '38', '39', '40', '41', '42']
+  if (dept === 'Acessórios') {
+    if (product?.subcategory?.toLowerCase().includes('boné') || product?.collectionId === 'bones') {
+      return ['Único']
+    }
+    return ['P', 'M', 'G']
+  }
+  if (dept === 'Infantil') return ['2', '4', '6', '8', '10']
+  return ['P', 'M', 'G', 'GG']
+}
+
+export function getProductRating(product) {
+  if (typeof product?.rating === 'number') return product.rating
+  const seed = Math.abs(Number(product?.id) || 1)
+  return Math.round((4.2 + (seed % 8) * 0.1) * 10) / 10
+}
+
+export function getNovidadesProducts(catalog = products, limit = 8) {
+  const novos = catalog.filter((p) => {
+    const badge = String(p.badge || '').toLowerCase()
+    return badge.includes('novo') || badge.includes('novidade')
+  })
+  const list = novos.length >= 4 ? novos : catalog
+  return list.slice(0, limit)
+}
+
+export function getBestsellersProducts(catalog = products, filter = 'Todos', limit = 8) {
+  const ranked = [...catalog].sort((a, b) => {
+    const score = (p) => {
+      const badge = String(p.badge || '').toLowerCase()
+      if (badge.includes('mais vendido')) return 3
+      if (badge.includes('destaque') || badge.includes('premium')) return 2
+      if (badge.includes('novo') || badge.includes('novidade')) return 1
+      return 0
+    }
+    return score(b) - score(a) || b.price - a.price
+  })
+  const filtered = ranked.filter((p) => matchesFilter(p, filter))
+  return (filtered.length ? filtered : ranked).slice(0, limit)
 }
 
 const SEARCH_CATEGORY_TERMS = {
@@ -1110,6 +1227,7 @@ const SEARCH_CATEGORY_TERMS = {
   coleções: '__colecoes__',
   colecao: '__colecoes__',
   coleção: '__colecoes__',
+  novidades: '__novidades__',
 }
 
 export function normalizeSearchTerm(value = '') {
@@ -1152,7 +1270,7 @@ export function searchProducts(rawTerm, catalog = products) {
   if (!term) return catalog
 
   const categoryTarget = resolveSearchCategory(term)
-  if (categoryTarget === '__colecoes__') {
+  if (categoryTarget === '__colecoes__' || categoryTarget === '__novidades__') {
     return catalog
   }
   if (categoryTarget) {
@@ -1167,5 +1285,13 @@ export function scrollToSection(sectionId) {
 }
 
 export function scrollToProducts() {
+  if (document.getElementById('mais-vendidos')) {
+    scrollToSection('mais-vendidos')
+    return
+  }
+  if (document.getElementById('novidades')) {
+    scrollToSection('novidades')
+    return
+  }
   scrollToSection('produtos')
 }

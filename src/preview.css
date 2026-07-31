@@ -999,9 +999,10 @@
 
 .mobile-preview .featured-collection__saint-wrapper {
   width: 80px;
-  height: 98px;
-  min-height: 92px;
-  bottom: 4px;
+  height: 96px;
+  padding: 7px;
+  bottom: 8px;
+  overflow: visible;
 }
 
 .mobile-preview .featured-collection__saint-wrapper::before,
@@ -1012,7 +1013,9 @@
 .mobile-preview .featured-collection__saint {
   width: auto;
   height: 70px;
-  max-width: 58px;
+  max-width: min(88%, 240px);
+  object-fit: contain;
+  opacity: 0.92;
 }
 
 .mobile-preview .categorias-section.section {

@@ -47,29 +47,21 @@ const BENEFIT_ICONS = {
 
 function BenefitsBar() {
   return (
-    <section className="benefits-bar section" aria-labelledby="benefits-title">
+    <section className="benefits-bar benefits-bar--strip" aria-label="Benefícios Terra & Estilo">
       <div className="container">
-        <div className="section-head section-head--light">
-          <h2 id="benefits-title" className="section-head__title">
-            Experiência Terra &amp; Estilo
-          </h2>
-          <p className="section-head__desc">
-            Compre com confiança, receba com cuidado e vista com propósito.
-          </p>
-        </div>
-        <div className="benefits-bar__grid">
+        <ul className="benefits-bar__strip">
           {benefitsBar.map((item) => (
-            <article key={item.id} className="benefits-bar__item">
+            <li key={item.id} className="benefits-bar__strip-item">
               <span className="benefits-bar__icon" aria-hidden="true">
                 {BENEFIT_ICONS[item.icon]}
               </span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-            </article>
+              <span className="benefits-bar__strip-copy">
+                <strong>{item.title}</strong>
+                <span className="visually-hidden">{item.description}</span>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   )

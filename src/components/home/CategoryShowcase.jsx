@@ -1,31 +1,48 @@
 import { categoryCards } from '../../data/homeData'
 import { useShop } from '../../context/ShopContext'
-import CategoryCard from './CategoryCard'
 
 function CategoryShowcase() {
-  const { navigateToCollection, toggleFavorite, isFavorite } = useShop()
+  const { navigateToCollection } = useShop()
 
   return (
-    <section id="colecoes" className="categorias-section section" aria-labelledby="categorias-title">
+    <section id="categorias" className="categorias-section section" aria-labelledby="categorias-title">
       <div className="container categorias-section__container">
         <div className="section-head section-head--light">
+          <p className="section-head__eyebrow">Explore</p>
           <h2 id="categorias-title" className="section-head__title">
-            Navegue por categoria
+            Categorias principais
           </h2>
           <p className="section-head__desc">
-            Explore as coleções essenciais da Terra &amp; Estilo.
+            Entre pelas coleções essenciais — Feminino, Masculino, Calçados e Acessórios.
           </p>
         </div>
 
-        <div className="category-grid">
+        <div className="category-banners">
           {categoryCards.map((category) => (
-            <CategoryCard
+            <button
               key={category.id}
-              category={category}
-              favorite={isFavorite(category.id)}
-              onToggleFavorite={toggleFavorite}
-              onNavigate={navigateToCollection}
-            />
+              type="button"
+              className="category-banner"
+              onClick={() => navigateToCollection(category.filter)}
+            >
+              <img
+                src={category.image}
+                alt=""
+                className="category-banner__img"
+                style={{ objectPosition: category.objectPosition || 'center' }}
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="category-banner__shade" aria-hidden="true" />
+              <span className="category-banner__content">
+                <span className="category-banner__title">{category.title}</span>
+                <span className="category-banner__subtitle">{category.subtitle}</span>
+                <span className="category-banner__cta">
+                  Ver peças
+                  <span aria-hidden="true"> →</span>
+                </span>
+              </span>
+            </button>
           ))}
         </div>
       </div>

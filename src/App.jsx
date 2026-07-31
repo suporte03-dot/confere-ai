@@ -3,11 +3,15 @@ import { ShopProvider } from './context/ShopContext'
 import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
-import CollectionVitrine from './components/home/CollectionVitrine'
-import ProductGrid from './components/home/ProductGrid'
-import BrandValues from './components/home/BrandValues'
-import AboutBrand from './components/home/AboutBrand'
+import NovidadesSection from './components/home/NovidadesSection'
+import CategoryShowcase from './components/home/CategoryShowcase'
+import FeaturedCollection from './components/home/FeaturedCollection'
+import BestsellersSection from './components/home/BestsellersSection'
+import LookbookSection from './components/home/LookbookSection'
 import BenefitsBar from './components/home/BenefitsBar'
+import AboutBrand from './components/home/AboutBrand'
+import BrandValues from './components/home/BrandValues'
+import InstagramSection from './components/home/InstagramSection'
 import Newsletter from './components/home/Newsletter'
 import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
@@ -46,11 +50,15 @@ function SiteContent({
       </div>
       <HeroSection />
       <main>
-        <CollectionVitrine />
-        <ProductGrid />
+        <NovidadesSection />
+        <CategoryShowcase />
+        <FeaturedCollection />
+        <BestsellersSection />
+        <LookbookSection />
+        <BenefitsBar />
         <AboutBrand />
         <BrandValues />
-        <BenefitsBar />
+        <InstagramSection />
         <Newsletter />
       </main>
       <Footer />

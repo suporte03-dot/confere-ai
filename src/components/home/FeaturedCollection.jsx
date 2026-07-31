@@ -3,9 +3,9 @@ import {
   BRAND_LOGO_CIRCULAR_SRC,
 } from '../../data/homeData'
 import { assetUrl } from '../../utils/assetUrl'
+import santaHero from '../../assets/santa-hero.png'
 
 const PATTERN_SRC = assetUrl('/images/brand/te-monogram-pattern.svg')
-const NOSSA_SENHORA_SRC = assetUrl('/images/brand/nossa-senhora-aparecida.svg')
 
 function FeaturedCollection() {
   const {
@@ -17,10 +17,13 @@ function FeaturedCollection() {
     image,
     imageAlt,
     marble,
+    primaryHref = '#mais-vendidos',
+    secondaryHref = '#lookbook',
   } = featuredCollection
 
   return (
     <section
+      id="colecoes"
       className="featured-collection-wrapper"
       aria-labelledby="featured-collection-title"
       style={{
@@ -28,7 +31,7 @@ function FeaturedCollection() {
         '--featured-pattern': `url(${PATTERN_SRC})`,
       }}
     >
-      <div className="featured-collection">
+      <div className="featured-collection featured-collection--campaign">
         <div className="featured-collection__media">
           <img
             src={image}
@@ -84,7 +87,7 @@ function FeaturedCollection() {
           <p className="featured-collection__description">{description}</p>
           <div className="featured-collection__actions">
             <a
-              href="#produtos"
+              href={primaryHref}
               className="featured-collection__button featured-collection__button--primary"
             >
               {primaryCta}
@@ -107,7 +110,7 @@ function FeaturedCollection() {
               </svg>
             </a>
             <a
-              href="#colecoes"
+              href={secondaryHref}
               className="featured-collection__button featured-collection__button--secondary"
             >
               {secondaryCta}
@@ -137,11 +140,9 @@ function FeaturedCollection() {
             <span className="featured-collection__bottom-band-pattern" />
             <div className="featured-collection__saint-wrapper">
               <img
-                src={NOSSA_SENHORA_SRC}
+                src={santaHero}
                 alt="Nossa Senhora Aparecida"
                 className="featured-collection__saint"
-                width={80}
-                height={108}
                 decoding="async"
               />
             </div>

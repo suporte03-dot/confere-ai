@@ -40,11 +40,12 @@ export const headerBrandPillars = [
 ]
 
 export const mainNavigation = [
+  { label: 'Novidades', href: '#novidades' },
   { label: 'Coleções', href: '#colecoes', hasChevron: true },
-  { label: 'Feminino', href: '#produtos', filter: 'Feminino' },
-  { label: 'Masculino', href: '#produtos', filter: 'Masculino' },
-  { label: 'Calçados', href: '#produtos', filter: 'Calçados' },
-  { label: 'Acessórios', href: '#produtos', filter: 'Acessórios' },
+  { label: 'Feminino', href: '#mais-vendidos', filter: 'Feminino' },
+  { label: 'Masculino', href: '#mais-vendidos', filter: 'Masculino' },
+  { label: 'Calçados', href: '#mais-vendidos', filter: 'Calçados' },
+  { label: 'Acessórios', href: '#mais-vendidos', filter: 'Acessórios' },
   { label: 'Sobre', href: '#sobre' },
   { label: 'Lojas', href: '#lojas' },
   { label: 'Contato', href: '#contato' },
@@ -132,60 +133,93 @@ export const categorias = [
 /** @deprecated use categorias */
 export const categoryShowcase = categorias
 
-/** Cards premium de categoria (home) — Camisas, Vestidos, Jaquetas, Bolsas */
+/** Editorial category banners — Feminino, Masculino, Calçados, Acessórios */
 export const categoryCards = [
   {
-    id: 'cat-camisas',
-    title: 'Camisas',
-    badge: 'NOVO',
-    tone: 'dark',
-    filter: 'camisas-masculinas',
-    icon: 'camisa',
+    id: 'cat-feminino',
+    title: 'Feminino',
+    subtitle: 'Silhuetas leves e elegância contemporânea',
+    filter: 'Feminino',
     image: assetUrl('/images/categorias/camisas.jpg'),
+    objectPosition: 'center 28%',
   },
   {
-    id: 'cat-vestidos',
-    title: 'Vestidos',
-    badge: 'DESTAQUE',
-    tone: 'light',
-    filter: 'vestidos',
-    icon: 'vestido',
-    image: assetUrl('/images/categorias/acessorios.jpg'),
-  },
-  {
-    id: 'cat-jaquetas',
-    title: 'Jaquetas',
-    badge: 'NOVO',
-    tone: 'dark',
-    filter: 'jaquetas-masculinas',
-    icon: 'jaqueta',
+    id: 'cat-masculino',
+    title: 'Masculino',
+    subtitle: 'Cortes firmes para campo e cidade',
+    filter: 'Masculino',
     image: assetUrl('/images/categorias/jaquetas-masculinas.jpg'),
+    objectPosition: 'center 22%',
   },
   {
-    id: 'cat-bolsas',
-    title: 'Bolsas',
-    badge: 'DESTAQUE',
-    tone: 'light',
-    filter: 'bolsas-acessorios',
-    icon: 'bolsa',
+    id: 'cat-calcados',
+    title: 'Calçados',
+    subtitle: 'Botas, coturnos e tênis com presença',
+    filter: 'Calçados',
+    image: assetUrl('/images/categorias/calca-jeans-masculinas.jpg'),
+    objectPosition: 'center 70%',
+  },
+  {
+    id: 'cat-acessorios',
+    title: 'Acessórios',
+    subtitle: 'Detalhes que fecham o look',
+    filter: 'Acessórios',
     image: assetUrl('/images/categorias/acessorios.jpg'),
+    objectPosition: 'center 40%',
   },
 ]
 
 export const featuredCollection = {
-  eyebrow: 'Coleção em destaque',
+  eyebrow: 'Campanha em destaque',
   title: 'Coleção Raízes do Sul',
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
-  primaryCta: 'Comprar agora',
+  primaryCta: 'Comprar coleção',
   secondaryCta: 'Ver lookbook',
   image: COUPLE_HERO_SRC,
   imageAlt:
-    'Casal Terra & Estilo em campanha da Coleção Raízes do Sul — camisas pretas e estilo country.',
+    'Detalhes de camisas e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
+  primaryHref: '#mais-vendidos',
+  secondaryHref: '#lookbook',
 }
+
+export const lookbookHome = {
+  eyebrow: 'Vista o estilo',
+  title: 'Lookbook',
+  description:
+    'Composições que traduzem a identidade Terra & Estilo — do campo à cidade, com presença e sofisticação.',
+  primaryImage: assetUrl('/images/hero/slide-1.jpg'),
+  collage: [
+    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
+    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
+    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Acessórios Terra & Estilo', productId: 16 },
+    { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Polos Terra & Estilo', productId: 4 },
+  ],
+  hotspots: [
+    { id: 'hs-1', productId: 12, label: 'Camisa Serena', x: 32, y: 48 },
+    { id: 'hs-2', productId: 5, label: 'Jaqueta Estância', x: 68, y: 38 },
+  ],
+}
+
+export const instagramHome = {
+  eyebrow: 'No feed',
+  title: 'Terra & Estilo no Instagram',
+  handle: '@Terra_Estilo',
+  href: 'https://instagram.com/Terra_Estilo',
+  images: [
+    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Look camisas' },
+    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Look jaquetas' },
+    { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Look polos' },
+    { src: assetUrl('/images/categorias/moletons-masculinos.jpg'), alt: 'Look moletons' },
+    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
+    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Detalhe bolsa' },
+  ],
+}
+
+export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 
 export const homeFeaturedProducts = [
   {

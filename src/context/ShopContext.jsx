@@ -42,7 +42,13 @@ export function ShopProvider({ children }) {
   const navigateToCollection = useCallback((filterId) => {
     setSearchQuery('')
     setCategoryFilter(filterId)
-    window.setTimeout(scrollToProducts, 50)
+    window.setTimeout(() => {
+      if (document.getElementById('mais-vendidos')) {
+        scrollToSection('mais-vendidos')
+      } else {
+        scrollToProducts()
+      }
+    }, 50)
   }, [])
 
   const performSearch = useCallback((termOverride) => {
