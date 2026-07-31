@@ -1117,7 +1117,7 @@
 
 /* ── Brand hero (layered split) ── */
 .brand-hero {
-  --brand-hero-logo-size: clamp(220px, 18vw, 310px);
+  --brand-hero-logo-size: clamp(210px, 17vw, 290px);
   --brand-hero-ivory: #f6efe4;
   position: relative;
   isolation: isolate;
@@ -1150,8 +1150,9 @@
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 58% 62% at 42% 36%, rgba(201, 155, 50, 0.22) 0%, transparent 68%),
-    radial-gradient(ellipse 45% 50% at 58% 70%, rgba(255, 255, 239, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 58% 62% at 42% 36%, rgba(201, 155, 50, 0.2) 0%, transparent 68%),
+    radial-gradient(ellipse 36% 32% at 56% 54%, rgba(201, 155, 50, 0.18) 0%, transparent 72%),
+    radial-gradient(ellipse 45% 50% at 58% 70%, rgba(255, 255, 239, 0.05) 0%, transparent 70%),
     #1a1510;
 }
 
@@ -1166,10 +1167,10 @@
   padding: 0;
   border: none;
   object-fit: cover;
-  object-position: 48% 24%;
-  filter: brightness(1.14) contrast(1.03) saturate(0.98);
+  object-position: 51% 28%;
+  filter: brightness(1.16) contrast(1.05) saturate(0.98);
   transform: scale(1.02);
-  transform-origin: 40% 30%;
+  transform-origin: 45% 35%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -1216,7 +1217,7 @@
 
 .brand-hero__logo {
   position: absolute;
-  left: 52%;
+  left: 54%;
   top: 50%;
   z-index: 5;
   display: grid;
@@ -1225,7 +1226,7 @@
   height: var(--brand-hero-logo-size);
   margin: 0;
   padding: 0;
-  transform: translate(-42%, -50%);
+  transform: translate(-36%, -50%);
   pointer-events: auto;
   animation: brand-hero-logo-rise 0.85s ease both;
 }
@@ -1432,11 +1433,11 @@
 @keyframes brand-hero-logo-rise {
   from {
     opacity: 0;
-    transform: translate(-42%, -46%) scale(0.94);
+    transform: translate(-36%, -46%) scale(0.94);
   }
   to {
     opacity: 1;
-    transform: translate(-42%, -50%) scale(1);
+    transform: translate(-36%, -50%) scale(1);
   }
 }
 
@@ -1448,7 +1449,7 @@
   }
 
   .brand-hero__logo {
-    transform: translate(-42%, -50%);
+    transform: translate(-36%, -50%);
   }
 
   .brand-hero__btn--primary:hover,
@@ -1476,7 +1477,7 @@
   }
 
   .brand-hero__models-image {
-    object-position: 48% 18%;
+    object-position: 51% 22%;
     transform: scale(1.02);
   }
 
