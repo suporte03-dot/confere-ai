@@ -60,7 +60,8 @@ export const heroBrandPillars = [
 
 export const heroContent = {
   label: 'Terra & Estilo',
-  titleLead: 'A essência e a elegância do ',
+  titleLead: 'A essência e a elegância do',
+  titleLines: ['A essência e a', 'elegância do'],
   titleAccent: 'agro brasileiro',
   title: 'A essência e a elegância do agro brasileiro',
   slogan: 'A marca do agro brasileiro',
