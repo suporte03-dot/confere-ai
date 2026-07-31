@@ -34,7 +34,7 @@ function FeaturedCollection() {
             src={image}
             alt={imageAlt}
             className="featured-collection__media-img"
-            width={1324}
+            width={1246}
             height={1575}
             loading="lazy"
             decoding="async"
