@@ -78,7 +78,7 @@ export const imageMap = {
     cintoTerra: '/images/terraestilo/cinto-couro-terra.jpg',
     cintoTropeiro: '/images/terraestilo/cinto-couro-tropeiro.jpg',
     mochilaCampo: '/images/terraestilo/mochila-lona-campo.jpg',
-    bolsaCasual: '/images/terraestilo/bolsa-terraestilo-casual.jpg',
+    bolsaCasual: '/images/categorias/bones.jpg',
     camisetaInfantil: '/images/terraestilo/camiseta-infantil-campo.jpg',
     calcaInfantil: '/images/terraestilo/calca-infantil-jeans.jpg',
     vestidoInfantil: '/images/terraestilo/vestido-infantil-pampa.jpg',
@@ -109,7 +109,7 @@ export const headerNav = [
 export const homeCategories = [
   { id: 'feminino', title: 'Feminino', description: 'Silhuetas leves, tecidos naturais e elegância contemporânea.', filter: 'Feminino', variant: 'vestidoAurora' },
   { id: 'masculino', title: 'Masculino', description: 'Peças versáteis com acabamento refinado para campo e cidade.', filter: 'Masculino', variant: 'camisaWorker' },
-  { id: 'acessorios', title: 'Acessórios', description: 'Detalhes que completam looks com identidade e sofisticação.', filter: 'Acessórios', variant: 'bolsaCasual' },
+  { id: 'acessorios', title: 'Acessórios', description: 'Detalhes que completam looks com identidade e sofisticação.', filter: 'Acessórios', variant: 'boneBordado' },
   { id: 'essenciais', title: 'Essenciais', description: 'Básicos atemporais para compor o guarda-roupa com propósito.', filter: 'Todos', variant: 'camisetaEssencial' },
   { id: 'novidades', title: 'Novidades', description: 'Lançamentos selecionados da temporada Terra & Estilo.', filter: 'Todos', variant: 'jaquetaCampo' },
   { id: 'colecao-sul', title: 'Coleção Sul', description: 'Curadoria inspirada nas raízes e na paisagem do Sul do Brasil.', filter: 'Masculino', variant: 'moletomCampoSul' },
@@ -214,7 +214,7 @@ export const collections = [
       { id: 'vestidos', title: 'Vestidos', menuTitle: 'Vestidos', slug: '/collections/vestidos', variant: 'vestidoAurora' },
       { id: 'cropped', title: 'Cropped', menuTitle: 'Cropped', slug: '/collections/cropped', variant: 'croppedCampo' },
       { id: 'body', title: 'Body', menuTitle: 'Body', slug: '/collections/body', variant: 'bodyCanelado' },
-      { id: 'bolsas-femininas', title: 'Bolsas Femininas', menuTitle: 'Bolsas', slug: '/collections/bolsas-femininas', variant: 'bolsaCasual' },
+      { id: 'bolsas-femininas', title: 'Bolsas Femininas', menuTitle: 'Bolsas', slug: '/collections/bolsas-femininas', variant: 'boneBordado' },
       { id: 'acessorios-femininos', title: 'Acessórios Femininos', menuTitle: 'Acessórios', slug: '/collections/acessorios-femininos', variant: 'acessorios' },
     ],
   },
@@ -252,7 +252,7 @@ export const collections = [
       { id: 'bones', title: 'Bonés', menuTitle: 'Bonés', slug: '/collections/bones', variant: 'boneBordado' },
       { id: 'cintos', title: 'Cintos', menuTitle: 'Cintos', slug: '/collections/cintos', variant: 'cintoTerra' },
       { id: 'mochilas', title: 'Mochilas', menuTitle: 'Mochilas', slug: '/collections/mochilas', variant: 'mochilaCampo' },
-      { id: 'bolsas-acessorios', title: 'Bolsas', menuTitle: 'Bolsas', slug: '/collections/bolsas-acessorios', variant: 'bolsaCasual' },
+      { id: 'bolsas-acessorios', title: 'Bolsas', menuTitle: 'Bolsas', slug: '/collections/bolsas-acessorios', variant: 'boneBordado' },
     ],
   },
 ]
@@ -291,7 +291,7 @@ export const categoryHighlightTabs = {
     { id: 'calca-jeans-feminina', title: 'Calça Jeans Feminina', filter: 'calca-jeans-feminina', variant: 'jeans', description: 'Jeans com modelagem moderna e confortável.' },
     { id: 'cropped', title: 'Cropped', filter: 'cropped', variant: 'croppedCampo', description: 'Croppeds leves para compor looks frescos e modernos.' },
     { id: 'body', title: 'Body', filter: 'body', variant: 'bodyCanelado', description: 'Bodies canelados com caimento perfeito e tecido macio.' },
-    { id: 'bolsas-femininas', title: 'Bolsas Femininas', filter: 'bolsas-femininas', variant: 'bolsaCasual', description: 'Bolsas casuais que completam qualquer composição.' },
+    { id: 'bolsas-femininas', title: 'Bolsas Femininas', filter: 'bolsas-femininas', variant: 'boneBordado', description: 'Bolsas casuais que completam qualquer composição.' },
   ],
   Infantil: [
     { id: 'camisetas-infantis', title: 'Camisetas Infantis', filter: 'camisetas-infantis', variant: 'camisetaInfantil', description: 'Camisetas confortáveis para brincar com estilo.' },
@@ -366,18 +366,18 @@ export const featuredProducts = [
   },
   {
     id: 104,
-    name: 'Bolsa Raízes',
+    name: 'Boné Raízes Bordado',
     department: 'Acessórios',
-    collectionId: 'bolsas-acessorios',
-    subcategory: 'Bolsas',
-    price: 259.9,
+    collectionId: 'bones',
+    subcategory: 'Bonés',
+    price: 89.9,
     oldPrice: null,
     badge: 'Destaque',
-    colors: ['Caramelo', 'Verde'],
-    imageKey: 'bolsaCasual',
-    image: imageMap.produtos.bolsaCasual,
-    variant: 'bolsaCasual',
-    description: 'Bolsa casual com detalhes dourados e textura natural.',
+    colors: ['Verde', 'Bege', 'Preto'],
+    imageKey: 'boneBordado',
+    image: imageMap.produtos.boneBordado,
+    variant: 'boneBordado',
+    description: 'Boné aba curva com bordado Terra & Estilo e ajuste traseiro.',
     stock: 15,
   },
   {
@@ -1107,12 +1107,12 @@ const COLLECTION_IMAGE_FALLBACK = {
   'vestidos-infantis': '/images/categorias/camisas.jpg',
   cropped: '/images/categorias/camisetas-masculinas.jpg',
   body: '/images/categorias/camisetas-masculinas.jpg',
-  'bolsas-femininas': '/images/categorias/acessorios.jpg',
-  'bolsas-acessorios': '/images/categorias/acessorios.jpg',
-  'acessorios-masculinos': '/images/categorias/acessorios.jpg',
-  'acessorios-femininos': '/images/categorias/acessorios.jpg',
-  cintos: '/images/categorias/acessorios.jpg',
-  mochilas: '/images/categorias/acessorios.jpg',
+  'bolsas-femininas': '/images/categorias/bones.jpg',
+  'bolsas-acessorios': '/images/categorias/bones.jpg',
+  'acessorios-masculinos': '/images/categorias/bones.jpg',
+  'acessorios-femininos': '/images/categorias/bones.jpg',
+  cintos: '/images/categorias/bones.jpg',
+  mochilas: '/images/categorias/bones.jpg',
   botas: '/images/categorias/jaquetas-masculinas.jpg',
   coturnos: '/images/categorias/jaquetas-masculinas.jpg',
   tenis: '/images/categorias/polos.jpg',
@@ -1127,9 +1127,9 @@ const HOVER_IMAGE_CYCLE = [
   '/images/categorias/polos.jpg',
   '/images/categorias/camisetas-masculinas.jpg',
   '/images/categorias/moletons-masculinos.jpg',
-  '/images/categorias/acessorios.jpg',
-  '/images/categorias/calca-jeans-masculinas.jpg',
   '/images/categorias/bones.jpg',
+  '/images/categorias/calca-jeans-masculinas.jpg',
+  '/images/categorias/polos.jpg',
 ]
 
 export function getCategoryFallbackImage(product) {
@@ -1141,7 +1141,7 @@ export function getCategoryFallbackImage(product) {
   if (dept.includes('femin')) return '/images/categorias/camisas.jpg'
   if (dept.includes('mascul')) return '/images/categorias/jaquetas-masculinas.jpg'
   if (dept.includes('calç') || dept.includes('calc')) return '/images/categorias/jaquetas-masculinas.jpg'
-  if (dept.includes('acess')) return '/images/categorias/acessorios.jpg'
+  if (dept.includes('acess')) return '/images/categorias/bones.jpg'
   return '/images/categorias/camisas.jpg'
 }
 

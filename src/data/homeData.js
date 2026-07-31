@@ -127,7 +127,7 @@ export const categorias = [
   {
     nome: 'Acessórios',
     url: 'https://txc.com.br/collections/acessorios',
-    imagem: assetUrl('/images/categorias/acessorios.jpg'),
+    imagem: assetUrl('/images/categorias/bones.jpg'),
   },
 ]
 
@@ -165,8 +165,8 @@ export const categoryCards = [
     title: 'Acessórios',
     subtitle: 'Detalhes que fecham o look',
     filter: 'Acessórios',
-    image: assetUrl('/images/categorias/acessorios.jpg'),
-    objectPosition: 'center 40%',
+    image: assetUrl('/images/categorias/bones.jpg'),
+    objectPosition: 'center 28%',
   },
 ]
 
@@ -196,7 +196,7 @@ export const lookbookHome = {
   collage: [
     { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
     { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
-    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Acessórios Terra & Estilo' },
+    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Acessórios Terra & Estilo' },
     { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Polos Terra & Estilo', productId: 4 },
   ],
   hotspots: [
@@ -216,7 +216,7 @@ export const instagramHome = {
     { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Look polos' },
     { src: assetUrl('/images/categorias/moletons-masculinos.jpg'), alt: 'Look moletons' },
     { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
-    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Detalhe bolsa' },
+    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
   ],
 }
 
@@ -267,16 +267,16 @@ export const homeFeaturedProducts = [
   },
   {
     id: 104,
-    name: 'Bolsa Raízes',
+    name: 'Boné Raízes Bordado',
     department: 'Acessórios',
-    collectionId: 'bolsas-acessorios',
-    subcategory: 'Bolsas',
-    price: 259.9,
+    collectionId: 'bones',
+    subcategory: 'Bonés',
+    price: 89.9,
     oldPrice: null,
     badge: 'Destaque',
-    colors: ['Caramelo', 'Verde'],
-    imageKey: 'bolsaCasual',
-    variant: 'bolsaCasual',
+    colors: ['Verde', 'Bege', 'Preto'],
+    imageKey: 'boneBordado',
+    variant: 'boneBordado',
     stock: 15,
   },
   {
