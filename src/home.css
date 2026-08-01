@@ -1104,7 +1104,7 @@ body.nav-drawer-open {
   overflow: visible;
 }
 
-/* T&E monogram — home only; aligned to --hero-split-position (not the full crest). */
+/* Center brand crest — home only; aligned to --hero-split-position. */
 .site-header--premium .site-header__nav-logo {
   position: absolute;
   left: var(--hero-split-position);
@@ -1758,17 +1758,26 @@ body.nav-drawer-open {
   box-sizing: border-box;
 }
 
-/* ── Brand monogram (T&E) — aligned to hero split ── */
+/* ── Brand monogram — original logo on hero split (ivory = page cream) ── */
 .brand-monogram {
+  --brand-monogram-ivory: var(--ivory, #f6efe4);
   position: relative;
   z-index: 1;
   display: grid;
   place-items: center;
   width: var(--brand-monogram-size, 82px);
   height: var(--brand-monogram-size, 82px);
+  overflow: hidden;
   border-radius: 50%;
   border: 2px solid #b88a2c;
-  background: linear-gradient(90deg, #080808 0%, #080808 50%, #f5efe5 50%, #f5efe5 100%);
+  /* Light half matches hero ivory panel (#f6efe4), not pure white */
+  background: linear-gradient(
+    90deg,
+    #080808 0%,
+    #080808 50%,
+    var(--brand-monogram-ivory) 50%,
+    var(--brand-monogram-ivory) 100%
+  );
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.28),
     0 0 0 1px rgba(184, 138, 44, 0.18);
@@ -1776,35 +1785,16 @@ body.nav-drawer-open {
   user-select: none;
 }
 
-.brand-monogram::after {
-  content: '';
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  left: 50%;
-  width: 1px;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(184, 138, 44, 0.85) 18%,
-    rgba(184, 138, 44, 0.85) 82%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-
-.brand-monogram span {
+.brand-monogram__logo {
   position: relative;
   z-index: 1;
-  font-family: var(--font-serif);
-  font-size: calc(var(--brand-monogram-size, 82px) * 0.28);
-  font-weight: 600;
-  font-style: italic;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  color: #c79a3c;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
+  display: block;
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 /* Desktop: monogram lives in the header nav slot. */
