@@ -23,14 +23,12 @@ export const headerBrandPillars = [
 ]
 
 export const mainNavigation = [
-  { label: 'Novidades', href: '#novidades' },
+  { label: 'Início', href: '#inicio' },
+  { label: 'Feminino', href: '#favoritos', filter: 'Feminino' },
+  { label: 'Masculino', href: '#favoritos', filter: 'Masculino' },
+  { label: 'Acessórios', href: '#favoritos', filter: 'Acessórios' },
   { label: 'Coleções', href: '#colecoes', hasChevron: true },
-  { label: 'Feminino', href: '#mais-vendidos', filter: 'Feminino' },
-  { label: 'Masculino', href: '#mais-vendidos', filter: 'Masculino' },
-  { label: 'Calçados', href: '#mais-vendidos', filter: 'Calçados' },
-  { label: 'Acessórios', href: '#mais-vendidos', filter: 'Acessórios' },
   { label: 'Sobre', href: '#sobre' },
-  { label: 'Lojas', href: '#lojas' },
   { label: 'Contato', href: '#contato' },
 ]
 
@@ -115,8 +113,8 @@ export const categorias = [
 /** @deprecated use categorias */
 export const categoryShowcase = categorias
 
-/** Editorial category banners — Feminino, Masculino, Calçados, Acessórios */
-export const categoryCards = [
+/** Full category catalog (kept for data integrity). */
+export const categoryCardsAll = [
   {
     id: 'cat-feminino',
     title: 'Feminino',
@@ -151,21 +149,44 @@ export const categoryCards = [
   },
 ]
 
+/** Homepage showcase — Feminino, Masculino, Acessórios only */
+export const categoryCards = categoryCardsAll.filter((c) =>
+  ['cat-feminino', 'cat-masculino', 'cat-acessorios'].includes(c.id),
+)
+
 export const featuredCollection = {
   eyebrow: 'Campanha em destaque',
   title: 'Coleção Raízes do Sul',
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  secondaryCta: 'Ver novidades',
+  secondaryCta: 'Ver lookbook',
   image: COUPLE_HERO_SRC,
   imageAlt:
     'Detalhes de camisas e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
-  primaryHref: '#mais-vendidos',
-  secondaryHref: '#novidades',
+  primaryHref: '#favoritos',
+  secondaryHref: '#lookbook',
+}
+
+export const lookbookHome = {
+  eyebrow: 'Campanha',
+  title: 'Lookbook Terra & Estilo',
+  description:
+    'Composições que traduzem a identidade Terra & Estilo — do campo à cidade, com presença e sofisticação.',
+  primaryImage: assetUrl('/images/hero/slide-1.jpg'),
+  collage: [
+    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
+    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
+    { src: assetUrl('/images/categorias/acessorios.jpg'), alt: 'Acessórios Terra & Estilo', productId: 9 },
+    { src: assetUrl('/images/hero/slide-3.jpg'), alt: 'Look editorial Terra & Estilo', productId: 4 },
+  ],
+  hotspots: [
+    { id: 'hs-1', productId: 12, label: 'Camisa Serena', x: 32, y: 48 },
+    { id: 'hs-2', productId: 5, label: 'Jaqueta Estância', x: 68, y: 38 },
+  ],
 }
 
 export const instagramHome = {

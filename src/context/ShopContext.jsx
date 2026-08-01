@@ -43,7 +43,9 @@ export function ShopProvider({ children }) {
     setSearchQuery('')
     setCategoryFilter(filterId)
     window.setTimeout(() => {
-      if (document.getElementById('mais-vendidos')) {
+      if (document.getElementById('favoritos')) {
+        scrollToSection('favoritos')
+      } else if (document.getElementById('mais-vendidos')) {
         scrollToSection('mais-vendidos')
       } else {
         scrollToProducts()

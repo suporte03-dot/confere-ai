@@ -10,10 +10,10 @@ function CategoryShowcase() {
         <div className="section-head section-head--light">
           <p className="section-head__eyebrow">Explore</p>
           <h2 id="categorias-title" className="section-head__title">
-            Categorias principais
+            Compre por categoria
           </h2>
           <p className="section-head__desc">
-            Entre pelas coleções essenciais — Feminino, Masculino, Calçados e Acessórios.
+            Entre pelas coleções essenciais — Feminino, Masculino e Acessórios.
           </p>
         </div>
 

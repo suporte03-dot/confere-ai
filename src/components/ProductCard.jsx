@@ -23,8 +23,28 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`
     : ''
 
+  const handleCardActivate = () => {
+    addToCart(product)
+  }
+
+  const stop = (event) => {
+    event.stopPropagation()
+  }
+
   return (
-    <article className={`product-card product-card--${tone}`}>
+    <article
+      className={`product-card product-card--${tone} product-card--clickable`}
+      role="link"
+      tabIndex={0}
+      aria-label={`${product.name} — Comprar agora`}
+      onClick={handleCardActivate}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          handleCardActivate()
+        }
+      }}
+    >
       <div className="product-card__media">
         <div className="product-card__image">
           <img
@@ -53,7 +73,10 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
           type="button"
           className={`product-card__fav ${favorite ? 'product-card__fav--active' : ''}`}
           aria-label={favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-          onClick={() => toggleFavorite(product.id)}
+          onClick={(event) => {
+            stop(event)
+            toggleFavorite(product.id)
+          }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill={favorite ? 'currentColor' : 'none'}>
             <path
@@ -67,7 +90,10 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
         <button
           type="button"
           className="product-card__quick"
-          onClick={() => showToast(`Visualização rápida: ${product.name}`)}
+          onClick={(event) => {
+            stop(event)
+            showToast(`Visualização rápida: ${product.name}`)
+          }}
         >
           Visualização rápida
         </button>
@@ -79,7 +105,10 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
                 key={size}
                 type="button"
                 className="product-card__size"
-                onClick={() => addToCart({ ...product, selectedSize: size })}
+                onClick={(event) => {
+                  stop(event)
+                  addToCart({ ...product, selectedSize: size })
+                }}
               >
                 {size}
               </button>
@@ -117,8 +146,15 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
           <p className="product-card__price">{formatCurrency(product.price)}</p>
         </div>
         <p className="product-card__installments">ou {getInstallment(product.price)}</p>
-        <button type="button" className="btn btn--primary btn--block" onClick={() => addToCart(product)}>
-          Comprar
+        <button
+          type="button"
+          className="btn btn--primary btn--block"
+          onClick={(event) => {
+            stop(event)
+            addToCart(product)
+          }}
+        >
+          Comprar agora
         </button>
       </div>
     </article>

@@ -14,8 +14,8 @@ function FeaturedCollection() {
     secondaryCta,
     image,
     imageAlt,
-    primaryHref = '#mais-vendidos',
-    secondaryHref = '#novidades',
+    primaryHref = '#favoritos',
+    secondaryHref = '#lookbook',
   } = featuredCollection
 
   return (

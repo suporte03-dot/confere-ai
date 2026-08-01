@@ -3,10 +3,11 @@ import { ShopProvider } from './context/ShopContext'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
 import SectionDivider from './components/home/SectionDivider'
-import NovidadesSection from './components/home/NovidadesSection'
-import CategoryShowcase from './components/home/CategoryShowcase'
-import FeaturedCollection from './components/home/FeaturedCollection'
 import BestsellersSection from './components/home/BestsellersSection'
+import CategoryShowcase from './components/home/CategoryShowcase'
+import NovidadesSection from './components/home/NovidadesSection'
+import FeaturedCollection from './components/home/FeaturedCollection'
+import LookbookSection from './components/home/LookbookSection'
 import BenefitsBar from './components/home/BenefitsBar'
 import AboutBrand from './components/home/AboutBrand'
 import BrandValues from './components/home/BrandValues'
@@ -26,7 +27,7 @@ function SiteContent({
   setSearchOpen,
 }) {
   return (
-    <div className="app">
+    <div className="app" id="inicio">
       <div className="site-chrome">
         <header className="brand-header">
           {/* Header unificado: logo + MainNavigation + busca/conta/carrinho */}
@@ -46,16 +47,19 @@ function SiteContent({
         className="section-divider--after-hero"
       />
       <main>
-        <NovidadesSection />
-        <SectionDivider variant="light" showSaint />
+        <BestsellersSection />
+        <SectionDivider variant="dark" showSaint />
         <CategoryShowcase />
         <SectionDivider variant="dark" showSaint />
-        <FeaturedCollection />
-        <BestsellersSection />
+        <NovidadesSection />
         <SectionDivider variant="light" showSaint />
-        <BenefitsBar />
+        <FeaturedCollection />
+        <SectionDivider variant="dark" showSaint />
+        <LookbookSection />
+        <SectionDivider variant="light" showSaint />
         <AboutBrand />
         <BrandValues />
+        <BenefitsBar />
         <InstagramSection />
         <Newsletter />
         <SectionDivider variant="light" showSaint />

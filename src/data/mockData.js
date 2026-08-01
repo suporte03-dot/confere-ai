@@ -1107,12 +1107,12 @@ const COLLECTION_IMAGE_FALLBACK = {
   'vestidos-infantis': '/images/categorias/camisas.jpg',
   cropped: '/images/categorias/camisetas-masculinas.jpg',
   body: '/images/categorias/camisetas-masculinas.jpg',
-  'bolsas-femininas': '/images/categorias/bones.jpg',
-  'bolsas-acessorios': '/images/categorias/bones.jpg',
+  'bolsas-femininas': '/images/categorias/acessorios.jpg',
+  'bolsas-acessorios': '/images/categorias/acessorios.jpg',
   'acessorios-masculinos': '/images/categorias/bones.jpg',
-  'acessorios-femininos': '/images/categorias/bones.jpg',
+  'acessorios-femininos': '/images/categorias/acessorios.jpg',
   cintos: '/images/categorias/bones.jpg',
-  mochilas: '/images/categorias/bones.jpg',
+  mochilas: '/images/categorias/acessorios.jpg',
   botas: '/images/categorias/jaquetas-masculinas.jpg',
   coturnos: '/images/categorias/jaquetas-masculinas.jpg',
   tenis: '/images/categorias/polos.jpg',
@@ -1121,7 +1121,7 @@ const COLLECTION_IMAGE_FALLBACK = {
   'conjuntos-infantis': '/images/categorias/moletons-masculinos.jpg',
 }
 
-const HOVER_IMAGE_CYCLE = [
+const PRODUCT_IMAGE_POOL = [
   '/images/categorias/camisas.jpg',
   '/images/categorias/jaquetas-masculinas.jpg',
   '/images/categorias/polos.jpg',
@@ -1129,20 +1129,63 @@ const HOVER_IMAGE_CYCLE = [
   '/images/categorias/moletons-masculinos.jpg',
   '/images/categorias/bones.jpg',
   '/images/categorias/calca-jeans-masculinas.jpg',
-  '/images/categorias/polos.jpg',
+  '/images/categorias/acessorios.jpg',
 ]
+
+const HOVER_IMAGE_CYCLE = PRODUCT_IMAGE_POOL
+
+const DEPT_IMAGE_POOL = {
+  feminino: [
+    '/images/categorias/camisas.jpg',
+    '/images/categorias/camisetas-masculinas.jpg',
+    '/images/categorias/moletons-masculinos.jpg',
+    '/images/categorias/polos.jpg',
+    '/images/categorias/acessorios.jpg',
+  ],
+  masculino: [
+    '/images/categorias/jaquetas-masculinas.jpg',
+    '/images/categorias/camisas.jpg',
+    '/images/categorias/polos.jpg',
+    '/images/categorias/calca-jeans-masculinas.jpg',
+    '/images/categorias/moletons-masculinos.jpg',
+    '/images/categorias/camisetas-masculinas.jpg',
+  ],
+  acessorios: [
+    '/images/categorias/bones.jpg',
+    '/images/categorias/acessorios.jpg',
+    '/images/categorias/camisas.jpg',
+    '/images/categorias/polos.jpg',
+  ],
+  calcados: [
+    '/images/categorias/jaquetas-masculinas.jpg',
+    '/images/categorias/calca-jeans-masculinas.jpg',
+    '/images/categorias/bones.jpg',
+    '/images/categorias/acessorios.jpg',
+  ],
+}
 
 export function getCategoryFallbackImage(product) {
   if (!product) return null
-  if (COLLECTION_IMAGE_FALLBACK[product.collectionId]) {
-    return COLLECTION_IMAGE_FALLBACK[product.collectionId]
-  }
+  const seed = Math.abs(Number(product?.id) || 0)
+  const preferred = COLLECTION_IMAGE_FALLBACK[product.collectionId]
   const dept = String(product.department || '').toLowerCase()
-  if (dept.includes('femin')) return '/images/categorias/camisas.jpg'
-  if (dept.includes('mascul')) return '/images/categorias/jaquetas-masculinas.jpg'
-  if (dept.includes('calç') || dept.includes('calc')) return '/images/categorias/jaquetas-masculinas.jpg'
-  if (dept.includes('acess')) return '/images/categorias/bones.jpg'
-  return '/images/categorias/camisas.jpg'
+
+  let pool = PRODUCT_IMAGE_POOL
+  if (dept.includes('femin')) pool = DEPT_IMAGE_POOL.feminino
+  else if (dept.includes('mascul')) pool = DEPT_IMAGE_POOL.masculino
+  else if (dept.includes('acess')) pool = DEPT_IMAGE_POOL.acessorios
+  else if (dept.includes('calç') || dept.includes('calc')) pool = DEPT_IMAGE_POOL.calcados
+
+  // Prefer collection image when present, then rotate by product id for diversity.
+  if (preferred && pool.includes(preferred)) {
+    const base = pool.indexOf(preferred)
+    return pool[(base + Math.floor(seed / 2)) % pool.length]
+  }
+  if (preferred) {
+    const alt = pool[seed % pool.length]
+    return seed % 2 === 0 ? preferred : alt
+  }
+  return pool[seed % pool.length]
 }
 
 export function getProductHoverImage(product) {

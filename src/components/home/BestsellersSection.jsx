@@ -31,10 +31,11 @@ function BestsellersSection() {
 
   return (
     <section
-      id="mais-vendidos"
+      id="favoritos"
       className="bestsellers-section section"
       aria-labelledby="bestsellers-title"
     >
+      <div id="mais-vendidos" className="visually-hidden" aria-hidden="true" />
       <div id="produtos" className="visually-hidden" aria-hidden="true" />
       <div className="container">
         <div className="section-head section-head--light">
@@ -81,7 +82,7 @@ function BestsellersSection() {
                 product={product}
                 tone="dark"
                 showSizes
-                showRating
+                showRating={false}
               />
             ))}
           </div>

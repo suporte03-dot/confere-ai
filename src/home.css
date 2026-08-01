@@ -2282,8 +2282,8 @@
 /* ── Category editorial banners — Feminino / Masculino / Calçados / Acessórios ── */
 .categorias-section {
   background:
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 155, 50, 0.1), transparent 60%),
-    linear-gradient(180deg, var(--color-black) 0%, var(--color-black-soft) 48%, var(--color-brown-dark) 100%);
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 155, 50, 0.12), transparent 60%),
+    linear-gradient(180deg, #1a1510 0%, #2b2117 48%, #12100d 100%);
   color: var(--color-text-light);
 }
 
@@ -2306,7 +2306,7 @@
 
 .category-banners {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   align-items: stretch;
 }
@@ -2456,7 +2456,9 @@
 
 /* ── Brand Values ── */
 .brand-values {
-  background: var(--color-ivory);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(201, 155, 50, 0.06), transparent 45%),
+    linear-gradient(180deg, #eee2cf 0%, #f6efe4 100%);
   color: var(--color-text-dark);
 }
 
@@ -3579,7 +3581,7 @@
 }
 
 .brand-values {
-  background-color: var(--color-ivory);
+  background-color: #eee2cf;
   background-image:
     radial-gradient(ellipse at 18% 12%, rgba(201, 155, 50, 0.08) 0%, transparent 42%),
     radial-gradient(ellipse at 82% 78%, rgba(0, 0, 0, 0.03) 0%, transparent 48%);
@@ -3651,7 +3653,7 @@
   gap: 22px;
 }
 
-/* ── Bestsellers ── */
+/* ── Bestsellers / Favoritos ── */
 .bestsellers-section {
   background:
     radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201, 155, 50, 0.14), transparent 55%),
@@ -3666,6 +3668,7 @@
 }
 
 .bestsellers-section .section-head__title {
+  font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
   font-size: clamp(2.25rem, 4vw, 3.5rem);
 }
 
@@ -3698,6 +3701,80 @@
   color: #080807;
   background: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+/* Compact commerce cards in Favoritos — image + badge + name + price + CTA in view */
+.products-grid--bestsellers .product-card {
+  cursor: pointer;
+  background: #faf6ee;
+  border: 1px solid rgba(201, 155, 50, 0.32);
+}
+
+.products-grid--bestsellers .product-card__image {
+  aspect-ratio: 5 / 6;
+}
+
+.products-grid--bestsellers .product-card__body {
+  gap: 6px;
+  padding: 14px 14px 16px;
+}
+
+.products-grid--bestsellers .product-card__cat {
+  display: none;
+}
+
+.products-grid--bestsellers .product-card__colors {
+  display: none;
+}
+
+.products-grid--bestsellers .product-card__name {
+  font-size: 0.9375rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.products-grid--bestsellers .product-card__price {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: #18130f;
+}
+
+.products-grid--bestsellers .product-card__installments {
+  font-size: 0.75rem;
+  color: #776c5f;
+}
+
+.products-grid--bestsellers .product-card__body .btn {
+  margin-top: 6px;
+  min-height: 40px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #080807;
+  border-color: #080807;
+  color: #f7f1e8;
+}
+
+.products-grid--bestsellers .product-card__body .btn:hover {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: #080807;
+}
+
+.products-grid--bestsellers .product-card__quick {
+  display: none;
+}
+
+.products-grid--bestsellers .product-card__sizes {
+  bottom: 10px;
+}
+
+.product-card--clickable:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
 }
 
 /* Product card enhancements for home commerce */
@@ -3821,7 +3898,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 30%;
+  /* Campaign crop — lifestyle mid-frame, distinct from brand hero */
+  object-position: center 58%;
+  transform: scale(1.06);
+  transform-origin: center 62%;
 }
 
 .lookbook-section__hotspot {
@@ -3996,12 +4076,15 @@
 
 @media (max-width: 1100px) {
   .category-banners {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .products-grid--novidades,
-  .products-grid--bestsellers {
+  .products-grid--novidades {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .products-grid--bestsellers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .lookbook-section__layout {
@@ -4019,7 +4102,7 @@
 
 @media (max-width: 720px) {
   .category-banners {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
@@ -4027,10 +4110,26 @@
     min-height: 280px;
   }
 
-  .products-grid--novidades,
-  .products-grid--bestsellers {
+  .products-grid--novidades {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+  }
+
+  .products-grid--bestsellers {
+    display: flex;
+    grid-template-columns: none;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .products-grid--bestsellers .product-card {
+    flex: 0 0 min(100%, 320px);
+    max-width: 320px;
+    scroll-snap-align: start;
   }
 
   .product-card__sizes {
