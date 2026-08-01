@@ -101,7 +101,7 @@ const BENEFIT_ICONS = {
 
 function LeafMark() {
   return (
-    <svg className="benefits-bar__mark" viewBox="0 0 32 32" width="28" height="28" fill="none" aria-hidden="true">
+    <svg className="benefits-bar__mark" viewBox="0 0 32 32" width="26" height="26" fill="none" aria-hidden="true">
       <path
         d="M16 4 C14 8 9 11 9 17 A7 7 0 0 0 16 24 A7 7 0 0 0 23 17 C23 11 18 8 16 4 Z"
         stroke="currentColor"
@@ -139,13 +139,19 @@ function BenefitsBar() {
       <div className="container">
         <div className="section-head section-head--light benefits-bar__head">
           <LeafMark />
-          <p className="section-head__eyebrow">Compra com confiança</p>
+          <p className="section-head__eyebrow benefits-bar__eyebrow">
+            <span className="benefits-bar__eyebrow-line" aria-hidden="true" />
+            Compra com confiança
+            <span className="benefits-bar__eyebrow-line benefits-bar__eyebrow-line--rev" aria-hidden="true" />
+          </p>
           <h2 id="benefits-title" className="section-head__title">
             Benefícios da compra
           </h2>
           <div className="benefits-bar__divider" aria-hidden="true">
             <span className="benefits-bar__divider-line" />
-            <span className="benefits-bar__divider-gem" />
+            <span className="benefits-bar__divider-ornament">
+              <span className="benefits-bar__divider-gem" />
+            </span>
             <span className="benefits-bar__divider-line benefits-bar__divider-line--rev" />
           </div>
           <p className="section-head__desc">
@@ -161,6 +167,7 @@ function BenefitsBar() {
               </span>
               <div className="benefits-bar__body">
                 <h3>{item.title}</h3>
+                <span className="benefits-bar__item-rule" aria-hidden="true" />
                 <p>{item.description}</p>
               </div>
             </article>

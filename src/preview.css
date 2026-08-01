@@ -1143,24 +1143,24 @@
 }
 
 .mobile-preview .benefits-bar {
-  background:
-    radial-gradient(ellipse 55% 42% at 50% 0%, rgba(201, 155, 50, 0.12), transparent 58%),
-    linear-gradient(180deg, #0a0908 0%, #12100e 100%);
+  background: #0a0908;
 }
 
 .mobile-preview .benefits-bar .section-head__title,
 .mobile-preview .benefits-bar .section-head__desc,
+.mobile-preview .benefits-bar__item h3,
 .mobile-preview .benefits-bar__item p {
-  color: var(--color-text-light, #f7f1e8);
+  color: #ffffff;
 }
 
-.mobile-preview .benefits-bar__item h3,
-.mobile-preview .benefits-bar__trust-label {
+.mobile-preview .benefits-bar__trust-label,
+.mobile-preview .benefits-bar__eyebrow,
+.mobile-preview .benefits-bar .section-head__eyebrow {
   color: var(--color-gold-light, #dfbd69);
 }
 
 .mobile-preview .benefits-bar__item p {
-  color: rgba(247, 241, 232, 0.8);
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .mobile-preview .product-grid-section.section {

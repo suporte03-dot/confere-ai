@@ -207,7 +207,7 @@ export const benefitsBar = [
   {
     id: 'troca',
     title: 'Troca facilitada',
-    description: 'Processo simples, transparente e sem burocracia para você comprar tranquila.',
+    description: 'Processo simples, transparente e sem burocracia para você comprar tranquilo.',
     icon: 'swap',
   },
   {
