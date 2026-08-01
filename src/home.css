@@ -2289,14 +2289,14 @@ body.nav-drawer-open {
   top: 0;
   right: 0;
   bottom: 0;
-  width: 22%;
+  width: 18%;
   z-index: 3;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(247, 240, 229, 0.16) 34%,
-    rgba(247, 240, 229, 0.64) 76%,
+    rgba(247, 240, 229, 0.1) 40%,
+    rgba(247, 240, 229, 0.55) 78%,
     #f7f0e5 100%
   );
 }
