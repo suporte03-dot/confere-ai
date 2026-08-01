@@ -960,7 +960,7 @@
 
 .mobile-preview .benefits-bar__grid {
   grid-template-columns: 1fr;
-  gap: 18px;
+  gap: 14px;
 }
 
 .mobile-preview .site-footer__grid {
@@ -1148,12 +1148,12 @@
 
 .mobile-preview .benefits-bar {
   background: #050505;
-  padding: 64px 20px 56px;
+  padding: 52px 20px 44px;
 }
 
 .mobile-preview .benefits-bar .section-head__title {
   color: #f3eee6;
-  font-size: 2.125rem;
+  font-size: 1.875rem;
 }
 
 .mobile-preview .benefits-bar .section-head__desc,
@@ -1167,8 +1167,8 @@
 
 .mobile-preview .benefits-bar__item {
   min-height: 0;
-  padding: 28px 22px;
-  border-radius: 18px;
+  padding: 22px 20px;
+  border-radius: 16px;
   background: linear-gradient(145deg, #11100d 0%, #080808 100%);
   border: 1px solid rgba(196, 154, 45, 0.38);
 }
