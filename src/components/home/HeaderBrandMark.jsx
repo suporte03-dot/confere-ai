@@ -13,7 +13,7 @@ function HeaderBrandMark({ className = '', showWordmark = false, mark = 'logo' }
   return (
     <Link to="/" className={`${linkClass} site-header__logo`} aria-label="Ir para a página inicial">
       {isMonogram ? (
-        <span className="header-brand__logo-ring header-brand__logo-ring--monogram te-monogram-circle">
+        <span className="header-brand__monogram-mark">
           <img
             src={BRAND_MONOGRAM_SRC}
             alt="Monograma T&E Terra & Estilo"
