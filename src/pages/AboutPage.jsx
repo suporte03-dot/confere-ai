@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import SectionDivider from '../components/home/SectionDivider'
-import AboutBrand from '../components/home/AboutBrand'
-import BrandValues from '../components/home/BrandValues'
+import BrandEssence from '../components/home/BrandEssence'
 import { assetUrl } from '../utils/assetUrl'
 
 function AboutPage() {
@@ -37,8 +36,7 @@ function AboutPage() {
         </nav>
       </div>
 
-      <AboutBrand />
-      <BrandValues />
+      <BrandEssence />
       <SectionDivider variant="light" showSaint />
     </main>
   )

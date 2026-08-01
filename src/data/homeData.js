@@ -333,40 +333,39 @@ export const homeFeaturedProducts = [
   },
 ]
 
-export const brandValuesHome = [
-  {
-    title: 'Raízes',
-    description: 'Uma moda inspirada na origem, na terra e na autenticidade regional.',
-    icon: 'raizes',
-  },
-  {
-    title: 'Identidade',
-    description: 'Uma linguagem visual própria, reconhecível e fiel ao propósito da marca.',
-    icon: 'identidade',
-  },
-  {
-    title: 'Sofisticação',
-    description: 'Elegância natural traduzida em cortes, materiais e acabamentos refinados.',
-    icon: 'sofisticacao',
-  },
-  {
-    title: 'Sul do Brasil',
-    description: 'Inspiração regional com olhar contemporâneo e respeito às origens.',
-    icon: 'sul',
-  },
-  {
-    title: 'Autenticidade',
-    description: 'Moda com verdade, personalidade e conexão com quem veste.',
-    icon: 'autenticidade',
-  },
-]
-
-export const aboutBrand = {
+export const brandEssence = {
   eyebrow: 'Nossa essência',
   title: 'Terra & Estilo',
   text:
     'Terra & Estilo nasce da união entre elegância, origem e autenticidade. A marca do agro brasileiro — moda que honra suas raízes e traduz o estilo do campo com sofisticação e propósito.',
   cta: 'Conheça nossa história',
+  values: [
+    {
+      title: 'Raízes',
+      description: 'Uma moda inspirada na origem, na terra e na autenticidade regional.',
+      icon: 'raizes',
+    },
+    {
+      title: 'Identidade',
+      description: 'Uma linguagem visual própria, reconhecível e fiel ao propósito da marca.',
+      icon: 'identidade',
+    },
+    {
+      title: 'Sofisticação',
+      description: 'Elegância natural traduzida em cortes, materiais e acabamentos refinados.',
+      icon: 'sofisticacao',
+    },
+    {
+      title: 'Sul do Brasil',
+      description: 'Inspiração regional com olhar contemporâneo e respeito às origens.',
+      icon: 'sul',
+    },
+    {
+      title: 'Autenticidade',
+      description: 'Moda com verdade, personalidade e conexão com quem veste.',
+      icon: 'autenticidade',
+    },
+  ],
 }
 
 export const newsletterHome = {

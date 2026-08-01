@@ -957,9 +957,7 @@
   box-sizing: border-box;
 }
 
-.mobile-preview .brand-values__grid,
 .mobile-preview .benefits-bar__grid,
-.mobile-preview .about-brand__panel,
 .mobile-preview .site-footer__grid {
   grid-template-columns: 1fr;
 }
@@ -1115,9 +1113,31 @@
   min-height: 300px;
 }
 
-.mobile-preview .about-brand__panel {
+.mobile-preview .brand-essence {
+  width: calc(100% - 28px);
+  margin-block: 48px;
+}
+
+.mobile-preview .brand-essence__intro {
+  grid-template-columns: 1fr;
   text-align: center;
-  padding: 36px 24px;
+  padding: 36px 22px;
+  gap: 28px;
+  min-height: 0;
+}
+
+.mobile-preview .brand-essence__values {
+  grid-template-columns: 1fr;
+}
+
+.mobile-preview .brand-value {
+  min-height: auto;
+  border-right: 0 !important;
+  border-top: 1px solid rgba(201, 155, 50, 0.14);
+}
+
+.mobile-preview .brand-value:first-child {
+  border-top: 0;
 }
 
 .mobile-preview .benefits-bar {

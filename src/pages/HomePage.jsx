@@ -4,8 +4,7 @@ import NovidadesSection from '../components/home/NovidadesSection'
 import CategoryShowcase from '../components/home/CategoryShowcase'
 import FeaturedCollection from '../components/home/FeaturedCollection'
 import BenefitsBar from '../components/home/BenefitsBar'
-import AboutBrand from '../components/home/AboutBrand'
-import BrandValues from '../components/home/BrandValues'
+import BrandEssence from '../components/home/BrandEssence'
 import InstagramSection from '../components/home/InstagramSection'
 import Newsletter from '../components/home/Newsletter'
 
@@ -21,8 +20,7 @@ function HomePage() {
         <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
         <SectionDivider variant="dark" showSaint />
-        <AboutBrand />
-        <BrandValues />
+        <BrandEssence />
         <SectionDivider variant="light" showSaint />
         <InstagramSection />
         <SectionDivider variant="dark" showSaint />
