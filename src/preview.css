@@ -958,7 +958,19 @@
   box-sizing: border-box;
 }
 
-.mobile-preview .benefits-bar__grid,
+.mobile-preview .benefits-bar__grid {
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.mobile-preview .benefits-bar__trust {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+  margin-top: 32px;
+  padding: 20px 4px 0;
+  border-top: 1px solid rgba(196, 154, 45, 0.28);
+}
+
 .mobile-preview .site-footer__grid {
   grid-template-columns: 1fr;
 }
@@ -1143,24 +1155,40 @@
 }
 
 .mobile-preview .benefits-bar {
-  background: #0a0908;
+  background: #050505;
+  padding: 64px 20px 56px;
 }
 
-.mobile-preview .benefits-bar .section-head__title,
+.mobile-preview .benefits-bar .section-head__title {
+  color: #f3eee6;
+  font-size: 2.125rem;
+}
+
 .mobile-preview .benefits-bar .section-head__desc,
-.mobile-preview .benefits-bar__item h3,
 .mobile-preview .benefits-bar__item p {
-  color: #ffffff;
+  color: #d6d2ca;
+}
+
+.mobile-preview .benefits-bar__item h3 {
+  color: #f3eee6;
+}
+
+.mobile-preview .benefits-bar__item {
+  min-height: 0;
+  padding: 28px 22px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #11100d 0%, #080808 100%);
+  border: 1px solid rgba(196, 154, 45, 0.38);
 }
 
 .mobile-preview .benefits-bar__trust-label,
 .mobile-preview .benefits-bar__eyebrow,
 .mobile-preview .benefits-bar .section-head__eyebrow {
-  color: var(--color-gold-light, #dfbd69);
+  color: rgba(196, 154, 45, 0.9);
 }
 
-.mobile-preview .benefits-bar__item p {
-  color: rgba(255, 255, 255, 0.86);
+.mobile-preview .benefits-bar__trust-item + .benefits-bar__trust-item {
+  border-left: none;
 }
 
 .mobile-preview .product-grid-section.section {
