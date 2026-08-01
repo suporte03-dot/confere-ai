@@ -180,24 +180,6 @@ export const featuredCollection = {
   primaryHref: '/colecoes/raizes-do-sul',
 }
 
-export const lookbookHome = {
-  eyebrow: 'Campanha',
-  title: 'Lookbook Terra & Estilo',
-  description:
-    'Composições que traduzem a identidade Terra & Estilo — do campo à cidade, com presença e sofisticação.',
-  primaryImage: assetUrl('/images/hero/slide-1.jpg'),
-  collage: [
-    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
-    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
-    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Acessórios Terra & Estilo', productId: 9 },
-    { src: assetUrl('/images/hero/slide-3.jpg'), alt: 'Look editorial Terra & Estilo', productId: 4 },
-  ],
-  hotspots: [
-    { id: 'hs-1', productId: 12, label: 'Camisa Serena', x: 32, y: 48 },
-    { id: 'hs-2', productId: 5, label: 'Jaqueta Estância', x: 68, y: 38 },
-  ],
-}
-
 export const benefitsBar = [
   { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
   { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
