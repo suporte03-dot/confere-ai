@@ -1,6 +1,7 @@
 /**
  * Marca no header — logo circular + nome da marca.
  */
+import { Link } from 'react-router-dom'
 import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 
 function HeaderBrandMark({ className = '' }) {
@@ -9,7 +10,7 @@ function HeaderBrandMark({ className = '' }) {
     .join(' ')
 
   return (
-    <a href="#inicio" className={linkClass} aria-label="Terra & Estilo — Página inicial">
+    <Link to="/" className={linkClass} aria-label="Terra & Estilo — Página inicial">
       <span className="header-brand__logo-ring">
         <img
           src={BRAND_LOGO_CIRCULAR_SRC}
@@ -23,7 +24,7 @@ function HeaderBrandMark({ className = '' }) {
       <span className="header-brand__name visually-hidden">
         Terra &amp; Estilo
       </span>
-    </a>
+    </Link>
   )
 }
 

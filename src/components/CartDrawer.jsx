@@ -32,7 +32,7 @@ function CartDrawer() {
           <>
             <ul className="cart-drawer__list">
               {cart.map((item) => (
-                <li key={item.id} className="cart-item">
+                <li key={item.lineId || `${item.id}-${item.selectedSize || 'default'}`} className="cart-item">
                   <div className="cart-item__thumb">
                     <VisualMedia
                       src={getProductImage(item)}
@@ -46,14 +46,17 @@ function CartDrawer() {
                   </div>
                   <div className="cart-item__info">
                     <strong>{item.name}</strong>
+                    {item.selectedSize && (
+                      <span className="cart-item__size">Tam. {item.selectedSize}</span>
+                    )}
                     <span>{formatCurrency(item.price)}</span>
                     <div className="cart-item__qty">
-                      <button type="button" onClick={() => updateQty(item.id, item.qty - 1)} aria-label="Diminuir">−</button>
+                      <button type="button" onClick={() => updateQty(item.lineId || item.id, item.qty - 1)} aria-label="Diminuir">−</button>
                       <span>{item.qty}</span>
-                      <button type="button" onClick={() => updateQty(item.id, item.qty + 1)} aria-label="Aumentar">+</button>
+                      <button type="button" onClick={() => updateQty(item.lineId || item.id, item.qty + 1)} aria-label="Aumentar">+</button>
                     </div>
                   </div>
-                  <button type="button" className="cart-item__remove" onClick={() => removeFromCart(item.id)} aria-label="Remover">
+                  <button type="button" className="cart-item__remove" onClick={() => removeFromCart(item.lineId || item.id)} aria-label="Remover">
                     ×
                   </button>
                 </li>

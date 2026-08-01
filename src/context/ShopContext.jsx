@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   products,
   matchesFilter,
-  scrollToProducts,
-  scrollToSection,
   getFilterLabel,
   resolveSearchCategory,
   searchProducts,
 } from '../data/mockData'
+import { pathForFilter } from '../data/catalog'
 
 const FAVORITES_KEY = 'terraestilo-favorites'
 
@@ -20,9 +20,15 @@ function loadStoredFavorites() {
   }
 }
 
+function cartLineKey(product) {
+  const size = product.selectedSize || product.size || ''
+  return `${product.id}::${size}`
+}
+
 const ShopContext = createContext(null)
 
 export function ShopProvider({ children }) {
+  const navigate = useNavigate()
   const [cart, setCart] = useState([])
   const [favorites, setFavorites] = useState(loadStoredFavorites)
   const [searchQuery, setSearchQuery] = useState('')
@@ -41,17 +47,10 @@ export function ShopProvider({ children }) {
 
   const navigateToCollection = useCallback((filterId) => {
     setSearchQuery('')
-    setCategoryFilter(filterId)
-    window.setTimeout(() => {
-      if (document.getElementById('novidades')) {
-        scrollToSection('novidades')
-      } else if (document.getElementById('mais-vendidos')) {
-        scrollToSection('mais-vendidos')
-      } else {
-        scrollToProducts()
-      }
-    }, 50)
-  }, [])
+    setCategoryFilter(filterId || 'Todos')
+    const path = pathForFilter(filterId)
+    navigate(path)
+  }, [navigate])
 
   const performSearch = useCallback((termOverride) => {
     const term = (termOverride ?? searchQuery).trim()
@@ -62,50 +61,86 @@ export function ShopProvider({ children }) {
     const categoryTarget = resolveSearchCategory(term)
     if (categoryTarget === '__colecoes__') {
       setCategoryFilter('Todos')
-      window.setTimeout(() => scrollToSection('colecoes'), 50)
+      navigate('/colecoes')
+      return true
+    }
+
+    if (categoryTarget === '__novidades__') {
+      setCategoryFilter('Todos')
+      navigate('/')
+      window.setTimeout(() => {
+        document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 80)
       return true
     }
 
     if (categoryTarget) {
       setCategoryFilter(categoryTarget)
-    } else {
-      setCategoryFilter('Todos')
+      navigate(pathForFilter(categoryTarget))
+      return true
     }
 
-    window.setTimeout(scrollToProducts, 50)
+    setCategoryFilter('Todos')
+    navigate('/')
+    window.setTimeout(() => {
+      document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
     return true
-  }, [searchQuery])
+  }, [navigate, searchQuery])
 
   const clearSearch = useCallback(() => {
     setSearchQuery('')
     setCategoryFilter('Todos')
   }, [])
 
-  const addToCart = useCallback((product) => {
+  const addToCart = useCallback((product, options = {}) => {
+    const selectedSize = options.size ?? product.selectedSize ?? product.size
+    const requireSize = options.requireSize !== false
+    const sizesNeeded = requireSize && !(options.skipSizeCheck)
+
+    if (sizesNeeded && !selectedSize) {
+      showToast('Selecione um tamanho para continuar.')
+      return false
+    }
+
+    const line = {
+      ...product,
+      selectedSize: selectedSize || null,
+      lineId: cartLineKey({ ...product, selectedSize }),
+    }
+
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id)
+      const existing = prev.find((item) => item.lineId === line.lineId)
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item,
+          item.lineId === line.lineId ? { ...item, qty: item.qty + 1 } : item,
         )
       }
-      return [...prev, { ...product, qty: 1 }]
+      return [...prev, { ...line, qty: 1 }]
     })
     setCartOpen(true)
-    showToast(`${product.name} adicionado ao carrinho.`)
+    const sizeLabel = selectedSize ? ` (${selectedSize})` : ''
+    showToast(`${product.name}${sizeLabel} adicionado ao carrinho.`)
+    return true
   }, [showToast])
 
-  const removeFromCart = useCallback((productId) => {
-    setCart((prev) => prev.filter((item) => item.id !== productId))
+  const removeFromCart = useCallback((lineIdOrProductId) => {
+    setCart((prev) =>
+      prev.filter((item) => item.lineId !== lineIdOrProductId && item.id !== lineIdOrProductId),
+    )
   }, [])
 
-  const updateQty = useCallback((productId, qty) => {
+  const updateQty = useCallback((lineIdOrProductId, qty) => {
     if (qty < 1) {
-      removeFromCart(productId)
+      removeFromCart(lineIdOrProductId)
       return
     }
     setCart((prev) =>
-      prev.map((item) => (item.id === productId ? { ...item, qty } : item)),
+      prev.map((item) =>
+        item.lineId === lineIdOrProductId || item.id === lineIdOrProductId
+          ? { ...item, qty }
+          : item,
+      ),
     )
   }, [removeFromCart])
 

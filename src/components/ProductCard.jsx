@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   formatCurrency,
   getInstallment,
@@ -17,20 +18,27 @@ function ProductCard({
   showRating = false,
 }) {
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
+  const [selectedSize, setSelectedSize] = useState(null)
   const favorite = isFavorite(product.id)
   const primaryImage = getProductImage(product)
   const hoverImage = getProductHoverImage(product)
   const sizes = getProductSizes(product)
   const rating = getProductRating(product)
   const badge = product.badge
-  const isNovo = badge && /novo|novidade/i.test(badge)
+  const isNovo = product.new || (badge && /novo|novidade/i.test(badge))
+  const needsSize = showSizes && sizes.length > 0
 
   const badgeClass = badge
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`
     : ''
 
-  const handleCardActivate = () => {
-    addToCart(product)
+  const tryAdd = (sizeOverride) => {
+    const size = sizeOverride ?? selectedSize
+    if (needsSize && !size) {
+      showToast('Selecione um tamanho para adicionar ao carrinho.')
+      return
+    }
+    addToCart({ ...product, selectedSize: size }, { size, requireSize: needsSize })
   }
 
   const stop = (event) => {
@@ -41,17 +49,8 @@ function ProductCard({
 
   return (
     <article
-      className={`product-card product-card--${tone}${variantClass} product-card--clickable`}
-      role="link"
-      tabIndex={0}
-      aria-label={`${product.name} — Comprar agora`}
-      onClick={handleCardActivate}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault()
-          handleCardActivate()
-        }
-      }}
+      className={`product-card product-card--${tone}${variantClass}`}
+      aria-label={product.name}
     >
       <div className="product-card__media">
         <div className="product-card__image">
@@ -100,22 +99,24 @@ function ProductCard({
           className="product-card__quick"
           onClick={(event) => {
             stop(event)
-            showToast(`Visualização rápida: ${product.name}`)
+            tryAdd()
           }}
         >
-          Visualização rápida
+          Compra rápida
         </button>
 
         {showSizes && sizes.length > 0 && (
-          <div className="product-card__sizes" aria-label="Tamanhos disponíveis">
+          <div className="product-card__sizes" aria-label="Selecionar tamanho" role="group">
             {sizes.slice(0, 5).map((size) => (
               <button
                 key={size}
                 type="button"
-                className="product-card__size"
+                className={`product-card__size${selectedSize === size ? ' is-selected' : ''}`}
+                aria-pressed={selectedSize === size}
                 onClick={(event) => {
                   stop(event)
-                  addToCart({ ...product, selectedSize: size })
+                  setSelectedSize(size)
+                  addToCart({ ...product, selectedSize: size }, { size, requireSize: true })
                 }}
               >
                 {size}
@@ -153,13 +154,15 @@ function ProductCard({
           )}
           <p className="product-card__price">{formatCurrency(product.price)}</p>
         </div>
-        <p className="product-card__installments">ou {getInstallment(product.price)}</p>
+        <p className="product-card__installments">
+          ou {getInstallment(product.price, product.installments || 10)}
+        </p>
         <button
           type="button"
           className="btn btn--primary btn--block"
           onClick={(event) => {
             stop(event)
-            addToCart(product)
+            tryAdd()
           }}
         >
           Comprar agora

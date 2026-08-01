@@ -38,7 +38,7 @@ function LookbookSection() {
                   className="lookbook-section__hotspot"
                   style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
                   aria-label={`${spot.label} — ${formatCurrency(product.price)}`}
-                  onClick={() => addToCart(product)}
+                  onClick={() => addToCart(product, { skipSizeCheck: true, requireSize: false })}
                 >
                   <span className="lookbook-section__hotspot-dot" />
                   <span className="lookbook-section__hotspot-card">
@@ -61,7 +61,7 @@ function LookbookSection() {
                   type="button"
                   className="lookbook-section__tile"
                   onClick={() => {
-                    if (product) addToCart(product)
+                    if (product) addToCart(product, { skipSizeCheck: true, requireSize: false })
                     else navigateToCollection('Todos')
                   }}
                 >

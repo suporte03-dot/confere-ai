@@ -1,9 +1,7 @@
+import { Link } from 'react-router-dom'
 import { categoryCards } from '../../data/homeData'
-import { useShop } from '../../context/ShopContext'
 
 function CategoryShowcase() {
-  const { navigateToCollection } = useShop()
-
   return (
     <section id="categorias" className="categorias-section section" aria-labelledby="categorias-title">
       <div className="container categorias-section__container">
@@ -19,11 +17,10 @@ function CategoryShowcase() {
 
         <div className="category-banners">
           {categoryCards.map((category) => (
-            <button
+            <Link
               key={category.id}
-              type="button"
+              to={category.to}
               className="category-banner"
-              onClick={() => navigateToCollection(category.filter)}
             >
               <img
                 src={category.image}
@@ -42,7 +39,7 @@ function CategoryShowcase() {
                   <span aria-hidden="true"> →</span>
                 </span>
               </span>
-            </button>
+            </Link>
           ))}
         </div>
       </div>

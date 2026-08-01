@@ -1,24 +1,23 @@
 import { useState } from 'react'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { ShopProvider } from './context/ShopContext'
 import Header from './components/home/Header'
-import HeroSection from './components/home/HeroSection'
-import SectionDivider from './components/home/SectionDivider'
-import NovidadesSection from './components/home/NovidadesSection'
-import FeaturedCollection from './components/home/FeaturedCollection'
-import LookbookSection from './components/home/LookbookSection'
-import BenefitsBar from './components/home/BenefitsBar'
-import AboutBrand from './components/home/AboutBrand'
-import BrandValues from './components/home/BrandValues'
-import InstagramSection from './components/home/InstagramSection'
-import Newsletter from './components/home/Newsletter'
 import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
+import ScrollToTop from './components/ScrollToTop'
+import HomePage from './pages/HomePage'
+import CategoryPage from './pages/CategoryPage'
+import CollectionsPage from './pages/CollectionsPage'
+import ContactPage from './pages/ContactPage'
+import AboutPage from './pages/AboutPage'
+import StoresPage from './pages/StoresPage'
 import './App.css'
 import './home.css'
+import './catalog.css'
 import './preview.css'
 
-function SiteContent({
+function SiteLayout({
   menuOpen,
   setMenuOpen,
   searchOpen,
@@ -28,7 +27,6 @@ function SiteContent({
     <div className="app" id="inicio">
       <div className="site-chrome">
         <header className="brand-header">
-          {/* Header unificado: logo + MainNavigation + busca/conta/carrinho */}
           <Header
             menuOpen={menuOpen}
             onMenuToggle={() => setMenuOpen((v) => !v)}
@@ -38,26 +36,7 @@ function SiteContent({
           />
         </header>
       </div>
-      <HeroSection />
-      <SectionDivider
-        variant="light"
-        showSaint
-        className="section-divider--after-hero"
-      />
-      <main>
-        <NovidadesSection />
-        <SectionDivider variant="light" showSaint />
-        <FeaturedCollection />
-        <SectionDivider variant="dark" showSaint />
-        <LookbookSection />
-        <SectionDivider variant="light" showSaint />
-        <AboutBrand />
-        <BrandValues />
-        <BenefitsBar />
-        <InstagramSection />
-        <Newsletter />
-        <SectionDivider variant="light" showSaint />
-      </main>
+      <Outlet />
       <Footer />
       <CartDrawer />
       <Toast />
@@ -72,12 +51,31 @@ function App() {
   return (
     <div className="desktop-preview">
       <ShopProvider>
-        <SiteContent
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-          searchOpen={searchOpen}
-          setSearchOpen={setSearchOpen}
-        />
+        <ScrollToTop />
+        <Routes>
+          <Route
+            element={(
+              <SiteLayout
+                menuOpen={menuOpen}
+                setMenuOpen={setMenuOpen}
+                searchOpen={searchOpen}
+                setSearchOpen={setSearchOpen}
+              />
+            )}
+          >
+            <Route index element={<HomePage />} />
+            <Route path="feminino" element={<CategoryPage category="feminino" />} />
+            <Route path="masculino" element={<CategoryPage category="masculino" />} />
+            <Route path="calcados" element={<CategoryPage category="calcados" />} />
+            <Route path="acessorios" element={<CategoryPage category="acessorios" />} />
+            <Route path="colecoes" element={<CollectionsPage />} />
+            <Route path="colecoes/:slug" element={<CollectionsPage />} />
+            <Route path="sobre" element={<AboutPage />} />
+            <Route path="lojas" element={<StoresPage />} />
+            <Route path="contato" element={<ContactPage />} />
+            <Route path="*" element={<HomePage />} />
+          </Route>
+        </Routes>
       </ShopProvider>
     </div>
   )

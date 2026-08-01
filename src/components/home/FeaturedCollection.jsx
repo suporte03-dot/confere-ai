@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   featuredCollection,
   BRAND_LOGO_CIRCULAR_SRC,
@@ -80,8 +81,8 @@ function FeaturedCollection() {
           </h2>
           <p className="featured-collection__description">{description}</p>
           <div className="featured-collection__actions">
-            <a
-              href={primaryHref}
+            <Link
+              to={primaryHref}
               className="featured-collection__button featured-collection__button--primary"
             >
               {primaryCta}
@@ -102,13 +103,13 @@ function FeaturedCollection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </a>
-            <a
-              href={secondaryHref}
+            </Link>
+            <Link
+              to={secondaryHref}
               className="featured-collection__button featured-collection__button--secondary"
             >
               {secondaryCta}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

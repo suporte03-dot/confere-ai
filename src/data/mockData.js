@@ -414,7 +414,17 @@ export const featuredProducts = [
   },
 ]
 
-export const products = [
+const COLLECTION_CYCLE = ['raizes-do-sul', 'essencia-do-campo', 'classicos-terra-estilo']
+
+const DEPT_TO_CATEGORY = {
+  Feminino: 'feminino',
+  Masculino: 'masculino',
+  Calçados: 'calcados',
+  Acessórios: 'acessorios',
+  Infantil: 'infantil',
+}
+
+const productsSeed = [
   {
     id: 1,
     name: 'Camisa Worker Terra & Estilo Xadrez',
@@ -945,6 +955,39 @@ export const products = [
   },
 ]
 
+function enrichProduct(product) {
+  const category = product.category || DEPT_TO_CATEGORY[product.department] || 'masculino'
+  const badge = String(product.badge || '').toLowerCase()
+  const isNew = product.new ?? (badge.includes('novo') || badge.includes('novidade'))
+  const featured =
+    product.featured ??
+    (badge.includes('destaque') || badge.includes('mais vendido') || badge.includes('premium'))
+  const collection =
+    product.collection || COLLECTION_CYCLE[Math.abs(Number(product.id) || 0) % COLLECTION_CYCLE.length]
+  const sizes = Array.isArray(product.sizes) && product.sizes.length
+    ? product.sizes
+    : undefined
+
+  return {
+    ...product,
+    category,
+    collection,
+    new: Boolean(isNew),
+    featured: Boolean(featured),
+    installments: product.installments ?? 10,
+    ...(sizes ? { sizes } : {}),
+  }
+}
+
+/** Catálogo único — fonte central de produtos da loja. */
+export const products = productsSeed.map(enrichProduct)
+
+/** Featured home cards — aliases do catálogo principal (sem fonte duplicada). */
+export const catalogFeatured = [
+  ...featuredProducts.map(enrichProduct),
+  ...products.filter((p) => [25, 28, 9, 10].includes(p.id)),
+].filter((p, i, arr) => arr.findIndex((x) => x.id === p.id) === i)
+
 export const collectionBanner = {
   label: 'Coleção em destaque',
   title: 'Coleção Raízes do Sul',
@@ -1037,13 +1080,23 @@ const filterLabels = {
 export function matchesFilter(product, filterId) {
   if (filterId === 'Todos') return true
   if (filterId === 'Outlet') return product.badge === 'Outlet'
-  if (filterId === 'Masculino') return product.department === 'Masculino'
-  if (filterId === 'Feminino') return product.department === 'Feminino'
-  if (filterId === 'Infantil') return product.department === 'Infantil'
-  if (filterId === 'Calçados') return product.department === 'Calçados'
-  if (filterId === 'Acessórios') return product.department === 'Acessórios'
+  if (filterId === 'Masculino' || filterId === 'masculino') {
+    return product.category === 'masculino' || product.department === 'Masculino'
+  }
+  if (filterId === 'Feminino' || filterId === 'feminino') {
+    return product.category === 'feminino' || product.department === 'Feminino'
+  }
+  if (filterId === 'Infantil' || filterId === 'infantil') {
+    return product.category === 'infantil' || product.department === 'Infantil'
+  }
+  if (filterId === 'Calçados' || filterId === 'calcados') {
+    return product.category === 'calcados' || product.department === 'Calçados'
+  }
+  if (filterId === 'Acessórios' || filterId === 'acessorios') {
+    return product.category === 'acessorios' || product.department === 'Acessórios'
+  }
 
-  return product.collectionId === filterId
+  return product.collectionId === filterId || product.collection === filterId
 }
 
 export function getSubcategoriesForNav(navId) {
@@ -1201,14 +1254,15 @@ export function getProductHoverImage(product) {
 export function getProductSizes(product) {
   if (Array.isArray(product?.sizes) && product.sizes.length) return product.sizes
   const dept = product?.department
-  if (dept === 'Calçados') return ['37', '38', '39', '40', '41', '42']
-  if (dept === 'Acessórios') {
+  const category = product?.category
+  if (dept === 'Calçados' || category === 'calcados') return ['37', '38', '39', '40', '41', '42']
+  if (dept === 'Acessórios' || category === 'acessorios') {
     if (product?.subcategory?.toLowerCase().includes('boné') || product?.collectionId === 'bones') {
       return ['Único']
     }
     return ['P', 'M', 'G']
   }
-  if (dept === 'Infantil') return ['2', '4', '6', '8', '10']
+  if (dept === 'Infantil' || category === 'infantil') return ['2', '4', '6', '8', '10']
   return ['P', 'M', 'G', 'GG']
 }
 

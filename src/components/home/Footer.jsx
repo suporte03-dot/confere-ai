@@ -1,15 +1,16 @@
+import { Link } from 'react-router-dom'
 import { footerHome } from '../../data/homeData'
 import TerraEstiloLogo from './TerraEstiloLogo'
 
 function socialHref(name) {
   if (name === 'Instagram') return footerHome.atendimento.instagramHref
   if (name === 'WhatsApp') return footerHome.atendimento.whatsappHref
-  return `#${name.toLowerCase()}`
+  return `/contato`
 }
 
 function Footer() {
   return (
-    <footer id="contato" className="site-footer">
+    <footer className="site-footer">
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <TerraEstiloLogo variant="footer" />
@@ -32,12 +33,14 @@ function Footer() {
           <h4>Institucional</h4>
           <ul>
             {footerHome.institucional.map((link) => (
-              <li key={link.label}><a href={link.href}>{link.label}</a></li>
+              <li key={link.label}>
+                <Link to={link.to}>{link.label}</Link>
+              </li>
             ))}
           </ul>
         </nav>
 
-        <div className="site-footer__col" id="lojas">
+        <div className="site-footer__col">
           <h4>Atendimento</h4>
           <ul>
             <li>
@@ -55,7 +58,7 @@ function Footer() {
           </ul>
         </div>
 
-        <div className="site-footer__col" id="trocas">
+        <div className="site-footer__col">
           <h4>Pagamento</h4>
           <div className="site-footer__payments">
             {footerHome.payments.map((method) => (

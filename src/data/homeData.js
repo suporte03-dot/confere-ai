@@ -23,13 +23,14 @@ export const headerBrandPillars = [
 ]
 
 export const mainNavigation = [
-  { label: 'Início', href: '#inicio' },
-  { label: 'Feminino', href: '#novidades', filter: 'Feminino' },
-  { label: 'Masculino', href: '#novidades', filter: 'Masculino' },
-  { label: 'Acessórios', href: '#novidades', filter: 'Acessórios' },
-  { label: 'Coleções', href: '#colecoes', hasChevron: true },
-  { label: 'Sobre', href: '#sobre' },
-  { label: 'Contato', href: '#contato' },
+  { label: 'Início', to: '/' },
+  { label: 'Feminino', to: '/feminino' },
+  { label: 'Masculino', to: '/masculino' },
+  { label: 'Calçados', to: '/calcados' },
+  { label: 'Acessórios', to: '/acessorios' },
+  { label: 'Coleções', to: '/colecoes', hasDropdown: true, hasChevron: true },
+  { label: 'Sobre', to: '/sobre' },
+  { label: 'Contato', to: '/contato' },
 ]
 
 export const heroBrandPillars = [
@@ -120,6 +121,7 @@ export const categoryCardsAll = [
     title: 'Feminino',
     subtitle: 'Silhuetas leves e elegância contemporânea',
     filter: 'Feminino',
+    to: '/feminino',
     image: assetUrl('/images/categorias/camisas.jpg'),
     objectPosition: 'center 28%',
   },
@@ -128,6 +130,7 @@ export const categoryCardsAll = [
     title: 'Masculino',
     subtitle: 'Cortes firmes para campo e cidade',
     filter: 'Masculino',
+    to: '/masculino',
     image: assetUrl('/images/categorias/jaquetas-masculinas.jpg'),
     objectPosition: 'center 22%',
   },
@@ -136,6 +139,7 @@ export const categoryCardsAll = [
     title: 'Calçados',
     subtitle: 'Botas, coturnos e tênis com presença',
     filter: 'Calçados',
+    to: '/calcados',
     image: assetUrl('/images/categorias/calca-jeans-masculinas.jpg'),
     objectPosition: 'center 70%',
   },
@@ -144,6 +148,7 @@ export const categoryCardsAll = [
     title: 'Acessórios',
     subtitle: 'Detalhes que fecham o look',
     filter: 'Acessórios',
+    to: '/acessorios',
     image: assetUrl('/images/categorias/bones.jpg'),
     objectPosition: 'center 28%',
   },
@@ -167,8 +172,8 @@ export const featuredCollection = {
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
-  primaryHref: '#novidades',
-  secondaryHref: '#lookbook',
+  primaryHref: '/colecoes/raizes-do-sul',
+  secondaryHref: '/colecoes',
 }
 
 export const lookbookHome = {
@@ -384,12 +389,12 @@ export const footerHome = {
   description:
     'Terra & Estilo é a marca do agro brasileiro — elegância, autenticidade e identidade em cada peça.',
   institucional: [
-    { label: 'Sobre', href: '#sobre' },
-    { label: 'Coleções', href: '#colecoes' },
-    { label: 'Lojas', href: '#lojas' },
-    { label: 'Contato', href: '#contato' },
-    { label: 'Política de Troca', href: '#trocas' },
-    { label: 'Privacidade', href: '#privacidade' },
+    { label: 'Sobre', to: '/sobre' },
+    { label: 'Coleções', to: '/colecoes' },
+    { label: 'Lojas', to: '/lojas' },
+    { label: 'Contato', to: '/contato' },
+    { label: 'Política de Troca', to: '/contato' },
+    { label: 'Privacidade', to: '/contato' },
   ],
   atendimento: {
     whatsapp: '(54) 99939-8038',
