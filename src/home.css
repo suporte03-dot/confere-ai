@@ -2087,18 +2087,6 @@
   transform: translateY(-1px);
 }
 
-.featured-collection__button--secondary {
-  background: transparent;
-  color: #17130f;
-  border-color: rgba(201, 155, 50, 0.85);
-}
-
-.featured-collection__button--secondary:hover {
-  background: rgba(201, 155, 50, 0.08);
-  border-color: var(--color-gold-strong);
-  transform: translateY(-1px);
-}
-
 .featured-collection__button:focus-visible,
 .category-card:focus-visible,
 .category-card__fav:focus-visible,

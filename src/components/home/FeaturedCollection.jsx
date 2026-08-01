@@ -12,11 +12,9 @@ function FeaturedCollection() {
     title,
     description,
     primaryCta,
-    secondaryCta,
     image,
     imageAlt,
     primaryHref = '#novidades',
-    secondaryHref = '#lookbook',
   } = featuredCollection
 
   return (
@@ -103,12 +101,6 @@ function FeaturedCollection() {
                   strokeLinejoin="round"
                 />
               </svg>
-            </Link>
-            <Link
-              to={secondaryHref}
-              className="featured-collection__button featured-collection__button--secondary"
-            >
-              {secondaryCta}
             </Link>
           </div>
         </div>
