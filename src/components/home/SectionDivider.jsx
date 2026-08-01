@@ -13,7 +13,13 @@ function SectionDivider({ variant = 'light', showSaint = false, className = '' }
   return (
     <div className={classes} aria-hidden="true">
       <span className="section-divider__line" />
-      <div className="section-divider__medallion">
+      <div
+        className={
+          showSaint
+            ? 'section-divider__medallion section-divider__medallion--saint'
+            : 'section-divider__medallion'
+        }
+      >
         {showSaint ? (
           <img
             src={santaHero}
