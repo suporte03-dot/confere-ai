@@ -10,11 +10,9 @@ function FeaturedCollection() {
     title,
     description,
     primaryCta,
-    secondaryCta,
     image,
     imageAlt,
     primaryHref = '/colecoes/raizes-do-sul',
-    secondaryHref = '/#instagram',
   } = featuredCollection
 
   return (
@@ -100,14 +98,6 @@ function FeaturedCollection() {
                 />
               </svg>
             </Link>
-            {secondaryCta && (
-              <Link
-                to={secondaryHref}
-                className="featured-collection__button featured-collection__button--secondary"
-              >
-                {secondaryCta}
-              </Link>
-            )}
           </div>
         </div>
       </div>

@@ -2447,18 +2447,6 @@ body.nav-drawer-open {
   transform: translateY(-1px);
 }
 
-.featured-collection__button--secondary {
-  background: transparent;
-  color: var(--color-text-dark);
-  border-color: rgba(24, 19, 15, 0.28);
-}
-
-.featured-collection__button--secondary:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-  transform: translateY(-1px);
-}
-
 .featured-collection__button:focus-visible,
 .category-card:focus-visible,
 .category-card__fav:focus-visible,

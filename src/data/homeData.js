@@ -171,7 +171,6 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  secondaryCta: 'Ver lookbook',
   // Cast-only crop from folder mockup — logo seal + ivory copy come from HTML.
   image: raizHeroAsset,
   imageAlt:
@@ -181,7 +180,6 @@ export const featuredCollection = {
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
   primaryHref: '/colecoes/raizes-do-sul',
-  secondaryHref: '/#instagram',
 }
 
 export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
