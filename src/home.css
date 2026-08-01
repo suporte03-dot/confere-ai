@@ -87,14 +87,14 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
-  --header-main-h: 98px;
-  --header-main-h-compact: 72px;
+  --header-main-h: 104px;
+  --header-main-h-compact: 76px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(80px, 104px);
+  --header-brand-w: minmax(88px, 112px);
   --header-actions-w: minmax(148px, max-content);
-  --header-logo-mark-h: 80px;
-  --header-logo-size: clamp(72px, 5.2vw, 84px);
+  --header-logo-mark-h: 92px;
+  --header-logo-size: clamp(80px, 5.8vw, 92px);
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -828,7 +828,7 @@
 
 .site-chrome--scrolled {
   --header-main-h: var(--header-main-h-compact);
-  --header-logo-size: clamp(56px, 4.4vw, 68px);
+  --header-logo-size: clamp(60px, 4.8vw, 70px);
   --sticky-offset: var(--header-main-h-compact);
   background: rgba(8, 8, 7, 0.94);
   backdrop-filter: blur(14px) saturate(1.08);
