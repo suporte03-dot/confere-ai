@@ -9,7 +9,13 @@ import {
 } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 
-function ProductCard({ product, tone = 'light', showSizes = true, showRating = false }) {
+function ProductCard({
+  product,
+  tone = 'light',
+  variant,
+  showSizes = true,
+  showRating = false,
+}) {
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
   const favorite = isFavorite(product.id)
   const primaryImage = getProductImage(product)
@@ -31,9 +37,11 @@ function ProductCard({ product, tone = 'light', showSizes = true, showRating = f
     event.stopPropagation()
   }
 
+  const variantClass = variant ? ` product-card--${variant}` : ''
+
   return (
     <article
-      className={`product-card product-card--${tone} product-card--clickable`}
+      className={`product-card product-card--${tone}${variantClass} product-card--clickable`}
       role="link"
       tabIndex={0}
       aria-label={`${product.name} — Comprar agora`}

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { bestsellersTabs } from '../../data/homeData'
+import { bestsellersTabs, bestsellersSection } from '../../data/homeData'
 import { products, getBestsellersProducts } from '../../data/mockData'
 import { useShop } from '../../context/ShopContext'
 import ProductCard from '../ProductCard'
@@ -38,20 +38,25 @@ function BestsellersSection() {
       <div id="mais-vendidos" className="visually-hidden" aria-hidden="true" />
       <div id="produtos" className="visually-hidden" aria-hidden="true" />
       <div className="container">
-        <div className="section-head section-head--light">
-          <p className="section-head__eyebrow">Os favoritos</p>
+        <div className="section-head section-head--light bestsellers-section__head">
+          <p className="section-head__eyebrow">{bestsellersSection.eyebrow}</p>
           <h2 id="bestsellers-title" className="section-head__title">
-            {isSearchActive ? 'Resultados da busca' : 'Os favoritos da Terra & Estilo'}
+            {isSearchActive ? bestsellersSection.searchTitle : bestsellersSection.title}
           </h2>
+          <span className="bestsellers-section__rule" aria-hidden="true" />
           <p className="section-head__desc">
             {isSearchActive
               ? `Exibindo resultados para ${activeFilterLabel}.`
-              : 'Mais vendidos com preço, parcelas e compra rápida — as peças que o Brasil já escolheu.'}
+              : bestsellersSection.description}
           </p>
         </div>
 
         {!showSearchResults && (
-          <div className="bestsellers-section__tabs" role="tablist" aria-label="Filtrar favoritos">
+          <div
+            className="bestsellers-section__tabs"
+            role="tablist"
+            aria-label={bestsellersSection.tabsLabel}
+          >
             {bestsellersTabs.map((label) => (
               <button
                 key={label}
@@ -81,6 +86,7 @@ function BestsellersSection() {
                 key={product.id}
                 product={product}
                 tone="dark"
+                variant="vitrine"
                 showSizes
                 showRating={false}
               />

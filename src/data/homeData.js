@@ -206,6 +206,15 @@ export const instagramHome = {
 
 export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 
+export const bestsellersSection = {
+  eyebrow: 'Coleção em evidência',
+  title: 'Seleção Terra & Estilo',
+  description:
+    'Cortes atemporais, acabamento refinado e a elegância do agro brasileiro — uma vitrine de peças para vestir com presença.',
+  searchTitle: 'Resultados da busca',
+  tabsLabel: 'Filtrar seleção',
+}
+
 export const homeFeaturedProducts = [
   {
     id: 101,
