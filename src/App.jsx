@@ -4,7 +4,6 @@ import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
 import SectionDivider from './components/home/SectionDivider'
 import BestsellersSection from './components/home/BestsellersSection'
-import CategoryShowcase from './components/home/CategoryShowcase'
 import NovidadesSection from './components/home/NovidadesSection'
 import FeaturedCollection from './components/home/FeaturedCollection'
 import LookbookSection from './components/home/LookbookSection'
@@ -48,8 +47,6 @@ function SiteContent({
       />
       <main>
         <BestsellersSection />
-        <SectionDivider variant="dark" showSaint />
-        <CategoryShowcase />
         <SectionDivider variant="dark" showSaint />
         <NovidadesSection />
         <SectionDivider variant="light" showSaint />
