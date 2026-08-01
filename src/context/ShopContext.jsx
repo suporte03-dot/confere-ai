@@ -22,7 +22,8 @@ function loadStoredFavorites() {
 
 function cartLineKey(product) {
   const size = product.selectedSize || product.size || ''
-  return `${product.id}::${size}`
+  const color = product.selectedColor || product.color || ''
+  return `${product.id}::${size}::${color}`
 }
 
 const ShopContext = createContext(null)
@@ -95,6 +96,7 @@ export function ShopProvider({ children }) {
 
   const addToCart = useCallback((product, options = {}) => {
     const selectedSize = options.size ?? product.selectedSize ?? product.size
+    const selectedColor = options.color ?? product.selectedColor ?? product.color ?? null
     const requireSize = options.requireSize !== false
     const sizesNeeded = requireSize && !(options.skipSizeCheck)
 
@@ -106,7 +108,8 @@ export function ShopProvider({ children }) {
     const line = {
       ...product,
       selectedSize: selectedSize || null,
-      lineId: cartLineKey({ ...product, selectedSize }),
+      selectedColor: selectedColor || null,
+      lineId: cartLineKey({ ...product, selectedSize, selectedColor }),
     }
 
     setCart((prev) => {
@@ -119,8 +122,9 @@ export function ShopProvider({ children }) {
       return [...prev, { ...line, qty: 1 }]
     })
     setCartOpen(true)
-    const sizeLabel = selectedSize ? ` (${selectedSize})` : ''
-    showToast(`${product.name}${sizeLabel} adicionado ao carrinho.`)
+    const bits = [selectedSize, selectedColor].filter(Boolean).join(' · ')
+    const detailLabel = bits ? ` (${bits})` : ''
+    showToast(`${product.name}${detailLabel} adicionado ao carrinho.`)
     return true
   }, [showToast])
 

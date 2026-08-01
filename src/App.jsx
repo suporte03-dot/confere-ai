@@ -13,6 +13,7 @@ import CollectionsPage from './pages/CollectionsPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import StoresPage from './pages/StoresPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 import './App.css'
 import './home.css'
 import './catalog.css'
@@ -81,6 +82,7 @@ function App() {
             <Route path="sobre" element={<AboutPage />} />
             <Route path="lojas" element={<StoresPage />} />
             <Route path="contato" element={<ContactPage />} />
+            <Route path="produto/:id" element={<ProductDetailPage />} />
             <Route path="*" element={<HomePage />} />
           </Route>
         </Routes>

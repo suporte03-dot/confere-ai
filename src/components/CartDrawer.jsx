@@ -46,8 +46,12 @@ function CartDrawer() {
                   </div>
                   <div className="cart-item__info">
                     <strong>{item.name}</strong>
-                    {item.selectedSize && (
-                      <span className="cart-item__size">Tam. {item.selectedSize}</span>
+                    {(item.selectedSize || item.selectedColor) && (
+                      <span className="cart-item__size">
+                        {[item.selectedSize && `Tam. ${item.selectedSize}`, item.selectedColor]
+                          .filter(Boolean)
+                          .join(' · ')}
+                      </span>
                     )}
                     <span>{formatCurrency(item.price)}</span>
                     <div className="cart-item__qty">

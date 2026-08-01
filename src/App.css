@@ -1763,6 +1763,57 @@
   display: none;
 }
 
+.product-card__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 0;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(201, 155, 50, 0.22);
+}
+
+.product-card__info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.product-card__info-sep {
+  margin: 0 6px;
+  color: rgba(201, 155, 50, 0.45);
+  font-size: 0.625rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.product-card__info-link {
+  margin: 0;
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted, #6b6358);
+  font-family: var(--font-sans, 'Montserrat', system-ui, sans-serif);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.product-card__info-link:hover {
+  color: var(--gold-primary, #c99b32);
+}
+
+.product-card__info-link:focus-visible {
+  outline: 2px solid var(--gold-primary, #c99b32);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .product-card.is-picking-size .product-card__sizes {
   opacity: 1;
   transform: translateY(0);

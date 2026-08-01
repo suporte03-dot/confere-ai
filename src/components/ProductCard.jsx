@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   formatCurrency,
   getInstallment,
@@ -9,6 +10,13 @@ import {
   getProductRating,
 } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
+import ProductInfoModal from './ProductInfoModal'
+
+const INFO_LINKS = [
+  { id: 'sobre', label: 'Sobre o produto' },
+  { id: 'provador', label: 'Provador Virtual' },
+  { id: 'medidas', label: 'Tabela de Medidas' },
+]
 
 function ProductCard({
   product,
@@ -17,9 +25,12 @@ function ProductCard({
   showSizes = true,
   showRating = false,
 }) {
+  const navigate = useNavigate()
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
   const [selectedSize, setSelectedSize] = useState(null)
   const [pickingSize, setPickingSize] = useState(false)
+  const [infoOpen, setInfoOpen] = useState(false)
+  const [infoTab, setInfoTab] = useState('sobre')
   const favorite = isFavorite(product.id)
   const primaryImage = getProductImage(product)
   const hoverImage = getProductHoverImage(product)
@@ -28,6 +39,7 @@ function ProductCard({
   const badge = product.badge
   const isNovo = product.new || (badge && /novo|novidade/i.test(badge))
   const needsSize = showSizes && sizes.length > 0
+  const detailPath = `/produto/${product.id}`
 
   const badgeClass = badge
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`
@@ -35,6 +47,25 @@ function ProductCard({
 
   const stop = (event) => {
     event.stopPropagation()
+  }
+
+  const openInfo = (event, tab) => {
+    stop(event)
+    setInfoTab(tab)
+    setInfoOpen(true)
+  }
+
+  const goToDetail = (event) => {
+    if (event.target.closest('button, a, input, select, textarea, label')) return
+    navigate(detailPath)
+  }
+
+  const onCardKeyDown = (event) => {
+    if (event.target !== event.currentTarget) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      navigate(detailPath)
+    }
   }
 
   const tryAdd = (sizeOverride) => {
@@ -65,8 +96,11 @@ function ProductCard({
 
   return (
     <article
-      className={`product-card product-card--${tone}${variantClass}${pickingClass}`}
-      aria-label={product.name}
+      className={`product-card product-card--${tone} product-card--clickable${variantClass}${pickingClass}`}
+      aria-label={`${product.name}. Abrir detalhes do produto`}
+      tabIndex={0}
+      onClick={goToDetail}
+      onKeyDown={onCardKeyDown}
     >
       <div className="product-card__media">
         <div className="product-card__image">
@@ -179,7 +213,29 @@ function ProductCard({
             Adicionar
           </span>
         </button>
+
+        <nav className="product-card__info" aria-label="Mais informações do produto">
+          {INFO_LINKS.map((link, index) => (
+            <span key={link.id} className="product-card__info-item">
+              {index > 0 && <span className="product-card__info-sep" aria-hidden="true">|</span>}
+              <button
+                type="button"
+                className="product-card__info-link"
+                onClick={(event) => openInfo(event, link.id)}
+              >
+                {link.label}
+              </button>
+            </span>
+          ))}
+        </nav>
       </div>
+
+      <ProductInfoModal
+        product={product}
+        open={infoOpen}
+        initialTab={infoTab}
+        onClose={() => setInfoOpen(false)}
+      />
     </article>
   )
 }

@@ -1067,7 +1067,22 @@ export const colorSwatches = {
   Amarelo: '#D4A843',
   Rosa: '#C4848E',
   Cinza: '#6B7280',
+  Creme: '#F6EFE4',
 }
+
+/** Paleta extra para enriquecer opções de cor na página de detalhe. */
+const COLOR_EXPAND_POOL = [
+  'Oliva',
+  'Areia',
+  'Preto',
+  'Off-white',
+  'Marrom',
+  'Verde',
+  'Bege',
+  'Caramelo',
+  'Cinza',
+  'Marinho',
+]
 
 const filterLabels = {
   Todos: 'Todos os produtos',
@@ -1131,6 +1146,26 @@ export function getInstallment(price, installments = 10) {
 
 export function getColorHex(name) {
   return colorSwatches[name] || '#C8923E'
+}
+
+export function getProductById(id) {
+  const key = String(id)
+  const fromCatalog = products.find((p) => String(p.id) === key)
+  if (fromCatalog) return fromCatalog
+  return featuredProducts.map(enrichProduct).find((p) => String(p.id) === key) ?? null
+}
+
+/**
+ * Cores do produto; na vitrine detalhada expande até 5 opções da paleta da marca
+ * quando o item tem poucas cores cadastradas.
+ */
+export function getProductColors(product, { expand = false, minCount = 5 } = {}) {
+  const base = Array.isArray(product?.colors) ? [...product.colors] : []
+  if (!expand || base.length >= minCount) return base
+
+  const extras = COLOR_EXPAND_POOL.filter((color) => !base.includes(color))
+  const needed = Math.max(0, minCount - base.length)
+  return [...base, ...extras.slice(0, needed)]
 }
 
 export function getProductImage(product) {
