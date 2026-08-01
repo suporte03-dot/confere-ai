@@ -4,7 +4,8 @@
 
 body {
   font-family: 'Montserrat', system-ui, sans-serif;
-  color: #090909;
+  color: var(--text-dark, #18130f);
+  background: var(--ivory, #f6efe4);
   margin: 0;
   padding: 0;
 }
@@ -14,6 +15,6 @@ body {
 }
 
 ::selection {
-  background: rgba(201, 162, 77, 0.28);
-  color: #090909;
+  background: rgba(201, 155, 50, 0.28);
+  color: var(--text-dark, #18130f);
 }

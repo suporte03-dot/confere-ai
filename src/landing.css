@@ -1,25 +1,25 @@
 /* ── Terra & Estilo Landing — identidade premium ── */
 :root {
-  --preto: #0B0B0B;
-  --preto-sec: #161616;
-  --ouro: #C9A24D;
-  --ouro-suave: #D8B56A;
-  --ouro-claro: #E6C98A;
-  --branco-suave: #F8F6F1;
-  --cinza-claro: #EAE7E1;
-  --cinza-texto: #A9A39A;
-  --fundo-escuro: #0B0B0B;
-  --fundo-claro: #F7F4EE;
+  --preto: #080807;
+  --preto-sec: #12100d;
+  --ouro: #c99b32;
+  --ouro-suave: #d5aa45;
+  --ouro-claro: #dfbd69;
+  --branco-suave: #f6efe4;
+  --cinza-claro: #eee2cf;
+  --cinza-texto: #62594f;
+  --fundo-escuro: #080807;
+  --fundo-claro: #f6efe4;
 
   --lp-forest: var(--preto);
   --lp-olive: var(--preto-sec);
   --lp-gold: var(--ouro);
   --lp-cream: var(--branco-suave);
-  --lp-text: var(--preto);
-  --lp-muted: rgba(11, 11, 11, 0.62);
+  --lp-text: #18130f;
+  --lp-muted: #62594f;
   --lp-container: 1180px;
   --lp-radius: 12px;
-  --lp-shadow: 0 18px 48px rgba(11, 11, 11, 0.08);
+  --lp-shadow: 0 18px 48px rgba(8, 8, 7, 0.08);
   --lp-transition: 0.28s ease;
 }
 

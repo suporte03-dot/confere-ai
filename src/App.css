@@ -1,15 +1,20 @@
 /* ── Terra & Estilo Design Tokens — identidade oficial ── */
 :root {
-  /* Tokens de campanha */
-  --black-primary: #090909;
-  --black-secondary: #151515;
-  --gold-primary: #c9a227;
-  --gold-secondary: #d4af37;
-  --gold-light: #e6c98a;
-  --cream: #f8f6f1;
-  --white-soft: #fffdf8;
-  --gray-text: #b8b1a8;
-  --border-gold: rgba(201, 162, 77, 0.45);
+  /* Tokens de campanha (preto quente / ouro / marfim) */
+  --black-primary: #080807;
+  --black-soft: #12100d;
+  --black-secondary: var(--black-soft);
+  --gold-primary: #c99b32;
+  --gold-secondary: #d5aa45;
+  --gold-light: #dfbd69;
+  --ivory: #f6efe4;
+  --cream: #eee2cf;
+  --white: #fffdf8;
+  --white-soft: var(--white);
+  --text-dark: #18130f;
+  --text-muted: #62594f;
+  --gray-text: var(--text-muted);
+  --border-gold: rgba(201, 155, 50, 0.45);
 
   /* Paleta oficial */
   --preto: var(--black-primary);
@@ -17,11 +22,11 @@
   --ouro: var(--gold-primary);
   --ouro-suave: var(--gold-secondary);
   --ouro-claro: var(--gold-light);
-  --branco-suave: var(--cream);
-  --cinza-claro: #EAE7E1;
+  --branco-suave: var(--ivory);
+  --cinza-claro: var(--cream);
   --cinza-texto: var(--gray-text);
   --fundo-escuro: var(--black-primary);
-  --fundo-claro: var(--cream);
+  --fundo-claro: var(--ivory);
 
   /* Compat / legado (sem greens) */
   --tb-green-950: var(--preto);
@@ -34,7 +39,7 @@
   --tb-gold-600: var(--ouro);
   --tb-gold-500: var(--ouro-suave);
 
-  --tb-brown-800: #2a2218;
+  --tb-brown-800: #2b2117;
   --tb-brown-700: #3a2e20;
   --tb-brown-600: #4a3a28;
 
@@ -42,10 +47,10 @@
   --tb-sand-200: var(--fundo-claro);
   --tb-sand-300: var(--cinza-claro);
 
-  --tb-white: #FFFFFF;
-  --tb-text: var(--preto);
-  --tb-muted: var(--cinza-texto);
-  --tb-border: rgba(201, 162, 77, 0.28);
+  --tb-white: var(--white);
+  --tb-text: var(--text-dark);
+  --tb-muted: var(--text-muted);
+  --tb-border: rgba(201, 155, 50, 0.28);
 
   --tb-success: #1F7A3A;
   --tb-danger: #B42318;
@@ -56,18 +61,17 @@
   --leather: var(--tb-brown-600);
   --gold: var(--ouro);
   --off-white: var(--branco-suave);
-  --soft-black: var(--preto);
-  --muted: var(--cinza-texto);
+  --soft-black: var(--text-dark);
+  --muted: var(--text-muted);
   --border: var(--tb-border);
-  --white: var(--tb-white);
 
   --header-height: 112px;
 
-  --shadow-xs: 0 1px 3px rgba(11, 11, 11, 0.06);
-  --shadow-sm: 0 4px 14px rgba(11, 11, 11, 0.08);
-  --shadow-md: 0 10px 28px rgba(11, 11, 11, 0.1);
-  --shadow-lg: 0 18px 48px rgba(11, 11, 11, 0.14);
-  --shadow-gold: 0 8px 24px rgba(201, 162, 77, 0.28);
+  --shadow-xs: 0 1px 3px rgba(8, 8, 7, 0.06);
+  --shadow-sm: 0 4px 14px rgba(8, 8, 7, 0.08);
+  --shadow-md: 0 10px 28px rgba(8, 8, 7, 0.1);
+  --shadow-lg: 0 18px 48px rgba(8, 8, 7, 0.14);
+  --shadow-gold: 0 8px 24px rgba(201, 155, 50, 0.28);
 
   --radius: 12px;
   --radius-sm: 8px;
@@ -87,7 +91,8 @@
   --te-champagne: var(--ouro-suave);
   --te-cream-50: var(--branco-suave);
   --te-cream-100: var(--fundo-claro);
-  --te-text: var(--preto);
+  --te-text: var(--text-dark);
+  --te-muted: var(--text-muted);
 
   --transition: 0.25s ease;
 }
@@ -282,14 +287,14 @@
   background: var(--gold-primary);
   color: var(--black-primary);
   border-color: var(--gold-primary);
-  box-shadow: 0 6px 20px rgba(201, 162, 77, 0.28);
+  box-shadow: 0 6px 20px rgba(201, 155, 50, 0.28);
 }
 
 .btn--primary:hover {
   background: var(--gold-secondary);
   color: var(--black-primary);
   border-color: var(--gold-secondary);
-  box-shadow: 0 10px 26px rgba(201, 162, 77, 0.38);
+  box-shadow: 0 10px 26px rgba(201, 155, 50, 0.38);
 }
 
 .btn--outline {
@@ -341,7 +346,7 @@
   background: var(--ouro);
   color: var(--preto);
   border-color: var(--ouro);
-  box-shadow: 0 6px 20px rgba(201, 162, 77, 0.28);
+  box-shadow: 0 6px 20px rgba(201, 155, 50, 0.28);
 }
 
 .btn--gold:hover {
@@ -990,7 +995,7 @@
   width: 180px;
   height: 180px;
   border-radius: 50% 50% 50% 0;
-  background: radial-gradient(circle at 30% 30%, rgba(201, 162, 77, 0.18), transparent 70%);
+  background: radial-gradient(circle at 30% 30%, rgba(201, 155, 50, 0.18), transparent 70%);
   transform: rotate(25deg);
 }
 

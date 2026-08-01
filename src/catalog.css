@@ -76,8 +76,9 @@
 .stores-page {
   background:
     radial-gradient(ellipse at top, rgba(201, 155, 50, 0.06), transparent 42%),
-    linear-gradient(180deg, #faf6ee 0%, #f6efe4 48%, #eee2cf 100%);
+    linear-gradient(180deg, var(--color-cream-soft, #faf6ee) 0%, var(--ivory, #f6efe4) 48%, var(--cream, #eee2cf) 100%);
   min-height: 50vh;
+  color: var(--text-dark, #18130f);
 }
 
 .catalog-page__body,

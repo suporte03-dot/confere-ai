@@ -13,7 +13,7 @@
   width: 100%;
   max-width: none;
   overflow: hidden;
-  background: #0e0c0a;
+  background: var(--black-soft, #12100d);
 }
 
 .desktop-preview .brand-hero__models-image {
@@ -98,7 +98,7 @@
   position: relative;
   min-height: 100vh;
   padding: 48px 16px 32px;
-  background: linear-gradient(180deg, var(--cinza-claro, #EAE7E1) 0%, var(--fundo-claro, #F7F4EE) 100%);
+  background: linear-gradient(180deg, var(--cream, #eee2cf) 0%, var(--ivory, #f6efe4) 100%);
   overflow-x: hidden;
 }
 
@@ -111,9 +111,9 @@
   border-radius: 32px;
   overflow-x: hidden;
   overflow-y: auto;
-  border: 10px solid #0B0B0B;
-  box-shadow: 0 24px 60px rgba(11, 11, 11, 0.35);
-  background: #F8F6F1;
+  border: 10px solid var(--black-primary, #080807);
+  box-shadow: 0 24px 60px rgba(8, 8, 7, 0.35);
+  background: var(--white, #fffdf8);
 }
 
 .mobile-preview .app {
@@ -374,7 +374,7 @@
   bottom: 0;
   width: min(300px, 86%);
   z-index: 150;
-  background: #050504;
+  background: var(--black-primary, #080807);
   border-right: 1px solid rgba(216, 181, 106, 0.22);
   border-top: none;
   transform: translateX(-105%);
@@ -483,14 +483,14 @@
   line-height: 1.12;
   max-width: 100%;
   margin: 0 auto 14px;
-  color: #1a1510;
+  color: var(--text-dark, #18130f);
 }
 
 .mobile-preview .brand-hero__support {
   text-align: center;
   font-size: 0.875rem;
   font-family: var(--font-sans);
-  color: #5c564c;
+  color: var(--text-muted, #62594f);
   max-width: 100%;
 }
 
@@ -533,7 +533,7 @@
   position: relative;
   min-height: 100vh;
   padding: 48px 16px 32px;
-  background: linear-gradient(180deg, var(--cinza-claro, #EAE7E1) 0%, var(--fundo-claro, #F7F4EE) 100%);
+  background: linear-gradient(180deg, var(--cream, #eee2cf) 0%, var(--ivory, #f6efe4) 100%);
   overflow-x: hidden;
 }
 
@@ -546,9 +546,9 @@
   border-radius: 32px;
   overflow-x: hidden;
   overflow-y: auto;
-  border: 10px solid #0B0B0B;
-  box-shadow: 0 24px 60px rgba(11, 11, 11, 0.35);
-  background: #F8F6F1;
+  border: 10px solid var(--black-primary, #080807);
+  box-shadow: 0 24px 60px rgba(8, 8, 7, 0.35);
+  background: var(--white, #fffdf8);
 }
 
 .mobile-preview .app {
@@ -809,7 +809,7 @@
   bottom: 0;
   width: min(300px, 86%);
   z-index: 150;
-  background: #050504;
+  background: var(--black-primary, #080807);
   border-right: 1px solid rgba(216, 181, 106, 0.22);
   border-top: none;
   transform: translateX(-105%);
@@ -915,14 +915,14 @@
   max-width: 100%;
   margin: 0 auto 14px;
   text-align: center;
-  color: #1a1510;
+  color: var(--text-dark, #18130f);
 }
 
 .mobile-preview .brand-hero__support {
   font-size: 0.875rem;
   line-height: 1.65;
   font-family: var(--font-sans);
-  color: #5c564c;
+  color: var(--text-muted, #62594f);
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -1063,7 +1063,7 @@
   gap: 14px;
   margin-top: -4px;
   padding: 6px 16px;
-  background: #f6efe4;
+  background: var(--ivory, #f6efe4);
   overflow: visible;
 }
 
@@ -1125,7 +1125,7 @@
 
 .mobile-preview .product-grid-section.section {
   padding: 0 0 44px;
-  background: #F7F4EE;
+  background: var(--ivory, #f6efe4);
 }
 
 .mobile-preview .product-grid-section > .container {
