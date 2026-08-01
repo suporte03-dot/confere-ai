@@ -15,6 +15,7 @@ export const categories = [
   { file: 'bones.jpg', label: 'Bonés', color: '#A8894A' },
   { file: 'moletons-masculinos.jpg', label: 'Moletons', color: '#1D2A22' },
   { file: 'acessorios.jpg', label: 'Acessórios', color: '#c9a064' },
+  { file: 'botas.jpg', label: 'Botas', color: '#4A2E1D' },
 ]
 
 function escapeXml(text) {

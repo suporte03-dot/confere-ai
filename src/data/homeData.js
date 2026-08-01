@@ -191,10 +191,8 @@ export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 export const bestsellersSection = {
   // Atmosphere scrubbed from desejados.png mockup (baked copy/tabs removed).
   backgroundImage: desejadosAtmosphere,
-  eyebrow: 'Seleção Terra & Estilo',
-  title: 'Os mais desejados',
-  description:
-    'Peças escolhidas por quem valoriza autenticidade, qualidade e presença.',
+  eyebrow: 'Os mais desejados',
+  title: 'Seleção Terra & Estilo',
   searchTitle: 'Resultados da busca',
   tabsLabel: 'Filtrar seleção',
 }

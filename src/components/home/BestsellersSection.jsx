@@ -44,16 +44,18 @@ function BestsellersSection() {
       <div id="produtos" className="visually-hidden" aria-hidden="true" />
       <div className="container">
         <div className="section-head section-head--light bestsellers-section__head">
-          <p className="section-head__eyebrow">{bestsellersSection.eyebrow}</p>
+          {!isSearchActive && (
+            <p className="section-head__eyebrow">{bestsellersSection.eyebrow}</p>
+          )}
           <h2 id="bestsellers-title" className="section-head__title">
             {isSearchActive ? bestsellersSection.searchTitle : bestsellersSection.title}
           </h2>
           <span className="bestsellers-section__rule" aria-hidden="true" />
-          <p className="section-head__desc">
-            {isSearchActive
-              ? `Exibindo resultados para ${activeFilterLabel}.`
-              : bestsellersSection.description}
-          </p>
+          {isSearchActive && (
+            <p className="section-head__desc">
+              Exibindo resultados para {activeFilterLabel}.
+            </p>
+          )}
         </div>
 
         {!showSearchResults && (

@@ -4590,9 +4590,9 @@ body.nav-drawer-open {
 .bestsellers-section .section-head__title {
   margin: 0;
   font-family: var(--font-serif, Georgia, 'Times New Roman', serif);
-  font-size: clamp(2.35rem, 4.2vw, 3.35rem);
+  font-size: clamp(2.5rem, 4.6vw, 3.55rem);
   font-weight: 500;
-  line-height: 1.12;
+  line-height: 1.1;
   letter-spacing: 0.01em;
   color: var(--color-ivory);
 }
@@ -4601,7 +4601,7 @@ body.nav-drawer-open {
   display: block;
   width: 48px;
   height: 1px;
-  margin: 22px auto 18px;
+  margin: 22px auto 0;
   background: linear-gradient(
     90deg,
     transparent,
@@ -4613,7 +4613,7 @@ body.nav-drawer-open {
 }
 
 .bestsellers-section .section-head__desc {
-  margin: 0 auto;
+  margin: 18px auto 0;
   max-width: 480px;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
