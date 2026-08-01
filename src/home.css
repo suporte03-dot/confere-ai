@@ -266,7 +266,8 @@
   padding: 2px;
   box-shadow: none;
   overflow: hidden;
-  transition: width 300ms ease, height 300ms ease;
+  transform-origin: center center;
+  transition: transform var(--header-transition);
 }
 
 .terra-brand-header__logo,
@@ -830,6 +831,7 @@
   z-index: 120;
   display: block;
   width: 100%;
+  /* Keep chrome height stable on scroll — shrinking sticky height causes jitter loops. */
   min-height: var(--header-main-h);
   height: auto;
   overflow: visible;
@@ -842,7 +844,6 @@
   box-shadow: none;
   border-bottom: 1px solid rgba(201, 155, 50, 0.34);
   transition:
-    min-height var(--header-transition),
     background var(--header-transition),
     box-shadow var(--header-transition),
     border-color var(--header-transition),
@@ -851,14 +852,19 @@
 
 .site-chrome--scrolled,
 .site-chrome.is-scrolled {
-  --header-main-h: var(--header-main-h-compact);
-  --header-logo-size: clamp(64px, 5.1vw, 78px);
-  --sticky-offset: var(--header-main-h-compact);
+  /* Visual compact only — do not change --header-main-h / --sticky-offset / logo box size. */
   background: rgba(8, 8, 7, 0.82);
   backdrop-filter: blur(14px) saturate(1.08);
   -webkit-backdrop-filter: blur(14px) saturate(1.08);
   box-shadow: 0 4px 18px rgba(8, 8, 7, 0.28);
   border-bottom-color: rgba(201, 155, 50, 0.22);
+}
+
+.site-chrome.is-scrolled .header-brand__logo-ring,
+.site-chrome--scrolled .header-brand__logo-ring,
+.site-header.is-scrolled .header-brand__logo-ring,
+.site-header--scrolled .header-brand__logo-ring {
+  transform: scale(0.72);
 }
 
 body.nav-drawer-open {
@@ -907,15 +913,16 @@ body.nav-drawer-open {
   overflow: visible;
   box-sizing: border-box;
   background: transparent;
-  transition: min-height var(--header-transition), padding var(--header-transition);
+  transition: padding var(--header-transition);
 }
 
 .site-header.is-scrolled.brand-main,
 .site-header.is-scrolled.header-main,
 .site-header--scrolled.brand-main,
 .site-header--scrolled.header-main {
-  padding-top: 4px;
-  padding-bottom: 4px;
+  /* Keep min-height; only tighten padding slightly for a compact look. */
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 .site-header__menu {
@@ -1066,16 +1073,29 @@ body.nav-drawer-open {
   line-height: 1.1;
   white-space: nowrap;
   max-width: 72px;
+  max-height: 1.2em;
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: opacity var(--header-transition), max-height var(--header-transition), margin var(--header-transition);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--header-transition),
+    max-height var(--header-transition),
+    margin var(--header-transition),
+    visibility var(--header-transition);
 }
 
+/* Hide labels without collapsing sticky layout (avoid display:none height thrash). */
 .site-header.is-scrolled .site-header__action span,
 .site-header--scrolled .site-header__action span,
 .site-chrome.is-scrolled .site-header__action span,
 .site-chrome--scrolled .site-header__action span {
-  display: none;
+  opacity: 0;
+  max-height: 0;
+  margin: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .site-header.is-scrolled .site-header__action,
@@ -3423,11 +3443,6 @@ body.nav-drawer-open {
     --header-actions-w: minmax(120px, max-content);
   }
 
-  .site-chrome--scrolled,
-  .site-chrome.is-scrolled {
-    --header-logo-size: clamp(58px, 12vw, 68px);
-  }
-
   .site-header {
     position: relative;
     overflow: visible;
@@ -3824,11 +3839,6 @@ body.nav-drawer-open {
     --header-logo-size: clamp(62px, 16vw, 72px);
     --sticky-offset: var(--header-main-h);
     --hero-logo-size: clamp(190px, 52vw, 240px);
-  }
-
-  .site-chrome--scrolled,
-  .site-chrome.is-scrolled {
-    --header-logo-size: clamp(54px, 13vw, 62px);
   }
 
   .app {

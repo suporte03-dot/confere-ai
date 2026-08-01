@@ -57,10 +57,30 @@ function Header({
   }
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 28)
+    // Hysteresis avoids sticky-header jitter when compact styles change layout:
+    // enter compact above SCROLL_ENTER, leave only below SCROLL_EXIT.
+    const SCROLL_ENTER = 40
+    const SCROLL_EXIT = 10
+    let ticking = false
+    let scrolledNow = window.scrollY > SCROLL_ENTER
+
+    setScrolled(scrolledNow)
+
+    const updateScrolled = () => {
+      ticking = false
+      const y = window.scrollY
+      const next = scrolledNow ? y > SCROLL_EXIT : y > SCROLL_ENTER
+      if (next === scrolledNow) return
+      scrolledNow = next
+      setScrolled(next)
     }
-    onScroll()
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      window.requestAnimationFrame(updateScrolled)
+    }
+
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
