@@ -2,7 +2,6 @@ import HeroSection from '../components/home/HeroSection'
 import SectionDivider from '../components/home/SectionDivider'
 import NovidadesSection from '../components/home/NovidadesSection'
 import FeaturedCollection from '../components/home/FeaturedCollection'
-import LookbookSection from '../components/home/LookbookSection'
 import AboutBrand from '../components/home/AboutBrand'
 import BrandValues from '../components/home/BrandValues'
 import InstagramSection from '../components/home/InstagramSection'
@@ -21,8 +20,6 @@ function HomePage() {
         <NovidadesSection />
         <SectionDivider variant="light" showSaint />
         <FeaturedCollection />
-        <SectionDivider variant="dark" showSaint />
-        <LookbookSection />
         <SectionDivider variant="light" showSaint />
         <AboutBrand />
         <BrandValues />
