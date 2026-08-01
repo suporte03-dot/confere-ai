@@ -1,8 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useShop } from '../../context/ShopContext'
+import { footerHome } from '../../data/homeData'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 import MainNavigation from './MainNavigation'
+
+const { instagramHref, facebookHref } = footerHome.atendimento
+
+function InstagramIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+    </svg>
+  )
+}
+
+function FacebookIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H8v3h3v7h3v-7h2.5l.5-3H14V9z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 function Header({
   onMenuToggle,
@@ -16,9 +41,7 @@ function Header({
     setSearchQuery,
     performSearch,
     cartCount,
-    favoritesCount,
     setCartOpen,
-    showToast,
   } = useShop()
   const searchAreaRef = useRef(null)
   const searchInputRef = useRef(null)
@@ -31,11 +54,6 @@ function Header({
     if (submitted && searchOpen) {
       onSearchToggle()
     }
-  }
-
-  const handleAccountClick = (event) => {
-    event.preventDefault()
-    showToast('Em breve você poderá acessar sua conta.')
   }
 
   useEffect(() => {
@@ -124,7 +142,6 @@ function Header({
       <MainNavigation
         open={menuOpen}
         onClose={onNavClose}
-        onAccountClick={handleAccountClick}
         onOpenCart={() => {
           onNavClose?.()
           setCartOpen(true)
@@ -179,34 +196,26 @@ function Header({
           </svg>
           <span>Buscar</span>
         </button>
-        <button
-          type="button"
-          className="site-header__action site-header__action--account"
-          aria-label="Minha conta"
-          onClick={handleAccountClick}
+        <a
+          href={instagramHref}
+          className="site-header__action site-header__action--instagram"
+          aria-label="Instagram Terra & Estilo"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-          <span>Minha conta</span>
-        </button>
-        <Link
-          to="/#favoritos"
-          className="site-header__action site-header__action--favorites"
-          aria-label="Favoritos"
+          <InstagramIcon />
+          <span>Instagram</span>
+        </a>
+        <a
+          href={facebookHref}
+          className="site-header__action site-header__action--facebook"
+          aria-label="Facebook Terra & Estilo"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M12 20s-6.5-4.2-8.8-8A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 20.8 12c-2.3 3.8-8.8 8-8.8 8z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>Favoritos</span>
-          {favoritesCount > 0 && <em className="site-header__badge">{favoritesCount}</em>}
-        </Link>
+          <FacebookIcon />
+          <span>Facebook</span>
+        </a>
         <button
           type="button"
           className="site-header__action site-header__action--cart"

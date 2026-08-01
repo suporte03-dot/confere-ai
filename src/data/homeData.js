@@ -377,6 +377,7 @@ export const footerHome = {
     whatsappHref: 'https://wa.me/5554999398038',
     instagram: '@Terra_Estilo',
     instagramHref: 'https://instagram.com/Terra_Estilo',
+    facebookHref: 'https://www.facebook.com/TerraEstilo',
     email: 'contato@terraestilo.com.br',
     hours: 'Seg a Sex, 9h às 18h',
   },

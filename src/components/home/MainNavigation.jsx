@@ -1,8 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { collectionsMegaMenu, mainNavigation } from '../../data/homeData'
+import { collectionsMegaMenu, footerHome, mainNavigation } from '../../data/homeData'
 import { brandCollections } from '../../data/catalog'
 import { useShop } from '../../context/ShopContext'
+
+const { instagramHref, facebookHref } = footerHome.atendimento
 
 const featuredCollection = brandCollections.find((c) => c.slug === 'raizes-do-sul')
   || brandCollections[0]
@@ -33,9 +35,32 @@ function LeafOrnament() {
   )
 }
 
-function MainNavigation({ open, onClose, onAccountClick, onOpenCart }) {
+function InstagramIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+    </svg>
+  )
+}
+
+function FacebookIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H8v3h3v7h3v-7h2.5l.5-3H14V9z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function MainNavigation({ open, onClose, onOpenCart }) {
   const location = useLocation()
-  const { favoritesCount, cartCount } = useShop()
+  const { cartCount } = useShop()
   const [collectionsOpen, setCollectionsOpen] = useState(false)
   const dropdownId = useId()
   const wrapRef = useRef(null)
@@ -257,38 +282,28 @@ function MainNavigation({ open, onClose, onAccountClick, onOpenCart }) {
       </div>
 
       <div className="main-nav__drawer-actions">
-        <button
-          type="button"
-          className="main-nav__drawer-action"
-          aria-label="Minha conta"
-          onClick={(event) => {
-            onAccountClick?.(event)
-            onClose?.()
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-          Minha conta
-        </button>
-        <Link
-          to="/#favoritos"
-          className="main-nav__drawer-action"
-          aria-label="Favoritos"
+        <a
+          href={instagramHref}
+          className="main-nav__drawer-action main-nav__drawer-action--social"
+          aria-label="Instagram Terra & Estilo"
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={handleNavClick}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path
-              d="M12 20s-6.5-4.2-8.8-8A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 20.8 12c-2.3 3.8-8.8 8-8.8 8z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Favoritos
-          {favoritesCount > 0 && <em className="site-header__badge">{favoritesCount}</em>}
-        </Link>
+          <InstagramIcon />
+          Instagram
+        </a>
+        <a
+          href={facebookHref}
+          className="main-nav__drawer-action main-nav__drawer-action--social"
+          aria-label="Facebook Terra & Estilo"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleNavClick}
+        >
+          <FacebookIcon />
+          Facebook
+        </a>
         <button
           type="button"
           className="main-nav__drawer-action"
