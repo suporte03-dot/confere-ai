@@ -4,6 +4,7 @@ import {
   COUPLE_HERO_WIDTH,
   COUPLE_HERO_HEIGHT,
 } from '../../data/homeData'
+import BrandMonogram from './BrandMonogram'
 import HeroButtons from './HeroButtons'
 
 /** Soft botanical wash — bottom-right of ivory panel (faint, as in ref). */
@@ -42,6 +43,11 @@ function BrandHeroBotanical({ className }) {
 function HeroSection() {
   return (
     <section id="inicio" className="brand-hero" aria-labelledby="hero-title">
+      {/* Tablet split fallback — desktop monogram lives in the header nav slot. */}
+      <div className="brand-hero__monogram">
+        <BrandMonogram />
+      </div>
+
       {/* Layer 1–3: cast photo + dark/gold atmosphere + soft seam into ivory */}
       <div className="brand-hero__models">
         <div className="brand-hero__models-light" aria-hidden="true" />

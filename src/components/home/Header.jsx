@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useShop } from '../../context/ShopContext'
 import { footerHome } from '../../data/homeData'
+import BrandMonogram from './BrandMonogram'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
-import HeaderBrandMark from './HeaderBrandMark'
 import MainNavigation from './MainNavigation'
 
 const { instagramHref, facebookHref } = footerHome.atendimento
@@ -94,6 +95,8 @@ function Header({
     favoritesCount,
     setCartOpen,
   } = useShop()
+  const location = useLocation()
+  const isHome = location.pathname === '/'
   const searchAreaRef = useRef(null)
   const searchInputRef = useRef(null)
   const searchToggleRef = useRef(null)
@@ -328,10 +331,11 @@ function Header({
           }}
         />
 
-        <div className="site-header__nav-logo" aria-hidden="false">
-          <span className="site-header__logo-mask" aria-hidden="true" />
-          <HeaderBrandMark showWordmark={false} className="site-header__nav-logo-link" />
-        </div>
+        {isHome ? (
+          <div className="site-header__nav-logo" aria-hidden="true">
+            <BrandMonogram />
+          </div>
+        ) : null}
       </div>
 
       <ul className="site-header__trust">

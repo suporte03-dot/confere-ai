@@ -13,7 +13,7 @@
   .desktop-preview .brand-hero {
     min-height: 560px;
     height: min(64vh, 640px);
-    grid-template-columns: 55% 45%;
+    grid-template-columns: var(--hero-split-position, 53%) calc(100% - var(--hero-split-position, 53%));
     width: 100%;
     max-width: none;
     overflow: hidden;

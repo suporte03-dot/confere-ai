@@ -91,9 +91,9 @@
   --topbar-h: 28px;
   --header-logo-size: clamp(80px, 6.5vw, 100px);
   --header-logo-scrolled: 72px;
-  --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
-  /* Pull mid-nav crest up so it meets/overlaps the search bar bottom edge. */
-  --header-nav-logo-lift: 26px;
+  --header-nav-logo-size: clamp(74px, 5.2vw, 86px);
+  --brand-monogram-size: clamp(74px, 5.2vw, 86px);
+  --hero-split-position: 53%;
   --header-utility-h: 116px;
   --header-trust-h: 42px;
   --header-main-h: calc(var(--topbar-h) + var(--header-utility-h) + var(--main-nav-h) + var(--header-trust-h));
@@ -370,8 +370,9 @@
   .desktop-preview {
     --header-logo-size: clamp(80px, 6.5vw, 100px);
     --header-logo-scrolled: 72px;
-    --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
-    --header-nav-logo-lift: 26px;
+    --header-nav-logo-size: clamp(74px, 5.2vw, 86px);
+    --brand-monogram-size: 82px;
+    --hero-split-position: 53%;
     --topbar-h: 28px;
     --header-utility-h: 116px;
     --main-nav-h: 48px;
@@ -1103,43 +1104,16 @@ body.nav-drawer-open {
   overflow: visible;
 }
 
+/* T&E monogram — home only; aligned to --hero-split-position (not the full crest). */
 .site-header--premium .site-header__nav-logo {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: var(--hero-split-position);
+  top: 100%;
   z-index: 5;
   display: grid;
   place-items: center;
-  /* Crest hangs from search: close the black strip without changing header height. */
-  transform: translate(-50%, calc(-50% - var(--header-nav-logo-lift)));
-  pointer-events: auto;
-}
-
-.site-header__logo-mask {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(var(--header-nav-logo-size) + 22px);
-  height: calc(var(--header-nav-logo-size) + 22px);
-  border-radius: 50%;
-  background: #0a0908;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 0;
-}
-
-.site-header--premium .site-header__nav-logo-link {
-  position: relative;
-  z-index: 1;
-}
-
-.site-header--premium .site-header__nav-logo-link .header-brand__logo-ring {
-  width: var(--header-nav-logo-size);
-  height: var(--header-nav-logo-size);
-  min-width: var(--header-nav-logo-size);
-  min-height: var(--header-nav-logo-size);
-  box-shadow: 0 0 0 10px #0a0908;
-  border-color: rgba(201, 155, 50, 0.55);
 }
 
 .site-header--premium .site-header__trust {
@@ -1464,12 +1438,19 @@ body.nav-drawer-open {
 .site-header--premium .main-nav__inner {
   gap: clamp(18px, 2vw, 36px);
   padding: 0;
+  position: relative;
+  left: 0;
+}
+
+/* Home only: align Acessórios↔Coleções gap with the hero split. */
+.site-header--premium:has(.site-header__nav-logo) .main-nav__inner {
+  left: calc(var(--hero-split-position) - 50%);
 }
 
 .site-header--premium .main-nav__center-slot {
   display: block;
-  flex: 0 0 var(--header-nav-logo-size);
-  width: var(--header-nav-logo-size);
+  flex: 0 0 var(--brand-monogram-size);
+  width: var(--brand-monogram-size);
   height: 1px;
 }
 
@@ -1777,6 +1758,96 @@ body.nav-drawer-open {
   box-sizing: border-box;
 }
 
+/* ── Brand monogram (T&E) — aligned to hero split ── */
+.brand-monogram {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--brand-monogram-size, 82px);
+  height: var(--brand-monogram-size, 82px);
+  border-radius: 50%;
+  border: 2px solid #b88a2c;
+  background: linear-gradient(90deg, #080808 0%, #080808 50%, #f5efe5 50%, #f5efe5 100%);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(184, 138, 44, 0.18);
+  pointer-events: none;
+  user-select: none;
+}
+
+.brand-monogram::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(184, 138, 44, 0.85) 18%,
+    rgba(184, 138, 44, 0.85) 82%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.brand-monogram span {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-serif);
+  font-size: calc(var(--brand-monogram-size, 82px) * 0.28);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #c79a3c;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* Desktop: monogram lives in the header nav slot. */
+.brand-hero__monogram {
+  display: none;
+}
+
+@media (max-width: 1100px) and (min-width: 961px) {
+  :root,
+  .desktop-preview {
+    --brand-monogram-size: clamp(58px, 6vw, 66px);
+  }
+
+  /* Tablet: header mid-nav is collapsed — pin monogram to hero split seam. */
+  .brand-hero {
+    overflow: visible;
+  }
+
+  .brand-hero__monogram {
+    position: absolute;
+    left: var(--hero-split-position);
+    top: 0;
+    z-index: 8;
+    display: grid;
+    place-items: center;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}
+
+/* Hide when hero loses the vertical split (stacked / mobile ≤960, incl. ≤768). */
+@media (max-width: 960px) {
+  .brand-monogram,
+  .brand-hero__monogram,
+  .site-header--premium .site-header__nav-logo {
+    display: none;
+  }
+
+  .site-header--premium:has(.site-header__nav-logo) .main-nav__inner {
+    left: 0;
+  }
+}
+
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
 .brand-hero {
   --brand-hero-ivory: var(--ivory);
@@ -1786,7 +1857,7 @@ body.nav-drawer-open {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: var(--hero-split-position) calc(100% - var(--hero-split-position));
   align-items: stretch;
   width: 100%;
   min-height: 560px;
@@ -1842,21 +1913,22 @@ body.nav-drawer-open {
   animation: brand-hero-fade-in 0.75s ease both;
 }
 
-/* Soft ivory seam on right edge only — continuous with copy panel */
+/* Soft ivory seam on right edge — ~70–120px, aligned to split */
 .brand-hero__transition {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 12%;
+  width: clamp(70px, 7.5vw, 120px);
   z-index: 3;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(247, 240, 229, 0.12) 40%,
-    rgba(247, 240, 229, 0.55) 78%,
-    #f7f0e5 100%
+    rgba(246, 239, 228, 0.08) 28%,
+    rgba(246, 239, 228, 0.42) 68%,
+    rgba(246, 239, 228, 0.88) 92%,
+    var(--brand-hero-ivory, #f6efe4) 100%
   );
 }
 
@@ -2080,6 +2152,7 @@ body.nav-drawer-open {
     align-items: center;
     height: auto;
     min-height: 0;
+    overflow: hidden;
     overflow-x: hidden;
     background: linear-gradient(
       180deg,
