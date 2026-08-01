@@ -1171,8 +1171,8 @@
   border: none;
   object-fit: cover;
   /* Favor faces/hats; keep embroidery; avoid right-edge seam */
-  object-position: 42% 18%;
-  filter: brightness(1.05) contrast(1.04) saturate(0.97);
+  object-position: 48% 20%;
+  filter: brightness(1.04) contrast(1.03) saturate(0.96);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -1480,8 +1480,8 @@
   }
 
   .brand-hero__models-image {
-    object-position: 40% 16%;
-    filter: brightness(1.05) contrast(1.04) saturate(0.97);
+    object-position: 46% 18%;
+    filter: brightness(1.04) contrast(1.03) saturate(0.96);
     transform: none;
   }
 
@@ -1583,7 +1583,7 @@
   }
 
   .brand-hero__models-image {
-    object-position: 38% 14%;
+    object-position: 45% 16%;
   }
 
   .brand-hero__logo {
@@ -1917,8 +1917,8 @@
   margin: 0;
   object-fit: cover;
   /* Shorter band: favor faces / embroidery while keeping hats */
-  object-position: 42% 24%;
-  filter: brightness(1.05) contrast(1.04) saturate(0.97);
+  object-position: 48% 26%;
+  filter: brightness(1.04) contrast(1.03) saturate(0.96);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -2176,9 +2176,9 @@
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 40% 16%;
+    object-position: 46% 18%;
     transform: none;
-    filter: brightness(1.05) contrast(1.04) saturate(0.97);
+    filter: brightness(1.04) contrast(1.03) saturate(0.96);
     -webkit-mask-image: none;
     mask-image: none;
   }
