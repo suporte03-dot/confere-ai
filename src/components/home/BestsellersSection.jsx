@@ -34,6 +34,11 @@ function BestsellersSection() {
       id="mais-vendidos"
       className="bestsellers-section section"
       aria-labelledby="bestsellers-title"
+      style={
+        bestsellersSection.backgroundImage
+          ? { '--bestsellers-bg': `url(${bestsellersSection.backgroundImage})` }
+          : undefined
+      }
     >
       <div id="favoritos" className="visually-hidden" aria-hidden="true" />
       <div id="produtos" className="visually-hidden" aria-hidden="true" />

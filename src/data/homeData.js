@@ -1,6 +1,7 @@
 import { assetUrl } from '../utils/assetUrl'
 import coupleHeroAsset from '../assets/hero-terra-estilo-novo.png'
 import raizHeroAsset from '../assets/raiz-hero.png'
+import desejadosAtmosphere from '../assets/desejados.png'
 import brandLogoCircular from '../assets/logo-terra-estilo.png'
 
 export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
@@ -185,10 +186,12 @@ export const featuredCollection = {
 export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 
 export const bestsellersSection = {
-  eyebrow: 'Coleção em evidência',
+  // Atmosphere scrubbed from desejados.png mockup (baked copy/tabs removed).
+  backgroundImage: desejadosAtmosphere,
+  eyebrow: 'Seleção Terra & Estilo',
   title: 'Os mais desejados',
   description:
-    'Cortes atemporais, acabamento refinado e a elegância do agro brasileiro — uma vitrine de peças para vestir com presença.',
+    'Peças escolhidas por quem valoriza autenticidade, qualidade e presença.',
   searchTitle: 'Resultados da busca',
   tabsLabel: 'Filtrar seleção',
 }

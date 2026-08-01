@@ -4504,15 +4504,23 @@ body.nav-drawer-open {
   gap: 28px;
 }
 
-/* ── Bestsellers / Coleção em evidência (id #favoritos for nav) ── */
+/* ── Bestsellers / Seleção Terra & Estilo (id #favoritos for nav) ── */
 .bestsellers-section {
   position: relative;
   isolation: isolate;
   padding-block: clamp(88px, 10vw, 128px);
-  background:
-    radial-gradient(ellipse 55% 42% at 50% 0%, rgba(201, 155, 50, 0.12), transparent 58%),
-    radial-gradient(ellipse 40% 30% at 85% 90%, rgba(43, 33, 23, 0.55), transparent 50%),
-    linear-gradient(180deg, #080807 0%, #12100d 48%, #1c1610 100%);
+  background-color: #080807;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 7, 0.2) 0%,
+      rgba(8, 8, 7, 0.45) 42%,
+      rgba(8, 8, 7, 0.82) 100%
+    ),
+    var(--bestsellers-bg, none);
+  background-size: cover, cover;
+  background-position: center top, center top;
+  background-repeat: no-repeat;
   color: var(--color-text-light);
   overflow: hidden;
 }
@@ -4524,8 +4532,25 @@ body.nav-drawer-open {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 0%, rgba(201, 155, 50, 0.04) 50%, transparent 100%);
-  opacity: 0.7;
+    radial-gradient(ellipse 55% 42% at 50% 0%, rgba(201, 155, 50, 0.08), transparent 58%);
+  opacity: 0.85;
+}
+
+.bestsellers-section::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 0;
+  z-index: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 155, 50, 0.45) 50%,
+    transparent
+  );
 }
 
 .bestsellers-section > .container {
@@ -4536,7 +4561,7 @@ body.nav-drawer-open {
 .bestsellers-section__head,
 .bestsellers-section .section-head {
   text-align: center;
-  max-width: 620px;
+  max-width: 640px;
   margin: 0 auto 40px;
 }
 
@@ -4590,54 +4615,69 @@ body.nav-drawer-open {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0;
+  gap: 12px;
   margin: 0 auto 48px;
   padding: 0 8px;
-  border-bottom: 1px solid rgba(201, 155, 50, 0.22);
-  max-width: 720px;
+  border-bottom: none;
+  max-width: 760px;
 }
 
 .bestsellers-section__tab {
   position: relative;
-  min-height: 48px;
-  padding: 14px 22px;
+  min-height: 44px;
+  padding: 12px 22px;
   font-family: var(--font-sans);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(247, 241, 232, 0.52);
+  color: rgba(247, 241, 232, 0.88);
   background: transparent;
-  border: none;
-  border-radius: 0;
+  border: 1px solid rgba(201, 155, 50, 0.55);
+  border-radius: 4px;
   cursor: pointer;
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .bestsellers-section__tab::after {
   content: '';
   position: absolute;
-  left: 22px;
-  right: 22px;
+  left: 18%;
+  right: 18%;
   bottom: -1px;
-  height: 1.5px;
-  background: var(--color-gold);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.28s ease;
+  height: 2px;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .bestsellers-section__tab:hover {
-  color: rgba(247, 241, 232, 0.92);
+  color: rgba(247, 241, 232, 0.98);
+  border-color: rgba(201, 155, 50, 0.85);
 }
 
 .bestsellers-section__tab.is-active {
-  color: var(--color-gold-light);
+  color: #1a140c;
+  background: linear-gradient(180deg, #e0c06a 0%, #c99b32 48%, #a87d22 100%);
+  border-color: transparent;
+  box-shadow: 0 0 18px rgba(201, 155, 50, 0.28);
 }
 
-.bestsellers-section__tab.is-active::after,
+.bestsellers-section__tab.is-active::after {
+  background: rgba(232, 200, 110, 0.95);
+  box-shadow: 0 0 10px rgba(232, 200, 110, 0.75);
+}
+
 .bestsellers-section__tab:hover::after {
-  transform: scaleX(1);
+  transform: none;
 }
 
 .bestsellers-section__tab:focus-visible {
@@ -5146,11 +5186,6 @@ body.nav-drawer-open {
     letter-spacing: 0.14em;
   }
 
-  .bestsellers-section__tab::after {
-    left: 16px;
-    right: 16px;
-  }
-
   .lookbook-section__layout {
     grid-template-columns: 1fr;
   }
@@ -5202,11 +5237,6 @@ body.nav-drawer-open {
     flex: 0 0 auto;
     padding: 12px 14px;
     font-size: 0.625rem;
-  }
-
-  .bestsellers-section__tab::after {
-    left: 14px;
-    right: 14px;
   }
 
   .products-grid--bestsellers {
