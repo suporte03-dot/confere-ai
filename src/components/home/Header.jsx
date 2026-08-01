@@ -330,7 +330,7 @@ function Header({
 
         <div className="site-header__nav-logo" aria-hidden="false">
           <span className="site-header__logo-mask" aria-hidden="true" />
-          <HeaderBrandMark showWordmark={false} className="site-header__nav-logo-link" />
+          <HeaderBrandMark mark="monogram" showWordmark={false} className="site-header__nav-logo-link" />
         </div>
       </div>
 
