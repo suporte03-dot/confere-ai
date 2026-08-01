@@ -351,14 +351,6 @@ export const aboutBrand = {
   cta: 'Conheça nossa história',
 }
 
-export const benefitsBar = [
-  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
-  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
-  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
-  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.', icon: 'heart' },
-  { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.', icon: 'card' },
-]
-
 export const newsletterHome = {
   title: 'Receba novidades da Terra & Estilo',
   subtitle: 'Coleções, lançamentos e conteúdos especiais sobre moda com identidade.',

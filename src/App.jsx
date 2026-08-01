@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { ShopProvider } from './context/ShopContext'
 import Header from './components/home/Header'
-import TrustBar from './components/home/TrustBar'
 import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
 import Toast from './components/Toast'
@@ -38,7 +37,6 @@ function SiteLayout({
         </header>
       </div>
       <Outlet />
-      <TrustBar />
       <Footer />
       <CartDrawer />
       <Toast />
