@@ -3381,17 +3381,25 @@ body.nav-drawer-open {
   justify-content: center;
   gap: 0;
   list-style: none;
+  width: 100%;
+  max-width: 100%;
   margin: 22px auto 0;
+  margin-inline: auto;
   padding: 0;
-  max-width: 960px;
+  padding-inline: 0;
+  box-sizing: border-box;
 }
 
 .benefits-bar__trust-item {
   display: inline-flex;
+  flex: 1 1 0;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 0 16px;
+  min-width: 0;
+  padding: 0 12px;
   color: var(--color-gold-light);
+  box-sizing: border-box;
 }
 
 .benefits-bar__trust-item + .benefits-bar__trust-item {
@@ -3438,10 +3446,16 @@ body.nav-drawer-open {
   .benefits-bar__trust {
     gap: 10px 0;
     margin-top: 20px;
+    margin-inline: auto;
   }
 
   .benefits-bar__trust-item {
+    flex: 1 1 40%;
     padding: 4px 14px;
+  }
+
+  .benefits-bar__trust-item:nth-child(2n + 1) {
+    border-left: none;
   }
 }
 
@@ -4543,8 +4557,18 @@ body.nav-drawer-open {
 
   .benefits-bar__trust {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
+    width: 100%;
     margin-top: 20px;
+    margin-inline: auto;
+  }
+
+  .benefits-bar__trust-item {
+    flex: 0 0 auto;
+    width: auto;
+    border-left: none;
   }
 
   .benefits-bar__trust-item + .benefits-bar__trust-item {
