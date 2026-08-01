@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { ShopProvider } from './context/ShopContext'
+import { HEADER_ATMOSPHERE_SRC } from './data/homeData'
 import Header from './components/home/Header'
 import Footer from './components/home/Footer'
 import CartDrawer from './components/CartDrawer'
@@ -29,7 +30,10 @@ function SiteLayout({
 
   return (
     <div className="app" id="inicio">
-      <div className="site-chrome">
+      <div
+        className="site-chrome"
+        style={{ '--site-chrome-bg': `url(${HEADER_ATMOSPHERE_SRC})` }}
+      >
         <header className="brand-header">
           <Header
             menuOpen={menuOpen}
