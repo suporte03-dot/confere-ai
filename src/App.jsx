@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { ShopProvider } from './context/ShopContext'
-import TopBar from './components/home/TopBar'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
 import SectionDivider from './components/home/SectionDivider'
@@ -25,19 +24,11 @@ function SiteContent({
   setMenuOpen,
   searchOpen,
   setSearchOpen,
-  previewMode,
-  setPreviewMode,
-  showPreviewControls = true,
 }) {
   return (
     <div className="app">
       <div className="site-chrome">
         <header className="brand-header">
-          <TopBar
-            previewMode={previewMode}
-            setPreviewMode={setPreviewMode}
-            showPreviewControls={showPreviewControls}
-          />
           {/* Header unificado: logo + MainNavigation + busca/conta/carrinho */}
           <Header
             menuOpen={menuOpen}
@@ -77,36 +68,18 @@ function SiteContent({
 }
 
 function App() {
-  const [previewMode, setPreviewMode] = useState('desktop')
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
-  const previewClass = previewMode === 'mobile' ? 'mobile-preview' : 'desktop-preview'
-
   return (
-    <div className={previewClass}>
+    <div className="desktop-preview">
       <ShopProvider>
-        {previewMode === 'mobile' ? (
-          <div className="preview-shell">
-            <SiteContent
-              menuOpen={menuOpen}
-              setMenuOpen={setMenuOpen}
-              searchOpen={searchOpen}
-              setSearchOpen={setSearchOpen}
-              previewMode={previewMode}
-              setPreviewMode={setPreviewMode}
-            />
-          </div>
-        ) : (
-          <SiteContent
-            menuOpen={menuOpen}
-            setMenuOpen={setMenuOpen}
-            searchOpen={searchOpen}
-            setSearchOpen={setSearchOpen}
-            previewMode={previewMode}
-            setPreviewMode={setPreviewMode}
-          />
-        )}
+        <SiteContent
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          searchOpen={searchOpen}
+          setSearchOpen={setSearchOpen}
+        />
       </ShopProvider>
     </div>
   )

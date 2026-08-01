@@ -14,25 +14,6 @@ export const COUPLE_HERO_SRC = coupleHeroAsset
 export const COUPLE_HERO_WIDTH = 504
 export const COUPLE_HERO_HEIGHT = 623
 
-export const topBarMessages = [
-  {
-    id: 'frete',
-    icon: 'truck',
-    text: 'Frete grátis acima de R$ 299,00 para Sul e Sudeste',
-  },
-  {
-    id: 'cupom',
-    icon: 'tag',
-    text: '10% OFF na primeira compra | Cupom: PRIMEIRA10',
-  },
-  {
-    id: 'atendimento',
-    icon: 'phone',
-    text: 'Atendimento (54) 99939-8038',
-    href: 'https://wa.me/5554999398038',
-  },
-]
-
 export const headerBrandPillars = [
   'Raízes',
   'Identidade',

@@ -78,10 +78,10 @@
   --font-sans: 'Montserrat', system-ui, sans-serif;
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
-  --topbar-h: 34px;
+  --topbar-h: 0px;
   --header-main-h: 78px;
   --main-nav-h: 0px;
-  --sticky-offset: calc(var(--topbar-h) + var(--header-main-h));
+  --sticky-offset: var(--header-main-h);
   --header-brand-w: minmax(72px, 100px);
   --header-actions-w: minmax(140px, max-content);
   --header-logo-mark-h: 72px;
@@ -797,7 +797,7 @@
   z-index: 120;
   display: block;
   width: 100%;
-  min-height: calc(var(--topbar-h) + var(--header-main-h));
+  min-height: var(--header-main-h);
   height: auto;
   overflow: visible;
   visibility: visible;
