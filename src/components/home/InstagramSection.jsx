@@ -33,17 +33,6 @@ function InstagramSection() {
             </a>
           ))}
         </div>
-
-        <div className="instagram-section__actions">
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="instagram-section__cta"
-          >
-            Seguir no Instagram
-          </a>
-        </div>
       </div>
     </section>
   )
