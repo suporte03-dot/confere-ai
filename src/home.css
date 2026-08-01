@@ -2036,6 +2036,8 @@ body.nav-drawer-open {
 .section-divider {
   --section-divider-line: rgba(201, 155, 50, 0.42);
   --section-divider-line-soft: rgba(201, 155, 50, 0.12);
+  /* Page-matching blot so jewelry lines never read through the crown */
+  --section-divider-blot: #f6efe4;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -2044,7 +2046,7 @@ body.nav-drawer-open {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 28px;
   width: 100%;
   height: clamp(70px, 8vw, 90px);
   min-height: 70px;
@@ -2059,11 +2061,13 @@ body.nav-drawer-open {
 .section-divider--light {
   --section-divider-line: rgba(168, 124, 36, 0.48);
   --section-divider-line-soft: rgba(168, 124, 36, 0.1);
+  --section-divider-blot: #f6efe4;
 }
 
 .section-divider--dark {
   --section-divider-line: rgba(223, 189, 105, 0.55);
   --section-divider-line-soft: rgba(223, 189, 105, 0.12);
+  --section-divider-blot: #1a1510;
 }
 
 .section-divider__line {
@@ -2072,12 +2076,28 @@ body.nav-drawer-open {
   height: 1px;
   max-width: 420px;
   border: none;
+}
+
+/* Left line: fade hard to transparent at the santa-facing (right) end */
+.section-divider__line:first-of-type {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--section-divider-line-soft) 12%,
-    var(--section-divider-line) 50%,
-    var(--section-divider-line-soft) 88%,
+    var(--section-divider-line-soft) 14%,
+    var(--section-divider-line) 48%,
+    var(--section-divider-line) 72%,
+    transparent 100%
+  );
+}
+
+/* Right line: fade hard to transparent at the santa-facing (left) end */
+.section-divider__line:last-of-type {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--section-divider-line) 28%,
+    var(--section-divider-line) 52%,
+    var(--section-divider-line-soft) 86%,
     transparent 100%
   );
 }
@@ -2102,30 +2122,37 @@ body.nav-drawer-open {
 }
 
 .section-divider__medallion--saint {
-  width: 48px;
+  z-index: 2;
+  width: 56px;
   height: 64px;
   max-height: 100%;
   margin: 0;
   padding: 0;
   border: none;
   border-radius: 0;
-  background: transparent;
+  /* Opaque blot masks any stroke through crown / transparent PNG gaps */
+  background: radial-gradient(
+    ellipse 68% 52% at 50% 46%,
+    var(--section-divider-blot) 0%,
+    var(--section-divider-blot) 48%,
+    transparent 78%
+  );
   box-shadow: none;
 }
 
-/* Extremely discreet gold halo — no box / strip behind santa */
+/* Soft gold aura kept outside the blot — does not draw a horizontal risco */
 .section-divider__medallion--saint::before {
   content: '';
   position: absolute;
-  inset: -10px;
+  inset: -6px;
   z-index: 0;
   border: none;
   border-radius: 50%;
   background: radial-gradient(
-    ellipse 48% 44% at 50% 48%,
-    rgba(201, 155, 50, 0.14) 0%,
-    rgba(201, 155, 50, 0.05) 40%,
-    transparent 68%
+    ellipse 42% 38% at 50% 48%,
+    rgba(201, 155, 50, 0.1) 0%,
+    rgba(201, 155, 50, 0.03) 45%,
+    transparent 70%
   );
   pointer-events: none;
 }
@@ -2530,12 +2557,12 @@ body.nav-drawer-open {
     height: 70px;
     min-height: 70px;
     max-height: 78px;
-    gap: 10px;
+    gap: 18px;
     padding: 0 16px;
   }
 
   .section-divider__medallion--saint {
-    width: 38px;
+    width: 44px;
     height: 56px;
   }
 
