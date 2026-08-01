@@ -24,9 +24,9 @@ export const headerBrandPillars = [
 
 export const mainNavigation = [
   { label: 'Início', href: '#inicio' },
-  { label: 'Feminino', href: '#favoritos', filter: 'Feminino' },
-  { label: 'Masculino', href: '#favoritos', filter: 'Masculino' },
-  { label: 'Acessórios', href: '#favoritos', filter: 'Acessórios' },
+  { label: 'Feminino', href: '#novidades', filter: 'Feminino' },
+  { label: 'Masculino', href: '#novidades', filter: 'Masculino' },
+  { label: 'Acessórios', href: '#novidades', filter: 'Acessórios' },
   { label: 'Coleções', href: '#colecoes', hasChevron: true },
   { label: 'Sobre', href: '#sobre' },
   { label: 'Contato', href: '#contato' },
@@ -167,7 +167,7 @@ export const featuredCollection = {
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
-  primaryHref: '#favoritos',
+  primaryHref: '#novidades',
   secondaryHref: '#lookbook',
 }
 

@@ -3,7 +3,6 @@ import { ShopProvider } from './context/ShopContext'
 import Header from './components/home/Header'
 import HeroSection from './components/home/HeroSection'
 import SectionDivider from './components/home/SectionDivider'
-import BestsellersSection from './components/home/BestsellersSection'
 import NovidadesSection from './components/home/NovidadesSection'
 import FeaturedCollection from './components/home/FeaturedCollection'
 import LookbookSection from './components/home/LookbookSection'
@@ -46,8 +45,6 @@ function SiteContent({
         className="section-divider--after-hero"
       />
       <main>
-        <BestsellersSection />
-        <SectionDivider variant="dark" showSaint />
         <NovidadesSection />
         <SectionDivider variant="light" showSaint />
         <FeaturedCollection />
