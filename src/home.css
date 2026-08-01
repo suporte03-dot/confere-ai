@@ -2275,10 +2275,10 @@ body.nav-drawer-open {
   margin: 0;
   object-fit: cover;
   /* Cast from folder mockup — woman/hat left, upper body; soft right edge for ivory fade */
-  object-position: 22% 18%;
+  object-position: 26% 8%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
-  transform: scale(1.06);
-  transform-origin: 20% 22%;
+  transform: scale(1.02);
+  transform-origin: 22% 12%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -2536,9 +2536,9 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 28% 16%;
-    transform: scale(1.05);
-    transform-origin: 24% 20%;
+    object-position: 30% 10%;
+    transform: scale(1.02);
+    transform-origin: 26% 14%;
     filter: brightness(1.03) contrast(1.02) saturate(0.98);
     -webkit-mask-image: none;
     mask-image: none;
