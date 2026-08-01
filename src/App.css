@@ -2676,7 +2676,7 @@ input:focus-visible {
   }
 
   .filter-pills {
-    justify-content: flex-start;
+    justify-content: center;
     overflow-x: auto;
     flex-wrap: nowrap;
     padding-bottom: 4px;
@@ -2706,10 +2706,42 @@ input:focus-visible {
   .footer__grid {
     grid-template-columns: 1fr;
     gap: 28px;
+    text-align: center;
+    justify-items: center;
   }
 
   .footer__brand {
     grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__brand p {
+    max-width: 36ch;
+    margin-inline: auto;
+  }
+
+  .footer__social {
+    justify-content: center;
+  }
+
+  .footer__col {
+    text-align: center;
+    width: 100%;
+  }
+
+  .footer__col ul {
+    align-items: center;
+  }
+
+  .footer__payments {
+    justify-content: center;
+  }
+
+  .footer__copy {
+    text-align: center;
   }
 
   .cart-drawer {
@@ -2724,5 +2756,46 @@ input:focus-visible {
 
   .toast__inner {
     max-width: none;
+  }
+
+  .hero__title::after {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .highlight-card__body {
+    text-align: center;
+  }
+
+  .cat-card__body {
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .product-card__body {
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-card__colors,
+  .product-card__pricing {
+    justify-content: center;
+  }
+
+  .product-card__body .btn {
+    margin-inline: auto;
+  }
+
+  .collection-banner__content p {
+    margin-inline: auto;
+  }
+
+  .newsletter__form {
+    align-items: stretch;
+  }
+
+  .newsletter__form .btn {
+    width: 100%;
   }
 }

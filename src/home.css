@@ -1946,8 +1946,18 @@ body.nav-drawer-open {
     height: auto;
     min-height: 0;
     padding: 12px 22px 36px;
+    padding-left: 22px;
+    padding-right: 22px;
     overflow: visible;
     justify-content: center;
+    text-align: center;
+  }
+
+  .desktop-preview .brand-hero__content {
+    padding: 12px 22px 36px;
+    padding-left: 22px;
+    padding-right: 22px;
+    text-align: center;
   }
 
   .brand-hero__copy {
@@ -2008,6 +2018,14 @@ body.nav-drawer-open {
 
   .brand-hero__content {
     padding: 8px 16px 28px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .desktop-preview .brand-hero__content {
+    padding: 8px 16px 28px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .brand-hero__title {
@@ -4418,9 +4436,9 @@ body.nav-drawer-open {
   }
 
   .product-grid-section .section-head {
-    text-align: left;
-    margin: 0 0 20px;
-    max-width: none;
+    text-align: center;
+    margin: 0 auto 20px;
+    max-width: 640px;
   }
 
   .product-grid-section .section-head__title {
@@ -4578,14 +4596,51 @@ body.nav-drawer-open {
 
   .site-footer__grid {
     grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
   }
 
   .site-footer__brand {
     grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-footer__brand p {
+    max-width: 36ch;
+    margin-inline: auto;
+  }
+
+  .site-footer__social {
+    justify-content: center;
+  }
+
+  .site-footer__col {
+    text-align: center;
+    width: 100%;
+  }
+
+  .site-footer__col ul {
+    align-items: center;
+  }
+
+  .site-footer__payments {
+    justify-content: center;
+  }
+
+  .site-footer__bottom {
+    text-align: center;
   }
 
   .newsletter-home__form {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .newsletter-home__form .btn {
+    width: 100%;
   }
 
   .hero-visual-card {
@@ -5401,9 +5456,12 @@ body.nav-drawer-open {
 
   .category-banner {
     min-height: 260px;
+    text-align: center;
   }
 
   .category-banner__content {
+    align-items: center;
+    text-align: center;
     padding: 22px 18px;
     gap: 6px;
   }
@@ -5421,6 +5479,7 @@ body.nav-drawer-open {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     margin-top: 6px;
   }
 
@@ -5446,7 +5505,7 @@ body.nav-drawer-open {
   .bestsellers-section__tabs {
     margin-bottom: 28px;
     max-width: none;
-    justify-content: flex-start;
+    justify-content: center;
     overflow-x: auto;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
@@ -5518,6 +5577,228 @@ body.nav-drawer-open {
 
   .lookbook-section__hero {
     min-height: 360px;
+  }
+}
+
+/* ── Mobile-only: center ALL home body content (≤768px) ── */
+@media (max-width: 768px) {
+  main,
+  .brand-hero__copy,
+  .bestsellers-section,
+  .novidades-section,
+  .categorias-section,
+  .featured-collection__content,
+  .brand-essence,
+  .instagram-section,
+  .benefits-bar,
+  .newsletter-home,
+  .lookbook-section {
+    text-align: center;
+  }
+
+  .section-head,
+  .bestsellers-section__head,
+  .bestsellers-section .section-head,
+  .novidades-section .section-head,
+  .categorias-section .section-head,
+  .instagram-section .section-head,
+  .benefits-bar__head,
+  .benefits-bar .section-head,
+  .lookbook-section .section-head,
+  .product-grid-section .section-head,
+  .collection-vitrine .categorias-section .section-head {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-head__eyebrow,
+  .section-head__title,
+  .section-head__desc,
+  .bestsellers-section .section-head__eyebrow,
+  .bestsellers-section .section-head__title,
+  .bestsellers-section .section-head__desc,
+  .brand-essence__eyebrow,
+  .brand-essence__title,
+  .brand-essence__text,
+  .newsletter-home__content h2,
+  .newsletter-home__content p {
+    text-align: center;
+  }
+
+  .bestsellers-section__rule,
+  .history-modal__ornament {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bestsellers-section__tabs {
+    justify-content: center;
+  }
+
+  .brand-essence__intro {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .brand-essence__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-inline: auto;
+    max-width: 100%;
+  }
+
+  .brand-essence__cta {
+    display: inline-flex;
+    margin-inline: auto;
+  }
+
+  .brand-essence__visual {
+    margin-inline: auto;
+  }
+
+  .featured-collection__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .featured-collection__actions {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .featured-collection__button {
+    margin-inline: auto;
+  }
+
+  .brand-hero__actions,
+  .brand-hero__copy {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-hero__rule {
+    margin-inline: auto;
+  }
+
+  .category-banners {
+    justify-content: center;
+  }
+
+  .category-banner,
+  .category-banner__content {
+    text-align: center;
+  }
+
+  .category-banner__content {
+    align-items: center;
+  }
+
+  .products-grid--novidades .product-card__body,
+  .products-grid--bestsellers .product-card__body,
+  .product-grid-section .product-card__body,
+  .novidades-section .product-card__body {
+    align-items: center;
+    text-align: center;
+  }
+
+  .products-grid--novidades .product-card__colors,
+  .products-grid--bestsellers .product-card__colors,
+  .product-grid-section .product-card__colors,
+  .novidades-section .product-card__colors {
+    justify-content: center;
+  }
+
+  .products-grid--novidades .product-card__pricing,
+  .products-grid--bestsellers .product-card__pricing,
+  .product-grid-section .product-card__pricing,
+  .novidades-section .product-card__pricing {
+    justify-content: center;
+  }
+
+  .products-grid--novidades .product-card__body .btn,
+  .products-grid--bestsellers .product-card__body .btn,
+  .product-grid-section .product-card__body .btn,
+  .novidades-section .product-card__body .btn {
+    margin-inline: auto;
+  }
+
+  .instagram-section__grid {
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .benefits-bar__grid {
+    justify-content: center;
+  }
+
+  .benefits-bar__item {
+    align-items: center;
+    text-align: center;
+  }
+
+  .newsletter-home__inner {
+    justify-content: center;
+  }
+
+  .newsletter-home__content {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .newsletter-home__form {
+    justify-content: center;
+  }
+
+  .site-footer {
+    text-align: center;
+  }
+
+  .site-footer__grid {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .site-footer__brand,
+  .site-footer__col {
+    align-items: center;
+    text-align: center;
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .site-footer__brand p {
+    margin-inline: auto;
+  }
+
+  .site-footer__social,
+  .site-footer__payments {
+    justify-content: center;
+  }
+
+  .site-footer__col ul {
+    align-items: center;
+  }
+
+  .site-footer__bottom {
+    text-align: center;
+  }
+
+  .history-modal__dialog {
+    text-align: center;
+  }
+
+  .history-modal__title {
+    margin-right: 0;
+  }
+
+  .history-modal__body {
+    text-align: center;
   }
 }
 
