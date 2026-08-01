@@ -4,11 +4,13 @@ import raizHeroAsset from '../assets/raiz-hero.png'
 import desejadosAtmosphere from '../assets/desejados.png'
 import headerAtmosphere from '../assets/header-atmosphere.png'
 import brandLogoCircular from '../assets/logo-terra-estilo.png'
+import brandMonogram from '../assets/te-monogram.png'
 
 export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
 export const BRAND_LOGO_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_HEADER_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
+export const BRAND_MONOGRAM_SRC = brandMonogram
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')

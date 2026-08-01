@@ -1,8 +1,8 @@
 /**
- * Marca no header — logo circular oficial + wordmark, ou monograma T&E (siglas).
+ * Marca no header — logo circular oficial + wordmark, ou monograma T&E (arte).
  */
 import { Link } from 'react-router-dom'
-import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
+import { BRAND_LOGO_CIRCULAR_SRC, BRAND_MONOGRAM_SRC } from '../../data/homeData'
 
 function HeaderBrandMark({ className = '', showWordmark = false, mark = 'logo' }) {
   const linkClass = ['brand-logo-composition', 'header-brand__logo-link', className]
@@ -13,11 +13,15 @@ function HeaderBrandMark({ className = '', showWordmark = false, mark = 'logo' }
   return (
     <Link to="/" className={`${linkClass} site-header__logo`} aria-label="Ir para a página inicial">
       {isMonogram ? (
-        <span
-          className="header-brand__logo-ring header-brand__logo-ring--monogram te-monogram-circle"
-          aria-hidden="true"
-        >
-          <span className="header-brand__monogram brand-symbol__te">T&amp;E</span>
+        <span className="header-brand__logo-ring header-brand__logo-ring--monogram te-monogram-circle">
+          <img
+            src={BRAND_MONOGRAM_SRC}
+            alt="Monograma T&E Terra & Estilo"
+            className="header-brand__monogram-img"
+            width={127}
+            height={96}
+            decoding="async"
+          />
         </span>
       ) : (
         <span className="header-brand__logo-ring" aria-hidden="true">
