@@ -4,10 +4,10 @@ import {
   products,
   matchesFilter,
   getFilterLabel,
-  resolveSearchCategory,
   searchProducts,
 } from '../data/mockData'
 import { pathForFilter } from '../data/catalog'
+import { resolveSearchIntent } from '../data/searchMap'
 
 const FAVORITES_KEY = 'terraestilo-favorites'
 
@@ -57,35 +57,32 @@ export function ShopProvider({ children }) {
     const term = (termOverride ?? searchQuery).trim()
     if (!term) return false
 
+    const intent = resolveSearchIntent(term)
+
+    if (intent.type === 'special') {
+      setSearchQuery('')
+      setCategoryFilter('Todos')
+      if (intent.path === '/#novidades') {
+        navigate('/')
+        window.setTimeout(() => {
+          document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 80)
+        return true
+      }
+      navigate(intent.path || '/colecoes')
+      return true
+    }
+
+    if (intent.type === 'category') {
+      setSearchQuery('')
+      setCategoryFilter(intent.category || 'Todos')
+      navigate(intent.path || pathForFilter(intent.category))
+      return true
+    }
+
     setSearchQuery(term)
-
-    const categoryTarget = resolveSearchCategory(term)
-    if (categoryTarget === '__colecoes__') {
-      setCategoryFilter('Todos')
-      navigate('/colecoes')
-      return true
-    }
-
-    if (categoryTarget === '__novidades__') {
-      setCategoryFilter('Todos')
-      navigate('/')
-      window.setTimeout(() => {
-        document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 80)
-      return true
-    }
-
-    if (categoryTarget) {
-      setCategoryFilter(categoryTarget)
-      navigate(pathForFilter(categoryTarget))
-      return true
-    }
-
     setCategoryFilter('Todos')
-    navigate('/')
-    window.setTimeout(() => {
-      document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 80)
+    navigate(intent.path || `/busca?q=${encodeURIComponent(term)}`)
     return true
   }, [navigate, searchQuery])
 

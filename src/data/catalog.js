@@ -1,5 +1,6 @@
 import { assetUrl } from '../utils/assetUrl'
 import { products, getProductSizes } from './mockData'
+import { getSubgroupsForCategory, getSubgroupLabel, productMatchesSubKey } from './searchMap'
 
 export const CATEGORY_SLUGS = ['feminino', 'masculino', 'calcados', 'acessorios']
 
@@ -124,8 +125,19 @@ export function getCollectionMeta(slug) {
   return brandCollections.find((c) => c.slug === slug) ?? null
 }
 
-export function getFacetOptions(catalog) {
-  const subcategories = [...new Set(catalog.map((p) => p.subcategory).filter(Boolean))].sort()
+export function getFacetOptions(catalog, category = null) {
+  const rawSubs = [...new Set(catalog.map((p) => p.subcategory).filter(Boolean))].sort()
+  const groups = getSubgroupsForCategory(category)
+  const presentKeys = new Set(catalog.map((p) => p.subKey).filter(Boolean))
+  const subGroups = groups
+    .filter((g) => presentKeys.has(g.id))
+    .map((g) => ({ id: g.id, label: g.label }))
+
+  // Fallback when category has no predefined groups
+  const subcategories = subGroups.length
+    ? subGroups.map((g) => g.label)
+    : rawSubs
+
   const colors = [...new Set(catalog.flatMap((p) => p.colors || []))].sort()
   const sizes = [...new Set(catalog.flatMap((p) => getProductSizes(p)))].sort((a, b) => {
     const order = ['Único', 'PP', 'P', 'M', 'G', 'GG', '2', '4', '6', '8', '10']
@@ -134,7 +146,7 @@ export function getFacetOptions(catalog) {
     if (ai !== -1 || bi !== -1) return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi)
     return String(a).localeCompare(String(b), 'pt-BR', { numeric: true })
   })
-  return { subcategories, colors, sizes }
+  return { subcategories, subGroups, colors, sizes }
 }
 
 function scoreRelevance(product) {
@@ -152,6 +164,7 @@ function scoreRelevance(product) {
 export function applyCatalogFilters(catalog, filters) {
   const {
     subcategory = '',
+    subKey = '',
     size = '',
     color = '',
     priceRange = 'all',
@@ -163,7 +176,15 @@ export function applyCatalogFilters(catalog, filters) {
   const range = PRICE_RANGES.find((r) => r.id === priceRange) || PRICE_RANGES[0]
 
   return catalog.filter((product) => {
-    if (subcategory && product.subcategory !== subcategory) return false
+    if (subKey && !productMatchesSubKey(product, subKey)) return false
+    if (
+      subcategory &&
+      !subKey &&
+      product.subcategory !== subcategory &&
+      getSubgroupLabel(product.category, product.subKey) !== subcategory
+    ) {
+      return false
+    }
     if (color && !(product.colors || []).includes(color)) return false
     if (size && !getProductSizes(product).includes(size)) return false
     if (!(product.price >= range.min && (range.max === Infinity || product.price <= range.max))) {

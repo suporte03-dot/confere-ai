@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
@@ -12,9 +12,11 @@ import {
   PRICE_RANGES,
 } from '../data/catalog'
 import { getColorHex } from '../data/mockData'
+import { groupProductsBySubcategory, getSubgroupLabel } from '../data/searchMap'
 
 const INITIAL_FILTERS = {
   subcategory: '',
+  subKey: '',
   size: '',
   color: '',
   priceRange: 'all',
@@ -29,20 +31,35 @@ function CategoryPage({ category }) {
 
 function CategoryPageContent({ category }) {
   const meta = categoryMeta[category]
-  const baseProducts = useMemo(() => getProductsByCategory(category), [category])
-  const facets = useMemo(() => getFacetOptions(baseProducts), [baseProducts])
+  const [searchParams, setSearchParams] = useSearchParams()
+  const subFromUrl = searchParams.get('sub') || ''
 
-  const [filters, setFilters] = useState(INITIAL_FILTERS)
+  const baseProducts = useMemo(() => getProductsByCategory(category), [category])
+  const facets = useMemo(() => getFacetOptions(baseProducts, category), [baseProducts, category])
+
+  const [filters, setFilters] = useState({
+    ...INITIAL_FILTERS,
+    subKey: subFromUrl,
+  })
   const [sortId, setSortId] = useState('relevantes')
   const [filtersOpen, setFiltersOpen] = useState(false)
+
+  useEffect(() => {
+    setFilters((prev) => ({ ...prev, subKey: subFromUrl }))
+  }, [subFromUrl])
 
   const visible = useMemo(
     () => filterAndSortProducts(baseProducts, filters, sortId),
     [baseProducts, filters, sortId],
   )
 
+  const sections = useMemo(() => {
+    if (filters.subKey) return null
+    return groupProductsBySubcategory(visible, category)
+  }, [visible, filters.subKey, category])
+
   const activeFilterCount = [
-    filters.subcategory,
+    filters.subKey,
     filters.size,
     filters.color,
     filters.priceRange !== 'all' ? filters.priceRange : '',
@@ -54,10 +71,20 @@ function CategoryPageContent({ category }) {
   const clearFilters = () => {
     setFilters(INITIAL_FILTERS)
     setSortId('relevantes')
+    setSearchParams({}, { replace: true })
   }
 
   const setFilter = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const selectSubKey = (subKey) => {
+    setFilters((prev) => ({ ...prev, subKey, subcategory: '' }))
+    if (subKey) {
+      setSearchParams({ sub: subKey }, { replace: true })
+    } else {
+      setSearchParams({}, { replace: true })
+    }
   }
 
   if (!meta) {
@@ -72,6 +99,10 @@ function CategoryPageContent({ category }) {
       </main>
     )
   }
+
+  const activeSubLabel = filters.subKey
+    ? getSubgroupLabel(category, filters.subKey)
+    : null
 
   return (
     <main className="catalog-page">
@@ -100,17 +131,55 @@ function CategoryPageContent({ category }) {
           <Link to="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{meta.title}</span>
+          {activeSubLabel && (
+            <>
+              <span aria-hidden="true">/</span>
+              <span aria-current="page">{activeSubLabel}</span>
+            </>
+          )}
         </nav>
 
         <header className="catalog-page__head">
           <div>
-            <h2 className="catalog-page__title">{meta.title}</h2>
+            <h2 className="catalog-page__title">
+              {activeSubLabel ? `${meta.title} · ${activeSubLabel}` : meta.title}
+            </h2>
             <p className="catalog-page__lead">{meta.description}</p>
           </div>
           <p className="catalog-page__count" aria-live="polite">
             {visible.length} {visible.length === 1 ? 'produto' : 'produtos'}
           </p>
         </header>
+
+        {facets.subGroups?.length > 0 && (
+          <div
+            className="catalog-subnav"
+            role="tablist"
+            aria-label={`Subcategorias de ${meta.title}`}
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={!filters.subKey}
+              className={`catalog-subnav__chip${!filters.subKey ? ' is-active' : ''}`}
+              onClick={() => selectSubKey('')}
+            >
+              Todos
+            </button>
+            {facets.subGroups.map((group) => (
+              <button
+                key={group.id}
+                type="button"
+                role="tab"
+                aria-selected={filters.subKey === group.id}
+                className={`catalog-subnav__chip${filters.subKey === group.id ? ' is-active' : ''}`}
+                onClick={() => selectSubKey(group.id)}
+              >
+                {group.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="catalog-toolbar">
           <button
@@ -155,20 +224,32 @@ function CategoryPageContent({ category }) {
               </button>
             </div>
 
-            <fieldset className="catalog-filter">
-              <legend>Subcategoria</legend>
-              <select
-                value={filters.subcategory}
-                onChange={(e) => setFilter('subcategory', e.target.value)}
-              >
-                <option value="">Todas</option>
-                {facets.subcategories.map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
+            {facets.subGroups?.length > 0 && (
+              <fieldset className="catalog-filter">
+                <legend>Tipo de peça</legend>
+                <div className="catalog-filter__chips">
+                  <button
+                    type="button"
+                    className={!filters.subKey ? 'is-active' : ''}
+                    onClick={() => selectSubKey('')}
+                  >
+                    Todos
+                  </button>
+                  {facets.subGroups.map((group) => (
+                    <button
+                      key={group.id}
+                      type="button"
+                      className={filters.subKey === group.id ? 'is-active' : ''}
+                      onClick={() =>
+                        selectSubKey(filters.subKey === group.id ? '' : group.id)
+                      }
+                    >
+                      {group.label}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+            )}
 
             <fieldset className="catalog-filter">
               <legend>Tamanho</legend>
@@ -278,6 +359,34 @@ function CategoryPageContent({ category }) {
                 <button type="button" className="btn btn--gold" onClick={clearFilters}>
                   Limpar filtros
                 </button>
+              </div>
+            ) : sections && sections.length > 1 ? (
+              <div className="search-page__sections">
+                {sections.map((section) => (
+                  <section
+                    key={section.id}
+                    className="catalog-subsection"
+                    aria-labelledby={`cat-section-${section.id}`}
+                  >
+                    <header className="catalog-subsection__head">
+                      <h3 id={`cat-section-${section.id}`} className="catalog-subsection__title">
+                        {section.label}
+                      </h3>
+                      <button
+                        type="button"
+                        className="catalog-subsection__link"
+                        onClick={() => selectSubKey(section.id)}
+                      >
+                        Ver só {section.label.toLowerCase()}
+                      </button>
+                    </header>
+                    <div className="products-grid products-grid--catalog">
+                      {section.products.map((product) => (
+                        <ProductCard key={product.id} product={product} tone="light" showSizes />
+                      ))}
+                    </div>
+                  </section>
+                ))}
               </div>
             ) : (
               <div className="products-grid products-grid--catalog">

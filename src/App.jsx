@@ -9,6 +9,7 @@ import Toast from './components/Toast'
 import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/HomePage'
 import CategoryPage from './pages/CategoryPage'
+import SearchPage from './pages/SearchPage'
 import CollectionsPage from './pages/CollectionsPage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
@@ -73,6 +74,7 @@ function App() {
             )}
           >
             <Route index element={<HomePage />} />
+            <Route path="busca" element={<SearchPage />} />
             <Route path="feminino" element={<CategoryPage category="feminino" />} />
             <Route path="masculino" element={<CategoryPage category="masculino" />} />
             <Route path="calcados" element={<CategoryPage category="calcados" />} />

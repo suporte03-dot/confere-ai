@@ -134,14 +134,14 @@ export const menuCollections = [
     id: 'masculino',
     title: 'Masculino',
     subcategories: [
-      'Calça Jeans',
+      'Calças',
       'Camisas',
-      'Jaquetas',
       'Camisetas',
-      'Polos',
-      'Bonés',
       'Moletons',
+      'Jaquetas',
+      'Polos',
       'Bermudas',
+      'Bonés',
       'Acessórios',
     ],
   },
@@ -149,10 +149,11 @@ export const menuCollections = [
     id: 'feminino',
     title: 'Feminino',
     subcategories: [
+      'Calças',
+      'Blusas & Camisetas',
       'Camisas',
-      'Camisetas',
+      'Moletons',
       'Jaquetas',
-      'Calça Jeans',
       'Vestidos',
       'Cropped',
       'Body',
@@ -956,7 +957,108 @@ const productsSeed = [
     description: 'Vestido linho em liquidação — peça única da coleção passada.',
     stock: 8,
   },
+  {
+    id: 35,
+    name: 'Blusa Fluida Campo Serena',
+    department: 'Feminino',
+    collectionId: 'camisetas-femininas',
+    subcategory: 'Blusas',
+    price: 169.9,
+    oldPrice: null,
+    badge: 'Novidade',
+    colors: ['Off-white', 'Oliva', 'Areia'],
+    imageKey: 'camisetaFeminina',
+    image: imageMap.produtos.camisetaFeminina,
+    variant: 'camisetaFeminina',
+    description: 'Blusa fluida com caimento leve e acabamento delicado Terra & Estilo.',
+    stock: 40,
+  },
+  {
+    id: 36,
+    name: 'Moletom Feminino Aurora Soft',
+    department: 'Feminino',
+    collectionId: 'moletons-masculinos',
+    subcategory: 'Moletons',
+    subKey: 'moletom',
+    price: 249.9,
+    oldPrice: null,
+    badge: 'Novo',
+    colors: ['Areia', 'Oliva', 'Preto'],
+    imageKey: 'moletomSoft',
+    image: imageMap.produtos.moletomSoft,
+    variant: 'moletons',
+    description: 'Moletom feminino macio com modelagem confortável para dias frescos.',
+    stock: 28,
+  },
+  {
+    id: 37,
+    name: 'Calça Alfaiataria Feminina Sul',
+    department: 'Feminino',
+    collectionId: 'calca-jeans-feminina',
+    subcategory: 'Calças',
+    price: 299.9,
+    oldPrice: null,
+    badge: 'Destaque',
+    colors: ['Areia', 'Verde', 'Preto'],
+    imageKey: 'jeansFeminina',
+    image: imageMap.produtos.jeansFeminina,
+    variant: 'jeansHorizonte',
+    description: 'Calça de alfaiataria com caimento elegante e tecido de alta qualidade.',
+    stock: 32,
+  },
 ]
+
+function resolveSeedSubKey(product, category) {
+  const collectionMap = {
+    'calca-jeans-masculina': 'calcas',
+    'calca-jeans-feminina': 'calcas',
+    'calcas-infantis': 'calcas',
+    'camisas-masculinas': 'camisas',
+    'camisas-femininas': 'camisas',
+    'camisetas-masculinas': 'camisetas',
+    'camisetas-femininas': 'blusas',
+    'camisetas-infantis': 'camisetas',
+    'moletons-masculinos': 'moletom',
+    'moletons-infantis': 'moletom',
+    'jaquetas-masculinas': 'jaquetas',
+    'jaquetas-femininas': 'jaquetas',
+    polos: 'polos',
+    'bermudas-masculinas': 'bermudas',
+    vestidos: 'vestidos',
+    'vestidos-infantis': 'vestidos',
+    cropped: 'cropped',
+    body: 'body',
+    bones: 'bones',
+    cintos: 'cintos',
+    mochilas: 'mochilas',
+    'bolsas-femininas': 'bolsas',
+    'bolsas-acessorios': 'bolsas',
+    botas: 'botas',
+    tenis: 'tenis',
+    chinelos: 'chinelos',
+    coturnos: 'coturnos',
+    'conjuntos-infantis': 'conjuntos',
+  }
+
+  let subKey = collectionMap[product.collectionId] || null
+  if (subKey === 'blusas' && category === 'masculino') subKey = 'camisetas'
+  if (subKey === 'camisetas' && category === 'feminino') subKey = 'blusas'
+
+  if (!subKey) {
+    const hay = String(product.subcategory || product.name || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+    if (/\bblusa/.test(hay)) subKey = category === 'masculino' ? 'camisetas' : 'blusas'
+    else if (/\bcalca|\bjeans/.test(hay)) subKey = 'calcas'
+    else if (/\bmoletom/.test(hay)) subKey = 'moletom'
+    else if (/\bjaqueta/.test(hay)) subKey = 'jaquetas'
+    else if (/\bcamisa/.test(hay) && !/\bcamiseta/.test(hay)) subKey = 'camisas'
+    else if (/\bcamiseta/.test(hay)) subKey = category === 'feminino' ? 'blusas' : 'camisetas'
+  }
+
+  return subKey
+}
 
 function enrichProduct(product) {
   const category = product.category || DEPT_TO_CATEGORY[product.department] || 'masculino'
@@ -970,11 +1072,13 @@ function enrichProduct(product) {
   const sizes = Array.isArray(product.sizes) && product.sizes.length
     ? product.sizes
     : undefined
+  const subKey = product.subKey || resolveSeedSubKey(product, category)
 
   return {
     ...product,
     category,
     collection,
+    subKey,
     new: Boolean(isNew),
     featured: Boolean(featured),
     installments: product.installments ?? 10,
@@ -1421,6 +1525,7 @@ export function productMatchesSearch(product, rawTerm) {
     product.department,
     product.subcategory,
     product.collectionId,
+    product.subKey,
     product.description,
     product.badge,
     ...(product.colors ?? []),
@@ -1430,11 +1535,43 @@ export function productMatchesSearch(product, rawTerm) {
     .map(normalizeSearchTerm)
     .join(' ')
 
-  return tokens.every((token) => searchableText.includes(token))
+  // Direct token match
+  if (tokens.every((token) => searchableText.includes(token))) return true
+
+  // Synonym / subcategory-aware match (e.g. "blusa" → blusas/camisetas)
+  const synonymHits = {
+    blusa: ['blusa', 'blusas', 'camiseta', 'camisetas'],
+    blusas: ['blusa', 'blusas', 'camiseta', 'camisetas'],
+    camiseta: ['camiseta', 'camisetas', 'blusa', 'blusas'],
+    camisetas: ['camiseta', 'camisetas', 'blusa', 'blusas'],
+    calca: ['calca', 'calcas', 'jeans'],
+    calcas: ['calca', 'calcas', 'jeans'],
+    jeans: ['calca', 'calcas', 'jeans'],
+    moletom: ['moletom', 'moletons'],
+    moletons: ['moletom', 'moletons'],
+    jaqueta: ['jaqueta', 'jaquetas'],
+    jaquetas: ['jaqueta', 'jaquetas'],
+    camisa: ['camisa', 'camisas'],
+    camisas: ['camisa', 'camisas'],
+    bone: ['bone', 'bones'],
+    bones: ['bone', 'bones'],
+    bolsa: ['bolsa', 'bolsas'],
+    bolsas: ['bolsa', 'bolsas'],
+    cinto: ['cinto', 'cintos'],
+    cintos: ['cinto', 'cintos'],
+    mochila: ['mochila', 'mochilas'],
+    mochilas: ['mochila', 'mochilas'],
+  }
+
+  return tokens.every((token) => {
+    if (searchableText.includes(token)) return true
+    const alts = synonymHits[token]
+    return Boolean(alts?.some((alt) => searchableText.includes(alt)))
+  })
 }
 
-export function searchProducts(rawTerm, catalog = products) {
-  const term = rawTerm.trim()
+export function searchProducts(rawTerm, catalog = products, options = {}) {
+  const term = (rawTerm || '').trim()
   if (!term) return catalog
 
   const categoryTarget = resolveSearchCategory(term)
@@ -1445,7 +1582,26 @@ export function searchProducts(rawTerm, catalog = products) {
     return catalog.filter((product) => matchesFilter(product, categoryTarget))
   }
 
-  return catalog.filter((product) => productMatchesSearch(product, term))
+  let list = catalog.filter((product) => productMatchesSearch(product, term))
+
+  if (options.category) {
+    list = list.filter((product) => matchesFilter(product, options.category))
+  }
+  if (options.subKey) {
+    list = list.filter((product) => {
+      const key = product.subKey
+      if (key === options.subKey) return true
+      if (
+        (options.subKey === 'blusas' && key === 'camisetas') ||
+        (options.subKey === 'camisetas' && key === 'blusas')
+      ) {
+        return true
+      }
+      return false
+    })
+  }
+
+  return list
 }
 
 export function scrollToSection(sectionId) {
