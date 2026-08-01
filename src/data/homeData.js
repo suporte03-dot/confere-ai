@@ -36,7 +36,7 @@ export const collectionsMegaMenu = [
   { label: 'Raízes do Sul', to: '/colecoes/raizes-do-sul' },
   { label: 'Clássicos Terra & Estilo', to: '/colecoes/classicos-terra-estilo' },
   { label: 'Novidades', to: '/#novidades' },
-  { label: 'Mais vendidos', to: '/#mais-vendidos' },
+  { label: 'Mais vendidos', to: '/colecoes' },
   { label: 'Ver todas as coleções', to: '/colecoes', isAll: true },
 ]
 
@@ -216,17 +216,6 @@ export const instagramHome = {
       href: 'https://www.instagram.com/terra_estilo/p/DZXZSGdOAyL/',
     },
   ],
-}
-
-export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
-
-export const bestsellersSection = {
-  eyebrow: 'Coleção em evidência',
-  title: 'Mais vendidos',
-  description:
-    'Cortes atemporais, acabamento refinado e a elegância do agro brasileiro — uma vitrine de peças para vestir com presença.',
-  searchTitle: 'Resultados da busca',
-  tabsLabel: 'Filtrar seleção',
 }
 
 export const homeFeaturedProducts = [

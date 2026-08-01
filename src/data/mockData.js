@@ -1281,21 +1281,6 @@ export function getNovidadesProducts(catalog = products, limit = 8) {
   return list.slice(0, limit)
 }
 
-export function getBestsellersProducts(catalog = products, filter = 'Todos', limit = 8) {
-  const ranked = [...catalog].sort((a, b) => {
-    const score = (p) => {
-      const badge = String(p.badge || '').toLowerCase()
-      if (badge.includes('mais vendido')) return 3
-      if (badge.includes('destaque') || badge.includes('premium')) return 2
-      if (badge.includes('novo') || badge.includes('novidade')) return 1
-      return 0
-    }
-    return score(b) - score(a) || b.price - a.price
-  })
-  const filtered = ranked.filter((p) => matchesFilter(p, filter))
-  return (filtered.length ? filtered : ranked).slice(0, limit)
-}
-
 const SEARCH_CATEGORY_TERMS = {
   feminino: 'Feminino',
   masculino: 'Masculino',
@@ -1366,10 +1351,6 @@ export function scrollToSection(sectionId) {
 }
 
 export function scrollToProducts() {
-  if (document.getElementById('mais-vendidos')) {
-    scrollToSection('mais-vendidos')
-    return
-  }
   if (document.getElementById('novidades')) {
     scrollToSection('novidades')
     return
