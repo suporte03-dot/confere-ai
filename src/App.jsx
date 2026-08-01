@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { ShopProvider } from './context/ShopContext'
 import Header from './components/home/Header'
@@ -23,16 +23,20 @@ function SiteLayout({
   searchOpen,
   setSearchOpen,
 }) {
+  const onMenuToggle = useCallback(() => setMenuOpen((v) => !v), [setMenuOpen])
+  const onSearchToggle = useCallback(() => setSearchOpen((v) => !v), [setSearchOpen])
+  const onNavClose = useCallback(() => setMenuOpen(false), [setMenuOpen])
+
   return (
     <div className="app" id="inicio">
       <div className="site-chrome">
         <header className="brand-header">
           <Header
             menuOpen={menuOpen}
-            onMenuToggle={() => setMenuOpen((v) => !v)}
+            onMenuToggle={onMenuToggle}
             searchOpen={searchOpen}
-            onSearchToggle={() => setSearchOpen((v) => !v)}
-            onNavClose={() => setMenuOpen(false)}
+            onSearchToggle={onSearchToggle}
+            onNavClose={onNavClose}
           />
         </header>
       </div>

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useShop } from '../../context/ShopContext'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 import MainNavigation from './MainNavigation'
@@ -16,6 +17,9 @@ function Header({
     cartCount,
     setCartOpen,
   } = useShop()
+  const searchAreaRef = useRef(null)
+  const searchInputRef = useRef(null)
+  const searchToggleRef = useRef(null)
 
   const submitSearch = (event) => {
     event?.preventDefault()
@@ -25,16 +29,30 @@ function Header({
     }
   }
 
-  const handleSearchIconClick = () => {
-    if (searchOpen) {
-      submitSearch()
-      return
-    }
-    const submitted = performSearch()
-    if (!submitted) {
+  useEffect(() => {
+    if (!searchOpen) return undefined
+
+    searchInputRef.current?.focus()
+
+    const handlePointerDown = (event) => {
+      const target = event.target
+      if (searchAreaRef.current?.contains(target)) return
+      if (searchToggleRef.current?.contains(target)) return
       onSearchToggle()
     }
-  }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onSearchToggle()
+    }
+
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [searchOpen, onSearchToggle])
 
   return (
     <div className="brand-main header-main site-header">
@@ -52,8 +70,12 @@ function Header({
 
       <MainNavigation open={menuOpen} onClose={onNavClose} />
 
-      <div className={`search-area${searchOpen ? ' search-area--open' : ''}`}>
+      <div
+        ref={searchAreaRef}
+        className={`search-area${searchOpen ? ' search-area--open' : ''}`}
+      >
         <form
+          id="site-header-search"
           className={`site-header__search brand-search ${searchOpen ? 'site-header__search--open' : ''}`}
           role="search"
           onSubmit={submitSearch}
@@ -65,6 +87,7 @@ function Header({
             </svg>
           </button>
           <input
+            ref={searchInputRef}
             type="search"
             placeholder="Buscar roupas, calçados e acessórios..."
             value={searchQuery}
@@ -81,10 +104,13 @@ function Header({
 
       <div className="site-header__actions header-actions">
         <button
+          ref={searchToggleRef}
           type="button"
           className="site-header__action site-header__action--search"
           aria-label="Buscar"
-          onClick={handleSearchIconClick}
+          aria-expanded={searchOpen}
+          aria-controls="site-header-search"
+          onClick={onSearchToggle}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5" />
