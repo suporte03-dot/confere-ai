@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useShop } from '../../context/ShopContext'
+import { footerHome } from '../../data/homeData'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 import MainNavigation from './MainNavigation'
+
+const INSTAGRAM_URL = footerHome.atendimento.instagramHref
+const FACEBOOK_URL = 'https://www.facebook.com/TerraEstilo'
 
 function Header({
   onMenuToggle,
@@ -16,7 +19,6 @@ function Header({
     setSearchQuery,
     performSearch,
     cartCount,
-    favoritesCount,
     setCartOpen,
   } = useShop()
   const searchAreaRef = useRef(null)
@@ -162,34 +164,38 @@ function Header({
           </svg>
         </button>
         <a
-          href="#conta"
-          className="site-header__action site-header__action--account"
-          aria-label="Minha conta"
-          title="Minha conta"
-          data-tooltip="Minha conta"
+          href={INSTAGRAM_URL}
+          className="site-header__action site-header__action--instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          title="Instagram"
+          data-tooltip="Instagram"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
           </svg>
         </a>
-        <Link
-          to="/#favoritos"
-          className="site-header__action site-header__action--favorites"
-          aria-label="Favoritos"
-          title="Favoritos"
-          data-tooltip="Favoritos"
+        <a
+          href={FACEBOOK_URL}
+          className="site-header__action site-header__action--facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          title="Facebook"
+          data-tooltip="Facebook"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
-              d="M12 20s-6.5-4.2-8.8-8A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 20.8 12c-2.3 3.8-8.8 8-8.8 8z"
+              d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
           </svg>
-          {favoritesCount > 0 && <em className="site-header__badge">{favoritesCount}</em>}
-        </Link>
+        </a>
         <button
           type="button"
           className="site-header__action site-header__action--cart"
