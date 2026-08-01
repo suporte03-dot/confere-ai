@@ -15,14 +15,14 @@ function HomePage() {
       <HeroSection />
       <SectionDivider variant="light" showSaint />
       <main>
+        <BestsellersSection />
+        <SectionDivider variant="dark" showSaint />
         <NovidadesSection />
         <SectionDivider variant="light" showSaint />
         <CategoryShowcase />
         <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
         <SectionDivider variant="light" showSaint />
-        <BestsellersSection />
-        <SectionDivider variant="dark" showSaint />
         <BenefitsBar />
         <SectionDivider variant="dark" showSaint />
         <BrandEssence />
