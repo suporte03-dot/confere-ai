@@ -1217,7 +1217,6 @@ body.nav-drawer-open {
   display: none;
 }
 
-.site-header--premium .site-header__action--account span,
 .site-header--premium .site-header__action--favorites span {
   max-width: 88px;
 }
@@ -4478,7 +4477,6 @@ body.nav-drawer-open {
     display: inline-flex;
   }
 
-  .site-header--premium .site-header__action--account,
   .site-header--premium .site-header__action--favorites,
   .site-header--premium .site-header__action--instagram,
   .site-header--premium .site-header__action--facebook {

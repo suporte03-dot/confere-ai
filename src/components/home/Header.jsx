@@ -258,17 +258,6 @@ function Header({
             <span>Buscar</span>
           </button>
           <a
-            href="#conta"
-            className="site-header__action site-header__action--account"
-            aria-label="Entrar ou cadastrar"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M5 19c1.4-3.5 5-5 7-5s5.6 1.5 7 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <span>Entrar ou cadastrar</span>
-          </a>
-          <a
             href="#favoritos"
             className="site-header__action site-header__action--favorites"
             aria-label={`Favoritos${favoritesCount > 0 ? `, ${favoritesCount} itens` : ''}`}
