@@ -12,7 +12,7 @@ export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-/** Atmosphere scrubbed from nova-parte.png header mockup (baked logo/nav/icons removed). */
+/** Atmosphere scrubbed from header-novo-premium.png (baked logo/nav/icons/text removed). */
 export const HEADER_ATMOSPHERE_SRC = headerAtmosphere
 /** Cast photo cropped from terra-estilo+logo-novo mockup (left panel only; baked logo/copy excluded). */
 export const COUPLE_HERO_SRC = coupleHeroAsset
