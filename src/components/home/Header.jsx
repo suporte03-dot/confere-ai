@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useShop } from '../../context/ShopContext'
-import { footerHome } from '../../data/homeData'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 import MainNavigation from './MainNavigation'
-
-const INSTAGRAM_URL = footerHome.atendimento.instagramHref
-const FACEBOOK_URL = 'https://www.facebook.com/TerraEstilo'
 
 function Header({
   onMenuToggle,
@@ -19,7 +16,9 @@ function Header({
     setSearchQuery,
     performSearch,
     cartCount,
+    favoritesCount,
     setCartOpen,
+    showToast,
   } = useShop()
   const searchAreaRef = useRef(null)
   const searchInputRef = useRef(null)
@@ -32,6 +31,11 @@ function Header({
     if (submitted && searchOpen) {
       onSearchToggle()
     }
+  }
+
+  const handleAccountClick = (event) => {
+    event.preventDefault()
+    showToast('Em breve você poderá acessar sua conta.')
   }
 
   useEffect(() => {
@@ -47,7 +51,11 @@ function Header({
     const chrome = document.querySelector('.site-chrome')
     if (!chrome) return undefined
     chrome.classList.toggle('site-chrome--scrolled', scrolled)
-    return () => chrome.classList.remove('site-chrome--scrolled')
+    chrome.classList.toggle('is-scrolled', scrolled)
+    return () => {
+      chrome.classList.remove('site-chrome--scrolled')
+      chrome.classList.remove('is-scrolled')
+    }
   }, [scrolled])
 
   useEffect(() => {
@@ -90,13 +98,14 @@ function Header({
 
   return (
     <div
-      className={`brand-main header-main site-header${scrolled ? ' site-header--scrolled' : ''}${menuOpen ? ' site-header--menu-open' : ''}`}
+      className={`brand-main header-main site-header${scrolled ? ' is-scrolled site-header--scrolled' : ''}${menuOpen ? ' site-header--menu-open' : ''}`}
     >
       <button
         type="button"
         className={`site-header__menu ${menuOpen ? 'site-header__menu--open' : ''}`}
-        aria-label="Menu"
+        aria-label="Abrir menu de navegação"
         aria-expanded={menuOpen}
+        aria-controls="site-main-nav"
         onClick={onMenuToggle}
       >
         <span /><span /><span />
@@ -112,7 +121,15 @@ function Header({
         onClick={() => onNavClose?.()}
       />
 
-      <MainNavigation open={menuOpen} onClose={onNavClose} />
+      <MainNavigation
+        open={menuOpen}
+        onClose={onNavClose}
+        onAccountClick={handleAccountClick}
+        onOpenCart={() => {
+          onNavClose?.()
+          setCartOpen(true)
+        }}
+      />
 
       <div
         ref={searchAreaRef}
@@ -152,8 +169,6 @@ function Header({
           type="button"
           className={`site-header__action site-header__action--search${searchOpen ? ' is-active' : ''}`}
           aria-label="Buscar"
-          title="Buscar"
-          data-tooltip="Buscar"
           aria-expanded={searchOpen}
           aria-controls="site-header-search"
           onClick={onSearchToggle}
@@ -162,47 +177,41 @@ function Header({
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5" />
             <path d="M20 20l-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
+          <span>Buscar</span>
         </button>
-        <a
-          href={INSTAGRAM_URL}
-          className="site-header__action site-header__action--instagram"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-          title="Instagram"
-          data-tooltip="Instagram"
+        <button
+          type="button"
+          className="site-header__action site-header__action--account"
+          aria-label="Minha conta"
+          onClick={handleAccountClick}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.5" />
-            <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+            <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
-        </a>
-        <a
-          href={FACEBOOK_URL}
-          className="site-header__action site-header__action--facebook"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Facebook"
-          title="Facebook"
-          data-tooltip="Facebook"
+          <span>Minha conta</span>
+        </button>
+        <Link
+          to="/#favoritos"
+          className="site-header__action site-header__action--favorites"
+          aria-label="Favoritos"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
-              d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"
+              d="M12 20s-6.5-4.2-8.8-8A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 20.8 12c-2.3 3.8-8.8 8-8.8 8z"
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
           </svg>
-        </a>
+          <span>Favoritos</span>
+          {favoritesCount > 0 && <em className="site-header__badge">{favoritesCount}</em>}
+        </Link>
         <button
           type="button"
           className="site-header__action site-header__action--cart"
           onClick={() => setCartOpen(true)}
-          aria-label="Sacola"
-          title="Sacola"
-          data-tooltip="Sacola"
+          aria-label={`Sacola${cartCount > 0 ? `, ${cartCount} itens` : ''}`}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
@@ -215,6 +224,7 @@ function Header({
             <circle cx="10" cy="20" r="1.3" fill="currentColor" />
             <circle cx="17" cy="20" r="1.3" fill="currentColor" />
           </svg>
+          <span>Sacola</span>
           <em className="site-header__badge">{cartCount}</em>
         </button>
       </div>

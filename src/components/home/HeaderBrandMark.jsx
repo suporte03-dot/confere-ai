@@ -10,7 +10,7 @@ function HeaderBrandMark({ className = '' }) {
     .join(' ')
 
   return (
-    <Link to="/" className={linkClass} aria-label="Terra & Estilo — início">
+    <Link to="/" className={`${linkClass} site-header__logo`} aria-label="Ir para a página inicial">
       <span className="header-brand__logo-ring">
         <img
           src={BRAND_LOGO_CIRCULAR_SRC}

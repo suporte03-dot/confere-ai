@@ -37,7 +37,7 @@ export const collectionsMegaMenu = [
   { label: 'Clássicos Terra & Estilo', to: '/colecoes/classicos-terra-estilo' },
   { label: 'Novidades', to: '/#novidades' },
   { label: 'Mais vendidos', to: '/#mais-vendidos' },
-  { label: 'Ver todas', to: '/colecoes', isAll: true },
+  { label: 'Ver todas as coleções', to: '/colecoes', isAll: true },
 ]
 
 export const heroBrandPillars = [
