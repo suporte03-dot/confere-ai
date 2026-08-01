@@ -89,14 +89,14 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
-  --header-main-h: 112px;
-  --header-main-h-compact: 80px;
+  --header-main-h: 120px;
+  --header-main-h-compact: 86px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(100px, 128px);
+  --header-brand-w: minmax(108px, 136px);
   --header-actions-w: minmax(220px, max-content);
-  --header-logo-mark-h: 100px;
-  --header-logo-size: clamp(88px, 6.4vw, 100px);
+  --header-logo-mark-h: 108px;
+  --header-logo-size: clamp(94px, 6.8vw, 108px);
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -852,7 +852,7 @@
 .site-chrome--scrolled,
 .site-chrome.is-scrolled {
   --header-main-h: var(--header-main-h-compact);
-  --header-logo-size: clamp(60px, 4.8vw, 72px);
+  --header-logo-size: clamp(64px, 5.1vw, 78px);
   --sticky-offset: var(--header-main-h-compact);
   background: rgba(8, 8, 7, 0.82);
   backdrop-filter: blur(14px) saturate(1.08);
@@ -1218,7 +1218,7 @@ body.nav-drawer-open {
   position: absolute;
   left: 50%;
   bottom: 1px;
-  width: 22px;
+  width: 26px;
   height: 1px;
   background: var(--gold-primary);
   border-radius: 1px;
@@ -1238,7 +1238,7 @@ body.nav-drawer-open {
 .main-nav__link:focus-visible::after {
   transform: translateX(-50%) scaleX(1);
   opacity: 0.38;
-  width: 18px;
+  width: 24px;
 }
 
 .main-nav__chevron {
@@ -1280,7 +1280,7 @@ body.nav-drawer-open {
 .main-nav__link[aria-expanded='true']:focus-visible::after {
   transform: translateX(-50%) scaleX(1);
   opacity: 1;
-  width: 28px;
+  width: 40px;
   height: 1.5px;
   background: var(--gold-light);
 }
@@ -3348,8 +3348,8 @@ body.nav-drawer-open {
 /* ── Responsive ── */
 @media (max-width: 1280px) {
   :root {
-    --header-main-h: 106px;
-    --header-logo-size: clamp(84px, 6vw, 96px);
+    --header-main-h: 114px;
+    --header-logo-size: clamp(90px, 6.4vw, 104px);
     --header-monogram-size: clamp(52px, 5vw, 72px);
     --header-wordmark-size: clamp(1.75rem, 2.6vw, 2.25rem);
   }
@@ -3409,10 +3409,10 @@ body.nav-drawer-open {
 
 @media (max-width: 1100px) {
   :root {
-    --header-main-h: 82px;
-    --header-main-h-compact: 72px;
-    --header-logo-mark-h: 72px;
-    --header-logo-size: clamp(62px, 13vw, 74px);
+    --header-main-h: 88px;
+    --header-main-h-compact: 78px;
+    --header-logo-mark-h: 78px;
+    --header-logo-size: clamp(66px, 14vw, 80px);
     --header-monogram-size: 68px;
     --logo-footer-max-h: 100px;
     --header-actions-w: minmax(120px, max-content);
@@ -3420,7 +3420,7 @@ body.nav-drawer-open {
 
   .site-chrome--scrolled,
   .site-chrome.is-scrolled {
-    --header-logo-size: clamp(54px, 11vw, 64px);
+    --header-logo-size: clamp(58px, 12vw, 68px);
   }
 
   .site-header {
@@ -3801,18 +3801,18 @@ body.nav-drawer-open {
 
 @media (max-width: 768px) {
   :root {
-    --header-logo-mark-h: 64px;
+    --header-logo-mark-h: 70px;
     --header-monogram-size: 58px;
-    --header-main-h: 72px;
-    --header-main-h-compact: 66px;
-    --header-logo-size: clamp(58px, 15vw, 68px);
+    --header-main-h: 78px;
+    --header-main-h-compact: 72px;
+    --header-logo-size: clamp(62px, 16vw, 72px);
     --sticky-offset: var(--header-main-h);
     --hero-logo-size: clamp(190px, 52vw, 240px);
   }
 
   .site-chrome--scrolled,
   .site-chrome.is-scrolled {
-    --header-logo-size: clamp(50px, 12vw, 58px);
+    --header-logo-size: clamp(54px, 13vw, 62px);
   }
 
   .app {
