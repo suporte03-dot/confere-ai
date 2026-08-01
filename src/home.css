@@ -2038,7 +2038,6 @@ body.nav-drawer-open {
   --section-divider-line-soft: rgba(201, 155, 50, 0.12);
   /* Page-matching blot so jewelry lines never read through the crown */
   --section-divider-blot: #f6efe4;
-  --section-divider-oval: rgba(168, 124, 36, 0.72);
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -2063,14 +2062,12 @@ body.nav-drawer-open {
   --section-divider-line: rgba(168, 124, 36, 0.48);
   --section-divider-line-soft: rgba(168, 124, 36, 0.1);
   --section-divider-blot: #f6efe4;
-  --section-divider-oval: rgba(168, 124, 36, 0.75);
 }
 
 .section-divider--dark {
   --section-divider-line: rgba(223, 189, 105, 0.55);
   --section-divider-line-soft: rgba(223, 189, 105, 0.12);
   --section-divider-blot: #1a1510;
-  --section-divider-oval: rgba(223, 189, 105, 0.7);
 }
 
 .section-divider__line {
@@ -2141,24 +2138,6 @@ body.nav-drawer-open {
     transparent 80%
   );
   box-shadow: none;
-}
-
-/* Clean gold oval framing crown + stars — apex clears the cross */
-.section-divider__medallion--saint::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: -18%;
-  width: 118%;
-  height: 64%;
-  transform: translateX(-50%);
-  box-sizing: border-box;
-  border: 1.25px solid var(--section-divider-oval);
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: none;
-  pointer-events: none;
 }
 
 .section-divider__saint {
