@@ -21,13 +21,13 @@ function HomePage() {
         <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
         <SectionDivider variant="dark" showSaint />
-        <BenefitsBar />
-        <SectionDivider variant="dark" showSaint />
         <AboutBrand />
         <BrandValues />
         <SectionDivider variant="light" showSaint />
         <InstagramSection />
-        <SectionDivider variant="light" showSaint />
+        <SectionDivider variant="dark" showSaint />
+        <BenefitsBar />
+        <SectionDivider variant="dark" showSaint />
         <Newsletter />
       </main>
     </>
