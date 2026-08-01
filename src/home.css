@@ -89,14 +89,15 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
-  --header-main-h: 128px;
+  --header-logo-size: clamp(120px, 9vw, 145px);
+  --header-logo-scrolled: 82px;
+  --header-main-h: calc(var(--header-logo-size) + 12px);
   --header-main-h-compact: 86px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(116px, 148px);
+  --header-brand-w: minmax(132px, 172px);
   --header-actions-w: minmax(220px, max-content);
-  --header-logo-mark-h: 116px;
-  --header-logo-size: clamp(100px, 7.2vw, 116px);
+  --header-logo-mark-h: 145px;
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -172,24 +173,24 @@
 .header-brand::after {
   content: '';
   position: absolute;
-  left: calc(var(--header-logo-size) + 10px);
-  right: 0;
+  left: calc(var(--header-logo-size) + 14px);
   top: 50%;
+  width: clamp(18px, 2.4vw, 36px);
   height: 1px;
   background: linear-gradient(
     90deg,
-    rgba(201, 155, 50, 0.55) 0%,
-    rgba(201, 155, 50, 0.18) 55%,
+    rgba(201, 155, 50, 0.42) 0%,
+    rgba(201, 155, 50, 0.14) 55%,
     transparent 100%
   );
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 0.75;
   transition: opacity var(--header-transition);
 }
 
 .site-header.is-scrolled .header-brand::after,
 .site-header--scrolled .header-brand::after {
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
 .terra-brand-header__leaves,
@@ -261,13 +262,16 @@
   place-items: center;
   width: var(--header-logo-size);
   height: var(--header-logo-size);
+  flex-shrink: 0;
   border-radius: 50%;
-  border: 1px solid rgba(201, 155, 50, 0.55);
-  padding: 2px;
+  border: 1px solid rgba(201, 155, 50, 0.4);
+  padding: 0;
+  background: transparent;
   box-shadow: none;
   overflow: hidden;
   transform-origin: center center;
   transition: transform var(--header-transition);
+  aspect-ratio: 1 / 1;
 }
 
 .terra-brand-header__logo,
@@ -864,7 +868,9 @@
 .site-chrome--scrolled .header-brand__logo-ring,
 .site-header.is-scrolled .header-brand__logo-ring,
 .site-header--scrolled .header-brand__logo-ring {
-  transform: scale(0.72);
+  /* Visual ~82px from layout-stable box — avoids sticky height jitter. */
+  transform: scale(0.62);
+  transform: scale(calc(var(--header-logo-scrolled) / var(--header-logo-size)));
 }
 
 body.nav-drawer-open {
@@ -904,12 +910,12 @@ body.nav-drawer-open {
   display: grid;
   grid-template-columns: var(--header-brand-w) minmax(0, 1fr) var(--header-actions-w);
   align-items: center;
-  gap: 12px 20px;
+  gap: 12px 28px;
   min-height: var(--header-main-h);
   max-width: none;
   width: 100%;
   margin: 0;
-  padding: 8px clamp(18px, 2.8vw, 36px);
+  padding: 6px clamp(18px, 2.8vw, 36px);
   overflow: visible;
   box-sizing: border-box;
   background: transparent;
@@ -3440,16 +3446,14 @@ body.nav-drawer-open {
 /* ── Responsive ── */
 @media (max-width: 1280px) {
   :root {
-    --header-main-h: 122px;
-    --header-logo-size: clamp(96px, 6.8vw, 112px);
     --header-monogram-size: clamp(52px, 5vw, 72px);
     --header-wordmark-size: clamp(1.75rem, 2.6vw, 2.25rem);
   }
 
   .brand-main,
   .header-main {
-    padding: 8px clamp(16px, 2.2vw, 28px);
-    gap: 12px 16px;
+    padding: 6px clamp(16px, 2.2vw, 28px);
+    gap: 12px 24px;
   }
 
   .brand-search,
@@ -3505,10 +3509,11 @@ body.nav-drawer-open {
 
 @media (max-width: 1100px) {
   :root {
-    --header-main-h: 94px;
+    --header-logo-size: clamp(84px, 9vw, 100px);
+    --header-logo-scrolled: 84px;
+    --header-main-h: calc(var(--header-logo-size) + 10px);
     --header-main-h-compact: 78px;
-    --header-logo-mark-h: 86px;
-    --header-logo-size: clamp(72px, 15vw, 88px);
+    --header-logo-mark-h: 100px;
     --header-monogram-size: 68px;
     --logo-footer-max-h: 100px;
     --header-actions-w: minmax(120px, max-content);
@@ -3524,10 +3529,17 @@ body.nav-drawer-open {
     display: grid;
     grid-template-columns: 44px 1fr auto;
     align-items: center;
-    padding: 8px 12px;
+    padding: 6px 12px;
     gap: 8px;
     min-height: var(--header-main-h);
     text-align: center;
+  }
+
+  .site-chrome.is-scrolled .header-brand__logo-ring,
+  .site-chrome--scrolled .header-brand__logo-ring,
+  .site-header.is-scrolled .header-brand__logo-ring,
+  .site-header--scrolled .header-brand__logo-ring {
+    transform: none;
   }
 
   .site-header__menu {
@@ -3910,11 +3922,11 @@ body.nav-drawer-open {
 
 @media (max-width: 768px) {
   :root {
-    --header-logo-mark-h: 76px;
+    --header-logo-mark-h: 72px;
     --header-monogram-size: 58px;
-    --header-main-h: 84px;
+    --header-logo-size: clamp(64px, 14vw, 72px);
+    --header-main-h: clamp(72px, 18vw, 76px);
     --header-main-h-compact: 72px;
-    --header-logo-size: clamp(68px, 17vw, 80px);
     --sticky-offset: var(--header-main-h);
     --hero-logo-size: clamp(190px, 52vw, 240px);
   }
@@ -4246,6 +4258,18 @@ body.nav-drawer-open {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --header-logo-size: clamp(58px, 15vw, 68px);
+    --header-logo-mark-h: 68px;
+    --header-main-h: clamp(68px, 17vw, 76px);
+    --header-main-h-compact: 68px;
+    --sticky-offset: var(--header-main-h);
+  }
+
+  .header-brand::after {
+    display: none;
+  }
+
   .top-bar__item:nth-child(n + 2) {
     display: none;
   }
