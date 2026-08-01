@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { aboutBrand, BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
+import HistoryModal from './HistoryModal'
 
 function BotanicalAccent({ className }) {
   return (
@@ -33,6 +35,8 @@ function BotanicalAccent({ className }) {
 }
 
 function AboutBrand() {
+  const [historyOpen, setHistoryOpen] = useState(false)
+
   return (
     <section id="sobre" className="about-brand section" aria-labelledby="about-brand-title">
       <div className="container">
@@ -43,9 +47,13 @@ function AboutBrand() {
               {aboutBrand.title}
             </h2>
             <p className="about-brand__text">{aboutBrand.text}</p>
-            <a href="#contato" className="btn btn--gold">
+            <button
+              type="button"
+              className="btn btn--gold"
+              onClick={() => setHistoryOpen(true)}
+            >
               {aboutBrand.cta}
-            </a>
+            </button>
           </div>
 
           <div className="about-brand__visual">
@@ -66,6 +74,8 @@ function AboutBrand() {
           </div>
         </div>
       </div>
+
+      <HistoryModal open={historyOpen} onClose={() => setHistoryOpen(false)} />
     </section>
   )
 }

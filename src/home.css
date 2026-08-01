@@ -2642,6 +2642,149 @@
   transform: scaleX(-1) rotate(-8deg);
 }
 
+/* ── History modal — Nossa história ── */
+.history-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 32px);
+}
+
+.history-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: rgba(8, 8, 7, 0.72);
+  animation: history-modal-fade-in 0.28s ease;
+}
+
+.history-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 640px);
+  max-height: min(88vh, 720px);
+  overflow-y: auto;
+  padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 40px) clamp(28px, 4vw, 40px);
+  border: 1px solid rgba(201, 155, 50, 0.55);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 155, 50, 0.1), transparent 55%),
+    linear-gradient(165deg, var(--black-primary) 0%, var(--color-brown-dark) 100%);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  color: var(--color-ivory);
+  outline: none;
+  animation: history-modal-rise-in 0.34s ease;
+}
+
+.history-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(246, 239, 228, 0.72);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.history-modal__close:hover {
+  color: var(--color-gold-light);
+  background: rgba(201, 155, 50, 0.1);
+}
+
+.history-modal__close:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.history-modal__title {
+  margin: 0 28px 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: var(--color-ivory);
+}
+
+.history-modal__ornament {
+  display: block;
+  width: 56px;
+  height: 1px;
+  margin: 16px 0 24px;
+  background: linear-gradient(90deg, var(--color-gold), rgba(201, 155, 50, 0.15));
+}
+
+.history-modal__body {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.history-modal__body p {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(0.9375rem, 1.4vw, 1.05rem);
+  line-height: 1.75;
+  color: rgba(246, 239, 228, 0.88);
+}
+
+@keyframes history-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes history-modal-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .history-modal {
+    align-items: flex-end;
+    padding: 12px;
+  }
+
+  .history-modal__dialog {
+    width: 100%;
+    max-height: min(92vh, 100%);
+    border-radius: 14px 14px 10px 10px;
+    padding: 28px 20px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-modal__backdrop,
+  .history-modal__dialog {
+    animation: none;
+  }
+}
+
 /* ── Benefits Bar — compact horizontal strip ── */
 .benefits-bar {
   background:
