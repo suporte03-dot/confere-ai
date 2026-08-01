@@ -214,15 +214,22 @@ function MainNavigation({ open, onClose, onOpenCart }) {
         {mainNavigation.map((item, index) => {
           const showOrnamentBefore = item.label === 'Sobre'
           const prevIsCollections = mainNavigation[index - 1]?.hasDropdown
+          const mid = Math.ceil(mainNavigation.length / 2)
+          const insertCenterSlot = index === mid
 
           const ornament = showOrnamentBefore && prevIsCollections
             ? <LeafOrnament key="nav-ornament" />
+            : null
+
+          const centerSlot = insertCenterSlot
+            ? <span key="nav-center-slot" className="main-nav__center-slot" aria-hidden="true" />
             : null
 
           if (item.hasDropdown) {
             const isCollectionsActive = location.pathname.startsWith('/colecoes')
             return (
               <div key={item.label} className="main-nav__cluster">
+                {centerSlot}
                 <div
                   className={`main-nav__item main-nav__item--dropdown${collectionsOpen ? ' is-open' : ''}`}
                   ref={wrapRef}
@@ -265,6 +272,7 @@ function MainNavigation({ open, onClose, onOpenCart }) {
 
           return (
             <div key={item.label} className="main-nav__cluster">
+              {centerSlot}
               {ornament}
               <NavLink
                 to={item.to}
