@@ -1035,20 +1035,13 @@ body.nav-drawer-open {
 }
 
 .site-header__action svg {
-  opacity: 0.92;
   flex-shrink: 0;
-}
-
-.site-header__action--instagram svg,
-.site-header__action--facebook svg {
   color: var(--gold-primary);
   opacity: 1;
 }
 
-.site-header__action--instagram:hover svg,
-.site-header__action--instagram:focus-visible svg,
-.site-header__action--facebook:hover svg,
-.site-header__action--facebook:focus-visible svg {
+.site-header__action:hover svg,
+.site-header__action:focus-visible svg {
   color: var(--gold-light);
 }
 
@@ -3703,13 +3696,13 @@ body.nav-drawer-open {
     color: rgba(255, 253, 248, 0.92);
   }
 
-  .main-nav__drawer-action--social svg {
+  .main-nav__drawer-action svg {
     color: var(--gold-primary);
     flex-shrink: 0;
   }
 
-  .main-nav__drawer-action--social:hover svg,
-  .main-nav__drawer-action--social:focus-visible svg {
+  .main-nav__drawer-action:hover svg,
+  .main-nav__drawer-action:focus-visible svg {
     color: var(--gold-light);
   }
 
