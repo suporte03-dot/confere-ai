@@ -1,3 +1,13 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
 #root {
   min-height: 100vh;
 }
@@ -8,6 +18,7 @@ body {
   background: var(--ivory, #f6efe4);
   margin: 0;
   padding: 0;
+  overflow-x: clip;
 }
 
 [id] {
