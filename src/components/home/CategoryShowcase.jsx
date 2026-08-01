@@ -11,7 +11,7 @@ function CategoryShowcase() {
             Compre por categoria
           </h2>
           <p className="section-head__desc">
-            Entre pelas coleções essenciais — Feminino, Masculino e Acessórios.
+            Feminino, Masculino, Calçados, Acessórios e Coleções — entre pelas vitrines essenciais.
           </p>
         </div>
 
@@ -35,7 +35,7 @@ function CategoryShowcase() {
                 <span className="category-banner__title">{category.title}</span>
                 <span className="category-banner__subtitle">{category.subtitle}</span>
                 <span className="category-banner__cta">
-                  Ver peças
+                  Explorar
                   <span aria-hidden="true"> →</span>
                 </span>
               </span>

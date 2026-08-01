@@ -12,10 +12,10 @@ function NovidadesSection() {
         <div className="section-head">
           <p className="section-head__eyebrow">Acabou de chegar</p>
           <h2 id="novidades-title" className="section-head__title">
-            Novidades da Terra &amp; Estilo
+            Novidades
           </h2>
           <p className="section-head__desc">
-            Peças novas da temporada — escolha, vista e leve a identidade do agro com sofisticação.
+            Lançamentos da temporada Terra &amp; Estilo — peças novas para vestir a identidade do agro com sofisticação.
           </p>
         </div>
 

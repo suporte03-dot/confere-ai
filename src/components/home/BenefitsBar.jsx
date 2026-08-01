@@ -49,6 +49,16 @@ const BENEFIT_ICONS = {
       <path d="M12 24 H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   ),
+  star: (
+    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path
+        d="M20 8 L23.2 16.2 L32 17.2 L25.4 23 L27.2 31.6 L20 26.8 L12.8 31.6 L14.6 23 L8 17.2 L16.8 16.2 Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
 }
 
 function BenefitsBar() {

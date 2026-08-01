@@ -3,6 +3,7 @@ import SectionDivider from '../components/home/SectionDivider'
 import NovidadesSection from '../components/home/NovidadesSection'
 import CategoryShowcase from '../components/home/CategoryShowcase'
 import FeaturedCollection from '../components/home/FeaturedCollection'
+import BestsellersSection from '../components/home/BestsellersSection'
 import BenefitsBar from '../components/home/BenefitsBar'
 import BrandEssence from '../components/home/BrandEssence'
 import InstagramSection from '../components/home/InstagramSection'
@@ -19,12 +20,14 @@ function HomePage() {
         <CategoryShowcase />
         <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
+        <SectionDivider variant="light" showSaint />
+        <BestsellersSection />
+        <SectionDivider variant="dark" showSaint />
+        <BenefitsBar />
         <SectionDivider variant="dark" showSaint />
         <BrandEssence />
         <SectionDivider variant="light" showSaint />
         <InstagramSection />
-        <SectionDivider variant="dark" showSaint />
-        <BenefitsBar />
         <SectionDivider variant="dark" showSaint />
         <Newsletter />
       </main>

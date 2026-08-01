@@ -10,9 +10,11 @@ function FeaturedCollection() {
     title,
     description,
     primaryCta,
+    secondaryCta,
     image,
     imageAlt,
-    primaryHref = '#novidades',
+    primaryHref = '/colecoes/raizes-do-sul',
+    secondaryHref = '/#instagram',
   } = featuredCollection
 
   return (
@@ -37,8 +39,8 @@ function FeaturedCollection() {
           <img
             src={BRAND_LOGO_CIRCULAR_SRC}
             alt=""
-            width={360}
-            height={360}
+            width={200}
+            height={200}
             decoding="async"
           />
         </div>
@@ -98,6 +100,14 @@ function FeaturedCollection() {
                 />
               </svg>
             </Link>
+            {secondaryCta && (
+              <Link
+                to={secondaryHref}
+                className="featured-collection__button featured-collection__button--secondary"
+              >
+                {secondaryCta}
+              </Link>
+            )}
           </div>
         </div>
       </div>

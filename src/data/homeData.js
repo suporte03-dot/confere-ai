@@ -25,6 +25,7 @@ export const headerBrandPillars = [
 export const mainNavigation = [
   { label: 'Feminino', to: '/feminino' },
   { label: 'Masculino', to: '/masculino' },
+  { label: 'Calçados', to: '/calcados' },
   { label: 'Acessórios', to: '/acessorios' },
   { label: 'Coleções', to: '/colecoes', hasDropdown: true, hasChevron: true },
   { label: 'Sobre', to: '/sobre' },
@@ -36,7 +37,7 @@ export const collectionsMegaMenu = [
   { label: 'Raízes do Sul', to: '/colecoes/raizes-do-sul' },
   { label: 'Clássicos Terra & Estilo', to: '/colecoes/classicos-terra-estilo' },
   { label: 'Novidades', to: '/#novidades' },
-  { label: 'Mais vendidos', to: '/colecoes' },
+  { label: 'Mais vendidos', to: '/#mais-vendidos' },
   { label: 'Ver todas as coleções', to: '/colecoes', isAll: true },
 ]
 
@@ -142,6 +143,15 @@ export const categoryCardsAll = [
     objectPosition: 'center 22%',
   },
   {
+    id: 'cat-calcados',
+    title: 'Calçados',
+    subtitle: 'Botas, coturnos e tênis com presença',
+    filter: 'Calçados',
+    to: '/calcados',
+    image: assetUrl('/images/categorias/calca-jeans-masculinas.jpg'),
+    objectPosition: 'center 70%',
+  },
+  {
     id: 'cat-acessorios',
     title: 'Acessórios',
     subtitle: 'Detalhes que fecham o look',
@@ -150,9 +160,18 @@ export const categoryCardsAll = [
     image: assetUrl('/images/categorias/bones.jpg'),
     objectPosition: 'center 28%',
   },
+  {
+    id: 'cat-colecoes',
+    title: 'Coleções',
+    subtitle: 'Campanhas e curadorias da temporada',
+    filter: 'Todos',
+    to: '/colecoes',
+    image: assetUrl('/images/categorias/polos.jpg'),
+    objectPosition: 'center 30%',
+  },
 ]
 
-/** Homepage showcase — Feminino, Masculino, Acessórios */
+/** Homepage showcase — Feminino, Masculino, Calçados, Acessórios, Coleções */
 export const categoryCards = categoryCardsAll
 
 export const featuredCollection = {
@@ -161,20 +180,35 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  image: COUPLE_HERO_SRC,
+  secondaryCta: 'Ver lookbook',
+  // Editorial product crop — never reuse the couple hero photo.
+  image: assetUrl('/images/hero/slide-2.jpg'),
   imageAlt:
-    'Casal da campanha Terra & Estilo com chapéus e bordados — Coleção Raízes do Sul.',
+    'Detalhes de camisas, tecidos e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
   primaryHref: '/colecoes/raizes-do-sul',
+  secondaryHref: '/#instagram',
+}
+
+export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Calçados', 'Acessórios']
+
+export const bestsellersSection = {
+  eyebrow: 'Coleção em evidência',
+  title: 'Os mais desejados',
+  description:
+    'Cortes atemporais, acabamento refinado e a elegância do agro brasileiro — uma vitrine de peças para vestir com presença.',
+  searchTitle: 'Resultados da busca',
+  tabsLabel: 'Filtrar seleção',
 }
 
 export const benefitsBar = [
-  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
+  { id: 'frete', title: 'Frete para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
   { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
-  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
+  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
   { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.', icon: 'heart' },
+  { id: 'qualidade', title: 'Qualidade premium', description: 'Tecidos, cortes e acabamento pensados para durar.', icon: 'star' },
   { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.', icon: 'card' },
 ]
 

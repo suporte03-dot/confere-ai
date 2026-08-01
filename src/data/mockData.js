@@ -1156,22 +1156,59 @@ const COLLECTION_IMAGE_FALLBACK = {
   'calca-jeans-feminina': '/images/categorias/calca-jeans-masculinas.jpg',
   'calcas-infantis': '/images/categorias/calca-jeans-masculinas.jpg',
   'bermudas-masculinas': '/images/categorias/calca-jeans-masculinas.jpg',
-  vestidos: '/images/categorias/camisas.jpg',
-  'vestidos-infantis': '/images/categorias/camisas.jpg',
+  vestidos: '/images/hero/slide-3.jpg',
+  'vestidos-infantis': '/images/hero/slide-3.jpg',
   cropped: '/images/categorias/camisetas-masculinas.jpg',
   body: '/images/categorias/camisetas-masculinas.jpg',
-  'bolsas-femininas': '/images/categorias/acessorios.jpg',
-  'bolsas-acessorios': '/images/categorias/acessorios.jpg',
+  'bolsas-femininas': '/images/hero/thumb-bag-marble.jpg',
+  'bolsas-acessorios': '/images/hero/thumb-bag-side.jpg',
   'acessorios-masculinos': '/images/categorias/bones.jpg',
   'acessorios-femininos': '/images/categorias/acessorios.jpg',
-  cintos: '/images/categorias/bones.jpg',
-  mochilas: '/images/categorias/acessorios.jpg',
-  botas: '/images/categorias/jaquetas-masculinas.jpg',
-  coturnos: '/images/categorias/jaquetas-masculinas.jpg',
+  cintos: '/images/categorias/acessorios.jpg',
+  mochilas: '/images/hero/thumb-bag-gloss.jpg',
+  botas: '/images/hero/slide-4.jpg',
+  coturnos: '/images/hero/slide-5.jpg',
   tenis: '/images/categorias/polos.jpg',
   chinelos: '/images/categorias/bones.jpg',
   'camisetas-infantis': '/images/categorias/camisetas-masculinas.jpg',
   'conjuntos-infantis': '/images/categorias/moletons-masculinos.jpg',
+}
+
+/** Distinct editorial assets per product key — avoids couple/institutional reuse. */
+const IMAGE_KEY_FALLBACK = {
+  camisaSerena: '/images/categorias/camisas.jpg',
+  vestidoAurora: '/images/hero/slide-3.jpg',
+  jaquetaCampo: '/images/categorias/jaquetas-masculinas.jpg',
+  boneBordado: '/images/categorias/bones.jpg',
+  jeansHorizonte: '/images/categorias/calca-jeans-masculinas.jpg',
+  camisetaFeminina: '/images/categorias/camisetas-masculinas.jpg',
+  botaEstrada: '/images/hero/slide-4.jpg',
+  cintoTerra: '/images/categorias/acessorios.jpg',
+  camisaWorker: '/images/hero/slide-1.jpg',
+  camisaFlanela: '/images/categorias/camisas.jpg',
+  camisetaEssencial: '/images/categorias/camisetas-masculinas.jpg',
+  poloOliva: '/images/categorias/polos.jpg',
+  jaquetaSarja: '/images/categorias/jaquetas-masculinas.jpg',
+  jeansPampa: '/images/categorias/calca-jeans-masculinas.jpg',
+  bermudaSarja: '/images/categorias/calca-jeans-masculinas.jpg',
+  moletomCampoSul: '/images/categorias/moletons-masculinos.jpg',
+  cintoTropeiro: '/images/categorias/acessorios.jpg',
+  mochilaCampo: '/images/hero/thumb-bag-gloss.jpg',
+  croppedCampo: '/images/hero/slide-2.jpg',
+  bodyCanelado: '/images/categorias/camisetas-masculinas.jpg',
+  vestidoPampa: '/images/hero/slide-3.jpg',
+  jaquetaFeminina: '/images/categorias/jaquetas-masculinas.jpg',
+  jeansFeminina: '/images/categorias/calca-jeans-masculinas.jpg',
+  camisetaInfantil: '/images/categorias/camisetas-masculinas.jpg',
+  calcaInfantil: '/images/categorias/calca-jeans-masculinas.jpg',
+  vestidoInfantil: '/images/hero/slide-5.jpg',
+  conjuntoInfantil: '/images/categorias/moletons-masculinos.jpg',
+  moletomInfantil: '/images/categorias/moletons-masculinos.jpg',
+  coturnoUrbano: '/images/hero/slide-5.jpg',
+  tenisHorizonte: '/images/categorias/polos.jpg',
+  chineloTerra: '/images/categorias/bones.jpg',
+  moletomSoft: '/images/categorias/moletons-masculinos.jpg',
+  bolsaCasual: '/images/hero/thumb-bag-marble.jpg',
 }
 
 const PRODUCT_IMAGE_POOL = [
@@ -1183,6 +1220,12 @@ const PRODUCT_IMAGE_POOL = [
   '/images/categorias/bones.jpg',
   '/images/categorias/calca-jeans-masculinas.jpg',
   '/images/categorias/acessorios.jpg',
+  '/images/hero/slide-1.jpg',
+  '/images/hero/slide-2.jpg',
+  '/images/hero/slide-3.jpg',
+  '/images/hero/slide-4.jpg',
+  '/images/hero/thumb-bag-marble.jpg',
+  '/images/hero/thumb-bag-side.jpg',
 ]
 
 const HOVER_IMAGE_CYCLE = PRODUCT_IMAGE_POOL
@@ -1190,10 +1233,11 @@ const HOVER_IMAGE_CYCLE = PRODUCT_IMAGE_POOL
 const DEPT_IMAGE_POOL = {
   feminino: [
     '/images/categorias/camisas.jpg',
+    '/images/hero/slide-3.jpg',
     '/images/categorias/camisetas-masculinas.jpg',
     '/images/categorias/moletons-masculinos.jpg',
     '/images/categorias/polos.jpg',
-    '/images/categorias/acessorios.jpg',
+    '/images/hero/thumb-bag-marble.jpg',
   ],
   masculino: [
     '/images/categorias/jaquetas-masculinas.jpg',
@@ -1202,23 +1246,29 @@ const DEPT_IMAGE_POOL = {
     '/images/categorias/calca-jeans-masculinas.jpg',
     '/images/categorias/moletons-masculinos.jpg',
     '/images/categorias/camisetas-masculinas.jpg',
+    '/images/hero/slide-1.jpg',
   ],
   acessorios: [
     '/images/categorias/bones.jpg',
     '/images/categorias/acessorios.jpg',
-    '/images/categorias/camisas.jpg',
+    '/images/hero/thumb-bag-gloss.jpg',
+    '/images/hero/thumb-bag-side.jpg',
     '/images/categorias/polos.jpg',
   ],
   calcados: [
+    '/images/hero/slide-4.jpg',
+    '/images/hero/slide-5.jpg',
     '/images/categorias/jaquetas-masculinas.jpg',
     '/images/categorias/calca-jeans-masculinas.jpg',
     '/images/categorias/bones.jpg',
-    '/images/categorias/acessorios.jpg',
   ],
 }
 
 export function getCategoryFallbackImage(product) {
   if (!product) return null
+  const byKey = IMAGE_KEY_FALLBACK[product.imageKey]
+  if (byKey) return byKey
+
   const seed = Math.abs(Number(product?.id) || 0)
   const preferred = COLLECTION_IMAGE_FALLBACK[product.collectionId]
   const dept = String(product.department || '').toLowerCase()
@@ -1229,7 +1279,6 @@ export function getCategoryFallbackImage(product) {
   else if (dept.includes('acess')) pool = DEPT_IMAGE_POOL.acessorios
   else if (dept.includes('calç') || dept.includes('calc')) pool = DEPT_IMAGE_POOL.calcados
 
-  // Prefer collection image when present, then rotate by product id for diversity.
   if (preferred && pool.includes(preferred)) {
     const base = pool.indexOf(preferred)
     return pool[(base + Math.floor(seed / 2)) % pool.length]
@@ -1275,10 +1324,26 @@ export function getProductRating(product) {
 export function getNovidadesProducts(catalog = products, limit = 8) {
   const novos = catalog.filter((p) => {
     const badge = String(p.badge || '').toLowerCase()
-    return badge.includes('novo') || badge.includes('novidade')
+    return badge.includes('novo') || badge.includes('novidade') || p.new
   })
   const list = novos.length >= 4 ? novos : catalog
   return list.slice(0, limit)
+}
+
+export function getBestsellersProducts(catalog = products, filter = 'Todos', limit = 8) {
+  const ranked = [...catalog].sort((a, b) => {
+    const score = (p) => {
+      const badge = String(p.badge || '').toLowerCase()
+      if (badge.includes('mais vendido')) return 4
+      if (p.featured) return 3
+      if (badge.includes('destaque') || badge.includes('premium')) return 2
+      if (badge.includes('novo') || badge.includes('novidade')) return 1
+      return 0
+    }
+    return score(b) - score(a) || b.price - a.price
+  })
+  const filtered = ranked.filter((p) => matchesFilter(p, filter))
+  return (filtered.length ? filtered : ranked).slice(0, limit)
 }
 
 const SEARCH_CATEGORY_TERMS = {
@@ -1351,6 +1416,10 @@ export function scrollToSection(sectionId) {
 }
 
 export function scrollToProducts() {
+  if (document.getElementById('mais-vendidos')) {
+    scrollToSection('mais-vendidos')
+    return
+  }
   if (document.getElementById('novidades')) {
     scrollToSection('novidades')
     return
