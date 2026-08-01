@@ -1749,6 +1749,15 @@
 }
 
 .section-divider--after-hero .section-divider__medallion {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.section-divider--after-hero .section-divider__medallion--saint {
   width: 50px;
   height: 72px;
   padding: 5px;
@@ -1759,7 +1768,7 @@
 }
 
 /* Soft gold halo behind the CSS oval — no box */
-.section-divider--after-hero .section-divider__medallion::before {
+.section-divider--after-hero .section-divider__medallion--saint::before {
   content: '';
   position: absolute;
   inset: -8px;
@@ -1820,13 +1829,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.section-divider__medallion--saint {
   width: 44px;
   height: 64px;
   padding: 4px;
   border: 1px solid rgba(201, 155, 50, 0.55);
   border-radius: 50%;
   background: transparent;
-  box-shadow: none;
+}
+
+.section-divider--dark .section-divider__medallion--saint {
+  border-color: rgba(223, 189, 105, 0.55);
+}
+
+.section-divider--light .section-divider__medallion--saint {
+  border-color: rgba(168, 124, 36, 0.55);
 }
 
 .section-divider__saint {
@@ -2227,7 +2253,7 @@
     padding: 8px 16px;
   }
 
-  .section-divider__medallion {
+  .section-divider__medallion--saint {
     width: 36px;
     height: 52px;
     padding: 3px;
@@ -2242,7 +2268,7 @@
     padding: 6px 16px;
   }
 
-  .section-divider--after-hero .section-divider__medallion {
+  .section-divider--after-hero .section-divider__medallion--saint {
     width: 46px;
     height: 66px;
     padding: 4px;
