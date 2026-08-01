@@ -95,7 +95,7 @@
   --header-main-h-compact: 86px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(132px, 172px);
+  --header-brand-w: minmax(152px, 180px);
   --header-actions-w: minmax(220px, max-content);
   --header-logo-mark-h: 145px;
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
@@ -262,6 +262,8 @@
   place-items: center;
   width: var(--header-logo-size);
   height: var(--header-logo-size);
+  min-width: var(--header-logo-size);
+  min-height: var(--header-logo-size);
   flex-shrink: 0;
   border-radius: 50%;
   border: 1px solid rgba(201, 155, 50, 0.4);
@@ -269,9 +271,11 @@
   background: transparent;
   box-shadow: none;
   overflow: hidden;
+  transform: none;
   transform-origin: center center;
   transition: transform var(--header-transition);
   aspect-ratio: 1 / 1;
+  box-sizing: border-box;
 }
 
 .terra-brand-header__logo,
@@ -320,12 +324,49 @@
   display: block;
   width: 100%;
   height: 100%;
-  max-width: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
   background: transparent;
   filter: brightness(0.98) contrast(0.94);
+}
+
+/* Desktop default: force crest + ring to the large token (wins over preview shell). */
+@media (min-width: 1101px) {
+  :root,
+  .desktop-preview {
+    --header-logo-size: clamp(120px, 9vw, 145px);
+    --header-logo-scrolled: 82px;
+    --header-main-h: calc(var(--header-logo-size) + 12px);
+    --header-brand-w: minmax(152px, 180px);
+    --header-logo-mark-h: 145px;
+  }
+
+  .desktop-preview .site-header .header-brand__logo-ring,
+  .site-header .header-brand__logo-ring,
+  .desktop-preview .site-header .header-brand__mark .header-brand__logo-ring,
+  .site-header .header-brand .header-brand__logo-ring {
+    width: var(--header-logo-size);
+    height: var(--header-logo-size);
+    min-width: var(--header-logo-size);
+    min-height: var(--header-logo-size);
+  }
+
+  .desktop-preview .site-header:not(.is-scrolled):not(.site-header--scrolled) .header-brand__logo-ring,
+  .site-header:not(.is-scrolled):not(.site-header--scrolled) .header-brand__logo-ring {
+    transform: none;
+  }
+
+  .desktop-preview .site-header .header-brand__logo-img,
+  .site-header .header-brand__logo-img,
+  .desktop-preview .header-brand__logo-ring .header-brand__logo-img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+  }
 }
 
 .brand-logo-composition,
@@ -3508,7 +3549,8 @@ body.nav-drawer-open {
 }
 
 @media (max-width: 1100px) {
-  :root {
+  :root,
+  .desktop-preview {
     --header-logo-size: clamp(84px, 9vw, 100px);
     --header-logo-scrolled: 84px;
     --header-main-h: calc(var(--header-logo-size) + 10px);
@@ -3921,7 +3963,8 @@ body.nav-drawer-open {
 }
 
 @media (max-width: 768px) {
-  :root {
+  :root,
+  .desktop-preview {
     --header-logo-mark-h: 72px;
     --header-monogram-size: 58px;
     --header-logo-size: clamp(64px, 14vw, 72px);
@@ -4258,7 +4301,8 @@ body.nav-drawer-open {
 }
 
 @media (max-width: 640px) {
-  :root {
+  :root,
+  .desktop-preview {
     --header-logo-size: clamp(58px, 15vw, 68px);
     --header-logo-mark-h: 68px;
     --header-main-h: clamp(68px, 17vw, 76px);
