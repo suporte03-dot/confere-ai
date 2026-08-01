@@ -953,7 +953,7 @@ export const collectionBanner = {
   image: imageMap.banner,
   variant: 'banner',
   primaryCta: 'Comprar agora',
-  secondaryCta: 'Ver lookbook',
+  secondaryCta: 'Ver coleção',
 }
 
 export const newsletterBanner = {

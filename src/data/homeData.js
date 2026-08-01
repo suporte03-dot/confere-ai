@@ -176,7 +176,7 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  secondaryCta: 'Ver lookbook',
+  secondaryCta: 'Ver novidades',
   image: COUPLE_HERO_SRC,
   imageAlt:
     'Detalhes de camisas e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
@@ -184,25 +184,7 @@ export const featuredCollection = {
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
   primaryHref: '#mais-vendidos',
-  secondaryHref: '#lookbook',
-}
-
-export const lookbookHome = {
-  eyebrow: 'Vista o estilo',
-  title: 'Lookbook',
-  description:
-    'Composições que traduzem a identidade Terra & Estilo — do campo à cidade, com presença e sofisticação.',
-  primaryImage: assetUrl('/images/hero/slide-1.jpg'),
-  collage: [
-    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
-    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
-    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Acessórios Terra & Estilo' },
-    { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Polos Terra & Estilo', productId: 4 },
-  ],
-  hotspots: [
-    { id: 'hs-1', productId: 12, label: 'Camisa Serena', x: 32, y: 48 },
-    { id: 'hs-2', productId: 5, label: 'Jaqueta Estância', x: 68, y: 38 },
-  ],
+  secondaryHref: '#novidades',
 }
 
 export const instagramHome = {

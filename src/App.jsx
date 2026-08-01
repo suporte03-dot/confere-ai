@@ -8,7 +8,6 @@ import NovidadesSection from './components/home/NovidadesSection'
 import CategoryShowcase from './components/home/CategoryShowcase'
 import FeaturedCollection from './components/home/FeaturedCollection'
 import BestsellersSection from './components/home/BestsellersSection'
-import LookbookSection from './components/home/LookbookSection'
 import BenefitsBar from './components/home/BenefitsBar'
 import AboutBrand from './components/home/AboutBrand'
 import BrandValues from './components/home/BrandValues'
@@ -62,8 +61,6 @@ function SiteContent({
         <SectionDivider variant="dark" showSaint />
         <FeaturedCollection />
         <BestsellersSection />
-        <SectionDivider variant="dark" showSaint />
-        <LookbookSection />
         <SectionDivider variant="light" showSaint />
         <BenefitsBar />
         <AboutBrand />

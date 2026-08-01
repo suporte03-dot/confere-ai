@@ -15,7 +15,7 @@ function FeaturedCollection() {
     image,
     imageAlt,
     primaryHref = '#mais-vendidos',
-    secondaryHref = '#lookbook',
+    secondaryHref = '#novidades',
   } = featuredCollection
 
   return (
