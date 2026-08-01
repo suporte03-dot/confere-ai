@@ -2046,7 +2046,7 @@ body.nav-drawer-open {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 36px;
   width: 100%;
   height: clamp(70px, 8vw, 90px);
   min-height: 70px;
@@ -2078,26 +2078,26 @@ body.nav-drawer-open {
   border: none;
 }
 
-/* Left line: fade hard to transparent at the santa-facing (right) end */
+/* Left line: stay opaque, then cut hard before the santa */
 .section-divider__line:first-of-type {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--section-divider-line-soft) 14%,
-    var(--section-divider-line) 48%,
-    var(--section-divider-line) 72%,
+    var(--section-divider-line-soft) 10%,
+    var(--section-divider-line) 28%,
+    var(--section-divider-line) 90%,
     transparent 100%
   );
 }
 
-/* Right line: fade hard to transparent at the santa-facing (left) end */
+/* Right line: cut hard after the santa, then stay opaque */
 .section-divider__line:last-of-type {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--section-divider-line) 28%,
-    var(--section-divider-line) 52%,
-    var(--section-divider-line-soft) 86%,
+    var(--section-divider-line) 10%,
+    var(--section-divider-line) 72%,
+    var(--section-divider-line-soft) 90%,
     transparent 100%
   );
 }
@@ -2123,7 +2123,7 @@ body.nav-drawer-open {
 
 .section-divider__medallion--saint {
   z-index: 2;
-  width: 56px;
+  width: 64px;
   height: 64px;
   max-height: 100%;
   margin: 0;
@@ -2132,29 +2132,17 @@ body.nav-drawer-open {
   border-radius: 0;
   /* Opaque blot masks any stroke through crown / transparent PNG gaps */
   background: radial-gradient(
-    ellipse 68% 52% at 50% 46%,
+    ellipse 78% 62% at 50% 46%,
     var(--section-divider-blot) 0%,
-    var(--section-divider-blot) 48%,
-    transparent 78%
+    var(--section-divider-blot) 58%,
+    transparent 82%
   );
   box-shadow: none;
 }
 
-/* Soft gold aura kept outside the blot — does not draw a horizontal risco */
+/* No gold haze behind santa — it read as a risco across the crown */
 .section-divider__medallion--saint::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  z-index: 0;
-  border: none;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse 42% 38% at 50% 48%,
-    rgba(201, 155, 50, 0.1) 0%,
-    rgba(201, 155, 50, 0.03) 45%,
-    transparent 70%
-  );
-  pointer-events: none;
+  content: none;
 }
 
 .section-divider__saint {
@@ -2557,12 +2545,12 @@ body.nav-drawer-open {
     height: 70px;
     min-height: 70px;
     max-height: 78px;
-    gap: 18px;
+    gap: 22px;
     padding: 0 16px;
   }
 
   .section-divider__medallion--saint {
-    width: 44px;
+    width: 52px;
     height: 56px;
   }
 

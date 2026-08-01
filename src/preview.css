@@ -1048,13 +1048,13 @@
   height: 70px;
   min-height: 70px;
   max-height: 78px;
-  gap: 18px;
+  gap: 22px;
   padding: 0 16px;
   background: transparent;
 }
 
 .mobile-preview .section-divider__medallion--saint {
-  width: 42px;
+  width: 48px;
   height: 52px;
   padding: 0;
   border: none;
@@ -1065,7 +1065,7 @@
   height: 78px;
   min-height: 70px;
   max-height: 84px;
-  gap: 18px;
+  gap: 22px;
   margin-top: 0;
   padding: 0 16px;
   background: transparent;
@@ -1073,7 +1073,7 @@
 }
 
 .mobile-preview .section-divider--after-hero .section-divider__medallion--saint {
-  width: 48px;
+  width: 52px;
   height: 60px;
   padding: 0;
   border: none;
