@@ -1740,14 +1740,12 @@ body.nav-drawer-open {
 .brand-hero__models,
 .brand-hero__models-image,
 .brand-hero__content,
-.brand-hero__copy,
-.brand-hero__logo {
+.brand-hero__copy {
   box-sizing: border-box;
 }
 
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
 .brand-hero {
-  --brand-hero-logo-size: clamp(170px, 13vw, 240px);
   --brand-hero-ivory: var(--ivory);
   --brand-hero-gold: #c5a059;
   --brand-hero-ink: var(--text-dark);
@@ -1755,7 +1753,7 @@ body.nav-drawer-open {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: 52% 48%;
+  grid-template-columns: 55% 45%;
   align-items: stretch;
   width: 100%;
   min-height: 560px;
@@ -1800,9 +1798,9 @@ body.nav-drawer-open {
   padding: 0;
   border: none;
   object-fit: cover;
-  /* Favor faces/hats; keep embroidery; avoid right-edge seam */
-  object-position: 48% 20%;
-  filter: brightness(1.04) contrast(1.03) saturate(0.96);
+  /* Favor faces/hats; keep embroidery; soft edge into ivory */
+  object-position: 42% 18%;
+  filter: brightness(1.05) contrast(1.04) saturate(0.97);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
@@ -1811,20 +1809,20 @@ body.nav-drawer-open {
   animation: brand-hero-fade-in 0.75s ease both;
 }
 
-/* Narrow ivory seam on right edge only — never over faces */
+/* Soft ivory seam on right edge only — continuous with copy panel */
 .brand-hero__transition {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 22%;
+  width: 12%;
   z-index: 3;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(247, 240, 229, 0.16) 34%,
-    rgba(247, 240, 229, 0.64) 76%,
+    rgba(247, 240, 229, 0.12) 40%,
+    rgba(247, 240, 229, 0.55) 78%,
     #f7f0e5 100%
   );
 }
@@ -1843,33 +1841,6 @@ body.nav-drawer-open {
   color: rgba(197, 160, 89, 0.22);
 }
 
-.brand-hero__logo {
-  position: absolute;
-  left: 51%;
-  top: 50%;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  width: var(--brand-hero-logo-size);
-  height: var(--brand-hero-logo-size);
-  margin: 0;
-  padding: 0;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  animation: brand-hero-logo-rise 0.85s ease both;
-}
-
-.brand-hero__logo img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  object-position: center;
-  background: transparent;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
-}
-
 .brand-hero__content {
   position: relative;
   z-index: 2;
@@ -1879,7 +1850,7 @@ body.nav-drawer-open {
   min-width: 0;
   min-height: 0;
   height: 100%;
-  padding: 32px clamp(24px, 3vw, 48px) 36px clamp(112px, 12vw, 168px);
+  padding: 32px clamp(28px, 3.5vw, 52px) 36px clamp(28px, 3.5vw, 52px);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 40%),
@@ -2058,26 +2029,10 @@ body.nav-drawer-open {
   }
 }
 
-@keyframes brand-hero-logo-rise {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -46%) scale(0.94);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .brand-hero__copy,
-  .brand-hero__models-image,
-  .brand-hero__logo {
+  .brand-hero__models-image {
     animation: none;
-  }
-
-  .brand-hero__logo {
-    transform: translate(-50%, -50%);
   }
 
   .brand-hero__btn--primary:hover {
@@ -2087,7 +2042,6 @@ body.nav-drawer-open {
 
 @media (max-width: 960px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(140px, 34vw, 190px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2097,27 +2051,27 @@ body.nav-drawer-open {
     background: linear-gradient(
       180deg,
       #0e0c0a 0%,
-      #0e0c0a 38%,
-      var(--brand-hero-ivory) 38%
+      #0e0c0a 42%,
+      var(--brand-hero-ivory) 42%
     );
   }
 
   .brand-hero__models {
     order: 1;
     width: 100%;
-    height: min(52vh, 480px);
-    min-height: 360px;
+    height: min(54vh, 500px);
+    min-height: 380px;
   }
 
   .brand-hero__models-image {
-    object-position: 46% 18%;
-    filter: brightness(1.04) contrast(1.03) saturate(0.96);
+    object-position: 42% 16%;
+    filter: brightness(1.05) contrast(1.04) saturate(0.97);
     transform: none;
   }
 
   .brand-hero__transition {
     width: 100%;
-    height: 22%;
+    height: 14%;
     top: auto;
     right: 0;
     left: 0;
@@ -2125,41 +2079,18 @@ body.nav-drawer-open {
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(247, 240, 229, 0.16) 34%,
-      rgba(247, 240, 229, 0.64) 76%,
+      rgba(247, 240, 229, 0.12) 40%,
+      rgba(247, 240, 229, 0.55) 78%,
       #f7f0e5 100%
     );
   }
 
-  .brand-hero__logo {
-    order: 2;
-    position: relative;
-    left: auto;
-    top: auto;
-    z-index: 5;
-    width: var(--brand-hero-logo-size);
-    height: var(--brand-hero-logo-size);
-    margin: 12px auto 8px;
-    transform: none;
-  }
-
-  @keyframes brand-hero-logo-rise {
-    from {
-      opacity: 0;
-      transform: scale(0.94) translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
   .brand-hero__content {
-    order: 3;
+    order: 2;
     width: 100%;
     height: auto;
     min-height: 0;
-    padding: 12px 22px 36px;
+    padding: 20px 22px 36px;
     padding-left: 22px;
     padding-right: 22px;
     overflow: visible;
@@ -2168,7 +2099,7 @@ body.nav-drawer-open {
   }
 
   .desktop-preview .brand-hero__content {
-    padding: 12px 22px 36px;
+    padding: 20px 22px 36px;
     padding-left: 22px;
     padding-right: 22px;
     text-align: center;
@@ -2213,31 +2144,26 @@ body.nav-drawer-open {
 
 @media (max-width: 560px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(120px, 36vw, 160px);
     overflow-x: hidden;
   }
 
   .brand-hero__models {
-    height: min(48vh, 420px);
-    min-height: 300px;
+    height: min(50vh, 440px);
+    min-height: 320px;
   }
 
   .brand-hero__models-image {
-    object-position: 45% 16%;
-  }
-
-  .brand-hero__logo {
-    margin: 10px auto 6px;
+    object-position: 40% 14%;
   }
 
   .brand-hero__content {
-    padding: 8px 16px 28px;
+    padding: 16px 16px 28px;
     padding-left: 16px;
     padding-right: 16px;
   }
 
   .desktop-preview .brand-hero__content {
-    padding: 8px 16px 28px;
+    padding: 16px 16px 28px;
     padding-left: 16px;
     padding-right: 16px;
   }

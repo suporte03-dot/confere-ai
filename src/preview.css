@@ -1,20 +1,19 @@
-/* ── Pré-visualização desktop / celular — logo circular oficial ── */
+/* ── Pré-visualização desktop / celular ── */
 
 .desktop-preview {
   width: 100%;
   /* Header crest size comes from :root / home.css — do not shrink it here.
      This wrapper is the live app shell (App.jsx), not a tiny mock frame. */
-  --brand-hero-logo-size: clamp(210px, 16vw, 285px);
 }
 
 /* Desktop-only layout overrides — must NOT win on real mobile viewports.
    App.jsx always wraps in .desktop-preview; without min-width these
-   beat home.css @media rules via higher specificity (e.g. padding-left 112px). */
+   beat home.css @media rules via higher specificity (e.g. content padding). */
 @media (min-width: 961px) {
   .desktop-preview .brand-hero {
     min-height: 560px;
     height: min(64vh, 640px);
-    grid-template-columns: 52% 48%;
+    grid-template-columns: 55% 45%;
     width: 100%;
     max-width: none;
     overflow: hidden;
@@ -23,24 +22,16 @@
 
   .desktop-preview .brand-hero__models-image {
     object-fit: cover;
-    object-position: 48% 20%;
-    filter: brightness(1.04) contrast(1.03) saturate(0.96);
+    object-position: 42% 18%;
+    filter: brightness(1.05) contrast(1.04) saturate(0.97);
     transform: none;
     -webkit-mask-image: none;
     mask-image: none;
   }
 
-  .desktop-preview .brand-hero__logo {
-    left: 51%;
-    top: 50%;
-    z-index: 5;
-    transform: translate(-50%, -50%);
-    width: var(--brand-hero-logo-size);
-    height: var(--brand-hero-logo-size);
-  }
-
   .desktop-preview .brand-hero__content {
-    padding-left: clamp(112px, 12vw, 168px);
+    padding-left: clamp(28px, 3.5vw, 52px);
+    padding-right: clamp(28px, 3.5vw, 52px);
     justify-content: center;
   }
 
@@ -56,25 +47,9 @@
   height: 100%;
 }
 
-.desktop-preview .brand-hero__logo img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
-}
-
-
-
 .mobile-preview .header-brand__logo-img {
   width: 100%;
   height: 100%;
-}
-
-.mobile-preview .brand-hero__logo img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18));
 }
 
 .mobile-preview .header-brand__name {
@@ -433,14 +408,13 @@
   overflow-x: hidden;
   min-height: 0;
   height: auto;
-  --brand-hero-logo-size: clamp(140px, 42vw, 180px);
 }
 
 .mobile-preview .brand-hero__models {
   order: 1;
   width: 100%;
-  height: min(48vh, 420px);
-  min-height: 300px;
+  height: min(50vh, 440px);
+  min-height: 320px;
   overflow: hidden;
 }
 
@@ -448,31 +422,19 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 45% 16%;
-  filter: brightness(1.04) contrast(1.03) saturate(0.96);
+  object-position: 40% 14%;
+  filter: brightness(1.05) contrast(1.04) saturate(0.97);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-.mobile-preview .brand-hero__logo {
-  order: 2;
-  position: relative;
-  left: auto;
-  top: auto;
-  z-index: 5;
-  width: var(--brand-hero-logo-size);
-  height: var(--brand-hero-logo-size);
-  margin: 10px auto 6px;
-  transform: none;
-}
-
 .mobile-preview .brand-hero__content {
-  order: 3;
+  order: 2;
   width: 100%;
   min-height: 0;
   height: auto;
-  padding: 12px 16px 32px;
+  padding: 16px 16px 32px;
 }
 
 .mobile-preview .brand-hero__copy {
@@ -868,14 +830,13 @@
   overflow-x: hidden;
   min-height: 0;
   height: auto;
-  --brand-hero-logo-size: clamp(140px, 42vw, 180px);
 }
 
 .mobile-preview .brand-hero__models {
   order: 1;
   width: 100%;
-  height: min(48vh, 420px);
-  min-height: 300px;
+  height: min(50vh, 440px);
+  min-height: 320px;
   overflow: hidden;
 }
 
@@ -883,25 +844,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 45% 16%;
-  filter: brightness(1.04) contrast(1.03) saturate(0.96);
+  object-position: 40% 14%;
+  filter: brightness(1.05) contrast(1.04) saturate(0.97);
   transform: none;
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-.mobile-preview .brand-hero__logo {
-  order: 2;
-  position: relative;
-  left: auto;
-  top: auto;
-  z-index: 5;
-  margin: 10px auto 6px;
-  transform: none;
-}
-
 .mobile-preview .brand-hero__content {
-  order: 3;
+  order: 2;
   width: 100%;
   min-height: 0;
   height: auto;

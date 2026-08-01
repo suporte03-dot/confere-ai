@@ -1,4 +1,3 @@
-import logoImage from '../../assets/logo-terra-estilo.png'
 import {
   heroContent,
   COUPLE_HERO_SRC,
@@ -58,18 +57,7 @@ function HeroSection() {
         <div className="brand-hero__transition" aria-hidden="true" />
       </div>
 
-      {/* Layer 4: circular logo on the seam (above ivory, clear of faces/title) */}
-      <div className="brand-hero__logo">
-        <img
-          src={logoImage}
-          alt="Terra & Estilo — A marca do agro brasileiro"
-          width={1024}
-          height={1024}
-          decoding="async"
-        />
-      </div>
-
-      {/* Layers 5–6: ivory text panel + real DOM title / copy / CTAs */}
+      {/* Layers 4–5: ivory text panel + real DOM title / copy / CTAs */}
       <div className="brand-hero__content">
         <BrandHeroBotanical className="brand-hero__ornament brand-hero__ornament--br" />
         <div className="brand-hero__copy">
