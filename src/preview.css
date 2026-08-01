@@ -1001,7 +1001,7 @@
   padding: 8px 16px;
 }
 
-.mobile-preview .section-divider__medallion {
+.mobile-preview .section-divider__medallion--saint {
   width: 36px;
   height: 52px;
   padding: 3px;
@@ -1021,7 +1021,7 @@
   overflow: visible;
 }
 
-.mobile-preview .section-divider--after-hero .section-divider__medallion {
+.mobile-preview .section-divider--after-hero .section-divider__medallion--saint {
   width: 46px;
   height: 66px;
   padding: 4px;
