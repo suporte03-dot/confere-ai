@@ -1758,7 +1758,7 @@ body.nav-drawer-open {
   box-sizing: border-box;
 }
 
-/* ── Brand monogram — original logo on hero split (ivory = page cream) ── */
+/* ── Brand monogram — T&E on hero split (half page dark / half ivory) ── */
 .brand-monogram {
   --brand-monogram-ivory: var(--ivory, #f6efe4);
   position: relative;
@@ -1769,32 +1769,50 @@ body.nav-drawer-open {
   height: var(--brand-monogram-size, 82px);
   overflow: hidden;
   border-radius: 50%;
-  border: 2px solid #b88a2c;
-  /* Light half matches hero ivory panel (#f6efe4), not pure white */
+  border: 1.5px solid #b88a2c;
+  /* Continues the page: left = photo dark, right = hero ivory panel */
   background: linear-gradient(
     90deg,
-    #080808 0%,
-    #080808 50%,
-    var(--brand-monogram-ivory) 50%,
-    var(--brand-monogram-ivory) 100%
+    #080808 0 50%,
+    var(--brand-monogram-ivory) 50% 100%
   );
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(184, 138, 44, 0.18);
+    0 4px 14px rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(184, 138, 44, 0.14);
   pointer-events: none;
   user-select: none;
 }
 
-.brand-monogram__logo {
+/* Subtle gold hairline at the seam — reinforces the page split */
+.brand-monogram::after {
+  content: '';
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(184, 138, 44, 0.75) 18%,
+    rgba(184, 138, 44, 0.75) 82%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.brand-monogram span {
   position: relative;
   z-index: 1;
-  display: block;
-  width: 88%;
-  height: 88%;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 50%;
-  pointer-events: none;
+  font-family: var(--font-serif);
+  font-size: calc(var(--brand-monogram-size, 82px) * 0.28);
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #c79a3c;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Desktop: monogram lives in the header nav slot. */

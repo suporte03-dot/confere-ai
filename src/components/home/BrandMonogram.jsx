@@ -1,19 +1,11 @@
 /**
- * Center header crest — original brand logo on the hero split seam.
+ * Decorative T&E monogram — sits on the hero split seam (not the full brand mark).
+ * Half dark / half ivory so the crest reads as a continuation of the page.
  */
-import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
-
 function BrandMonogram() {
   return (
     <div className="brand-monogram" aria-hidden="true">
-      <img
-        src={BRAND_LOGO_CIRCULAR_SRC}
-        alt=""
-        className="brand-monogram__logo"
-        width={512}
-        height={512}
-        decoding="async"
-      />
+      <span>T&amp;E</span>
     </div>
   )
 }
