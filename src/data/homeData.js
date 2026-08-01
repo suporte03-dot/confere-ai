@@ -176,7 +176,7 @@ export const featuredCollection = {
   image: raizHeroAsset,
   imageAlt:
     'Casal com chapéus na campanha Coleção Raízes do Sul — Terra & Estilo.',
-  objectPosition: '58% 26%',
+  objectPosition: '42% 24%',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
