@@ -25,7 +25,7 @@
   --radius-lg: 24px;
   --shadow-soft: 0 14px 40px rgba(0, 0, 0, 0.14);
   --shadow-dark: 0 20px 60px rgba(0, 0, 0, 0.32);
-  --section-space: clamp(72px, 8vw, 112px);
+  --section-space: clamp(64px, 7vw, 96px);
   --container-max: 1440px;
   --container-width: var(--container-max);
   --btn-height: 48px;
@@ -89,15 +89,15 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
-  --header-logo-size: clamp(120px, 9vw, 145px);
-  --header-logo-scrolled: 82px;
-  --header-main-h: calc(var(--header-logo-size) + 12px);
-  --header-main-h-compact: 86px;
+  --header-logo-size: clamp(100px, 7.5vw, 120px);
+  --header-logo-scrolled: 72px;
+  --header-main-h: calc(var(--header-logo-size) + 8px);
+  --header-main-h-compact: 78px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(152px, 180px);
+  --header-brand-w: minmax(128px, 152px);
   --header-actions-w: minmax(220px, max-content);
-  --header-logo-mark-h: 145px;
+  --header-logo-mark-h: 120px;
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -337,11 +337,11 @@
 @media (min-width: 1101px) {
   :root,
   .desktop-preview {
-    --header-logo-size: clamp(120px, 9vw, 145px);
-    --header-logo-scrolled: 82px;
-    --header-main-h: calc(var(--header-logo-size) + 12px);
-    --header-brand-w: minmax(152px, 180px);
-    --header-logo-mark-h: 145px;
+    --header-logo-size: clamp(100px, 7.5vw, 120px);
+    --header-logo-scrolled: 72px;
+    --header-main-h: calc(var(--header-logo-size) + 8px);
+    --header-brand-w: minmax(128px, 152px);
+    --header-logo-mark-h: 120px;
   }
 
   .desktop-preview .site-header .header-brand__logo-ring,
@@ -921,8 +921,7 @@
 .site-chrome--scrolled .header-brand__logo-ring,
 .site-header.is-scrolled .header-brand__logo-ring,
 .site-header--scrolled .header-brand__logo-ring {
-  /* Visual ~82px from layout-stable box — avoids sticky height jitter. */
-  transform: scale(0.62);
+  /* Visual compact from layout-stable box — avoids sticky height jitter. */
   transform: scale(calc(var(--header-logo-scrolled) / var(--header-logo-size)));
 }
 
@@ -969,7 +968,7 @@ body.nav-drawer-open {
   max-width: none;
   width: 100%;
   margin: 0;
-  padding: 6px clamp(18px, 2.8vw, 36px);
+  padding: 4px clamp(18px, 2.8vw, 36px);
   overflow: visible;
   box-sizing: border-box;
   background: transparent;
@@ -981,8 +980,8 @@ body.nav-drawer-open {
 .site-header--scrolled.brand-main,
 .site-header--scrolled.header-main {
   /* Keep min-height; only tighten padding slightly for a compact look. */
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .site-header__menu {
@@ -1085,8 +1084,8 @@ body.nav-drawer-open {
   min-width: 52px;
   width: auto;
   height: auto;
-  min-height: 44px;
-  padding: 6px 8px;
+  min-height: 40px;
+  padding: 4px 6px;
   font-family: var(--font-sans);
   font-size: 0.5625rem;
   font-weight: 600;
@@ -1544,8 +1543,8 @@ body.nav-drawer-open {
   grid-template-columns: 52% 48%;
   align-items: stretch;
   width: 100%;
-  min-height: 620px;
-  height: min(70vh, 700px);
+  min-height: 560px;
+  height: min(64vh, 640px);
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -1665,7 +1664,7 @@ body.nav-drawer-open {
   min-width: 0;
   min-height: 0;
   height: 100%;
-  padding: 44px clamp(24px, 3vw, 48px) 48px clamp(112px, 12vw, 168px);
+  padding: 32px clamp(24px, 3vw, 48px) 36px clamp(112px, 12vw, 168px);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 40%),

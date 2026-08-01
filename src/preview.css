@@ -12,8 +12,8 @@
    beat home.css @media rules via higher specificity (e.g. padding-left 112px). */
 @media (min-width: 961px) {
   .desktop-preview .brand-hero {
-    min-height: 620px;
-    height: min(70vh, 700px);
+    min-height: 560px;
+    height: min(64vh, 640px);
     grid-template-columns: 52% 48%;
     width: 100%;
     max-width: none;
