@@ -89,18 +89,18 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 28px;
-  --header-logo-size: clamp(56px, 4.6vw, 68px);
-  --header-logo-scrolled: 52px;
+  --header-logo-size: clamp(80px, 6.5vw, 100px);
+  --header-logo-scrolled: 72px;
   --header-nav-logo-size: clamp(72px, 5.8vw, 92px);
-  --header-utility-h: 72px;
+  --header-utility-h: 116px;
   --header-trust-h: 42px;
   --header-main-h: calc(var(--topbar-h) + var(--header-utility-h) + var(--main-nav-h) + var(--header-trust-h));
   --header-main-h-compact: var(--header-main-h);
   --main-nav-h: 48px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(200px, 280px);
+  --header-brand-w: minmax(220px, 300px);
   --header-actions-w: minmax(260px, max-content);
-  --header-logo-mark-h: 120px;
+  --header-logo-mark-h: 100px;
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -366,16 +366,16 @@
 @media (min-width: 1101px) {
   :root,
   .desktop-preview {
-    --header-logo-size: clamp(56px, 4.6vw, 68px);
-    --header-logo-scrolled: 52px;
+    --header-logo-size: clamp(80px, 6.5vw, 100px);
+    --header-logo-scrolled: 72px;
     --header-nav-logo-size: clamp(72px, 5.8vw, 92px);
     --topbar-h: 28px;
-    --header-utility-h: 72px;
+    --header-utility-h: 116px;
     --main-nav-h: 48px;
     --header-trust-h: 42px;
     --header-main-h: calc(var(--topbar-h) + var(--header-utility-h) + var(--main-nav-h) + var(--header-trust-h));
-    --header-brand-w: minmax(200px, 280px);
-    --header-logo-mark-h: 68px;
+    --header-brand-w: minmax(220px, 300px);
+    --header-logo-mark-h: 100px;
     --sticky-offset: var(--header-main-h);
   }
 
@@ -4330,16 +4330,16 @@ body.nav-drawer-open {
 @media (max-width: 1100px) {
   :root,
   .desktop-preview {
-    --header-logo-size: clamp(48px, 11vw, 58px);
-    --header-logo-scrolled: 48px;
+    --header-logo-size: clamp(56px, 12vw, 66px);
+    --header-logo-scrolled: 54px;
     --header-nav-logo-size: 0px;
     --topbar-h: 26px;
-    --header-utility-h: 64px;
+    --header-utility-h: 78px;
     --main-nav-h: 0px;
     --header-trust-h: 0px;
     --header-main-h: calc(var(--topbar-h) + var(--header-utility-h));
     --header-main-h-compact: var(--header-main-h);
-    --header-logo-mark-h: 58px;
+    --header-logo-mark-h: 66px;
     --header-monogram-size: 48px;
     --logo-footer-max-h: 100px;
     --header-actions-w: minmax(96px, max-content);
@@ -4832,11 +4832,11 @@ body.nav-drawer-open {
 @media (max-width: 768px) {
   :root,
   .desktop-preview {
-    --header-logo-mark-h: 52px;
+    --header-logo-mark-h: 60px;
     --header-monogram-size: 44px;
-    --header-logo-size: clamp(44px, 12vw, 52px);
+    --header-logo-size: clamp(52px, 13vw, 60px);
     --topbar-h: 24px;
-    --header-utility-h: 60px;
+    --header-utility-h: 72px;
     --header-main-h: calc(var(--topbar-h) + var(--header-utility-h));
     --header-main-h-compact: var(--header-main-h);
     --sticky-offset: var(--header-main-h);
@@ -5180,10 +5180,10 @@ body.nav-drawer-open {
 @media (max-width: 640px) {
   :root,
   .desktop-preview {
-    --header-logo-size: clamp(40px, 11vw, 48px);
-    --header-logo-mark-h: 48px;
+    --header-logo-size: clamp(48px, 12vw, 56px);
+    --header-logo-mark-h: 56px;
     --topbar-h: 22px;
-    --header-utility-h: 56px;
+    --header-utility-h: 68px;
     --header-main-h: calc(var(--topbar-h) + var(--header-utility-h));
     --header-main-h-compact: var(--header-main-h);
     --sticky-offset: var(--header-main-h);
