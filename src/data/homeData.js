@@ -25,7 +25,6 @@ export const headerBrandPillars = [
 export const mainNavigation = [
   { label: 'Feminino', to: '/feminino' },
   { label: 'Masculino', to: '/masculino' },
-  { label: 'Calçados', to: '/calcados' },
   { label: 'Acessórios', to: '/acessorios' },
   { label: 'Coleções', to: '/colecoes', hasDropdown: true, hasChevron: true },
   { label: 'Sobre', to: '/sobre' },
@@ -143,15 +142,6 @@ export const categoryCardsAll = [
     objectPosition: 'center 22%',
   },
   {
-    id: 'cat-calcados',
-    title: 'Calçados',
-    subtitle: 'Botas, coturnos e tênis com presença',
-    filter: 'Calçados',
-    to: '/calcados',
-    image: assetUrl('/images/categorias/calca-jeans-masculinas.jpg'),
-    objectPosition: 'center 70%',
-  },
-  {
     id: 'cat-acessorios',
     title: 'Acessórios',
     subtitle: 'Detalhes que fecham o look',
@@ -162,7 +152,7 @@ export const categoryCardsAll = [
   },
 ]
 
-/** Homepage showcase — Feminino, Masculino, Calçados, Acessórios */
+/** Homepage showcase — Feminino, Masculino, Acessórios */
 export const categoryCards = categoryCardsAll
 
 export const featuredCollection = {

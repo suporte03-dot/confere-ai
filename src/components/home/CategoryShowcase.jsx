@@ -11,7 +11,7 @@ function CategoryShowcase() {
             Compre por categoria
           </h2>
           <p className="section-head__desc">
-            Entre pelas coleções essenciais — Feminino, Masculino, Calçados e Acessórios.
+            Entre pelas coleções essenciais — Feminino, Masculino e Acessórios.
           </p>
         </div>
 
