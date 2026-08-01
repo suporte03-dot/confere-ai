@@ -5503,19 +5503,17 @@ body.nav-drawer-open {
   }
 
   .bestsellers-section__tabs {
-    margin-bottom: 28px;
-    max-width: none;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-inline: 2px;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    margin: 0 auto 28px;
+    padding-inline: 16px;
     gap: 8px;
-  }
-
-  .bestsellers-section__tabs::-webkit-scrollbar {
-    display: none;
+    overflow-x: visible;
   }
 
   .bestsellers-section__tab {
@@ -5633,7 +5631,14 @@ body.nav-drawer-open {
   }
 
   .bestsellers-section__tabs {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-inline: auto;
+    padding-inline: 16px;
   }
 
   .brand-essence__intro {
