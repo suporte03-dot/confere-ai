@@ -5046,7 +5046,7 @@ body.nav-drawer-open {
 
 .products-grid--bestsellers .product-card__body .btn {
   margin-top: 10px;
-  min-height: 42px;
+  min-height: 44px;
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -5062,6 +5062,12 @@ body.nav-drawer-open {
   background: var(--color-gold);
   border-color: var(--color-gold);
   color: var(--color-black);
+}
+
+.products-grid--bestsellers .product-card.is-picking-size .product-card__sizes {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .products-grid--bestsellers .product-card__badge {
@@ -5150,15 +5156,16 @@ body.nav-drawer-open {
   pointer-events: none;
 }
 
-.product-card:hover .product-card__sizes {
+.product-card:hover .product-card__sizes,
+.product-card.is-picking-size .product-card__sizes {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
 .product-card__size {
-  min-width: 34px;
-  height: 30px;
+  min-width: 36px;
+  height: 34px;
   padding: 0 8px;
   font-family: var(--font-sans);
   font-size: 0.6875rem;
@@ -5168,11 +5175,18 @@ body.nav-drawer-open {
   border: 1px solid rgba(201, 155, 50, 0.45);
   border-radius: 4px;
   cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .product-card__size:hover {
   background: var(--color-gold);
   border-color: var(--color-gold);
+}
+
+.product-card__size.is-selected {
+  background: var(--color-black, #18130f);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
 }
 
 .product-card__rating {
@@ -5552,6 +5566,14 @@ body.nav-drawer-open {
     display: none;
   }
 
+  .product-card.is-picking-size .product-card__sizes {
+    display: flex;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    bottom: 10px;
+  }
+
   .product-card__fav {
     width: 44px;
     height: 44px;
@@ -5727,6 +5749,18 @@ body.nav-drawer-open {
   .product-grid-section .product-card__body .btn,
   .novidades-section .product-card__body .btn {
     margin-inline: auto;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .products-grid--novidades .product-card.is-picking-size .product-card__sizes,
+  .products-grid--bestsellers .product-card.is-picking-size .product-card__sizes,
+  .product-grid-section .product-card.is-picking-size .product-card__sizes,
+  .novidades-section .product-card.is-picking-size .product-card__sizes {
+    display: flex;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
   }
 
   .instagram-section__grid {

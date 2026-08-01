@@ -19,6 +19,7 @@ function ProductCard({
 }) {
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
   const [selectedSize, setSelectedSize] = useState(null)
+  const [pickingSize, setPickingSize] = useState(false)
   const favorite = isFavorite(product.id)
   const primaryImage = getProductImage(product)
   const hoverImage = getProductHoverImage(product)
@@ -32,24 +33,39 @@ function ProductCard({
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`
     : ''
 
-  const tryAdd = (sizeOverride) => {
-    const size = sizeOverride ?? selectedSize
-    if (needsSize && !size) {
-      showToast('Selecione um tamanho para adicionar ao carrinho.')
-      return
-    }
-    addToCart({ ...product, selectedSize: size }, { size, requireSize: needsSize })
-  }
-
   const stop = (event) => {
     event.stopPropagation()
   }
 
+  const tryAdd = (sizeOverride) => {
+    const size = sizeOverride ?? selectedSize
+    if (needsSize && !size) {
+      setPickingSize(true)
+      showToast('Selecione um tamanho para adicionar ao carrinho.')
+      return false
+    }
+    setPickingSize(false)
+    return addToCart({ ...product, selectedSize: size }, { size, requireSize: needsSize })
+  }
+
+  const handleAddToCart = (event) => {
+    stop(event)
+    tryAdd()
+  }
+
+  const handleSizePick = (event, size) => {
+    stop(event)
+    setSelectedSize(size)
+    setPickingSize(false)
+    addToCart({ ...product, selectedSize: size }, { size, requireSize: true })
+  }
+
   const variantClass = variant ? ` product-card--${variant}` : ''
+  const pickingClass = pickingSize ? ' is-picking-size' : ''
 
   return (
     <article
-      className={`product-card product-card--${tone}${variantClass}`}
+      className={`product-card product-card--${tone}${variantClass}${pickingClass}`}
       aria-label={product.name}
     >
       <div className="product-card__media">
@@ -97,12 +113,9 @@ function ProductCard({
         <button
           type="button"
           className="product-card__quick"
-          onClick={(event) => {
-            stop(event)
-            tryAdd()
-          }}
+          onClick={handleAddToCart}
         >
-          Compra rápida
+          Adicionar
         </button>
 
         {showSizes && sizes.length > 0 && (
@@ -113,11 +126,7 @@ function ProductCard({
                 type="button"
                 className={`product-card__size${selectedSize === size ? ' is-selected' : ''}`}
                 aria-pressed={selectedSize === size}
-                onClick={(event) => {
-                  stop(event)
-                  setSelectedSize(size)
-                  addToCart({ ...product, selectedSize: size }, { size, requireSize: true })
-                }}
+                onClick={(event) => handleSizePick(event, size)}
               >
                 {size}
               </button>
@@ -159,13 +168,16 @@ function ProductCard({
         </p>
         <button
           type="button"
-          className="btn btn--primary btn--block"
-          onClick={(event) => {
-            stop(event)
-            tryAdd()
-          }}
+          className="btn btn--primary btn--block product-card__cta"
+          onClick={handleAddToCart}
+          aria-expanded={needsSize ? pickingSize : undefined}
         >
-          Comprar agora
+          <span className="product-card__cta-label product-card__cta-label--full">
+            Adicionar ao carrinho
+          </span>
+          <span className="product-card__cta-label product-card__cta-label--short">
+            Adicionar
+          </span>
         </button>
       </div>
     </article>
