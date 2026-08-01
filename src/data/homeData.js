@@ -11,10 +11,10 @@ export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
-/** Cast photo cropped from terra-estilo-novo-hero mockup (left panel only). */
+/** Cast photo cropped from terra-estilo+logo-novo mockup (left panel only; baked logo/copy excluded). */
 export const COUPLE_HERO_SRC = coupleHeroAsset
-export const COUPLE_HERO_WIDTH = 504
-export const COUPLE_HERO_HEIGHT = 623
+export const COUPLE_HERO_WIDTH = 640
+export const COUPLE_HERO_HEIGHT = 572
 
 export const headerBrandPillars = [
   'Raízes',
