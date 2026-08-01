@@ -23,7 +23,6 @@ export const headerBrandPillars = [
 ]
 
 export const mainNavigation = [
-  { label: 'Início', to: '/' },
   { label: 'Feminino', to: '/feminino' },
   { label: 'Masculino', to: '/masculino' },
   { label: 'Calçados', to: '/calcados' },
@@ -31,6 +30,15 @@ export const mainNavigation = [
   { label: 'Coleções', to: '/colecoes', hasDropdown: true, hasChevron: true },
   { label: 'Sobre', to: '/sobre' },
   { label: 'Contato', to: '/contato' },
+]
+
+/** Mega menu Coleções — rotas existentes do catálogo / âncoras da home */
+export const collectionsMegaMenu = [
+  { label: 'Raízes do Sul', to: '/colecoes/raizes-do-sul' },
+  { label: 'Clássicos Terra & Estilo', to: '/colecoes/classicos-terra-estilo' },
+  { label: 'Novidades', to: '/#novidades' },
+  { label: 'Mais vendidos', to: '/#mais-vendidos' },
+  { label: 'Ver todas', to: '/colecoes', isAll: true },
 ]
 
 export const heroBrandPillars = [

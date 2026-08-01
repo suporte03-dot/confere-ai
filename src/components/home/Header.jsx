@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useShop } from '../../context/ShopContext'
 import TerraEstiloBrandHeader from './TerraEstiloBrandHeader'
 import MainNavigation from './MainNavigation'
@@ -15,11 +16,13 @@ function Header({
     setSearchQuery,
     performSearch,
     cartCount,
+    favoritesCount,
     setCartOpen,
   } = useShop()
   const searchAreaRef = useRef(null)
   const searchInputRef = useRef(null)
   const searchToggleRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
 
   const submitSearch = (event) => {
     event?.preventDefault()
@@ -28,6 +31,22 @@ function Header({
       onSearchToggle()
     }
   }
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 28)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    const chrome = document.querySelector('.site-chrome')
+    if (!chrome) return undefined
+    chrome.classList.toggle('site-chrome--scrolled', scrolled)
+    return () => chrome.classList.remove('site-chrome--scrolled')
+  }, [scrolled])
 
   useEffect(() => {
     if (!searchOpen) return undefined
@@ -54,8 +73,23 @@ function Header({
     }
   }, [searchOpen, onSearchToggle])
 
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') onNavClose?.()
+    }
+    document.addEventListener('keydown', onKeyDown)
+    document.body.classList.add('nav-drawer-open')
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.classList.remove('nav-drawer-open')
+    }
+  }, [menuOpen, onNavClose])
+
   return (
-    <div className="brand-main header-main site-header">
+    <div
+      className={`brand-main header-main site-header${scrolled ? ' site-header--scrolled' : ''}${menuOpen ? ' site-header--menu-open' : ''}`}
+    >
       <button
         type="button"
         className={`site-header__menu ${menuOpen ? 'site-header__menu--open' : ''}`}
@@ -67,6 +101,14 @@ function Header({
       </button>
 
       <TerraEstiloBrandHeader />
+
+      <button
+        type="button"
+        className={`main-nav__backdrop${menuOpen ? ' is-open' : ''}`}
+        aria-label="Fechar menu"
+        tabIndex={menuOpen ? 0 : -1}
+        onClick={() => onNavClose?.()}
+      />
 
       <MainNavigation open={menuOpen} onClose={onNavClose} />
 
@@ -106,25 +148,39 @@ function Header({
         <button
           ref={searchToggleRef}
           type="button"
-          className="site-header__action site-header__action--search"
+          className={`site-header__action site-header__action--search${searchOpen ? ' is-active' : ''}`}
           aria-label="Buscar"
+          title="Buscar"
+          data-tooltip="Buscar"
           aria-expanded={searchOpen}
           aria-controls="site-header-search"
           onClick={onSearchToggle}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.5" />
             <path d="M20 20l-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </button>
-        <a href="#conta" className="site-header__action" aria-label="Minha conta">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <a
+          href="#conta"
+          className="site-header__action site-header__action--account"
+          aria-label="Minha conta"
+          title="Minha conta"
+          data-tooltip="Minha conta"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
             <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         </a>
-        <button type="button" className="site-header__action" aria-label="Favoritos">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <Link
+          to="/#favoritos"
+          className="site-header__action site-header__action--favorites"
+          aria-label="Favoritos"
+          title="Favoritos"
+          data-tooltip="Favoritos"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M12 20s-6.5-4.2-8.8-8A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 20.8 12c-2.3 3.8-8.8 8-8.8 8z"
               stroke="currentColor"
@@ -132,14 +188,17 @@ function Header({
               strokeLinejoin="round"
             />
           </svg>
-        </button>
+          {favoritesCount > 0 && <em className="site-header__badge">{favoritesCount}</em>}
+        </Link>
         <button
           type="button"
           className="site-header__action site-header__action--cart"
           onClick={() => setCartOpen(true)}
-          aria-label="Carrinho"
+          aria-label="Sacola"
+          title="Sacola"
+          data-tooltip="Sacola"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M6 7h15l-1.4 9.2a1.5 1.5 0 0 1-1.5 1.3H9.2a1.5 1.5 0 0 1-1.5-1.2L6 7z"
               stroke="currentColor"

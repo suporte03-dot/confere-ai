@@ -360,20 +360,35 @@
   display: inline-flex !important;
 }
 
-/* ── Navegação mobile ── */
+/* ── Navegação mobile (drawer) ── */
+.mobile-preview .main-nav__backdrop {
+  display: block;
+}
+
 .mobile-preview .main-nav {
-  display: none;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  top: 100%;
-  z-index: 50;
-  background: #000;
-  border-top: 1px solid rgba(216, 181, 106, 0.14);
+  bottom: 0;
+  width: min(300px, 86%);
+  z-index: 150;
+  background: #050504;
+  border-right: 1px solid rgba(216, 181, 106, 0.22);
+  border-top: none;
+  transform: translateX(-105%);
+  transition: transform 0.32s ease;
+  overflow-y: auto;
 }
 
 .mobile-preview .main-nav--open {
-  display: block;
+  display: flex;
+  transform: translateX(0);
+}
+
+.mobile-preview .main-nav__drawer-head {
+  display: flex;
 }
 
 .mobile-preview .main-nav__inner {
@@ -385,11 +400,19 @@
 }
 
 .mobile-preview .main-nav__link {
-  text-align: center;
+  text-align: left;
   padding: 12px 10px;
   letter-spacing: 0.14em;
-  border-radius: 8px;
-  justify-content: center;
+  border-radius: 0;
+  justify-content: space-between;
+}
+
+.mobile-preview .main-nav__ornament {
+  display: none;
+}
+
+.mobile-preview .main-nav__mega-feature {
+  display: none;
 }
 
 /* ── Hero e seções ── */
@@ -772,20 +795,35 @@
   display: inline-flex !important;
 }
 
-/* ── Navegação mobile ── */
+/* ── Navegação mobile (drawer) ── */
+.mobile-preview .main-nav__backdrop {
+  display: block;
+}
+
 .mobile-preview .main-nav {
-  display: none;
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  top: 100%;
-  z-index: 50;
-  background: #000;
-  border-top: 1px solid rgba(216, 181, 106, 0.14);
+  bottom: 0;
+  width: min(300px, 86%);
+  z-index: 150;
+  background: #050504;
+  border-right: 1px solid rgba(216, 181, 106, 0.22);
+  border-top: none;
+  transform: translateX(-105%);
+  transition: transform 0.32s ease;
+  overflow-y: auto;
 }
 
 .mobile-preview .main-nav--open {
-  display: block;
+  display: flex;
+  transform: translateX(0);
+}
+
+.mobile-preview .main-nav__drawer-head {
+  display: flex;
 }
 
 .mobile-preview .main-nav__inner {
@@ -797,11 +835,19 @@
 }
 
 .mobile-preview .main-nav__link {
-  text-align: center;
+  text-align: left;
   padding: 12px 10px;
   letter-spacing: 0.14em;
-  border-radius: 8px;
-  justify-content: center;
+  border-radius: 0;
+  justify-content: space-between;
+}
+
+.mobile-preview .main-nav__ornament {
+  display: none;
+}
+
+.mobile-preview .main-nav__mega-feature {
+  display: none;
 }
 
 /* ── Hero e seções (mobile preview) ── */
