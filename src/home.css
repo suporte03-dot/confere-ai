@@ -2274,8 +2274,8 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* raiz-hero.png — keep couple + hats in the left campaign panel */
-  object-position: 18% 32%;
+  /* Cast-only crop of raiz-hero — faces/hats, no baked logo or ivory UI */
+  object-position: 58% 26%;
   filter: brightness(1.04) contrast(1.03) saturate(0.96);
   transform: none;
   -webkit-mask-image: none;
@@ -2534,7 +2534,7 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 20% 28%;
+    object-position: 55% 24%;
     transform: none;
     filter: brightness(1.04) contrast(1.03) saturate(0.96);
     -webkit-mask-image: none;
