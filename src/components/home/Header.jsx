@@ -215,14 +215,17 @@ function Header({
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
-              d="M6 7h15l-1.4 9.2a1.5 1.5 0 0 1-1.5 1.3H9.2a1.5 1.5 0 0 1-1.5-1.2L6 7z"
+              d="M5 8h14l-1.1 11.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z"
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
-            <path d="M6 7 5.2 3.8H2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <circle cx="10" cy="20" r="1.3" fill="currentColor" />
-            <circle cx="17" cy="20" r="1.3" fill="currentColor" />
+            <path
+              d="M9 8V6.5a3 3 0 0 1 6 0V8"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
           </svg>
           <span>Sacola</span>
           <em className="site-header__badge">{cartCount}</em>

@@ -47,9 +47,18 @@ function LandingHeader() {
           </button>
           <button type="button" className="lp-header__icon" aria-label="Sacola">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 6h15l-1.4 8.2H7.4L6 6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-              <circle cx="10" cy="19" r="1.4" fill="currentColor" />
-              <circle cx="17" cy="19" r="1.4" fill="currentColor" />
+              <path
+                d="M5 8h14l-1.1 11.2a1.5 1.5 0 0 1-1.5 1.3H7.6a1.5 1.5 0 0 1-1.5-1.3L5 8z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M9 8V6.5a3 3 0 0 1 6 0V8"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
             </svg>
           </button>
           <button
