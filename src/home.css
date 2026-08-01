@@ -2274,10 +2274,11 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Cast-only crop of raiz-hero — faces/hats, no baked logo or ivory UI */
-  object-position: 58% 26%;
+  /* Cast-only asset — bias to faces/hats; keep baked seal off the seam */
+  object-position: 42% 24%;
   filter: brightness(1.04) contrast(1.03) saturate(0.96);
-  transform: none;
+  transform: scale(1.12);
+  transform-origin: 28% 30%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -2534,8 +2535,9 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 55% 24%;
-    transform: none;
+    object-position: 40% 22%;
+    transform: scale(1.1);
+    transform-origin: 30% 28%;
     filter: brightness(1.04) contrast(1.03) saturate(0.96);
     -webkit-mask-image: none;
     mask-image: none;
