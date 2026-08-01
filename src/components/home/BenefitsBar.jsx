@@ -1,7 +1,4 @@
-import {
-  benefitsBar,
-  benefitsTrustStrip,
-} from '../../data/homeData'
+import { benefitsBar } from '../../data/homeData'
 import benefitsAtmosphere from '../../assets/beneficios-compra-atmosphere.png'
 
 const BENEFIT_ICONS = {
@@ -36,65 +33,11 @@ const BENEFIT_ICONS = {
       <circle cx="28" cy="28" r="2.5" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   ),
-  headset: (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <path
-        d="M10 22 V18 C10 12.5 14.5 8 20 8 C25.5 8 30 12.5 30 18 V22"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <rect x="7" y="20" width="6" height="10" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <rect x="27" y="20" width="6" height="10" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M30 30 V32 C30 34 28 36 25 36 H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  ),
-  diamond: (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <path
-        d="M12 14 L16 8 H24 L28 14 L20 32 Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <path d="M12 14 H28" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M16 8 L20 14 L24 8" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-    </svg>
-  ),
   card: (
     <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
       <rect x="6" y="12" width="28" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
       <path d="M6 18 H34" stroke="currentColor" strokeWidth="1.5" />
       <path d="M12 24 H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  ),
-  lock: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M8 11 V8 C8 5.8 9.8 4 12 4 C14.2 4 16 5.8 16 8 V11"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  ),
-  award: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="9" r="5" stroke="currentColor" strokeWidth="1.5" />
-      <path d="M9.5 13.5 L8 20 L12 17.5 L16 20 L14.5 13.5" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      <circle cx="12" cy="9" r="2" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  ),
-  brazil: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M7 5 C10 3.5 14 3.5 17 5 C19 7 20 10 19.5 13 C18.5 16.5 15.5 19 12 20 C8.5 19 5.5 16.5 4.5 13 C4 10 5 7 7 5 Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <path d="M8 11 H16 M10 14 H14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   ),
 }
@@ -173,17 +116,6 @@ function BenefitsBar() {
             </article>
           ))}
         </div>
-
-        <ul className="benefits-bar__trust">
-          {benefitsTrustStrip.map((item) => (
-            <li key={item.id} className="benefits-bar__trust-item">
-              <span className="benefits-bar__trust-icon" aria-hidden="true">
-                {BENEFIT_ICONS[item.icon]}
-              </span>
-              <span className="benefits-bar__trust-label">{item.label}</span>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )

@@ -3302,9 +3302,9 @@ body.nav-drawer-open {
 
 .benefits-bar__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
-  max-width: 1280px;
+  max-width: 920px;
   margin-inline: auto;
   align-items: stretch;
 }
@@ -3390,79 +3390,13 @@ body.nav-drawer-open {
   color: #d6d2ca;
 }
 
-.benefits-bar__trust {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  justify-items: center;
-  gap: 16px 20px;
-  list-style: none;
-  width: 100%;
-  max-width: 1280px;
-  margin: 38px auto 0;
-  padding: 24px 8px 0;
-  box-sizing: border-box;
-  border-top: 1px solid rgba(196, 154, 45, 0.28);
-}
-
-.benefits-bar__trust-item {
-  display: inline-flex;
-  flex: none;
-  width: auto;
-  max-width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 4px 6px;
-  color: rgba(196, 154, 45, 0.88);
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.benefits-bar__trust-item + .benefits-bar__trust-item {
-  border-left: none;
-}
-
-.benefits-bar__trust-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-
-.benefits-bar__trust-icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.benefits-bar__trust-label {
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-align: center;
-  white-space: normal;
-  line-height: 1.35;
-}
-
 @media (max-width: 899px) {
   .benefits-bar.section {
     padding: 72px 24px 64px;
   }
 
   .benefits-bar__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
-  }
-
-  .benefits-bar__trust {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 16px;
-    padding-top: 22px;
   }
 }
 
@@ -3496,18 +3430,6 @@ body.nav-drawer-open {
     max-width: 100%;
     min-height: 0;
     padding: 28px 22px;
-  }
-
-  .benefits-bar__trust {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px 12px;
-    margin-top: 32px;
-    padding: 20px 4px 0;
-  }
-
-  .benefits-bar__trust-label {
-    font-size: 0.625rem;
-    letter-spacing: 0.1em;
   }
 }
 
