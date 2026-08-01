@@ -2056,8 +2056,6 @@ body.nav-drawer-open {
 .section-divider {
   --section-divider-line: rgba(201, 155, 50, 0.42);
   --section-divider-line-soft: rgba(201, 155, 50, 0.12);
-  /* Page-matching blot so jewelry lines never read through the crown */
-  --section-divider-blot: #f6efe4;
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -2066,6 +2064,7 @@ body.nav-drawer-open {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  /* Gap keeps jewelry lines clear of the figure — no opaque blot disc */
   gap: 36px;
   width: 100%;
   height: clamp(70px, 8vw, 90px);
@@ -2081,13 +2080,11 @@ body.nav-drawer-open {
 .section-divider--light {
   --section-divider-line: rgba(168, 124, 36, 0.48);
   --section-divider-line-soft: rgba(168, 124, 36, 0.1);
-  --section-divider-blot: #f6efe4;
 }
 
 .section-divider--dark {
   --section-divider-line: rgba(223, 189, 105, 0.55);
   --section-divider-line-soft: rgba(223, 189, 105, 0.12);
-  --section-divider-blot: #1a1510;
 }
 
 .section-divider__line {
@@ -2150,13 +2147,8 @@ body.nav-drawer-open {
   padding: 0;
   border: none;
   border-radius: 0;
-  /* Cream/dark blot — jewelry lines stop at the sides; no stroke through crown */
-  background: radial-gradient(
-    ellipse 82% 68% at 50% 48%,
-    var(--section-divider-blot) 0%,
-    var(--section-divider-blot) 55%,
-    transparent 80%
-  );
+  /* Transparent — saint sits on page bg (cream or dark); no oval/blot disc */
+  background: transparent;
   box-shadow: none;
 }
 
@@ -2172,7 +2164,8 @@ body.nav-drawer-open {
   object-position: center center;
   background: transparent;
   border: none;
-  filter: drop-shadow(0 1px 2px rgba(26, 21, 16, 0.1));
+  /* Soft lift only — avoid dark circular haze behind the figure */
+  filter: drop-shadow(0 1px 1px rgba(26, 21, 16, 0.06));
 }
 
 .brand-hero:has(+ .section-divider) {

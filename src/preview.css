@@ -1059,6 +1059,8 @@
   padding: 0;
   border: none;
   border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .mobile-preview .section-divider--after-hero {
@@ -1078,6 +1080,8 @@
   padding: 0;
   border: none;
   border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .mobile-preview .section-divider + .featured-collection-wrapper,
