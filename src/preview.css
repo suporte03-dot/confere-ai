@@ -1144,14 +1144,19 @@
 
 .mobile-preview .benefits-bar {
   background:
-    linear-gradient(180deg, var(--color-black-soft, #11100d) 0%, var(--color-brown-dark, #1a1510) 100%);
+    radial-gradient(ellipse 55% 42% at 50% 0%, rgba(201, 155, 50, 0.12), transparent 58%),
+    linear-gradient(180deg, #0a0908 0%, #12100e 100%);
 }
 
 .mobile-preview .benefits-bar .section-head__title,
 .mobile-preview .benefits-bar .section-head__desc,
-.mobile-preview .benefits-bar__item h3,
 .mobile-preview .benefits-bar__item p {
   color: var(--color-text-light, #f7f1e8);
+}
+
+.mobile-preview .benefits-bar__item h3,
+.mobile-preview .benefits-bar__trust-label {
+  color: var(--color-gold-light, #dfbd69);
 }
 
 .mobile-preview .benefits-bar__item p {

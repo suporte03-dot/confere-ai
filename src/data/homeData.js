@@ -198,12 +198,49 @@ export const bestsellersSection = {
 }
 
 export const benefitsBar = [
-  { id: 'frete', title: 'Frete para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
-  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
-  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
-  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.', icon: 'heart' },
-  { id: 'qualidade', title: 'Qualidade premium', description: 'Tecidos, cortes e acabamento pensados para durar.', icon: 'star' },
-  { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.', icon: 'card' },
+  {
+    id: 'frete',
+    title: 'Frete para todo o Brasil',
+    description: 'Receba suas peças com agilidade e rastreamento em cada etapa.',
+    icon: 'truck',
+  },
+  {
+    id: 'troca',
+    title: 'Troca facilitada',
+    description: 'Processo simples, transparente e sem burocracia para você comprar tranquila.',
+    icon: 'swap',
+  },
+  {
+    id: 'seguro',
+    title: 'Compra segura',
+    description: 'Ambiente 100% protegido com tecnologia para garantir seus dados e pedidos.',
+    icon: 'shield',
+  },
+  {
+    id: 'atendimento',
+    title: 'Atendimento humanizado',
+    description: 'Suporte próximo antes, durante e depois da compra. Conte sempre com a gente.',
+    icon: 'headset',
+  },
+  {
+    id: 'qualidade',
+    title: 'Qualidade premium',
+    description: 'Tecidos selecionados, cortes impecáveis e acabamentos feitos para durar.',
+    icon: 'diamond',
+  },
+  {
+    id: 'parcelamento',
+    title: 'Até 12x sem juros',
+    description: 'Mais facilidade para levar suas peças favoritas sem pesar no bolso.',
+    icon: 'card',
+  },
+]
+
+export const benefitsTrustStrip = [
+  { id: 'entrega', label: 'Entrega segura', icon: 'shield' },
+  { id: 'dados', label: 'Dados protegidos', icon: 'lock' },
+  { id: 'satisfacao', label: 'Satisfação garantida', icon: 'award' },
+  { id: 'brasil', label: 'Empresa brasileira', icon: 'brazil' },
 ]
 
 export const instagramHome = {
