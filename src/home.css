@@ -92,6 +92,8 @@
   --header-logo-size: clamp(80px, 6.5vw, 100px);
   --header-logo-scrolled: 72px;
   --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
+  /* Pull mid-nav crest up so it meets/overlaps the search bar bottom edge. */
+  --header-nav-logo-lift: 26px;
   --header-utility-h: 116px;
   --header-trust-h: 42px;
   --header-main-h: calc(var(--topbar-h) + var(--header-utility-h) + var(--main-nav-h) + var(--header-trust-h));
@@ -369,6 +371,7 @@
     --header-logo-size: clamp(80px, 6.5vw, 100px);
     --header-logo-scrolled: 72px;
     --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
+    --header-nav-logo-lift: 26px;
     --topbar-h: 28px;
     --header-utility-h: 116px;
     --main-nav-h: 48px;
@@ -1107,7 +1110,8 @@ body.nav-drawer-open {
   z-index: 5;
   display: grid;
   place-items: center;
-  transform: translate(-50%, -50%);
+  /* Crest hangs from search: close the black strip without changing header height. */
+  transform: translate(-50%, calc(-50% - var(--header-nav-logo-lift)));
   pointer-events: auto;
 }
 
@@ -4304,6 +4308,13 @@ body.nav-drawer-open {
   .header-main {
     padding: 6px clamp(16px, 2.2vw, 28px);
     gap: 12px 24px;
+  }
+
+  /* Keep premium header rows flush — gap would open a strip under the search bar. */
+  .site-header.brand-main,
+  .site-header.header-main {
+    padding: 0;
+    gap: 0;
   }
 
   .brand-search,
