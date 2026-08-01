@@ -17,26 +17,33 @@
   --color-white: #fffdf8;
   --color-text-dark: #18130f;
   --color-text-light: #f7f1e8;
-  --color-text-muted: #776c5f;
+  --color-text-muted: #62594f;
   --border-gold: 1px solid rgba(201, 155, 50, 0.62);
   --border-light: 1px solid rgba(94, 73, 44, 0.18);
-  --radius-sm: 10px;
+  --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --shadow-soft: 0 14px 40px rgba(0, 0, 0, 0.14);
   --shadow-dark: 0 20px 60px rgba(0, 0, 0, 0.32);
-  --section-space: clamp(80px, 8vw, 112px);
-  --container-width: 1440px;
+  --section-space: clamp(72px, 8vw, 112px);
+  --container-max: 1440px;
+  --container-width: var(--container-max);
+  --btn-height: 48px;
+  --btn-radius: var(--radius-sm);
 
   /* Tokens de campanha (aliases → design system) */
-  --black-primary: var(--color-black);
-  --black-secondary: var(--color-black-soft);
-  --gold-primary: var(--color-gold);
+  --black-primary: #080807;
+  --black-soft: #12100d;
+  --black-secondary: var(--black-soft);
+  --gold-primary: #c99b32;
   --gold-secondary: var(--color-gold-strong);
-  --gold-light: var(--color-gold-light);
-  --cream: var(--color-ivory);
+  --gold-light: #dfbd69;
+  --ivory: #f6efe4;
+  --cream: #eee2cf;
+  --text-dark: #18130f;
+  --text-muted: #62594f;
   --white-soft: var(--color-white);
-  --gray-text: var(--color-text-muted);
+  --gray-text: var(--text-muted);
 
   /* Paleta oficial (aliases) */
   --preto: var(--black-primary);
@@ -44,11 +51,11 @@
   --ouro: var(--gold-primary);
   --ouro-suave: var(--gold-secondary);
   --ouro-claro: var(--gold-light);
-  --branco-suave: var(--cream);
-  --cinza-claro: var(--color-cream);
+  --branco-suave: var(--ivory);
+  --cinza-claro: var(--cream);
   --cinza-texto: var(--gray-text);
   --fundo-escuro: var(--black-primary);
-  --fundo-claro: var(--cream);
+  --fundo-claro: var(--ivory);
 
   /* Aliases semânticos */
   --preto-puro: var(--preto);
@@ -70,12 +77,12 @@
   --te-gold: var(--ouro);
   --te-cream: var(--branco-suave);
   --te-text: var(--texto-escuro);
-  --te-muted: var(--cinza-texto);
+  --te-muted: var(--text-muted);
   --te-border: rgba(201, 155, 50, 0.28);
   --te-marble: var(--marmore);
 
   --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-sans: 'Montserrat', 'Inter', system-ui, sans-serif;
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
@@ -96,10 +103,10 @@
   --logo-aspect-h: 1024;
   --logo-footer-max-h: 112px;
   --hero-board-max-w: 280px;
-  --hero-logo-size: clamp(200px, 18vw, 300px);
-  --radius-btn: 6px;
+  --hero-logo-size: clamp(170px, 15vw, 250px);
+  --radius-btn: var(--btn-radius);
   --shadow-premium: var(--shadow-dark);
-  --container: var(--container-width);
+  --container: var(--container-max);
 }
 
 /* ── Logo oficial completa (PNG original) ── */
@@ -1389,11 +1396,11 @@ body.nav-drawer-open {
 
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
 .brand-hero {
-  --brand-hero-logo-size: clamp(210px, 16vw, 285px);
+  --brand-hero-logo-size: clamp(170px, 13vw, 240px);
   --brand-hero-ivory: #f7f0e5;
   --brand-hero-gold: #c5a059;
   --brand-hero-ink: #1a1510;
-  --brand-hero-muted: #5c564c;
+  --brand-hero-muted: #62594f;
   position: relative;
   isolation: isolate;
   display: grid;
@@ -1729,7 +1736,7 @@ body.nav-drawer-open {
 
 @media (max-width: 960px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(160px, 38vw, 210px);
+    --brand-hero-logo-size: clamp(140px, 34vw, 190px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1845,7 +1852,7 @@ body.nav-drawer-open {
 
 @media (max-width: 560px) {
   .brand-hero {
-    --brand-hero-logo-size: clamp(140px, 42vw, 180px);
+    --brand-hero-logo-size: clamp(120px, 36vw, 160px);
     overflow-x: hidden;
   }
 
@@ -1970,7 +1977,7 @@ body.nav-drawer-open {
   padding-block: var(--section-space);
 }
 
-/* ── Section divider — thin gold lines + centered saint ── */
+/* ── Section divider — thin gold lines + centered saint (transparent) ── */
 .section-divider {
   --section-divider-line: rgba(201, 155, 50, 0.42);
   --section-divider-line-soft: rgba(201, 155, 50, 0.12);
@@ -1979,12 +1986,13 @@ body.nav-drawer-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
-  min-height: 84px;
-  max-height: 130px;
+  height: clamp(70px, 8vw, 90px);
+  min-height: 70px;
+  max-height: 90px;
   margin: 0;
-  padding: 12px 24px;
+  padding: 0 24px;
   overflow: visible;
   background: transparent;
   pointer-events: none;
@@ -1998,84 +2006,6 @@ body.nav-drawer-open {
 .section-divider--dark {
   --section-divider-line: rgba(223, 189, 105, 0.55);
   --section-divider-line-soft: rgba(223, 189, 105, 0.12);
-}
-
-/* Hero → Novidades only — compact bridge (other dividers unchanged) */
-.section-divider--after-hero {
-  --section-divider-line: rgba(168, 124, 36, 0.5);
-  --section-divider-line-soft: rgba(168, 124, 36, 0.12);
-  z-index: 3;
-  min-height: 88px;
-  max-height: 110px;
-  height: 96px;
-  gap: 18px;
-  margin: -6px 0 0;
-  padding: 8px 28px;
-  background: #f6efe4;
-  overflow: visible;
-}
-
-.section-divider--after-hero .section-divider__line {
-  height: 1px;
-  max-width: 360px;
-}
-
-.section-divider--after-hero .section-divider__medallion {
-  width: 12px;
-  height: 12px;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.section-divider--after-hero .section-divider__medallion--saint {
-  width: 50px;
-  height: 72px;
-  padding: 5px;
-  border: 1px solid rgba(168, 124, 36, 0.55);
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: none;
-}
-
-/* Soft gold halo behind the CSS oval — no box */
-.section-divider--after-hero .section-divider__medallion--saint::before {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  z-index: 0;
-  border: none;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse 50% 46% at 50% 48%,
-    rgba(201, 155, 50, 0.18) 0%,
-    rgba(201, 155, 50, 0.07) 42%,
-    transparent 70%
-  );
-  pointer-events: none;
-}
-
-.section-divider--after-hero .section-divider__saint {
-  position: relative;
-  z-index: 1;
-  width: auto;
-  max-width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center center;
-  background: transparent;
-  border: none;
-  filter: drop-shadow(0 1px 2px rgba(26, 21, 16, 0.16));
-}
-
-/* Contain botanical stroke bleed so nothing sits over the saint */
-.brand-hero:has(+ .section-divider--after-hero) {
-  overflow: hidden;
-}
-
-.brand-hero:has(+ .section-divider--after-hero) .brand-hero__ornament--br {
-  bottom: 0;
 }
 
 .section-divider__line {
@@ -2101,8 +2031,8 @@ body.nav-drawer-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   padding: 0;
   border: none;
   border-radius: 0;
@@ -2111,23 +2041,35 @@ body.nav-drawer-open {
 }
 
 .section-divider__medallion--saint {
-  width: 44px;
-  height: 64px;
-  padding: 4px;
-  border: 1px solid rgba(201, 155, 50, 0.55);
-  border-radius: 50%;
+  width: 48px;
+  height: 70px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
   background: transparent;
+  box-shadow: none;
 }
 
-.section-divider--dark .section-divider__medallion--saint {
-  border-color: rgba(223, 189, 105, 0.55);
-}
-
-.section-divider--light .section-divider__medallion--saint {
-  border-color: rgba(168, 124, 36, 0.55);
+/* Extremely discreet gold halo — no box / strip behind santa */
+.section-divider__medallion--saint::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  z-index: 0;
+  border: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 48% 44% at 50% 48%,
+    rgba(201, 155, 50, 0.14) 0%,
+    rgba(201, 155, 50, 0.05) 40%,
+    transparent 68%
+  );
+  pointer-events: none;
 }
 
 .section-divider__saint {
+  position: relative;
+  z-index: 1;
   display: block;
   width: auto;
   max-width: 100%;
@@ -2136,7 +2078,15 @@ body.nav-drawer-open {
   object-position: center center;
   background: transparent;
   border: none;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 1px 2px rgba(26, 21, 16, 0.12));
+}
+
+.brand-hero:has(+ .section-divider) {
+  overflow: hidden;
+}
+
+.brand-hero:has(+ .section-divider) .brand-hero__ornament--br {
+  bottom: 0;
 }
 
 .featured-collection-wrapper {
@@ -2508,30 +2458,16 @@ body.nav-drawer-open {
 
 @media (max-width: 768px) {
   .section-divider {
-    min-height: 64px;
+    height: 70px;
+    min-height: 70px;
+    max-height: 78px;
     gap: 10px;
-    padding: 8px 16px;
+    padding: 0 16px;
   }
 
   .section-divider__medallion--saint {
-    width: 36px;
-    height: 52px;
-    padding: 3px;
-  }
-
-  .section-divider--after-hero {
-    min-height: 84px;
-    max-height: 104px;
-    height: 92px;
-    gap: 14px;
-    margin-top: -4px;
-    padding: 6px 16px;
-  }
-
-  .section-divider--after-hero .section-divider__medallion--saint {
-    width: 46px;
-    height: 66px;
-    padding: 4px;
+    width: 38px;
+    height: 56px;
   }
 
   .featured-collection--campaign {
@@ -2554,7 +2490,7 @@ body.nav-drawer-open {
 }
 
 .categorias-section .section-head__title {
-  font-size: clamp(42px, 4vw, 68px);
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
   color: var(--color-text-light);
 }
 
@@ -2566,7 +2502,7 @@ body.nav-drawer-open {
 
 .category-banners {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
   align-items: stretch;
 }
@@ -2575,13 +2511,13 @@ body.nav-drawer-open {
   position: relative;
   display: block;
   width: 100%;
-  min-height: 460px;
+  min-height: 420px;
   padding: 0;
   border: var(--border-gold);
   border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
-  background: #12100d;
+  background: var(--black-soft);
   text-align: left;
   isolation: isolate;
   transition: transform 320ms ease, box-shadow 320ms ease;
@@ -3057,70 +2993,86 @@ body.nav-drawer-open {
   }
 }
 
-/* ── Benefits Bar — compact horizontal strip ── */
+/* ── Benefits Bar — home section ── */
 .benefits-bar {
   background:
-    linear-gradient(180deg, #12100d 0%, #080807 100%);
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 155, 50, 0.14), transparent 55%),
+    linear-gradient(180deg, var(--black-soft) 0%, var(--color-brown-dark) 100%);
   color: var(--color-text-light);
-  padding-block: 22px;
 }
 
 .benefits-bar.section {
-  padding-block: 22px;
+  padding-block: var(--section-space);
 }
 
-.benefits-bar--strip .section-head {
-  display: none;
+.benefits-bar .section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.benefits-bar .section-head__title {
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+}
+
+.benefits-bar .section-head__desc {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: rgba(247, 241, 232, 0.82);
 }
 
 .benefits-bar__strip {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: none;
+}
+
+.benefits-bar__grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px 18px;
-  align-items: center;
+  gap: 18px;
 }
 
-.benefits-bar__strip-item {
+.benefits-bar__item {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 0;
-  padding: 4px 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
+  gap: 14px;
+  align-items: flex-start;
+  min-height: 132px;
+  padding: 20px 16px;
+  background: rgba(8, 8, 8, 0.45);
+  border: var(--border-gold);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
 }
 
-.benefits-bar__strip-item .benefits-bar__icon {
+.benefits-bar__icon {
   flex-shrink: 0;
   display: inline-flex;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   color: var(--color-gold-strong);
 }
 
-.benefits-bar__strip-item .benefits-bar__icon svg {
+.benefits-bar__icon svg {
   width: 100%;
   height: 100%;
 }
 
-.benefits-bar__strip-copy strong {
+.benefits-bar__item h3 {
+  margin: 0;
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
   color: var(--color-text-light);
 }
 
-.benefits-bar__grid {
-  display: none;
+.benefits-bar__item p {
+  margin: 8px 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgba(247, 241, 232, 0.8);
 }
 
-.benefits-bar__item {
+.benefits-bar__strip-item {
   display: none;
 }
 
@@ -3301,7 +3253,7 @@ body.nav-drawer-open {
 .section-head__title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-size: clamp(1.7rem, 2.8vw, 2.15rem);
   font-weight: 700;
   color: var(--preto);
 }
@@ -3311,11 +3263,11 @@ body.nav-drawer-open {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--te-muted);
+  color: var(--text-muted);
 }
 
 .section {
-  padding: clamp(80px, 8vw, 112px) 0;
+  padding: var(--section-space) 0;
 }
 
 /* ── Responsive ── */
@@ -4799,7 +4751,7 @@ body.nav-drawer-open {
 
 @media (max-width: 1100px) {
   .category-banners {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .products-grid--novidades {
@@ -4829,7 +4781,7 @@ body.nav-drawer-open {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .benefits-bar__strip {
+  .benefits-bar__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -4904,9 +4856,8 @@ body.nav-drawer-open {
     display: none;
   }
 
-  .benefits-bar__strip {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+  .benefits-bar__grid {
+    grid-template-columns: 1fr;
   }
 
   .instagram-section__grid {

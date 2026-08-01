@@ -1,11 +1,10 @@
 import santaHero from '../../assets/santa-hero.png'
 
 /**
- * Module separator: thin gold lines + centered saint (when shown).
- * `variant` tunes line color for light (ivory) or dark section contexts.
- * Pass `className="section-divider--after-hero"` for the compact hero bridge.
+ * Major-section separator: thin gold lines + centered Nossa Senhora.
+ * Fully transparent — image integrates into the page background.
  */
-function SectionDivider({ variant = 'light', showSaint = false, className = '' }) {
+function SectionDivider({ variant = 'light', showSaint = true, className = '' }) {
   const classes = ['section-divider', `section-divider--${variant}`, className]
     .filter(Boolean)
     .join(' ')
@@ -13,14 +12,8 @@ function SectionDivider({ variant = 'light', showSaint = false, className = '' }
   return (
     <div className={classes} aria-hidden="true">
       <span className="section-divider__line" />
-      <div
-        className={
-          showSaint
-            ? 'section-divider__medallion section-divider__medallion--saint'
-            : 'section-divider__medallion'
-        }
-      >
-        {showSaint ? (
+      {showSaint ? (
+        <div className="section-divider__medallion section-divider__medallion--saint">
           <img
             src={santaHero}
             alt=""
@@ -28,8 +21,10 @@ function SectionDivider({ variant = 'light', showSaint = false, className = '' }
             className="section-divider__saint"
             decoding="async"
           />
-        ) : null}
-      </div>
+        </div>
+      ) : (
+        <div className="section-divider__medallion" />
+      )}
       <span className="section-divider__line" />
     </div>
   )

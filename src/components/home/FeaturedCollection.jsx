@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom'
 import {
   featuredCollection,
   BRAND_LOGO_CIRCULAR_SRC,
-  COUPLE_HERO_WIDTH,
-  COUPLE_HERO_HEIGHT,
 } from '../../data/homeData'
 
 function FeaturedCollection() {
@@ -29,8 +27,6 @@ function FeaturedCollection() {
             src={image}
             alt={imageAlt}
             className="featured-collection__media-img"
-            width={COUPLE_HERO_WIDTH}
-            height={COUPLE_HERO_HEIGHT}
             loading="lazy"
             decoding="async"
           />

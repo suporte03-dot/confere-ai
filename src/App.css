@@ -106,13 +106,13 @@
 
 .container {
   width: 100%;
-  max-width: var(--container);
+  max-width: var(--container-max, var(--container));
   margin: 0 auto;
   padding: 0 24px;
 }
 
 .section {
-  padding: 88px 0;
+  padding: var(--section-space, 88px) 0;
 }
 
 .section-head {
@@ -248,13 +248,14 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  min-height: var(--btn-height, 48px);
   padding: 14px 28px;
   font-size: 0.8125rem;
   font-weight: 600;
-  font-family: 'Montserrat', system-ui, sans-serif;
+  font-family: var(--font-sans, 'Montserrat', system-ui, sans-serif);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border-radius: 8px;
+  border-radius: var(--btn-radius, var(--radius-sm, 8px));
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
@@ -264,6 +265,11 @@
 
 .btn:hover {
   transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--gold-primary, #c99b32);
+  outline-offset: 3px;
 }
 
 .btn:disabled {

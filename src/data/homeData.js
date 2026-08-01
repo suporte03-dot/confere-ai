@@ -162,10 +162,8 @@ export const categoryCardsAll = [
   },
 ]
 
-/** Homepage showcase — Feminino, Masculino, Acessórios only */
-export const categoryCards = categoryCardsAll.filter((c) =>
-  ['cat-feminino', 'cat-masculino', 'cat-acessorios'].includes(c.id),
-)
+/** Homepage showcase — Feminino, Masculino, Calçados, Acessórios */
+export const categoryCards = categoryCardsAll
 
 export const featuredCollection = {
   eyebrow: 'Campanha em destaque',
@@ -173,7 +171,7 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  image: COUPLE_HERO_SRC,
+  image: assetUrl('/images/hero/slide-2.jpg'),
   imageAlt:
     'Detalhes de camisas e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
   marble: BRAND_MARBLE_SRC,
@@ -181,6 +179,32 @@ export const featuredCollection = {
   variant: 'banner',
   primaryHref: '/colecoes/raizes-do-sul',
 }
+
+export const lookbookHome = {
+  eyebrow: 'Campanha',
+  title: 'Lookbook Terra & Estilo',
+  description:
+    'Composições que traduzem a identidade Terra & Estilo — do campo à cidade, com presença e sofisticação.',
+  primaryImage: assetUrl('/images/hero/slide-1.jpg'),
+  collage: [
+    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Camisas Terra & Estilo', productId: 12 },
+    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Jaquetas Terra & Estilo', productId: 5 },
+    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Acessórios Terra & Estilo', productId: 9 },
+    { src: assetUrl('/images/hero/slide-3.jpg'), alt: 'Look editorial Terra & Estilo', productId: 4 },
+  ],
+  hotspots: [
+    { id: 'hs-1', productId: 12, label: 'Camisa Serena', x: 32, y: 48 },
+    { id: 'hs-2', productId: 5, label: 'Jaqueta Estância', x: 68, y: 38 },
+  ],
+}
+
+export const benefitsBar = [
+  { id: 'seguro', title: 'Compra segura', description: 'Ambiente protegido para finalizar seus pedidos.', icon: 'shield' },
+  { id: 'troca', title: 'Troca facilitada', description: 'Processo simples e transparente para sua tranquilidade.', icon: 'swap' },
+  { id: 'frete', title: 'Entrega para todo o Brasil', description: 'Receba suas peças com agilidade e rastreamento.', icon: 'truck' },
+  { id: 'atendimento', title: 'Atendimento humanizado', description: 'Suporte próximo antes e depois da compra.', icon: 'heart' },
+  { id: 'parcelamento', title: 'Até 12x sem juros', description: 'Mais facilidade para levar suas favoritas.', icon: 'card' },
+]
 
 export const instagramHome = {
   eyebrow: 'No feed',
@@ -193,7 +217,7 @@ export const instagramHome = {
     { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Look polos' },
     { src: assetUrl('/images/categorias/moletons-masculinos.jpg'), alt: 'Look moletons' },
     { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
-    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
+    { src: assetUrl('/images/hero/slide-4.jpg'), alt: 'Look editorial' },
   ],
 }
 
@@ -201,7 +225,7 @@ export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 
 export const bestsellersSection = {
   eyebrow: 'Coleção em evidência',
-  title: 'Seleção Terra & Estilo',
+  title: 'Mais vendidos',
   description:
     'Cortes atemporais, acabamento refinado e a elegância do agro brasileiro — uma vitrine de peças para vestir com presença.',
   searchTitle: 'Resultados da busca',
