@@ -183,13 +183,38 @@ export const instagramHome = {
   title: 'Terra & Estilo no Instagram',
   handle: '@Terra_Estilo',
   href: 'https://instagram.com/Terra_Estilo',
+  // Snapshot from @terra_estilo public grid (Aug 2026). Live sync needs Meta Graph API token.
   images: [
-    { src: assetUrl('/images/categorias/camisas.jpg'), alt: 'Look camisas' },
-    { src: assetUrl('/images/categorias/jaquetas-masculinas.jpg'), alt: 'Look jaquetas' },
-    { src: assetUrl('/images/categorias/polos.jpg'), alt: 'Look polos' },
-    { src: assetUrl('/images/categorias/moletons-masculinos.jpg'), alt: 'Look moletons' },
-    { src: assetUrl('/images/categorias/bones.jpg'), alt: 'Look acessórios' },
-    { src: assetUrl('/images/hero/slide-4.jpg'), alt: 'Look editorial' },
+    {
+      src: assetUrl('/images/instagram/post-01-sorteio.jpg'),
+      alt: 'Sorteio Dia dos Pais Terra & Estilo',
+      href: 'https://www.instagram.com/terra_estilo/p/Dbf1Y3UOidV/',
+    },
+    {
+      src: assetUrl('/images/instagram/post-02-look.jpg'),
+      alt: 'Casal com jaquetas Terra & Estilo',
+      href: 'https://www.instagram.com/terra_estilo/reel/DatUzi4Jxi3/',
+    },
+    {
+      src: assetUrl('/images/instagram/post-03-comunicado.jpg'),
+      alt: 'Comunicado de inauguração Terra & Estilo',
+      href: 'https://www.instagram.com/terra_estilo/p/DaSaJ8Wu4ZR/',
+    },
+    {
+      src: assetUrl('/images/instagram/post-04-inauguracao.jpg'),
+      alt: 'Convite de inauguração Terra & Estilo',
+      href: 'https://www.instagram.com/terra_estilo/p/DaLFRPFOMHZ/',
+    },
+    {
+      src: assetUrl('/images/instagram/post-05-campanha.jpg'),
+      alt: 'Campanha Terra & Estilo no Instagram',
+      href: 'https://www.instagram.com/terra_estilo/reel/DZ7VCL6usfn/',
+    },
+    {
+      src: assetUrl('/images/instagram/post-06-vitrine.jpg'),
+      alt: 'Ambiente e look Terra & Estilo',
+      href: 'https://www.instagram.com/terra_estilo/p/DZXZSGdOAyL/',
+    },
   ],
 }
 

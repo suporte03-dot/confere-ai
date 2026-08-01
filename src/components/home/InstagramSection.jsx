@@ -22,11 +22,12 @@ function InstagramSection() {
         <div className="instagram-section__grid">
           {images.map((item) => (
             <a
-              key={item.alt}
-              href={href}
+              key={item.src}
+              href={item.href || href}
               target="_blank"
               rel="noopener noreferrer"
               className="instagram-section__item"
+              aria-label={item.alt}
             >
               <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
             </a>
