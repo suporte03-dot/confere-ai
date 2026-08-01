@@ -2238,8 +2238,8 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Shorter band: favor faces / embroidery while keeping hats */
-  object-position: 48% 26%;
+  /* Match brand-hero cast crop — faces/hats, not shopping bag */
+  object-position: 48% 20%;
   filter: brightness(1.04) contrast(1.03) saturate(0.96);
   transform: none;
   -webkit-mask-image: none;

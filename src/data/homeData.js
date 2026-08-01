@@ -161,9 +161,9 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  image: assetUrl('/images/hero/slide-2.jpg'),
+  image: COUPLE_HERO_SRC,
   imageAlt:
-    'Detalhes de camisas e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
+    'Casal da campanha Terra & Estilo com chapéus e bordados — Coleção Raízes do Sul.',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
