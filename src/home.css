@@ -89,14 +89,14 @@
   --font-script: 'Great Vibes', 'Cormorant Garamond', cursive;
   --font-brand-serif: var(--font-serif);
   --topbar-h: 0px;
-  --header-main-h: 102px;
-  --header-main-h-compact: 74px;
+  --header-main-h: 112px;
+  --header-main-h-compact: 80px;
   --main-nav-h: 0px;
   --sticky-offset: var(--header-main-h);
-  --header-brand-w: minmax(88px, 120px);
+  --header-brand-w: minmax(100px, 128px);
   --header-actions-w: minmax(220px, max-content);
-  --header-logo-mark-h: 92px;
-  --header-logo-size: clamp(76px, 5.6vw, 92px);
+  --header-logo-mark-h: 100px;
+  --header-logo-size: clamp(88px, 6.4vw, 100px);
   --header-monogram-size: clamp(52px, 4.8vw, 72px);
   --header-wordmark-size: clamp(2rem, 2.8vw, 2.75rem);
   --logo-shell-hero-w: 300px;
@@ -852,7 +852,7 @@
 .site-chrome--scrolled,
 .site-chrome.is-scrolled {
   --header-main-h: var(--header-main-h-compact);
-  --header-logo-size: clamp(54px, 4.4vw, 64px);
+  --header-logo-size: clamp(60px, 4.8vw, 72px);
   --sticky-offset: var(--header-main-h-compact);
   background: rgba(8, 8, 7, 0.82);
   backdrop-filter: blur(14px) saturate(1.08);
@@ -1217,15 +1217,28 @@ body.nav-drawer-open {
   content: '';
   position: absolute;
   left: 50%;
-  bottom: 2px;
-  width: 34px;
-  height: 1.5px;
+  bottom: 1px;
+  width: 22px;
+  height: 1px;
   background: var(--gold-primary);
+  border-radius: 1px;
   transform: translateX(-50%) scaleX(0);
   transform-origin: center;
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    width 0.28s ease,
+    height 0.28s ease,
+    background-color 0.28s ease;
   pointer-events: none;
+}
+
+.main-nav__link:hover::after,
+.main-nav__link:focus-visible::after {
+  transform: translateX(-50%) scaleX(1);
+  opacity: 0.38;
+  width: 18px;
 }
 
 .main-nav__chevron {
@@ -1250,15 +1263,26 @@ body.nav-drawer-open {
 }
 
 .main-nav__link.is-active,
-.main-nav__link[aria-current='page'] {
+.main-nav__link[aria-current='page'],
+.main-nav__link[aria-expanded='true'] {
   color: var(--gold-primary);
   box-shadow: none;
 }
 
 .main-nav__link.is-active::after,
-.main-nav__link[aria-current='page']::after {
+.main-nav__link[aria-current='page']::after,
+.main-nav__link[aria-expanded='true']::after,
+.main-nav__link.is-active:hover::after,
+.main-nav__link[aria-current='page']:hover::after,
+.main-nav__link[aria-expanded='true']:hover::after,
+.main-nav__link.is-active:focus-visible::after,
+.main-nav__link[aria-current='page']:focus-visible::after,
+.main-nav__link[aria-expanded='true']:focus-visible::after {
   transform: translateX(-50%) scaleX(1);
   opacity: 1;
+  width: 28px;
+  height: 1.5px;
+  background: var(--gold-light);
 }
 
 .main-nav__link:focus-visible {
@@ -3324,7 +3348,8 @@ body.nav-drawer-open {
 /* ── Responsive ── */
 @media (max-width: 1280px) {
   :root {
-    --header-main-h: 96px;
+    --header-main-h: 106px;
+    --header-logo-size: clamp(84px, 6vw, 96px);
     --header-monogram-size: clamp(52px, 5vw, 72px);
     --header-wordmark-size: clamp(1.75rem, 2.6vw, 2.25rem);
   }
@@ -3384,13 +3409,18 @@ body.nav-drawer-open {
 
 @media (max-width: 1100px) {
   :root {
-    --header-main-h: 76px;
-    --header-main-h-compact: 68px;
-    --header-logo-mark-h: 64px;
-    --header-logo-size: clamp(56px, 12vw, 68px);
+    --header-main-h: 82px;
+    --header-main-h-compact: 72px;
+    --header-logo-mark-h: 72px;
+    --header-logo-size: clamp(62px, 13vw, 74px);
     --header-monogram-size: 68px;
     --logo-footer-max-h: 100px;
     --header-actions-w: minmax(120px, max-content);
+  }
+
+  .site-chrome--scrolled,
+  .site-chrome.is-scrolled {
+    --header-logo-size: clamp(54px, 11vw, 64px);
   }
 
   .site-header {
@@ -3579,7 +3609,8 @@ body.nav-drawer-open {
   }
 
   .main-nav__link.is-active,
-  .main-nav__link[aria-current='page'] {
+  .main-nav__link[aria-current='page'],
+  .main-nav__link[aria-expanded='true'] {
     box-shadow: inset 2px 0 0 var(--gold-primary);
     background: rgba(201, 155, 50, 0.06);
   }
@@ -3770,13 +3801,18 @@ body.nav-drawer-open {
 
 @media (max-width: 768px) {
   :root {
-    --header-logo-mark-h: 58px;
+    --header-logo-mark-h: 64px;
     --header-monogram-size: 58px;
-    --header-main-h: 68px;
-    --header-main-h-compact: 64px;
-    --header-logo-size: clamp(54px, 14vw, 64px);
+    --header-main-h: 72px;
+    --header-main-h-compact: 66px;
+    --header-logo-size: clamp(58px, 15vw, 68px);
     --sticky-offset: var(--header-main-h);
     --hero-logo-size: clamp(190px, 52vw, 240px);
+  }
+
+  .site-chrome--scrolled,
+  .site-chrome.is-scrolled {
+    --header-logo-size: clamp(50px, 12vw, 58px);
   }
 
   .app {

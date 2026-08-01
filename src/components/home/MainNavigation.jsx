@@ -206,7 +206,7 @@ function MainNavigation({ open, onClose, onAccountClick, onOpenCart }) {
                 >
                   <button
                     type="button"
-                    className={`main-nav__link main-nav__link--chevron${isCollectionsActive ? ' is-active' : ''}`}
+                    className={`main-nav__link main-nav__link--chevron${isCollectionsActive || collectionsOpen ? ' is-active' : ''}`}
                     aria-expanded={collectionsOpen}
                     aria-controls={dropdownId}
                     aria-haspopup="true"
