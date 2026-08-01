@@ -261,7 +261,6 @@ export const mainNav = [
   { id: 'masculino', title: 'Masculino', slug: '/collections/masculino', filter: 'Masculino', hasDropdown: true },
   { id: 'feminino', title: 'Feminino', slug: '/collections/feminino', filter: 'Feminino', hasDropdown: true },
   { id: 'infantil', title: 'Infantil', slug: '/collections/infantil', filter: 'Infantil', hasDropdown: true },
-  { id: 'calcados', title: 'Calçados', slug: '/collections/calcados', filter: 'Calçados', hasDropdown: true },
   { id: 'acessorios', title: 'Acessórios', slug: '/collections/acessorios', filter: 'Acessórios', hasDropdown: true },
   { id: 'outlet', title: 'Outlet', slug: '/collections/outlet', filter: 'Outlet' },
 ]
@@ -271,7 +270,6 @@ export const filterOptions = [
   'Masculino',
   'Feminino',
   'Infantil',
-  'Calçados',
   'Acessórios',
   'Outlet',
 ]
@@ -1035,7 +1033,6 @@ export const footerLinks = {
   })),
   loja: [
     { label: 'Infantil', filter: 'Infantil' },
-    { label: 'Calçados', filter: 'Calçados' },
     { label: 'Acessórios', filter: 'Acessórios' },
     { label: 'Outlet', filter: 'Outlet' },
   ],
