@@ -2274,8 +2274,8 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Editorial product crop — fabrics / garments, not couple faces */
-  object-position: 50% 35%;
+  /* raiz-hero.png — keep couple + hats in the left campaign panel */
+  object-position: 18% 32%;
   filter: brightness(1.04) contrast(1.03) saturate(0.96);
   transform: none;
   -webkit-mask-image: none;
@@ -2534,7 +2534,7 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 46% 18%;
+    object-position: 20% 28%;
     transform: none;
     filter: brightness(1.04) contrast(1.03) saturate(0.96);
     -webkit-mask-image: none;

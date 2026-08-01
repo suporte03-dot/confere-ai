@@ -1,5 +1,6 @@
 import { assetUrl } from '../utils/assetUrl'
 import coupleHeroAsset from '../assets/hero-terra-estilo-novo.png'
+import raizHeroAsset from '../assets/raiz-hero.png'
 import brandLogoCircular from '../assets/logo-terra-estilo.png'
 
 export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
@@ -171,10 +172,11 @@ export const featuredCollection = {
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
   secondaryCta: 'Ver lookbook',
-  // Editorial product crop — never reuse the couple hero photo.
-  image: assetUrl('/images/hero/slide-2.jpg'),
+  // Full campaign mockup — crop to left couple/hats in the media panel.
+  image: raizHeroAsset,
   imageAlt:
-    'Detalhes de camisas, tecidos e bordados da Coleção Raízes do Sul — campanha Terra & Estilo.',
+    'Casal com chapéus na campanha Coleção Raízes do Sul — Terra & Estilo.',
+  objectPosition: '18% 32%',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
