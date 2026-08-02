@@ -25,7 +25,7 @@
   --radius-lg: 24px;
   --shadow-soft: 0 14px 40px rgba(0, 0, 0, 0.14);
   --shadow-dark: 0 20px 60px rgba(0, 0, 0, 0.32);
-  --section-space: clamp(64px, 7vw, 96px);
+  --section-space: clamp(44px, 5vw, 68px);
   --container-max: 1440px;
   --container-width: var(--container-max);
   --btn-height: 48px;
@@ -2304,7 +2304,8 @@ body.nav-drawer-open {
 }
 
 .categorias-section.section {
-  padding-block: var(--section-space);
+  /* Divider above already supplies vertical rhythm */
+  padding-block: clamp(36px, 4.5vw, 56px) clamp(44px, 5vw, 68px);
 }
 
 /* ── Section divider — thin gold lines + centered saint (transparent) ── */
@@ -2320,11 +2321,11 @@ body.nav-drawer-open {
   align-items: center;
   justify-content: center;
   /* Gap keeps jewelry lines clear of the figure — no opaque blot disc */
-  gap: 36px;
+  gap: 28px;
   width: 100%;
-  height: clamp(70px, 8vw, 90px);
-  min-height: 70px;
-  max-height: 90px;
+  height: clamp(56px, 6.5vw, 72px);
+  min-height: 56px;
+  max-height: 72px;
   margin: 0;
   padding: 0 24px;
   overflow: visible;
@@ -2395,8 +2396,8 @@ body.nav-drawer-open {
 
 .section-divider__medallion--saint {
   z-index: 2;
-  width: 68px;
-  height: 72px;
+  width: 60px;
+  height: 64px;
   max-height: 100%;
   margin: 0;
   padding: 0;
@@ -2435,10 +2436,10 @@ body.nav-drawer-open {
   width: min(calc(100% - 48px), 1520px);
   margin-inline: auto;
   /* Top gap comes from .section-divider only — avoid stacked ivory void */
-  padding-block: 0 clamp(56px, 6vw, 96px);
+  padding-block: 0 clamp(40px, 5vw, 68px);
 }
 
-/* Divider already provides the 70–90px band; zero extra top padding after it */
+/* Divider already provides the band; zero extra top padding after it */
 .section-divider + .featured-collection-wrapper {
   padding-top: 0;
 }
@@ -2703,7 +2704,7 @@ body.nav-drawer-open {
   .featured-collection-wrapper {
     width: min(calc(100% - 24px), 1520px);
     max-width: 100%;
-    padding-block: 0 clamp(36px, 8vw, 64px);
+    padding-block: 0 clamp(28px, 6vw, 48px);
     box-sizing: border-box;
     overflow-x: clip;
   }
@@ -2823,16 +2824,16 @@ body.nav-drawer-open {
 
 @media (max-width: 768px) {
   .section-divider {
-    height: 70px;
-    min-height: 70px;
-    max-height: 78px;
-    gap: 22px;
+    height: 56px;
+    min-height: 56px;
+    max-height: 64px;
+    gap: 18px;
     padding: 0 16px;
   }
 
   .section-divider__medallion--saint {
-    width: 56px;
-    height: 60px;
+    width: 48px;
+    height: 52px;
   }
 
   .featured-collection--campaign {
@@ -3022,7 +3023,8 @@ body.nav-drawer-open {
 /* ── Brand Essence — Nossa essência + valores ── */
 .brand-essence {
   width: min(calc(100% - 48px), 1440px);
-  margin: clamp(72px, 8vw, 112px) auto;
+  /* Dividers already frame the block — keep outer margin moderate */
+  margin: clamp(36px, 4.5vw, 56px) auto;
   overflow: hidden;
   border: 1px solid rgba(201, 155, 50, 0.58);
   border-radius: 24px;
@@ -3046,9 +3048,9 @@ body.nav-drawer-open {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
   align-items: center;
-  min-height: 450px;
-  padding: clamp(54px, 6vw, 92px);
-  gap: clamp(48px, 7vw, 100px);
+  min-height: 380px;
+  padding: clamp(40px, 5vw, 68px);
+  gap: clamp(36px, 5vw, 72px);
 }
 
 .brand-essence__copy {
@@ -4295,7 +4297,7 @@ body.nav-drawer-open {
 }
 
 .benefits-bar.section {
-  padding: 56px 24px 48px;
+  padding: 44px 24px 36px;
 }
 
 .benefits-bar__head,
@@ -4525,7 +4527,7 @@ body.nav-drawer-open {
 
 @media (max-width: 899px) {
   .benefits-bar.section {
-    padding: 52px 24px 44px;
+    padding: 40px 24px 32px;
   }
 
   .benefits-bar__grid {
@@ -4536,7 +4538,7 @@ body.nav-drawer-open {
 
 @media (max-width: 639px) {
   .benefits-bar.section {
-    padding: 44px 16px 36px;
+    padding: 36px 16px 28px;
   }
 
   .benefits-bar > .container {
@@ -4624,10 +4626,15 @@ body.nav-drawer-open {
   color: var(--te-cream);
 }
 
+/* Avoid stacking .section pad + inner pad after the divider */
+.newsletter-home.section {
+  padding: 0;
+}
+
 .newsletter-home__inner {
   display: flex;
   justify-content: center;
-  padding: 64px 0;
+  padding: clamp(40px, 5vw, 56px) 0;
 }
 
 .newsletter-home__content {
@@ -4681,7 +4688,7 @@ body.nav-drawer-open {
     radial-gradient(ellipse at 12% 20%, rgba(201, 155, 50, 0.06), transparent 42%),
     linear-gradient(180deg, var(--preto-sec) 0%, var(--preto) 100%);
   color: rgba(248, 246, 241, 0.82);
-  padding: 80px 0 32px;
+  padding: 56px 0 28px;
   border-top: none;
 }
 
@@ -4789,7 +4796,7 @@ body.nav-drawer-open {
 .section-head {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 44px;
+  margin: 0 auto 36px;
 }
 
 .section-head__title {
@@ -5536,7 +5543,7 @@ body.nav-drawer-open {
   }
 
   .section {
-    padding: 56px 0;
+    padding: 40px 0;
   }
 
   .collection-vitrine {
@@ -5545,7 +5552,7 @@ body.nav-drawer-open {
   }
 
   .categorias-section.section {
-    padding-block: clamp(56px, 10vw, 88px);
+    padding-block: clamp(36px, 7vw, 56px);
   }
 
   .categorias-section > .container {
@@ -5832,14 +5839,14 @@ body.nav-drawer-open {
   .brand-essence {
     width: calc(100% - 24px);
     max-width: 100%;
-    margin-block: clamp(40px, 10vw, 64px);
+    margin-block: clamp(28px, 7vw, 44px);
     margin-inline: auto;
     border-radius: 18px;
   }
 
   .brand-essence__intro {
-    padding: 36px 18px;
-    gap: 24px;
+    padding: 28px 18px;
+    gap: 20px;
   }
 
   .brand-essence__title {
@@ -5936,10 +5943,15 @@ body.nav-drawer-open {
   color: var(--color-text-dark);
 }
 
+/* Compact top: divider (~56–72px) already creates the cream band above the heading */
+.novidades-section.section {
+  padding-block: clamp(28px, 3.5vw, 40px) clamp(44px, 5vw, 68px);
+}
+
 .novidades-section .section-head {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 40px;
+  margin: 0 auto 32px;
 }
 
 .novidades-section .section-head__title {
@@ -5963,8 +5975,8 @@ body.nav-drawer-open {
 .bestsellers-section {
   position: relative;
   isolation: isolate;
-  /* Compact top: divider above already adds ~70–90px; avoid a tall empty atmosphere band */
-  padding-block: clamp(36px, 4.5vw, 56px) clamp(56px, 7vw, 88px);
+  /* Compact top: divider above already adds rhythm; keep bottom moderate */
+  padding-block: clamp(32px, 4vw, 48px) clamp(44px, 5.5vw, 68px);
   background-color: #080807;
   background-image:
     linear-gradient(
@@ -6557,7 +6569,7 @@ body.nav-drawer-open {
 }
 
 .instagram-section.section {
-  padding-block: clamp(56px, 7vw, 88px) clamp(40px, 5vw, 64px);
+  padding-block: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 48px);
 }
 
 .instagram-section .section-head {
@@ -6683,8 +6695,12 @@ body.nav-drawer-open {
   }
 
   .bestsellers-section {
-    padding-block: clamp(28px, 6vw, 44px) clamp(40px, 8vw, 64px);
+    padding-block: clamp(24px, 5vw, 36px) clamp(32px, 6vw, 48px);
     overflow-x: clip;
+  }
+
+  .novidades-section.section {
+    padding-block: clamp(22px, 5vw, 32px) clamp(36px, 7vw, 52px);
   }
 
   .bestsellers-section__head,
@@ -6779,7 +6795,7 @@ body.nav-drawer-open {
   }
 
   .instagram-section.section {
-    padding-block: 48px 28px;
+    padding-block: 36px 24px;
   }
 
   .instagram-section .section-head {
