@@ -1044,9 +1044,14 @@
   box-shadow: none;
 }
 
-.mobile-preview .section-divider + .featured-collection-wrapper,
-.desktop-preview .section-divider + .featured-collection-wrapper {
+.mobile-preview .section-divider + .featured-collection-wrapper {
   padding-top: 0;
+}
+
+@media (min-width: 961px) {
+  .desktop-preview .section-divider + .featured-collection-wrapper {
+    padding-top: 0;
+  }
 }
 
 .mobile-preview .categorias-section.section {

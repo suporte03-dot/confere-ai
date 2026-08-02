@@ -7,9 +7,9 @@ import {
 } from '../data/mockData'
 
 const TABS = [
-  { id: 'sobre', label: 'Sobre o produto' },
-  { id: 'provador', label: 'Provador Virtual' },
-  { id: 'medidas', label: 'Tabela de Medidas' },
+  { id: 'sobre', label: 'Sobre o produto', shortLabel: 'Sobre' },
+  { id: 'provador', label: 'Provador Virtual', shortLabel: 'Provador' },
+  { id: 'medidas', label: 'Tabela de Medidas', shortLabel: 'Medidas' },
 ]
 
 const CLOTHING_CHART = [
@@ -950,8 +950,14 @@ function ProductInfoModal({ product, open, initialTab = 'sobre', onClose, onSele
               aria-controls={`product-info-panel-${tab.id}`}
               className={`product-info-modal__tab${activeTab === tab.id ? ' is-active' : ''}`}
               onClick={() => setActiveTab(tab.id)}
+              aria-label={tab.label}
             >
-              {tab.label}
+              <span className="product-info-modal__tab-label product-info-modal__tab-label--full">
+                {tab.label}
+              </span>
+              <span className="product-info-modal__tab-label product-info-modal__tab-label--short">
+                {tab.shortLabel}
+              </span>
             </button>
           ))}
         </div>

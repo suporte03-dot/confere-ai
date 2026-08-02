@@ -2189,8 +2189,8 @@ body.nav-drawer-open {
   }
 
   .brand-hero__models {
-    height: min(50vh, 440px);
-    min-height: 320px;
+    height: min(44vh, 380px);
+    min-height: 280px;
   }
 
   .brand-hero__models-image {
@@ -2198,24 +2198,29 @@ body.nav-drawer-open {
   }
 
   .brand-hero__content {
-    padding: 16px 16px 28px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 14px 18px 24px;
   }
 
   .desktop-preview .brand-hero__content {
-    padding: 16px 16px 28px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 14px 18px 24px;
   }
 
   .brand-hero__title {
     font-size: clamp(1.75rem, 7.5vw, 2.2rem);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+  }
+
+  .brand-hero__support {
+    font-size: 0.875rem;
+    line-height: 1.58;
+  }
+
+  .brand-hero__support p {
+    margin-bottom: 0.4em;
   }
 
   .brand-hero__actions {
-    margin-top: 18px;
+    margin-top: 16px;
   }
 
   .brand-hero__btn {
@@ -3511,6 +3516,10 @@ body.nav-drawer-open {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
+.product-info-modal__tab-label--short {
+  display: none;
+}
+
 .product-info-modal__tab:hover {
   color: var(--color-gold-light, #dfbd69);
 }
@@ -4201,12 +4210,33 @@ body.nav-drawer-open {
   }
 
   .product-info-modal__tabs {
-    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .product-info-modal__tabs::-webkit-scrollbar {
+    display: none;
   }
 
   .product-info-modal__tab {
-    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 8px 6px;
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
     text-align: center;
+    white-space: nowrap;
+  }
+
+  .product-info-modal__tab-label--full {
+    display: none;
+  }
+
+  .product-info-modal__tab-label--short {
+    display: inline;
   }
 
   .product-info-modal__meta-row {
@@ -5423,8 +5453,22 @@ body.nav-drawer-open {
   }
 
   .site-header__action--search,
+  .site-header__action--favorites,
   .site-header__action--cart {
     display: inline-flex !important;
+  }
+
+  .site-header--premium .header-actions,
+  .header-actions {
+    gap: 0;
+  }
+
+  .site-header__action {
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 8px;
   }
 
   .header-brand__text .header-brand__tagline {
@@ -5743,10 +5787,10 @@ body.nav-drawer-open {
 @media (max-width: 640px) {
   :root,
   .desktop-preview {
-    --header-logo-size: clamp(48px, 12vw, 56px);
-    --header-logo-mark-h: 56px;
+    --header-logo-size: clamp(52px, 13vw, 58px);
+    --header-logo-mark-h: 58px;
     --topbar-h: 22px;
-    --header-utility-h: 68px;
+    --header-utility-h: 70px;
     --header-main-h: calc(var(--topbar-h) + var(--header-utility-h));
     --header-main-h-compact: var(--header-main-h);
     --sticky-offset: var(--header-main-h);
@@ -5758,6 +5802,16 @@ body.nav-drawer-open {
 
   .header-brand__text .header-brand__name {
     font-size: 1rem;
+  }
+
+  .site-header--premium .site-header__utility {
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .header-brand__wordmark,
+  .brand-name {
+    font-size: clamp(1.35rem, 6.5vw, 1.7rem);
   }
 
   .top-bar__item:nth-child(n + 2) {
@@ -5867,18 +5921,36 @@ body.nav-drawer-open {
   }
 
   .brand-essence__values {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .brand-value {
     min-height: auto;
-    padding: 24px 18px;
+    padding: 20px 12px;
     border-right: 0 !important;
     border-top: 1px solid rgba(201, 155, 50, 0.14);
   }
 
-  .brand-value:first-child {
+  .brand-value:nth-child(odd) {
+    border-right: 1px solid rgba(201, 155, 50, 0.14) !important;
+  }
+
+  .brand-value:nth-child(-n + 2) {
     border-top: 0;
+  }
+
+  .brand-value:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    border-right: 0 !important;
+  }
+
+  .brand-value h3 {
+    font-size: 1.0625rem;
+  }
+
+  .brand-value p {
+    font-size: 0.8125rem;
+    line-height: 1.5;
   }
 
   .brand-essence__botanical {
@@ -6715,17 +6787,17 @@ body.nav-drawer-open {
   .bestsellers-section__tabs {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     max-width: none;
     box-sizing: border-box;
     margin: 0 auto 28px;
-    padding-inline: 12px;
-    gap: 6px;
+    padding-inline: 4px 16px;
+    gap: 8px;
     overflow-x: auto;
-    scroll-padding-inline: 12px;
-    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 4px;
+    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -6737,11 +6809,11 @@ body.nav-drawer-open {
   .bestsellers-section__tab {
     flex: 0 0 auto;
     min-height: 40px;
-    padding: 10px 8px;
-    font-size: 0.5625rem;
-    letter-spacing: 0.1em;
+    padding: 10px 12px;
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
     white-space: nowrap;
-    scroll-snap-align: center;
+    scroll-snap-align: start;
   }
 
   .products-grid--bestsellers {
@@ -6750,15 +6822,17 @@ body.nav-drawer-open {
     gap: 14px;
     overflow-x: auto;
     padding-bottom: 8px;
+    padding-inline: 0 18px;
     margin-inline: 0;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
   }
 
   .products-grid--bestsellers .product-card {
-    flex: 0 0 min(72vw, 260px);
-    max-width: 260px;
+    flex: 0 0 min(70vw, 248px);
+    max-width: 248px;
     scroll-snap-align: start;
   }
 
@@ -6862,16 +6936,16 @@ body.nav-drawer-open {
   .bestsellers-section__tabs {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
     margin-inline: auto;
-    padding-inline: 12px;
-    gap: 6px;
+    padding-inline: 4px 16px;
+    gap: 8px;
     overflow-x: auto;
-    scroll-padding-inline: 12px;
-    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 4px;
+    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -6883,11 +6957,11 @@ body.nav-drawer-open {
   .bestsellers-section__tab {
     flex: 0 0 auto;
     min-height: 40px;
-    padding: 10px 8px;
-    font-size: 0.5625rem;
-    letter-spacing: 0.1em;
+    padding: 10px 12px;
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
     white-space: nowrap;
-    scroll-snap-align: center;
+    scroll-snap-align: start;
   }
 
   .brand-essence__intro {

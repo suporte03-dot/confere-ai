@@ -13,9 +13,9 @@ import { useShop } from '../context/ShopContext'
 import ProductInfoModal from './ProductInfoModal'
 
 const INFO_LINKS = [
-  { id: 'sobre', label: 'Sobre o produto' },
-  { id: 'provador', label: 'Provador Virtual' },
-  { id: 'medidas', label: 'Tabela de Medidas' },
+  { id: 'sobre', label: 'Sobre o produto', shortLabel: 'Sobre' },
+  { id: 'provador', label: 'Provador Virtual', shortLabel: 'Provador' },
+  { id: 'medidas', label: 'Tabela de Medidas', shortLabel: 'Medidas' },
 ]
 
 function ProductCard({
@@ -222,8 +222,14 @@ function ProductCard({
                 type="button"
                 className="product-card__info-link"
                 onClick={(event) => openInfo(event, link.id)}
+                aria-label={link.label}
               >
-                {link.label}
+                <span className="product-card__info-label product-card__info-label--full">
+                  {link.label}
+                </span>
+                <span className="product-card__info-label product-card__info-label--short">
+                  {link.shortLabel}
+                </span>
               </button>
             </span>
           ))}
