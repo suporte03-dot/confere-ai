@@ -40,6 +40,8 @@
   --gold-secondary: var(--color-gold-strong);
   --gold-light: #dfbd69;
   --ivory: #f6efe4;
+  /* Shared cream for hero light panel + center brand monogram */
+  --brand-hero-ivory: var(--ivory);
   --cream: #eee2cf;
   --text-dark: #18130f;
   --text-muted: #a99d8d;
@@ -1104,15 +1106,18 @@ body.nav-drawer-open {
   overflow: visible;
 }
 
-/* Center brand crest — home only; aligned to --hero-split-position. */
+/* Center brand crest — home only; aligned to --hero-split-position.
+   Anchor to the trust/hero seam (not nav bottom) so the ivory half
+   continues into the cream panel instead of floating on the dark trust bar. */
 .site-header--premium .site-header__nav-logo {
   position: absolute;
   left: var(--hero-split-position);
-  top: 100%;
-  z-index: 5;
+  top: calc(100% + var(--header-trust-h));
+  z-index: 6;
   display: grid;
   place-items: center;
-  transform: translate(-50%, -50%);
+  /* Bias slightly into the hero so cream reads continuous with the panel. */
+  transform: translate(-50%, -38%);
   pointer-events: none;
 }
 
@@ -1128,6 +1133,7 @@ body.nav-drawer-open {
   padding: 0 clamp(12px, 2vw, 28px);
   min-height: var(--header-trust-h);
   background: rgba(8, 8, 7, 0.58);
+  overflow: visible;
 }
 
 .site-header__trust-item {
@@ -1760,7 +1766,9 @@ body.nav-drawer-open {
 
 /* ── Brand monogram — original logo on hero split (half page dark / half ivory) ── */
 .brand-monogram {
-  --brand-monogram-ivory: var(--ivory, #f6efe4);
+  /* Same token as .brand-hero panel — never #fff / cooler white */
+  --brand-monogram-ivory: var(--brand-hero-ivory, var(--ivory, #f6efe4));
+  --brand-monogram-dark: #0e0c0a;
   position: relative;
   z-index: 1;
   display: grid;
@@ -1769,26 +1777,44 @@ body.nav-drawer-open {
   height: var(--brand-monogram-size, 82px);
   overflow: hidden;
   border-radius: 50%;
-  border: 1.5px solid #b88a2c;
+  border: 1px solid rgba(184, 138, 44, 0.85);
+  background: transparent;
   /* Continues the page: left = photo dark, right = hero ivory panel */
-  background: linear-gradient(
+  background-image: linear-gradient(
     90deg,
-    #080808 0 50%,
+    var(--brand-monogram-dark) 0 50%,
     var(--brand-monogram-ivory) 50% 100%
   );
   box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.16),
-    0 0 0 1px rgba(184, 138, 44, 0.14);
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(184, 138, 44, 0.1);
   pointer-events: none;
   user-select: none;
+}
+
+/* Soften PNG’s pure-white outer ring toward hero ivory on the cream half. */
+.brand-monogram::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent 0 48%,
+    var(--brand-monogram-ivory) 52% 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 .brand-monogram__logo {
   position: relative;
   z-index: 1;
   display: block;
-  width: 78%;
-  height: 78%;
+  /* Leave a continuous ivory/dark rim into the page split */
+  width: 70%;
+  height: 70%;
   object-fit: contain;
   object-position: center;
   pointer-events: none;
@@ -1818,7 +1844,8 @@ body.nav-drawer-open {
     z-index: 8;
     display: grid;
     place-items: center;
-    transform: translate(-50%, -50%);
+    /* Match desktop: sit on the seam, bias into the ivory panel. */
+    transform: translate(-50%, -38%);
     pointer-events: none;
   }
 }
@@ -1838,7 +1865,7 @@ body.nav-drawer-open {
 
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
 .brand-hero {
-  --brand-hero-ivory: var(--ivory);
+  --brand-hero-ivory: var(--ivory, #f6efe4);
   --brand-hero-gold: #c5a059;
   --brand-hero-ink: var(--text-dark);
   --brand-hero-muted: var(--text-muted);
@@ -1945,9 +1972,8 @@ body.nav-drawer-open {
   height: 100%;
   padding: 32px clamp(28px, 3.5vw, 52px) 36px clamp(28px, 3.5vw, 52px);
   overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 40%),
-    var(--brand-hero-ivory);
+  /* Flat ivory — same token as brand monogram cream half (no cooler white wash). */
+  background: var(--brand-hero-ivory);
 }
 
 .brand-hero__copy {
