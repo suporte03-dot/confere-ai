@@ -5456,7 +5456,8 @@ body.nav-drawer-open {
 .bestsellers-section {
   position: relative;
   isolation: isolate;
-  padding-block: clamp(88px, 10vw, 128px);
+  /* Compact top: divider above already adds ~70–90px; avoid a tall empty atmosphere band */
+  padding-block: clamp(36px, 4.5vw, 56px) clamp(56px, 7vw, 88px);
   background-color: #080807;
   background-image:
     linear-gradient(
@@ -6175,7 +6176,7 @@ body.nav-drawer-open {
   }
 
   .bestsellers-section {
-    padding-block: clamp(64px, 12vw, 88px);
+    padding-block: clamp(28px, 6vw, 44px) clamp(40px, 8vw, 64px);
     overflow-x: clip;
   }
 
