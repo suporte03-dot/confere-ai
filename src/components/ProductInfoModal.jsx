@@ -49,6 +49,20 @@ const FITTING_DEFAULTS = {
   result: null,
 }
 
+const TRYON_DEFAULTS = {
+  step: 1,
+  photoUrl: null,
+  scale: 1,
+  offsetY: 8,
+  offsetX: 0,
+}
+
+function defaultGenderForProduct(product) {
+  return product?.department === 'Masculino' || product?.category === 'masculino'
+    ? 'masculino'
+    : 'feminino'
+}
+
 function getFocusableElements(container) {
   if (!container) return []
   return Array.from(
@@ -241,25 +255,325 @@ function FittingProgress({ step, total = 2 }) {
   )
 }
 
+function GenderToggle({ value, onChange }) {
+  return (
+    <fieldset className="product-info-modal__gender">
+      <legend className="product-info-modal__field-label">Gênero do manequim</legend>
+      <div className="product-info-modal__gender-options">
+        {[
+          { id: 'feminino', label: 'Feminino' },
+          { id: 'masculino', label: 'Masculino' },
+        ].map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            className={`product-info-modal__gender-btn${value === option.id ? ' is-active' : ''}`}
+            aria-pressed={value === option.id}
+            onClick={() => onChange(option.id)}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  )
+}
+
+function MannequinSilhouette({ gender }) {
+  const gradId = useId().replace(/:/g, '')
+  const isFemale = gender !== 'masculino'
+  const fill = `url(#${gradId})`
+  return (
+    <svg
+      className="product-info-modal__mannequin-svg"
+      viewBox="0 0 120 280"
+      role="img"
+      aria-label={isFemale ? 'Manequim feminino' : 'Manequim masculino'}
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(246, 239, 228, 0.28)" />
+          <stop offset="100%" stopColor="rgba(201, 155, 50, 0.22)" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="60" cy="28" rx="18" ry="22" fill={fill} />
+      <rect x="52" y="46" width="16" height="14" rx="4" fill={fill} />
+      {isFemale ? (
+        <path
+          d="M38 60 C28 72 26 96 30 118 L34 168 C36 182 42 188 48 190 L72 190 C78 188 84 182 86 168 L90 118 C94 96 92 72 82 60 Z"
+          fill={fill}
+        />
+      ) : (
+        <path
+          d="M34 60 C24 70 22 96 26 122 L32 170 C34 184 40 190 48 192 L72 192 C80 190 86 184 88 170 L94 122 C98 96 96 70 86 60 Z"
+          fill={fill}
+        />
+      )}
+      <path
+        d={
+          isFemale
+            ? 'M38 68 C22 78 14 110 16 138 L26 140 C28 114 34 90 44 80 Z'
+            : 'M34 68 C18 76 10 112 12 142 L24 144 C26 116 30 88 42 78 Z'
+        }
+        fill={fill}
+      />
+      <path
+        d={
+          isFemale
+            ? 'M82 68 C98 78 106 110 104 138 L94 140 C92 114 86 90 76 80 Z'
+            : 'M86 68 C102 76 110 112 108 142 L96 144 C94 116 90 88 78 78 Z'
+        }
+        fill={fill}
+      />
+      <path
+        d="M48 188 L42 268 C41 274 44 276 48 276 L54 276 C58 276 60 274 59 268 L56 190 Z"
+        fill={fill}
+      />
+      <path
+        d="M72 188 L78 268 C79 274 76 276 72 276 L66 276 C62 276 60 274 61 268 L64 190 Z"
+        fill={fill}
+      />
+    </svg>
+  )
+}
+
+function TryOnPanel({
+  productImage,
+  productName,
+  gender,
+  onGenderChange,
+  tryOn,
+  setTryOn,
+  fileInputRef,
+  onBackToModes,
+  onGoToSize,
+}) {
+  const photoId = useId()
+
+  const revokePhoto = (url) => {
+    if (url) URL.revokeObjectURL(url)
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0]
+    if (!file || !file.type.startsWith('image/')) return
+    const nextUrl = URL.createObjectURL(file)
+    setTryOn((prev) => {
+      revokePhoto(prev.photoUrl)
+      return { ...prev, photoUrl: nextUrl, step: 2 }
+    })
+    event.target.value = ''
+  }
+
+  const openFilePicker = () => {
+    fileInputRef.current?.click()
+  }
+
+  const clearPhoto = () => {
+    setTryOn((prev) => {
+      revokePhoto(prev.photoUrl)
+      return { ...TRYON_DEFAULTS, step: 1 }
+    })
+  }
+
+  if (tryOn.step === 2 && tryOn.photoUrl) {
+    return (
+      <div className="product-info-modal__fitting">
+        <FittingProgress step={2} />
+        <h3 className="product-info-modal__subtitle">Como fica em você</h3>
+        <p className="product-info-modal__lead product-info-modal__lead--tight">
+          Compare sua foto com o manequim virtual vestindo {productName}.
+        </p>
+
+        <GenderToggle value={gender} onChange={onGenderChange} />
+
+        <div className="product-info-modal__tryon-compare">
+          <figure className="product-info-modal__tryon-pane">
+            <figcaption className="product-info-modal__tryon-caption">Você</figcaption>
+            <div className="product-info-modal__photo-frame">
+              <img src={tryOn.photoUrl} alt="Sua foto enviada" />
+            </div>
+          </figure>
+
+          <figure className="product-info-modal__tryon-pane">
+            <figcaption className="product-info-modal__tryon-caption">Como fica</figcaption>
+            <div className="product-info-modal__mannequin-stage" aria-live="polite">
+              <MannequinSilhouette gender={gender} />
+              <img
+                className="product-info-modal__garment"
+                src={productImage}
+                alt=""
+                aria-hidden="true"
+                style={{
+                  transform: `translate(calc(-50% + ${tryOn.offsetX}%), ${tryOn.offsetY}%) scale(${tryOn.scale})`,
+                }}
+              />
+            </div>
+          </figure>
+        </div>
+
+        <div className="product-info-modal__fit-controls">
+          <label className="product-info-modal__slider">
+            <span className="product-info-modal__field-label">Escala da peça</span>
+            <input
+              type="range"
+              min="0.55"
+              max="1.45"
+              step="0.01"
+              value={tryOn.scale}
+              onChange={(event) =>
+                setTryOn((prev) => ({ ...prev, scale: Number(event.target.value) }))
+              }
+              aria-valuetext={`${Math.round(tryOn.scale * 100)}%`}
+            />
+          </label>
+          <label className="product-info-modal__slider">
+            <span className="product-info-modal__field-label">Posição vertical</span>
+            <input
+              type="range"
+              min="-8"
+              max="28"
+              step="1"
+              value={tryOn.offsetY}
+              onChange={(event) =>
+                setTryOn((prev) => ({ ...prev, offsetY: Number(event.target.value) }))
+              }
+            />
+          </label>
+          <label className="product-info-modal__slider">
+            <span className="product-info-modal__field-label">Posição horizontal</span>
+            <input
+              type="range"
+              min="-18"
+              max="18"
+              step="1"
+              value={tryOn.offsetX}
+              onChange={(event) =>
+                setTryOn((prev) => ({ ...prev, offsetX: Number(event.target.value) }))
+              }
+            />
+          </label>
+        </div>
+
+        <p className="product-info-modal__disclaimer" role="note">
+          Visualização ilustrativa para ajudar na escolha — não substitui prova física.
+        </p>
+
+        <div className="product-info-modal__fitting-actions">
+          <button type="button" className="product-info-modal__nav-btn" onClick={clearPhoto}>
+            Trocar foto
+          </button>
+          <button type="button" className="product-info-modal__nav-btn" onClick={onBackToModes}>
+            Voltar
+          </button>
+          <button
+            type="button"
+            className="product-info-modal__action product-info-modal__action--primary"
+            onClick={onGoToSize}
+          >
+            Usar tamanho sugerido
+          </button>
+        </div>
+
+        <input
+          ref={fileInputRef}
+          id={photoId}
+          type="file"
+          accept="image/*"
+          capture="user"
+          className="product-info-modal__file-input"
+          onChange={handleFileChange}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className="product-info-modal__fitting">
+      <FittingProgress step={1} />
+      <h3 className="product-info-modal__subtitle">Envie sua foto</h3>
+      <p className="product-info-modal__lead product-info-modal__lead--tight">
+        Tire ou escolha uma foto de corpo inteiro ou meio corpo para montar o manequim virtual com a
+        peça.
+      </p>
+
+      <GenderToggle value={gender} onChange={onGenderChange} />
+
+      <div className="product-info-modal__upload">
+        <div className="product-info-modal__upload-preview" aria-hidden="true">
+          <MannequinSilhouette gender={gender} />
+        </div>
+        <label htmlFor={photoId} className="product-info-modal__upload-label">
+          <span className="product-info-modal__upload-title">Selecionar foto</span>
+          <span className="product-info-modal__upload-hint">
+            JPG, PNG ou WEBP — câmera ou galeria
+          </span>
+        </label>
+        <input
+          ref={fileInputRef}
+          id={photoId}
+          type="file"
+          accept="image/*"
+          capture="user"
+          className="product-info-modal__file-input"
+          onChange={handleFileChange}
+        />
+        <button
+          type="button"
+          className="product-info-modal__action product-info-modal__action--primary"
+          onClick={openFilePicker}
+        >
+          Enviar foto
+        </button>
+      </div>
+
+      <p className="product-info-modal__disclaimer" role="note">
+        Visualização ilustrativa para ajudar na escolha — não substitui prova física.
+      </p>
+
+      <div className="product-info-modal__fitting-actions">
+        <button type="button" className="product-info-modal__nav-btn" onClick={onBackToModes}>
+          Voltar
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function ProvadorPanel({
   product,
+  productImage,
   sizes,
   chartKind,
   onSelectSize,
   onClose,
   onOpenMedidas,
 }) {
-  const [fitting, setFitting] = useState(FITTING_DEFAULTS)
+  const fileInputRef = useRef(null)
+  const [mode, setMode] = useState(null)
+  const [fitting, setFitting] = useState(() => ({
+    ...FITTING_DEFAULTS,
+    gender: defaultGenderForProduct(product),
+  }))
+  const [tryOn, setTryOn] = useState(TRYON_DEFAULTS)
 
   useEffect(() => {
+    setMode(null)
     setFitting({
       ...FITTING_DEFAULTS,
-      gender:
-        product?.department === 'Masculino' || product?.category === 'masculino'
-          ? 'masculino'
-          : 'feminino',
+      gender: defaultGenderForProduct(product),
+    })
+    setTryOn((prev) => {
+      if (prev.photoUrl) URL.revokeObjectURL(prev.photoUrl)
+      return { ...TRYON_DEFAULTS }
     })
   }, [product?.id, product?.department, product?.category])
+
+  useEffect(() => {
+    return () => {
+      if (tryOn.photoUrl) URL.revokeObjectURL(tryOn.photoUrl)
+    }
+  }, [tryOn.photoUrl])
 
   const validation = validateFittingFields({
     height: fitting.height,
@@ -267,6 +581,19 @@ function ProvadorPanel({
     age: fitting.age,
     chartKind,
   })
+
+  const resetTryOnPhoto = () => {
+    setTryOn((prev) => {
+      if (prev.photoUrl) URL.revokeObjectURL(prev.photoUrl)
+      return { ...TRYON_DEFAULTS }
+    })
+  }
+
+  const goToModes = () => {
+    setMode(null)
+    setFitting((prev) => ({ ...prev, step: 1, result: null }))
+    resetTryOnPhoto()
+  }
 
   const goNext = () => {
     if (!validation.valid) return
@@ -293,6 +620,65 @@ function ProvadorPanel({
       return
     }
     onClose?.()
+  }
+
+  const enterSizeMode = () => {
+    resetTryOnPhoto()
+    setFitting((prev) => ({ ...prev, step: 1, result: null }))
+    setMode('size')
+  }
+
+  if (!mode) {
+    return (
+      <div className="product-info-modal__fitting">
+        <h3 className="product-info-modal__subtitle">Provador Virtual</h3>
+        <p className="product-info-modal__lead product-info-modal__lead--tight">
+          Escolha como prefere experimentar esta peça Terra & Estilo.
+        </p>
+
+        <div className="product-info-modal__mode-grid" role="group" aria-label="Modos do provador">
+          <button
+            type="button"
+            className="product-info-modal__mode-card"
+            onClick={() => setMode('size')}
+          >
+            <span className="product-info-modal__mode-kicker">Guia rápido</span>
+            <span className="product-info-modal__mode-title">Sugestão de tamanho</span>
+            <span className="product-info-modal__mode-text">
+              Informe gênero, altura, peso e idade para receber uma estimativa de tamanho.
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="product-info-modal__mode-card"
+            onClick={() => setMode('tryon')}
+          >
+            <span className="product-info-modal__mode-kicker">Estilo Mercado Livre</span>
+            <span className="product-info-modal__mode-title">Prova virtual</span>
+            <span className="product-info-modal__mode-text">
+              Envie sua foto e veja a peça no manequim virtual.
+            </span>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (mode === 'tryon') {
+    return (
+      <TryOnPanel
+        productImage={productImage}
+        productName={product.name}
+        gender={fitting.gender}
+        onGenderChange={(gender) => setFitting((prev) => ({ ...prev, gender }))}
+        tryOn={tryOn}
+        setTryOn={setTryOn}
+        fileInputRef={fileInputRef}
+        onBackToModes={goToModes}
+        onGoToSize={enterSizeMode}
+      />
+    )
   }
 
   if (fitting.step === 2 && fitting.result) {
@@ -336,6 +722,16 @@ function ProvadorPanel({
 
         <button type="button" className="product-info-modal__text-link" onClick={onOpenMedidas}>
           Ver tabela de medidas
+        </button>
+        <button
+          type="button"
+          className="product-info-modal__text-link"
+          onClick={() => {
+            setFitting((prev) => ({ ...prev, step: 1, result: null }))
+            setMode('tryon')
+          }}
+        >
+          Ver prova virtual
         </button>
       </div>
     )
@@ -421,6 +817,9 @@ function ProvadorPanel({
       )}
 
       <div className="product-info-modal__fitting-actions">
+        <button type="button" className="product-info-modal__nav-btn" onClick={goToModes}>
+          Voltar
+        </button>
         <button
           type="button"
           className="product-info-modal__action product-info-modal__action--primary"
@@ -591,6 +990,7 @@ function ProductInfoModal({ product, open, initialTab = 'sobre', onClose, onSele
               <ProvadorPanel
                 key={`${product.id}-provador`}
                 product={product}
+                productImage={image}
                 sizes={sizes}
                 chartKind={chartKind}
                 onSelectSize={onSelectSize}
