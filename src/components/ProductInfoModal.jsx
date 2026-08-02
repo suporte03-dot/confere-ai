@@ -36,6 +36,19 @@ const KIDS_CHART = [
   { size: '10', height: '134–140', age: '9–10 anos' },
 ]
 
+const LETTER_ORDER = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'XXG', 'EG', 'EGG']
+const SHOE_ORDER = ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44']
+const KIDS_ORDER = ['2', '4', '6', '8', '10', '12', '14']
+
+const FITTING_DEFAULTS = {
+  step: 1,
+  gender: 'feminino',
+  height: '',
+  weight: '',
+  age: '',
+  result: null,
+}
+
 function getFocusableElements(container) {
   if (!container) return []
   return Array.from(
@@ -70,7 +83,358 @@ function buildAboutDetails(product, sizes) {
   return { details, description }
 }
 
-function ProductInfoModal({ product, open, initialTab = 'sobre', onClose }) {
+function parseField(value) {
+  const n = Number(String(value).trim().replace(',', '.'))
+  return Number.isFinite(n) ? n : NaN
+}
+
+function pickClosestSize(preferred, available, order) {
+  if (!available.length) return null
+  if (available.includes(preferred)) return preferred
+
+  const ranked = available
+    .map((size) => {
+      const idx = order.indexOf(size)
+      return { size, idx: idx === -1 ? Number.POSITIVE_INFINITY : idx }
+    })
+    .filter((item) => Number.isFinite(item.idx))
+    .sort((a, b) => a.idx - b.idx)
+
+  if (!ranked.length) return available[0]
+
+  const preferredIdx = order.indexOf(preferred)
+  if (preferredIdx === -1) return ranked[Math.floor(ranked.length / 2)].size
+
+  let best = ranked[0]
+  let bestDist = Math.abs(ranked[0].idx - preferredIdx)
+  for (const item of ranked) {
+    const dist = Math.abs(item.idx - preferredIdx)
+    if (dist < bestDist) {
+      best = item
+      bestDist = dist
+    }
+  }
+  return best.size
+}
+
+function recommendSize({ gender, height, weight, age, sizes, chartKind }) {
+  if (!sizes.length) {
+    return {
+      size: null,
+      label: '—',
+      explanation:
+        'Esta peça não possui grade de tamanhos cadastrada. Consulte a tabela de medidas ou o atendimento.',
+    }
+  }
+
+  if (chartKind === 'accessories' && sizes.length === 1) {
+    return {
+      size: sizes[0],
+      label: sizes[0],
+      explanation:
+        'Acessórios Terra & Estilo costumam ter tamanho único ou grade reduzida. Sugerimos o tamanho disponível nesta peça.',
+    }
+  }
+
+  if (chartKind === 'kids') {
+    let preferred = '6'
+    if (age <= 2) preferred = '2'
+    else if (age <= 4) preferred = '4'
+    else if (age <= 6) preferred = '6'
+    else if (age <= 8) preferred = '8'
+    else preferred = '10'
+
+    const size = pickClosestSize(preferred, sizes, KIDS_ORDER)
+    return {
+      size,
+      label: size,
+      explanation: `Com base na idade informada (${age} anos) e na altura de ${height} cm, sugerimos o tamanho ${size} para esta peça infantil. Use a tabela de medidas para confirmar.`,
+    }
+  }
+
+  if (chartKind === 'shoes') {
+    // Heurística de demonstração: estatura + gênero → numeração aproximada
+    let preferred = gender === 'feminino' ? '38' : '40'
+    if (height < 160) preferred = gender === 'feminino' ? '36' : '38'
+    else if (height < 168) preferred = gender === 'feminino' ? '37' : '39'
+    else if (height < 176) preferred = gender === 'feminino' ? '38' : '40'
+    else if (height < 184) preferred = gender === 'feminino' ? '39' : '41'
+    else preferred = gender === 'feminino' ? '40' : '42'
+
+    const size = pickClosestSize(preferred, sizes, SHOE_ORDER)
+    return {
+      size,
+      label: size,
+      explanation: `Estimativa de demonstração com base na altura (${height} cm) e no perfil ${gender}. Sugerimos o tamanho ${size}. Para calçados, o ideal é medir o pé e conferir a tabela.`,
+    }
+  }
+
+  const heightM = height / 100
+  const bmi = weight / (heightM * heightM)
+  const adjusted = gender === 'feminino' ? bmi * 0.97 : bmi
+
+  let preferred = 'M'
+  if (adjusted < 19) preferred = 'P'
+  else if (adjusted < 23.5) preferred = 'M'
+  else if (adjusted < 27.5) preferred = 'G'
+  else preferred = 'GG'
+
+  // Altura muito alta tende a subir um ponto na grade
+  if (height >= 185 && preferred === 'P') preferred = 'M'
+  if (height >= 190 && preferred === 'M') preferred = 'G'
+
+  const size = pickClosestSize(preferred, sizes, LETTER_ORDER)
+  const genderLabel = gender === 'feminino' ? 'feminino' : 'masculino'
+
+  return {
+    size,
+    label: size,
+    explanation: `Com altura ${height} cm, peso ${weight} kg e perfil ${genderLabel}, sugerimos o tamanho ${size} nesta peça. É uma estimativa de demonstração — o caimento pode variar conforme o modelo.`,
+  }
+}
+
+function validateFittingFields({ height, weight, age, chartKind }) {
+  const h = parseField(height)
+  const w = parseField(weight)
+  const a = parseField(age)
+
+  const heightOk = chartKind === 'kids' ? h >= 80 && h <= 170 : h >= 140 && h <= 220
+  const weightOk = chartKind === 'kids' ? w >= 10 && w <= 80 : w >= 40 && w <= 180
+  const ageOk = chartKind === 'kids' ? a >= 1 && a <= 14 : a >= 14 && a <= 90
+
+  const missing = !String(height).trim() || !String(weight).trim() || !String(age).trim()
+  if (missing) {
+    return { valid: false, helper: 'Preencha altura, peso e idade para continuar.' }
+  }
+  if (!heightOk || !weightOk || !ageOk) {
+    return {
+      valid: false,
+      helper:
+        chartKind === 'kids'
+          ? 'Use valores realistas: altura 80–170 cm, peso 10–80 kg e idade 1–14 anos.'
+          : 'Use valores realistas: altura 140–220 cm, peso 40–180 kg e idade 14–90 anos.',
+    }
+  }
+
+  return { valid: true, height: h, weight: w, age: a, helper: '' }
+}
+
+function FittingProgress({ step, total = 2 }) {
+  return (
+    <div className="product-info-modal__progress" aria-label={`Etapa ${step} de ${total}`}>
+      {Array.from({ length: total }, (_, index) => {
+        const current = index + 1
+        return (
+          <span
+            key={current}
+            className={`product-info-modal__dot${current === step ? ' is-active' : ''}${
+              current < step ? ' is-done' : ''
+            }`}
+            aria-hidden="true"
+          />
+        )
+      })}
+      <span className="product-info-modal__progress-label">
+        Etapa {step} de {total}
+      </span>
+    </div>
+  )
+}
+
+function ProvadorPanel({
+  product,
+  sizes,
+  chartKind,
+  onSelectSize,
+  onClose,
+  onOpenMedidas,
+}) {
+  const [fitting, setFitting] = useState(FITTING_DEFAULTS)
+
+  useEffect(() => {
+    setFitting({
+      ...FITTING_DEFAULTS,
+      gender:
+        product?.department === 'Masculino' || product?.category === 'masculino'
+          ? 'masculino'
+          : 'feminino',
+    })
+  }, [product?.id, product?.department, product?.category])
+
+  const validation = validateFittingFields({
+    height: fitting.height,
+    weight: fitting.weight,
+    age: fitting.age,
+    chartKind,
+  })
+
+  const goNext = () => {
+    if (!validation.valid) return
+    const result = recommendSize({
+      gender: fitting.gender,
+      height: validation.height,
+      weight: validation.weight,
+      age: validation.age,
+      sizes,
+      chartKind,
+    })
+    setFitting((prev) => ({ ...prev, step: 2, result }))
+  }
+
+  const goBack = () => {
+    setFitting((prev) => ({ ...prev, step: 1 }))
+  }
+
+  const handleSelectRecommended = () => {
+    const size = fitting.result?.size
+    if (!size) return
+    if (onSelectSize) {
+      onSelectSize(size)
+      return
+    }
+    onClose?.()
+  }
+
+  if (fitting.step === 2 && fitting.result) {
+    const { result } = fitting
+    return (
+      <div className="product-info-modal__fitting">
+        <FittingProgress step={2} />
+        <h3 className="product-info-modal__subtitle">Seu tamanho sugerido</h3>
+        <p className="product-info-modal__lead product-info-modal__lead--tight">
+          Resultado da etapa 2 — estimativa para esta peça Terra & Estilo.
+        </p>
+
+        <div className="product-info-modal__result" aria-live="polite">
+          <p className="product-info-modal__result-label">Tamanho ideal</p>
+          <p className="product-info-modal__result-size">{result.label}</p>
+          <p className="product-info-modal__result-text">{result.explanation}</p>
+        </div>
+
+        <div className="product-info-modal__fitting-actions">
+          <button type="button" className="product-info-modal__nav-btn" onClick={goBack}>
+            Voltar
+          </button>
+          {result.size && onSelectSize ? (
+            <button
+              type="button"
+              className="product-info-modal__action product-info-modal__action--primary"
+              onClick={handleSelectRecommended}
+            >
+              Selecionar tamanho {result.size}
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="product-info-modal__action product-info-modal__action--primary"
+              onClick={onClose}
+            >
+              Fechar
+            </button>
+          )}
+        </div>
+
+        <button type="button" className="product-info-modal__text-link" onClick={onOpenMedidas}>
+          Ver tabela de medidas
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="product-info-modal__fitting">
+      <FittingProgress step={1} />
+      <h3 className="product-info-modal__subtitle">Descubra o tamanho ideal da peça</h3>
+      <p className="product-info-modal__lead product-info-modal__lead--tight">
+        Informe seus dados na etapa 1 e avance para ver a sugestão de tamanho.
+      </p>
+
+      <fieldset className="product-info-modal__gender">
+        <legend className="product-info-modal__field-label">Gênero</legend>
+        <div className="product-info-modal__gender-options">
+          {[
+            { id: 'feminino', label: 'Feminino' },
+            { id: 'masculino', label: 'Masculino' },
+          ].map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              className={`product-info-modal__gender-btn${
+                fitting.gender === option.id ? ' is-active' : ''
+              }`}
+              aria-pressed={fitting.gender === option.id}
+              onClick={() => setFitting((prev) => ({ ...prev, gender: option.id }))}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+
+      <div className="product-info-modal__fields">
+        <label className="product-info-modal__field">
+          <span className="product-info-modal__field-label">Altura (cm)</span>
+          <input
+            type="number"
+            inputMode="decimal"
+            min={chartKind === 'kids' ? 80 : 140}
+            max={chartKind === 'kids' ? 170 : 220}
+            placeholder="Ex: 168"
+            value={fitting.height}
+            onChange={(event) =>
+              setFitting((prev) => ({ ...prev, height: event.target.value }))
+            }
+          />
+        </label>
+        <label className="product-info-modal__field">
+          <span className="product-info-modal__field-label">Peso (kg)</span>
+          <input
+            type="number"
+            inputMode="decimal"
+            min={chartKind === 'kids' ? 10 : 40}
+            max={chartKind === 'kids' ? 80 : 180}
+            placeholder="Ex: 65"
+            value={fitting.weight}
+            onChange={(event) =>
+              setFitting((prev) => ({ ...prev, weight: event.target.value }))
+            }
+          />
+        </label>
+        <label className="product-info-modal__field">
+          <span className="product-info-modal__field-label">Idade (anos)</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={chartKind === 'kids' ? 1 : 14}
+            max={chartKind === 'kids' ? 14 : 90}
+            placeholder="Ex: 28"
+            value={fitting.age}
+            onChange={(event) => setFitting((prev) => ({ ...prev, age: event.target.value }))}
+          />
+        </label>
+      </div>
+
+      {!validation.valid && (
+        <p className="product-info-modal__helper" role="status">
+          {validation.helper}
+        </p>
+      )}
+
+      <div className="product-info-modal__fitting-actions">
+        <button
+          type="button"
+          className="product-info-modal__action product-info-modal__action--primary"
+          disabled={!validation.valid}
+          onClick={goNext}
+        >
+          Próximo
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function ProductInfoModal({ product, open, initialTab = 'sobre', onClose, onSelectSize }) {
   const titleId = useId()
   const dialogRef = useRef(null)
   const closeBtnRef = useRef(null)
@@ -224,23 +588,15 @@ function ProductInfoModal({ product, open, initialTab = 'sobre', onClose }) {
               aria-labelledby="product-info-tab-provador"
               className="product-info-modal__panel product-info-modal__panel--provador"
             >
-              <p className="product-info-modal__badge">Em breve</p>
-              <h3 className="product-info-modal__subtitle">Provador Virtual</h3>
-              <p className="product-info-modal__lead">
-                Estamos preparando uma experiência elegante para visualizar o caimento das peças
-                Terra & Estilo. Em breve, você poderá experimentar virtualmente com mais precisão.
-              </p>
-              <p className="product-info-modal__note">
-                Enquanto isso, consulte a tabela de medidas para escolher o tamanho ideal com
-                confiança.
-              </p>
-              <button
-                type="button"
-                className="product-info-modal__action"
-                onClick={() => setActiveTab('medidas')}
-              >
-                Ver tabela de medidas
-              </button>
+              <ProvadorPanel
+                key={`${product.id}-provador`}
+                product={product}
+                sizes={sizes}
+                chartKind={chartKind}
+                onSelectSize={onSelectSize}
+                onClose={onClose}
+                onOpenMedidas={() => setActiveTab('medidas')}
+              />
             </div>
           )}
 

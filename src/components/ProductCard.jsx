@@ -235,6 +235,12 @@ function ProductCard({
         open={infoOpen}
         initialTab={infoTab}
         onClose={() => setInfoOpen(false)}
+        onSelectSize={(size) => {
+          setSelectedSize(size)
+          setPickingSize(false)
+          setInfoOpen(false)
+          showToast(`Tamanho ${size} selecionado. Toque em Adicionar para concluir.`)
+        }}
       />
     </article>
   )

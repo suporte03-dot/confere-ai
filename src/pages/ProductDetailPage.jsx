@@ -254,6 +254,11 @@ function ProductDetailPage() {
         open={infoOpen}
         initialTab={infoTab}
         onClose={() => setInfoOpen(false)}
+        onSelectSize={(size) => {
+          setSelectedSize(size)
+          setInfoOpen(false)
+          showToast(`Tamanho ${size} selecionado.`)
+        }}
       />
     </main>
   )
