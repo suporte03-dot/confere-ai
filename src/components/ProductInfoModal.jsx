@@ -654,7 +654,7 @@ function ProvadorPanel({
             className="product-info-modal__mode-card"
             onClick={() => setMode('tryon')}
           >
-            <span className="product-info-modal__mode-kicker">Estilo Mercado Livre</span>
+            <span className="product-info-modal__mode-kicker">Monte o look</span>
             <span className="product-info-modal__mode-title">Prova virtual</span>
             <span className="product-info-modal__mode-text">
               Envie sua foto e veja a peça no manequim virtual.
