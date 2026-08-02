@@ -93,8 +93,9 @@
   --topbar-h: 28px;
   --header-logo-size: clamp(80px, 6.5vw, 100px);
   --header-logo-scrolled: 72px;
-  --header-nav-logo-size: clamp(74px, 5.2vw, 86px);
-  --brand-monogram-size: clamp(74px, 5.2vw, 86px);
+  --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
+  /* Pull mid-nav crest up so it meets/overlaps the search bar bottom edge. */
+  --header-nav-logo-lift: 26px;
   --hero-split-position: 53%;
   --header-utility-h: 116px;
   --header-trust-h: 42px;
@@ -372,8 +373,8 @@
   .desktop-preview {
     --header-logo-size: clamp(80px, 6.5vw, 100px);
     --header-logo-scrolled: 72px;
-    --header-nav-logo-size: clamp(74px, 5.2vw, 86px);
-    --brand-monogram-size: 82px;
+    --header-nav-logo-size: clamp(80px, 6.4vw, 98px);
+    --header-nav-logo-lift: 26px;
     --hero-split-position: 53%;
     --topbar-h: 28px;
     --header-utility-h: 116px;
@@ -1106,19 +1107,43 @@ body.nav-drawer-open {
   overflow: visible;
 }
 
-/* Center brand crest — home only; aligned to --hero-split-position.
-   Anchor to the trust/hero seam (not nav bottom) so the ivory half
-   continues into the cream panel instead of floating on the dark trust bar. */
 .site-header--premium .site-header__nav-logo {
   position: absolute;
-  left: var(--hero-split-position);
-  top: calc(100% + var(--header-trust-h));
-  z-index: 6;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
   display: grid;
   place-items: center;
-  /* Bias slightly into the hero so cream reads continuous with the panel. */
-  transform: translate(-50%, -38%);
+  /* Crest hangs from search: close the black strip without changing header height. */
+  transform: translate(-50%, calc(-50% - var(--header-nav-logo-lift)));
+  pointer-events: auto;
+}
+
+.site-header__logo-mask {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--header-nav-logo-size) + 22px);
+  height: calc(var(--header-nav-logo-size) + 22px);
+  border-radius: 50%;
+  background: #0a0908;
+  transform: translate(-50%, -50%);
   pointer-events: none;
+  z-index: 0;
+}
+
+.site-header--premium .site-header__nav-logo-link {
+  position: relative;
+  z-index: 1;
+}
+
+.site-header--premium .site-header__nav-logo-link .header-brand__logo-ring {
+  width: var(--header-nav-logo-size);
+  height: var(--header-nav-logo-size);
+  min-width: var(--header-nav-logo-size);
+  min-height: var(--header-nav-logo-size);
+  box-shadow: 0 0 0 10px #0a0908;
+  border-color: rgba(201, 155, 50, 0.55);
 }
 
 .site-header--premium .site-header__trust {
@@ -1448,15 +1473,10 @@ body.nav-drawer-open {
   left: 0;
 }
 
-/* Home only: align Acessórios↔Coleções gap with the hero split. */
-.site-header--premium:has(.site-header__nav-logo) .main-nav__inner {
-  left: calc(var(--hero-split-position) - 50%);
-}
-
 .site-header--premium .main-nav__center-slot {
   display: block;
-  flex: 0 0 var(--brand-monogram-size);
-  width: var(--brand-monogram-size);
+  flex: 0 0 var(--header-nav-logo-size);
+  width: var(--header-nav-logo-size);
   height: 1px;
 }
 
@@ -1762,105 +1782,6 @@ body.nav-drawer-open {
 .brand-hero__content,
 .brand-hero__copy {
   box-sizing: border-box;
-}
-
-/* ── Brand monogram — original logo on hero split (half page dark / half ivory) ── */
-.brand-monogram {
-  /* Same token as .brand-hero panel — never #fff / cooler white */
-  --brand-monogram-ivory: var(--brand-hero-ivory, var(--ivory, #f6efe4));
-  --brand-monogram-dark: #0e0c0a;
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: var(--brand-monogram-size, 82px);
-  height: var(--brand-monogram-size, 82px);
-  overflow: hidden;
-  border-radius: 50%;
-  border: 1px solid rgba(184, 138, 44, 0.85);
-  background: transparent;
-  /* Continues the page: left = photo dark, right = hero ivory panel */
-  background-image: linear-gradient(
-    90deg,
-    var(--brand-monogram-dark) 0 50%,
-    var(--brand-monogram-ivory) 50% 100%
-  );
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(184, 138, 44, 0.1);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Soften PNG’s pure-white outer ring toward hero ivory on the cream half. */
-.brand-monogram::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: 50%;
-  background: linear-gradient(
-    90deg,
-    transparent 0 48%,
-    var(--brand-monogram-ivory) 52% 100%
-  );
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-
-.brand-monogram__logo {
-  position: relative;
-  z-index: 1;
-  display: block;
-  /* Leave a continuous ivory/dark rim into the page split */
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  object-position: center;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Desktop: monogram lives in the header nav slot. */
-.brand-hero__monogram {
-  display: none;
-}
-
-@media (max-width: 1100px) and (min-width: 961px) {
-  :root,
-  .desktop-preview {
-    --brand-monogram-size: clamp(58px, 6vw, 66px);
-  }
-
-  /* Tablet: header mid-nav is collapsed — pin monogram to hero split seam. */
-  .brand-hero {
-    overflow: visible;
-  }
-
-  .brand-hero__monogram {
-    position: absolute;
-    left: var(--hero-split-position);
-    top: 0;
-    z-index: 8;
-    display: grid;
-    place-items: center;
-    /* Match desktop: sit on the seam, bias into the ivory panel. */
-    transform: translate(-50%, -38%);
-    pointer-events: none;
-  }
-}
-
-/* Hide when hero loses the vertical split (stacked / mobile ≤960, incl. ≤768). */
-@media (max-width: 960px) {
-  .brand-monogram,
-  .brand-hero__monogram,
-  .site-header--premium .site-header__nav-logo {
-    display: none;
-  }
-
-  .site-header--premium:has(.site-header__nav-logo) .main-nav__inner {
-    left: 0;
-  }
 }
 
 /* ── Brand hero (layered split — ref guide only, never as bg) ── */
