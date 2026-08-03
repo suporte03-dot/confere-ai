@@ -6817,23 +6817,25 @@ body.nav-drawer-open {
   }
 
   .products-grid--bestsellers {
+    --bestsellers-card-w: min(70vw, 248px);
     display: flex;
     grid-template-columns: none;
     gap: 14px;
     overflow-x: auto;
     padding-bottom: 8px;
-    padding-inline: 0 18px;
+    /* Equal side padding so the active card can sit centered with peeks */
+    padding-inline: max(0px, calc((100% - var(--bestsellers-card-w)) / 2));
     margin-inline: 0;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 0;
+    scroll-padding-inline: max(0px, calc((100% - var(--bestsellers-card-w)) / 2));
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
   }
 
   .products-grid--bestsellers .product-card {
-    flex: 0 0 min(70vw, 248px);
+    flex: 0 0 var(--bestsellers-card-w);
     max-width: 248px;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
 
   .products-grid--bestsellers .product-card__body {

@@ -480,7 +480,6 @@ function TryOnPanel({
           id={photoId}
           type="file"
           accept="image/*"
-          capture="user"
           className="product-info-modal__file-input"
           onChange={handleFileChange}
         />
@@ -514,7 +513,6 @@ function TryOnPanel({
           id={photoId}
           type="file"
           accept="image/*"
-          capture="user"
           className="product-info-modal__file-input"
           onChange={handleFileChange}
         />
