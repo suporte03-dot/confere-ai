@@ -224,7 +224,9 @@ function CategoryPageContent({ category }) {
               </button>
             </div>
 
-            {facets.subGroups?.length > 0 && (
+            {category !== 'feminino' &&
+              category !== 'masculino' &&
+              facets.subGroups?.length > 0 && (
               <fieldset className="catalog-filter">
                 <legend>Tipo de peça</legend>
                 <div className="catalog-filter__chips">
