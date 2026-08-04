@@ -2456,7 +2456,7 @@ body.nav-drawer-open {
   display: grid;
   grid-template-columns: 52% 48%;
   align-items: stretch;
-  min-height: 420px;
+  min-height: 500px;
   max-height: none;
   overflow: hidden;
   border: none;
@@ -2467,7 +2467,7 @@ body.nav-drawer-open {
 }
 
 .featured-collection--campaign {
-  min-height: 420px;
+  min-height: 500px;
   padding-bottom: 0;
 }
 
@@ -2475,7 +2475,7 @@ body.nav-drawer-open {
   position: relative;
   z-index: 1;
   display: block;
-  min-height: 420px;
+  min-height: 500px;
   height: 100%;
   padding: 0;
   overflow: hidden;
@@ -2492,11 +2492,11 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Cast from folder mockup — woman/hat left, upper body; soft right edge for ivory fade */
-  object-position: 26% 8%;
+  /* Cast framing — woman left with chest logo, man readable; soft right edge for ivory fade */
+  object-position: 28% 46%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
-  transform: scale(1.02);
-  transform-origin: 22% 12%;
+  transform: none;
+  transform-origin: 28% 42%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -2739,8 +2739,8 @@ body.nav-drawer-open {
   .featured-collection__media {
     order: 1;
     width: 100%;
-    min-height: 360px;
-    height: min(48vh, 420px);
+    min-height: 380px;
+    height: min(52vh, 460px);
   }
 
   .featured-collection__media-img {
@@ -2750,9 +2750,9 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 30% 10%;
-    transform: scale(1.02);
-    transform-origin: 26% 14%;
+    object-position: 30% 42%;
+    transform: none;
+    transform-origin: 28% 40%;
     filter: brightness(1.03) contrast(1.02) saturate(0.98);
     -webkit-mask-image: none;
     mask-image: none;
