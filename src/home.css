@@ -2492,8 +2492,8 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Bias up so man's hat/head stay in frame; keep shirt brand when possible */
-  object-position: 46% 38%;
+  /* Bias up so man's head/hat stay in frame; keep shirt brand when possible */
+  object-position: 46% 26%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
   transform: none;
   -webkit-mask-image: none;
@@ -2738,8 +2738,8 @@ body.nav-drawer-open {
   .featured-collection__media {
     order: 1;
     width: 100%;
-    min-height: 420px;
-    height: min(58vh, 500px);
+    min-height: 440px;
+    height: min(58vh, 520px);
   }
 
   .featured-collection__media-img {
@@ -2749,7 +2749,7 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 48% 40%;
+    object-position: 48% 28%;
     transform: none;
     filter: brightness(1.03) contrast(1.02) saturate(0.98);
     -webkit-mask-image: none;
