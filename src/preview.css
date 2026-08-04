@@ -947,8 +947,8 @@
 }
 
 .mobile-preview .featured-collection__media {
-  min-height: 340px;
-  height: min(56vh, 460px);
+  min-height: 360px;
+  height: min(58vh, 480px);
   padding: 0;
 }
 
@@ -957,7 +957,7 @@
   height: 100%;
   max-height: none;
   object-fit: cover;
-  object-position: 48% 62%;
+  object-position: 48% 40%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
   transform: none;
 }

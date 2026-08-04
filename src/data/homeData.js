@@ -175,11 +175,11 @@ export const featuredCollection = {
   description:
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
-  // Cast crop with chest brand mark — logo seal + ivory copy come from HTML.
+  // Cast crop: heads/hats first, shirt brand when the panel allows.
   image: raizHeroAsset,
   imageAlt:
     'Casal com chapéus na campanha Coleção Raízes do Sul — Terra & Estilo.',
-  objectPosition: '50% 68%',
+  objectPosition: '46% 38%',
   marble: BRAND_MARBLE_SRC,
   logo: BRAND_LOGO_CIRCULAR_SRC,
   variant: 'banner',
