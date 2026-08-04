@@ -957,10 +957,9 @@
   height: 100%;
   max-height: none;
   object-fit: cover;
-  object-position: 50% 52%;
+  object-position: 48% 62%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
-  transform: scale(0.92);
-  transform-origin: 50% 48%;
+  transform: none;
 }
 
 .mobile-preview .featured-collection__logo {
