@@ -957,7 +957,7 @@
   height: 100%;
   max-height: none;
   object-fit: cover;
-  object-position: 48% 28%;
+  object-position: 48% 22%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
   transform: none;
 }
