@@ -2492,11 +2492,11 @@ body.nav-drawer-open {
   max-height: none;
   margin: 0;
   object-fit: cover;
-  /* Lower bias so woman's chest + Terra & Estilo embroidery stay in frame */
-  object-position: 30% 72%;
+  /* Recentered couple — asset left pad + mid bias; slight zoom-out (“comprimir”) */
+  object-position: 50% 68%;
   filter: brightness(1.03) contrast(1.02) saturate(0.98);
-  transform: none;
-  transform-origin: 30% 55%;
+  transform: scale(0.9);
+  transform-origin: 50% 55%;
   -webkit-mask-image: none;
   mask-image: none;
   mix-blend-mode: normal;
@@ -2750,9 +2750,9 @@ body.nav-drawer-open {
     height: 100%;
     max-height: none;
     object-fit: cover;
-    object-position: 32% 58%;
-    transform: none;
-    transform-origin: 30% 50%;
+    object-position: 50% 52%;
+    transform: scale(0.92);
+    transform-origin: 50% 48%;
     filter: brightness(1.03) contrast(1.02) saturate(0.98);
     -webkit-mask-image: none;
     mask-image: none;
