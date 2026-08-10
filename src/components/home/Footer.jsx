@@ -55,46 +55,67 @@ const PAY_DARK = '#2a2418'
 
 function LogoVisa() {
   return (
-    <svg viewBox="0 0 48 18" width="46" height="17" aria-hidden="true" focusable="false">
-      <g transform="translate(1.2 0.4) scale(1.85 1.55)">
-        <path
-          fill={PAY_DARK}
-          d="M9.112 8.262 5.97 15.738H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 0 1 .894.764l.817 4.338 2.956-5.102zm8.063.027c-.805-.027-1.478.15-1.854.52-.376.369-.544.876-.472 1.568.14 1.33 1.264 2.115 3.03 2.115.805 0 1.54-.166 1.854-.369l.282 1.308c-.376.203-1.22.422-2.058.422-3.03 0-4.872-1.568-4.995-3.727-.084-1.308.706-2.392 2.15-2.94.706-.273 1.666-.422 2.58-.45.875-.028 1.385.082 1.83.246l-.35 1.623c-.455-.164-1.02-.273-1.997-.316zm5.347-.027 1.666 7.476h-1.854l-.282-1.308h-2.58l-.45 1.308h-2.058l2.58-7.476zm-1.22 2.173-.845 2.447h1.83zM11.918 8.262l-1.666 7.476H8.452l1.666-7.476z"
-        />
-      </g>
-      <rect x="3" y="15.6" width="42" height="1.15" rx="0.55" fill={PAY_GOLD} />
+    <svg viewBox="0 0 48 18" width="42" height="16" aria-hidden="true" focusable="false">
+      <text
+        x="24"
+        y="13"
+        textAnchor="middle"
+        fill={PAY_DARK}
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontSize="13.5"
+        fontWeight="700"
+        fontStyle="italic"
+        letterSpacing="0.05em"
+      >
+        VISA
+      </text>
     </svg>
   )
 }
 
 function LogoMastercard() {
   return (
-    <svg viewBox="0 0 40 24" width="40" height="24" aria-hidden="true" focusable="false">
-      <circle cx="15" cy="12" r="9" fill={PAY_GOLD} />
-      <circle cx="25" cy="12" r="9" fill={PAY_GOLD_LIGHT} fillOpacity="0.92" />
+    <svg viewBox="0 0 44 30" width="40" height="28" aria-hidden="true" focusable="false">
+      <circle cx="16.5" cy="11.5" r="8" fill={PAY_GOLD} />
+      <circle cx="27.5" cy="11.5" r="8" fill={PAY_GOLD_LIGHT} fillOpacity="0.94" />
       <path
         fill={PAY_GOLD_SOFT}
-        d="M20 4.55a8.98 8.98 0 0 0-4.5 7.45A8.98 8.98 0 0 0 20 19.45 8.98 8.98 0 0 0 24.5 12 8.98 8.98 0 0 0 20 4.55z"
+        d="M22 5a7.95 7.95 0 0 0-4 6.5A7.95 7.95 0 0 0 22 18a7.95 7.95 0 0 0 4-6.5A7.95 7.95 0 0 0 22 5z"
       />
+      <text
+        x="22"
+        y="27.5"
+        textAnchor="middle"
+        fill={PAY_DARK}
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontSize="5.4"
+        fontWeight="600"
+        letterSpacing="0.01em"
+      >
+        Mastercard
+      </text>
     </svg>
   )
 }
 
 function LogoPix() {
   return (
-    <svg viewBox="0 0 56 22" width="52" height="20" aria-hidden="true" focusable="false">
-      <path
-        fill={PAY_GOLD}
-        d="M10.2 3.2c-.7 0-1.37.28-1.86.77L4.2 8.1A2.63 2.63 0 0 0 3.43 10c0 .7.27 1.36.77 1.86l4.14 4.14c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l1.4-1.4-2.96-2.96a.9.9 0 0 1 0-1.27l2.96-2.96-1.4-1.4A2.63 2.63 0 0 0 10.2 3.2zm1.6 5.05L9.4 10.65l2.4 2.4 2.4-2.4-2.4-2.4zm5.05-1.6-1.4 1.4 2.96 2.96a.9.9 0 0 1 0 1.27l-2.96 2.96 1.4 1.4c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l4.14-4.14c.5-.5.77-1.16.77-1.86 0-.7-.27-1.36-.77-1.86l-4.14-4.14A2.63 2.63 0 0 0 16.85 3.2c-.7 0-1.37.28-1.86.77z"
-      />
+    <svg viewBox="0 0 40 30" width="36" height="28" aria-hidden="true" focusable="false">
+      <g transform="translate(8.5 1.5) scale(0.85)">
+        <path
+          fill={PAY_GOLD}
+          d="M10.2 3.2c-.7 0-1.37.28-1.86.77L4.2 8.1A2.63 2.63 0 0 0 3.43 10c0 .7.27 1.36.77 1.86l4.14 4.14c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l1.4-1.4-2.96-2.96a.9.9 0 0 1 0-1.27l2.96-2.96-1.4-1.4A2.63 2.63 0 0 0 10.2 3.2zm1.6 5.05L9.4 10.65l2.4 2.4 2.4-2.4-2.4-2.4zm5.05-1.6-1.4 1.4 2.96 2.96a.9.9 0 0 1 0 1.27l-2.96 2.96 1.4 1.4c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l4.14-4.14c.5-.5.77-1.16.77-1.86 0-.7-.27-1.36-.77-1.86l-4.14-4.14A2.63 2.63 0 0 0 16.85 3.2c-.7 0-1.37.28-1.86.77z"
+        />
+      </g>
       <text
-        x="28"
-        y="15.2"
-        fill={PAY_GOLD}
-        fontFamily="Georgia, 'Times New Roman', serif"
-        fontSize="11.5"
+        x="20"
+        y="27.5"
+        textAnchor="middle"
+        fill={PAY_DARK}
+        fontFamily="Arial, Helvetica, sans-serif"
+        fontSize="7"
         fontWeight="600"
-        letterSpacing="0.04em"
+        letterSpacing="0.02em"
       >
         Pix
       </text>
@@ -104,17 +125,25 @@ function LogoPix() {
 
 function LogoElo() {
   return (
-    <svg viewBox="0 0 52 22" width="50" height="21" aria-hidden="true" focusable="false">
-      <circle cx="10" cy="11" r="7.2" fill={PAY_GOLD} />
-      <circle cx="10" cy="11" r="3.2" fill="#ffffff" />
+    <svg viewBox="0 0 52 22" width="48" height="20" aria-hidden="true" focusable="false">
+      <circle cx="10" cy="11" r="7.4" fill={PAY_GOLD} />
+      <circle cx="10" cy="11" r="3.1" fill="#ffffff" />
+      <path
+        fill="none"
+        stroke="#ffffff"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        d="M14.6 7.2a7.4 7.4 0 0 0-9.2 0"
+        opacity="0.35"
+      />
       <text
-        x="21"
-        y="15.4"
-        fill={PAY_GOLD}
-        fontFamily="Georgia, 'Times New Roman', serif"
+        x="22"
+        y="15.2"
+        fill={PAY_DARK}
+        fontFamily="Arial, Helvetica, sans-serif"
         fontSize="12"
         fontWeight="700"
-        letterSpacing="0.06em"
+        letterSpacing="0.04em"
       >
         Elo
       </text>
@@ -204,7 +233,7 @@ function Footer() {
           </ul>
         </div>
 
-        <div className="site-footer__col">
+        <div className="site-footer__col site-footer__col--pagamento">
           <h4>Pagamento</h4>
           <div className="site-footer__payments" role="list">
             {footerHome.payments.map((method) => {
