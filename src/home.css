@@ -4900,12 +4900,14 @@ body.nav-drawer-open {
 
 .site-footer__payment {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 3px;
   flex: 0 0 auto;
-  width: 72px;
-  height: 58px;
-  padding: 0;
+  width: 76px;
+  height: 62px;
+  padding: 5px 4px 4px;
   background: #fffdf8;
   border: 1px solid rgba(94, 73, 44, 0.1);
   border-radius: 8px;
@@ -4919,32 +4921,63 @@ body.nav-drawer-open {
     border-color 0.2s ease;
 }
 
-.site-footer__payment svg {
+.site-footer__payment-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  line-height: 0;
+}
+
+.site-footer__payment-mark svg {
   display: block;
-  width: 46px;
-  height: 28px;
+  width: auto;
+  height: auto;
+  max-width: 52px;
+  max-height: 28px;
   flex-shrink: 0;
   overflow: visible;
-  transform-origin: center center;
 }
 
-/* Optical compensation — perceived weight, not identical pixel width
-   Visa (dark wordmark) reads heavier → slightly smaller
-   Mastercard / Pix / Elo (gold fills) read lighter → slightly larger */
-.site-footer__payment--visa svg {
-  transform: scale(0.9);
+.site-footer__payment-name {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans, 'Segoe UI', system-ui, sans-serif) !important;
+  font-size: 0.5625rem !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.02em;
+  color: #3a3228 !important;
+  text-align: center;
+  white-space: nowrap;
 }
 
-.site-footer__payment--mastercard svg {
-  transform: scale(1.1);
+/* Optical compensation — equal perceived weight */
+.site-footer__payment--visa .site-footer__payment-mark svg {
+  max-width: 58px;
+  max-height: 20px;
+  width: 58px;
 }
 
-.site-footer__payment--pix svg {
-  transform: scale(1.16);
+.site-footer__payment--mastercard .site-footer__payment-mark svg {
+  max-width: 38px;
+  max-height: 22px;
+  width: 38px;
 }
 
-.site-footer__payment--elo svg {
-  transform: scale(1.12);
+.site-footer__payment--pix .site-footer__payment-mark svg {
+  max-width: 24px;
+  max-height: 24px;
+  width: 24px;
+}
+
+.site-footer__payment--elo .site-footer__payment-mark svg {
+  max-width: 52px;
+  max-height: 30px;
+  width: 52px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -5078,7 +5111,7 @@ body.nav-drawer-open {
 
   .site-footer__payments {
     flex-wrap: wrap;
-    max-width: calc(72px * 2 + 8px);
+    max-width: calc(76px * 2 + 8px);
   }
 
   .site-footer__col--atendimento ul li {
@@ -6048,7 +6081,7 @@ body.nav-drawer-open {
   .site-footer__payments {
     justify-content: center;
     flex-wrap: wrap;
-    max-width: calc(72px * 2 + 8px);
+    max-width: calc(76px * 2 + 8px);
   }
 
   .site-footer__bottom {
@@ -7320,7 +7353,7 @@ body.nav-drawer-open {
   .site-footer__payments {
     justify-content: center;
     flex-wrap: wrap;
-    max-width: calc(72px * 2 + 8px);
+    max-width: calc(76px * 2 + 8px);
   }
 
   .site-footer__col ul {
