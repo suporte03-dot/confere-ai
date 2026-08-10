@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { newsletterHome } from '../../data/homeData'
 import { useShop } from '../../context/ShopContext'
+import santaNova from '../../assets/santa-nova-hero.png'
 
 function Newsletter() {
   const { showToast } = useShop()
@@ -18,6 +19,16 @@ function Newsletter() {
 
   return (
     <section id="newsletter" className="newsletter-home section">
+      <div className="newsletter-home__ornament" aria-hidden="true">
+        <span className="newsletter-home__ornament-line" />
+        <img
+          src={santaNova}
+          alt=""
+          className="newsletter-home__santa"
+          decoding="async"
+        />
+        <span className="newsletter-home__ornament-line" />
+      </div>
       <div className="container newsletter-home__inner">
         <div className="newsletter-home__content">
           <h2>{newsletterHome.title}</h2>
