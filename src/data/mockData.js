@@ -1147,7 +1147,7 @@ export const footerLinks = {
   ],
 }
 
-export const paymentMethods = ['Visa', 'Master', 'Pix', 'Boleto']
+export const paymentMethods = ['Visa', 'Master', 'Pix']
 
 export const colorSwatches = {
   Verde: '#163B26',

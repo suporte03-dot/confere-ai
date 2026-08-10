@@ -441,5 +441,5 @@ export const footerHome = {
     hours: 'Seg a Sex, 9h às 18h',
   },
   social: ['Instagram', 'WhatsApp'],
-  payments: ['Visa', 'Mastercard', 'Pix', 'Boleto', 'Elo'],
+  payments: ['Visa', 'Mastercard', 'Pix', 'Elo'],
 }
