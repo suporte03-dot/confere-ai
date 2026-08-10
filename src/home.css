@@ -4928,21 +4928,23 @@ body.nav-drawer-open {
   transform-origin: center center;
 }
 
-/* Optical compensation — perceived weight, not identical pixel width */
+/* Optical compensation — perceived weight, not identical pixel width
+   Visa (dark wordmark) reads heavier → slightly smaller
+   Mastercard / Pix / Elo (gold fills) read lighter → slightly larger */
 .site-footer__payment--visa svg {
-  transform: scale(0.98);
+  transform: scale(0.9);
 }
 
 .site-footer__payment--mastercard svg {
-  transform: scale(1.04);
+  transform: scale(1.1);
 }
 
 .site-footer__payment--pix svg {
-  transform: scale(1.12);
+  transform: scale(1.16);
 }
 
 .site-footer__payment--elo svg {
-  transform: scale(1.05);
+  transform: scale(1.12);
 }
 
 @media (hover: hover) and (pointer: fine) {
