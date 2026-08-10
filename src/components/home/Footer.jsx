@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { footerHome } from '../../data/homeData'
+import santaNova from '../../assets/santa-nova-hero.png'
 import TerraEstiloLogo from './TerraEstiloLogo'
 
 function IconWhatsApp() {
@@ -52,6 +53,17 @@ function Footer() {
 
   return (
     <footer className="site-footer">
+      <div className="site-footer__ornament" aria-hidden="true">
+        <span className="site-footer__ornament-line" />
+        <img
+          src={santaNova}
+          alt=""
+          className="site-footer__santa"
+          decoding="async"
+        />
+        <span className="site-footer__ornament-line" />
+      </div>
+
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <TerraEstiloLogo variant="footer" />
