@@ -4659,43 +4659,10 @@ body.nav-drawer-open {
   padding: 0;
 }
 
-.newsletter-home__ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  width: min(520px, calc(100% - 48px));
-  margin: 0 auto;
-  padding-top: clamp(28px, 4vw, 40px);
-  pointer-events: none;
-}
-
-.newsletter-home__ornament-line {
-  flex: 1 1 auto;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 155, 50, 0.45) 35%,
-    rgba(201, 155, 50, 0.45) 65%,
-    transparent 100%
-  );
-}
-
-.newsletter-home__santa {
-  display: block;
-  width: clamp(52px, 7vw, 72px);
-  height: auto;
-  object-fit: contain;
-  /* Knock out baked black plate so gold line-art sits on cream */
-  mix-blend-mode: multiply;
-  filter: contrast(1.05) drop-shadow(0 1px 1px rgba(26, 21, 16, 0.05));
-}
-
 .newsletter-home__inner {
   display: flex;
   justify-content: center;
-  padding: clamp(28px, 4vw, 40px) 0 clamp(44px, 5vw, 56px);
+  padding: clamp(40px, 5vw, 56px) 0 clamp(36px, 4vw, 48px);
 }
 
 .newsletter-home__content {
@@ -5985,10 +5952,6 @@ body.nav-drawer-open {
     text-align: center;
   }
 
-  .newsletter-home__ornament {
-    width: min(420px, calc(100% - 32px));
-  }
-
   .newsletter-home__form {
     flex-direction: column;
     align-items: stretch;
@@ -7207,10 +7170,6 @@ body.nav-drawer-open {
 
   .newsletter-home__form {
     justify-content: center;
-  }
-
-  .newsletter-home__ornament {
-    margin-inline: auto;
   }
 
   .site-footer {
