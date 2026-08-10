@@ -4648,9 +4648,9 @@ body.nav-drawer-open {
   }
 }
 
-/* ── Newsletter Home (end-of-page cream block) ── */
+/* ── Newsletter Home (lighter ivory band) ── */
 .newsletter-home {
-  background: var(--color-cream-soft, #faf6ee);
+  background: var(--color-white, #fffdf8);
   color: var(--color-text-dark, #18130f);
 }
 
@@ -4724,12 +4724,12 @@ body.nav-drawer-open {
   text-transform: uppercase;
 }
 
-/* ── Site Footer (cream mockup) ── */
+/* ── Site Footer (warmer cream band + soft gold break) ── */
 .site-footer {
-  background: var(--color-cream-soft, #faf6ee);
+  background: var(--color-ivory, #f6efe4);
   color: var(--color-text-dark, #18130f);
   padding: 8px 0 28px;
-  border-top: none;
+  border-top: 1px solid var(--color-gold-muted, rgba(201, 155, 50, 0.32));
 }
 
 .site-footer__ornament {
