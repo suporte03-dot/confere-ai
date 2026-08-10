@@ -4864,7 +4864,7 @@ body.nav-drawer-open {
   gap: 10px;
 }
 
-.site-footer__icon {
+.site-footer__col .site-footer__icon {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
@@ -4875,7 +4875,7 @@ body.nav-drawer-open {
   color: var(--color-gold, #c99b32);
 }
 
-.site-footer__icon svg {
+.site-footer__col .site-footer__icon svg {
   display: block;
   width: 16px;
   height: 16px;
