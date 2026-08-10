@@ -5,11 +5,11 @@ import TerraEstiloLogo from './TerraEstiloLogo'
 
 function IconWhatsApp() {
   return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
       <path
         d="M12 3.5a8.5 8.5 0 0 0-7.36 12.75L3.5 20.5l4.4-1.1A8.5 8.5 0 1 0 12 3.5Z"
         stroke="currentColor"
-        strokeWidth="1.4"
+        strokeWidth="1.35"
         strokeLinejoin="round"
       />
       <path
@@ -22,9 +22,9 @@ function IconWhatsApp() {
 
 function IconInstagram() {
   return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-      <rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.4" />
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="currentColor" strokeWidth="1.35" />
+      <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.35" />
       <circle cx="16.6" cy="7.4" r="1" fill="currentColor" />
     </svg>
   )
@@ -32,18 +32,26 @@ function IconInstagram() {
 
 function IconEmail() {
   return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-      <rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M4.5 7.5 12 13l7.5-5.5" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <rect x="3.5" y="6" width="17" height="12" rx="2" stroke="currentColor" strokeWidth="1.35" />
+      <path d="M4.5 7.5 12 13l7.5-5.5" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round" />
     </svg>
   )
 }
 
 function IconClock() {
   return (
-    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M12 8.5V12l2.8 2.2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.35" />
+      <path d="M12 8.5V12l2.8 2.2" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconChevron() {
+  return (
+    <svg viewBox="0 0 12 12" width="10" height="10" fill="none" aria-hidden="true">
+      <path d="M4.25 2.5 7.75 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.15" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -145,32 +153,47 @@ function Footer() {
 
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
-          <TerraEstiloLogo variant="footer" />
+          <div className="site-footer__brand-mark">
+            <span className="site-footer__brand-glow" aria-hidden="true" />
+            <TerraEstiloLogo variant="footer" />
+            <span className="site-footer__brand-rule" aria-hidden="true">
+              <i />
+              <em />
+              <i />
+            </span>
+          </div>
           <p>{footerHome.description}</p>
           <div className="site-footer__social">
             <a
+              className="site-footer__social-btn"
               href={footerHome.atendimento.instagramHref}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {footerHome.atendimento.instagram}
+              <span className="site-footer__social-icon" aria-hidden="true"><IconInstagram /></span>
+              <span>{footerHome.atendimento.instagram}</span>
             </a>
             <a
+              className="site-footer__social-btn"
               href={footerHome.atendimento.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
             >
-              WhatsApp
+              <span className="site-footer__social-icon" aria-hidden="true"><IconWhatsApp /></span>
+              <span>WhatsApp</span>
             </a>
           </div>
         </div>
 
-        <nav className="site-footer__col" aria-label="Institucional">
+        <nav className="site-footer__col site-footer__col--institucional" aria-label="Institucional">
           <h4>Institucional</h4>
           <ul>
             {footerHome.institucional.map((link) => (
               <li key={link.label}>
-                <Link to={link.to}>{link.label}</Link>
+                <Link to={link.to}>
+                  <span>{link.label}</span>
+                  <span className="site-footer__chevron" aria-hidden="true"><IconChevron /></span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -182,13 +205,13 @@ function Footer() {
             <li>
               <span className="site-footer__icon" aria-hidden="true"><IconWhatsApp /></span>
               <a href={footerHome.atendimento.whatsappHref} target="_blank" rel="noopener noreferrer">
-                WhatsApp: {footerHome.atendimento.whatsapp}
+                WhatsApp {footerHome.atendimento.whatsapp}
               </a>
             </li>
             <li>
               <span className="site-footer__icon" aria-hidden="true"><IconInstagram /></span>
               <a href={footerHome.atendimento.instagramHref} target="_blank" rel="noopener noreferrer">
-                Instagram: {footerHome.atendimento.instagram}
+                Instagram {footerHome.atendimento.instagram}
               </a>
             </li>
             <li>

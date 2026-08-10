@@ -438,7 +438,7 @@ export const footerHome = {
     instagramHref: 'https://instagram.com/Terra_Estilo',
     facebookHref: 'https://www.facebook.com/TerraEstilo',
     email: 'contato@terraestilo.com.br',
-    hours: 'Seg a Sex, 9h às 18h',
+    hours: 'Seg a Sex 9h–18h',
   },
   social: ['Instagram', 'WhatsApp'],
   payments: ['Visa', 'Mastercard', 'Pix', 'Elo'],
