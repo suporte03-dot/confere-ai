@@ -4784,9 +4784,10 @@ body.nav-drawer-open {
 .site-footer__brand p {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--color-text-dark, #18130f);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.75;
+  color: #1a1510;
   max-width: 34ch;
 }
 
@@ -4801,17 +4802,17 @@ body.nav-drawer-open {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
-  padding: 8px 18px;
+  min-height: 40px;
+  padding: 9px 18px;
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-gold, #c99b32);
+  color: #a67c1f;
   text-decoration: none;
   background: transparent;
-  border: 1px solid rgba(201, 155, 50, 0.72);
+  border: 1px solid rgba(166, 124, 31, 0.78);
   border-radius: 999px;
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
@@ -4826,12 +4827,12 @@ body.nav-drawer-open {
   margin: 0 0 18px;
   padding-bottom: 10px;
   font-family: var(--font-serif);
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-gold, #c99b32);
-  border-bottom: 1px solid rgba(201, 155, 50, 0.55);
+  color: #a67c1f;
+  border-bottom: 1px solid rgba(166, 124, 31, 0.72);
   width: fit-content;
   max-width: 100%;
 }
@@ -4848,14 +4849,15 @@ body.nav-drawer-open {
 .site-footer__col a,
 .site-footer__col span {
   font-family: var(--font-serif);
-  font-size: 0.9375rem;
-  line-height: 1.45;
-  color: var(--color-text-dark, #18130f);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #1a1510;
   text-decoration: none;
 }
 
 .site-footer__col a:hover {
-  color: var(--color-gold, #c99b32);
+  color: #a67c1f;
 }
 
 .site-footer__col--atendimento ul li {
@@ -4871,8 +4873,8 @@ body.nav-drawer-open {
   justify-content: center;
   width: 18px;
   height: 18px;
-  margin-top: 2px;
-  color: var(--color-gold, #c99b32);
+  margin-top: 3px;
+  color: #a67c1f;
 }
 
 .site-footer__col .site-footer__icon svg {
@@ -4929,10 +4931,12 @@ body.nav-drawer-open {
 .site-footer__bottom p {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.55;
   text-transform: uppercase;
-  color: var(--color-text-muted, #62594f);
+  color: #3d3630;
 }
 
 /* ── Shared section head ── */
