@@ -4891,35 +4891,68 @@ body.nav-drawer-open {
 .site-footer__payments {
   display: flex;
   flex-wrap: nowrap;
-  align-items: stretch;
-  gap: 6px;
-  width: 100%;
-  max-width: 280px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .site-footer__payment {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 0;
-  min-width: 0;
-  height: 48px;
-  padding: 3px 2px 2px;
-  background: #ffffff;
-  border: 1px solid rgba(94, 73, 44, 0.14);
-  border-radius: 7px;
+  flex: 0 0 auto;
+  width: 72px;
+  height: 58px;
+  padding: 0;
+  background: #fffdf8;
+  border: 1px solid rgba(94, 73, 44, 0.1);
+  border-radius: 8px;
   box-shadow:
-    0 1px 2px rgba(26, 21, 16, 0.05),
-    0 2px 8px rgba(26, 21, 16, 0.04);
+    0 1px 2px rgba(26, 21, 16, 0.04),
+    0 2px 6px rgba(26, 21, 16, 0.035);
   box-sizing: border-box;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .site-footer__payment svg {
   display: block;
-  width: 92%;
-  height: 92%;
-  max-width: none;
-  max-height: none;
+  width: 46px;
+  height: 28px;
+  flex-shrink: 0;
+  overflow: visible;
+  transform-origin: center center;
+}
+
+/* Optical compensation — perceived weight, not identical pixel width */
+.site-footer__payment--visa svg {
+  transform: scale(0.98);
+}
+
+.site-footer__payment--mastercard svg {
+  transform: scale(1.04);
+}
+
+.site-footer__payment--pix svg {
+  transform: scale(1.12);
+}
+
+.site-footer__payment--elo svg {
+  transform: scale(1.05);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-footer__payment:hover {
+    transform: translateY(-2px);
+    border-color: rgba(201, 155, 50, 0.42);
+    box-shadow:
+      0 2px 4px rgba(26, 21, 16, 0.06),
+      0 6px 14px rgba(26, 21, 16, 0.07);
+  }
 }
 
 .site-footer__bottom {
@@ -5039,6 +5072,11 @@ body.nav-drawer-open {
   .site-footer__col--pagamento {
     padding-left: 0;
     border-left: 0;
+  }
+
+  .site-footer__payments {
+    flex-wrap: wrap;
+    max-width: calc(72px * 2 + 8px);
   }
 
   .site-footer__col--atendimento ul li {
@@ -6007,7 +6045,8 @@ body.nav-drawer-open {
 
   .site-footer__payments {
     justify-content: center;
-    max-width: min(280px, 100%);
+    flex-wrap: wrap;
+    max-width: calc(72px * 2 + 8px);
   }
 
   .site-footer__bottom {
@@ -7271,10 +7310,15 @@ body.nav-drawer-open {
     justify-content: center;
   }
 
-  .site-footer__social,
-  .site-footer__payments {
+  .site-footer__social {
     justify-content: center;
     max-width: min(280px, 100%);
+  }
+
+  .site-footer__payments {
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: calc(72px * 2 + 8px);
   }
 
   .site-footer__col ul {

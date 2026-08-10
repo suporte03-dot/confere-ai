@@ -52,91 +52,70 @@ const PAY_GOLD = '#c99b32'
 const PAY_GOLD_MID = '#d4a84a'
 const PAY_GOLD_SOFT = '#dfbd69'
 const PAY_DARK = '#1f1a14'
-const PAY_LABEL = '#3a3228'
 
-function PayLabel({ children, x = 28 }) {
-  return (
-    <text
-      x={x}
-      y="37.5"
-      textAnchor="middle"
-      fill={PAY_LABEL}
-      fontFamily="Georgia, 'Times New Roman', serif"
-      fontSize="6.2"
-      fontWeight="600"
-      letterSpacing="0.06em"
-    >
-      {children}
-    </text>
-  )
-}
-
-/** Shared canvas: mark (~top 70%) + short label — all four badges match. */
+/** Brand marks only — optical scale tuned in CSS (.site-footer__payment--*). */
 function LogoVisa() {
   return (
-    <svg viewBox="0 0 56 42" aria-hidden="true" focusable="false">
-      {/* Classic italic Visa wordmark — dark + gold accent bar */}
-      <text
-        x="28"
-        y="21.5"
-        textAnchor="middle"
-        fill={PAY_DARK}
-        fontFamily="Arial Narrow, Arial, Helvetica, sans-serif"
-        fontSize="15"
-        fontWeight="800"
-        fontStyle="italic"
-        letterSpacing="0.16em"
-      >
-        VISA
-      </text>
-      <rect x="13" y="26" width="30" height="1.7" rx="0.85" fill={PAY_GOLD} />
-      <PayLabel>Visa</PayLabel>
+    <svg viewBox="0 0 48 28" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+      <g transform="translate(0 0.5)">
+        <text
+          x="24"
+          y="15.2"
+          textAnchor="middle"
+          fill={PAY_DARK}
+          fontFamily="Arial Narrow, Arial, Helvetica, sans-serif"
+          fontSize="14.5"
+          fontWeight="800"
+          fontStyle="italic"
+          letterSpacing="0.12em"
+        >
+          VISA
+        </text>
+        <rect x="8.5" y="19.2" width="31" height="1.7" rx="0.85" fill={PAY_GOLD} />
+      </g>
     </svg>
   )
 }
 
 function LogoMastercard() {
   return (
-    <svg viewBox="0 0 56 42" aria-hidden="true" focusable="false">
-      <circle cx="21.5" cy="15.5" r="9.2" fill={PAY_GOLD} />
-      <circle cx="34.5" cy="15.5" r="9.2" fill={PAY_GOLD_MID} fillOpacity="0.92" />
+    <svg viewBox="0 0 48 28" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+      <circle cx="18.4" cy="14" r="8.8" fill={PAY_GOLD} />
+      <circle cx="29.6" cy="14" r="8.8" fill={PAY_GOLD_MID} fillOpacity="0.92" />
       <path
         fill={PAY_GOLD_SOFT}
-        d="M28 7.2a9.15 9.15 0 0 0-4.6 8.3A9.15 9.15 0 0 0 28 23.8a9.15 9.15 0 0 0 4.6-8.3A9.15 9.15 0 0 0 28 7.2z"
+        d="M24 5.8a8.75 8.75 0 0 0-4.4 8.2A8.75 8.75 0 0 0 24 22.2a8.75 8.75 0 0 0 4.4-8.2A8.75 8.75 0 0 0 24 5.8z"
       />
-      <PayLabel>Mastercard</PayLabel>
     </svg>
   )
 }
 
 function LogoPix() {
   return (
-    <svg viewBox="0 0 56 42" aria-hidden="true" focusable="false">
-      <g transform="translate(15.2 3.2) scale(0.95)">
+    <svg viewBox="0 0 48 28" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+      <g transform="translate(24 14) scale(1.12) translate(-13.5 -10)">
         <path
           fill={PAY_GOLD}
           d="M10.2 3.2c-.7 0-1.37.28-1.86.77L4.2 8.1A2.63 2.63 0 0 0 3.43 10c0 .7.27 1.36.77 1.86l4.14 4.14c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l1.4-1.4-2.96-2.96a.9.9 0 0 1 0-1.27l2.96-2.96-1.4-1.4A2.63 2.63 0 0 0 10.2 3.2zm1.6 5.05L9.4 10.65l2.4 2.4 2.4-2.4-2.4-2.4zm5.05-1.6-1.4 1.4 2.96 2.96a.9.9 0 0 1 0 1.27l-2.96 2.96 1.4 1.4c.5.5 1.16.77 1.86.77s1.37-.28 1.86-.77l4.14-4.14c.5-.5.77-1.16.77-1.86 0-.7-.27-1.36-.77-1.86l-4.14-4.14A2.63 2.63 0 0 0 16.85 3.2c-.7 0-1.37.28-1.86.77z"
         />
       </g>
-      <PayLabel>Pix</PayLabel>
     </svg>
   )
 }
 
 function LogoElo() {
   return (
-    <svg viewBox="0 0 56 42" aria-hidden="true" focusable="false">
-      <circle cx="28" cy="15.2" r="10.2" fill={PAY_GOLD} />
-      <circle cx="28" cy="15.2" r="4.2" fill="#fffdf8" />
+    <svg viewBox="0 0 48 28" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
+      <circle cx="24" cy="14" r="9.6" fill={PAY_GOLD} />
+      <circle cx="24" cy="14" r="3.85" fill="#fffdf8" />
       <path
         fill="none"
         stroke="#fffdf8"
-        strokeWidth="2.4"
+        strokeWidth="2.2"
         strokeLinecap="round"
         opacity="0.45"
-        d="M34.4 9.4a10.2 10.2 0 0 0-12.8 0"
+        d="M30.1 8.6a9.6 9.6 0 0 0-12.2 0"
       />
-      <PayLabel>Elo</PayLabel>
     </svg>
   )
 }
@@ -228,10 +207,11 @@ function Footer() {
           <div className="site-footer__payments" role="list">
             {footerHome.payments.map((method) => {
               const Logo = paymentLogos[method]
+              const slug = method.toLowerCase()
               return (
                 <span
                   key={method}
-                  className="site-footer__payment"
+                  className={`site-footer__payment site-footer__payment--${slug}`}
                   role="listitem"
                   title={method}
                   aria-label={method}
