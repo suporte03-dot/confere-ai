@@ -4871,6 +4871,7 @@ body.nav-drawer-open {
 
 .site-footer__social {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   gap: 14px;
@@ -4880,6 +4881,8 @@ body.nav-drawer-open {
 
 .site-footer__social-btn {
   display: inline-flex;
+  flex: 0 1 auto;
+  width: auto;
   align-items: center;
   justify-content: center;
   gap: 11px;
@@ -4892,6 +4895,7 @@ body.nav-drawer-open {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: #a67c1f;
   text-decoration: none;
   background: rgba(246, 239, 228, 0.72);
@@ -6230,19 +6234,26 @@ body.nav-drawer-open {
   }
 
   .site-footer__social {
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    width: 100%;
-    gap: 12px;
+    align-self: center;
+    width: auto;
+    max-width: 100%;
+    gap: 10px;
     margin-top: 26px;
   }
 
   .site-footer__social-btn {
-    flex: 1 1 auto;
-    min-width: min(156px, 46%);
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
     min-height: 48px;
     height: 48px;
-    padding: 0 16px;
-    gap: 10px;
+    padding: 0 14px;
+    gap: 8px;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
   }
 
   .site-footer__col {
@@ -7547,17 +7558,23 @@ body.nav-drawer-open {
   }
 
   .site-footer__social {
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    max-width: min(340px, 100%);
+    align-self: center;
+    width: auto;
+    max-width: 100%;
     gap: 10px;
   }
 
   .site-footer__social-btn {
-    flex: 1 1 0;
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
     min-height: 46px;
     height: 46px;
-    padding: 0 14px;
-    gap: 9px;
+    padding: 0 12px;
+    gap: 8px;
   }
 
   .site-footer__social-icon svg {
