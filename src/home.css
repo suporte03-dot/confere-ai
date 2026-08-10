@@ -4913,8 +4913,8 @@ body.nav-drawer-open {
 
 .site-footer__social-icon svg {
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
 }
 
 @media (hover: hover) and (pointer: fine) {
