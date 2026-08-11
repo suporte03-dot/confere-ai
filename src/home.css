@@ -4943,7 +4943,8 @@ body.nav-drawer-open {
 
 .site-footer__col h4 {
   margin: 0 0 16px;
-  padding-bottom: 10px;
+  padding-bottom: 14px;
+  line-height: 1.2;
   font-family: var(--font-serif);
   font-size: 0.9375rem;
   font-weight: 600;
