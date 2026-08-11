@@ -5081,10 +5081,10 @@ body.nav-drawer-open {
 
 .site-footer__payments {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
@@ -5096,14 +5096,14 @@ body.nav-drawer-open {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   flex: 0 0 auto;
-  width: 76px;
-  height: 62px;
-  padding: 5px 4px 4px;
+  width: 64px;
+  height: 52px;
+  padding: 4px 3px 3px;
   background: #fffdf8;
   border: 1px solid rgba(94, 73, 44, 0.1);
-  border-radius: 8px;
+  border-radius: 7px;
   box-shadow:
     0 1px 2px rgba(26, 21, 16, 0.04),
     0 2px 6px rgba(26, 21, 16, 0.035);
@@ -5128,8 +5128,8 @@ body.nav-drawer-open {
   display: block;
   width: auto;
   height: auto;
-  max-width: 52px;
-  max-height: 28px;
+  max-width: 44px;
+  max-height: 22px;
   flex-shrink: 0;
   overflow: visible;
 }
@@ -5139,9 +5139,9 @@ body.nav-drawer-open {
   margin: 0;
   padding: 0;
   font-family: var(--font-sans, 'Segoe UI', system-ui, sans-serif) !important;
-  font-size: 0.5625rem !important;
+  font-size: 0.5rem !important;
   font-weight: 600 !important;
-  line-height: 1.15 !important;
+  line-height: 1.1 !important;
   letter-spacing: 0.02em;
   color: #3a3228 !important;
   text-align: center;
@@ -5150,27 +5150,27 @@ body.nav-drawer-open {
 
 /* Optical compensation — equal perceived weight */
 .site-footer__payment--visa .site-footer__payment-mark svg {
-  max-width: 58px;
-  max-height: 20px;
-  width: 58px;
+  max-width: 48px;
+  max-height: 16px;
+  width: 48px;
 }
 
 .site-footer__payment--mastercard .site-footer__payment-mark svg {
-  max-width: 38px;
-  max-height: 22px;
-  width: 38px;
+  max-width: 32px;
+  max-height: 18px;
+  width: 32px;
 }
 
 .site-footer__payment--pix .site-footer__payment-mark svg {
-  max-width: 24px;
-  max-height: 24px;
-  width: 24px;
+  max-width: 20px;
+  max-height: 20px;
+  width: 20px;
 }
 
 .site-footer__payment--elo .site-footer__payment-mark svg {
-  max-width: 48px;
-  max-height: 22px;
-  width: 48px;
+  max-width: 40px;
+  max-height: 18px;
+  width: 40px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -5309,8 +5309,7 @@ body.nav-drawer-open {
   }
 
   .site-footer__payments {
-    flex-wrap: wrap;
-    max-width: calc(76px * 2 + 8px);
+    flex-wrap: nowrap;
   }
 
   .site-footer__col--atendimento ul li {
@@ -6311,10 +6310,11 @@ body.nav-drawer-open {
     border-left: 0;
   }
 
+  /* Narrow mobile only: 2×2; desktop/tablet stay 1×4 via nowrap */
   .site-footer__payments {
     justify-content: center;
     flex-wrap: wrap;
-    max-width: calc(76px * 2 + 8px);
+    max-width: calc(64px * 2 + 6px);
   }
 
   .site-footer__bottom {
@@ -7613,8 +7613,7 @@ body.nav-drawer-open {
 
   .site-footer__payments {
     justify-content: center;
-    flex-wrap: wrap;
-    max-width: calc(76px * 2 + 8px);
+    flex-wrap: nowrap;
   }
 
   .site-footer__col ul {
