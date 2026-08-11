@@ -5057,6 +5057,10 @@ body.nav-drawer-open {
 }
 
 .site-footer__col--pagamento {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding-left: clamp(16px, 2vw, 28px);
   border-left: 1px solid rgba(201, 155, 50, 0.55);
 }
@@ -5065,10 +5069,11 @@ body.nav-drawer-open {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 8px;
   width: fit-content;
   max-width: 100%;
+  margin-inline: auto;
 }
 
 .site-footer__payment {
