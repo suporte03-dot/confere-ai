@@ -73,10 +73,6 @@ function MainNavigation({ open, onClose, onOpenCart }) {
     setCollectionsOpen(false)
   }
 
-  if (!open && collectionsOpen) {
-    setCollectionsOpen(false)
-  }
-
   const clearCloseTimer = () => {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current)
@@ -100,6 +96,22 @@ function MainNavigation({ open, onClose, onOpenCart }) {
   const handleDesktopEnter = () => {
     if (isDesktopNav()) openCollections()
   }
+
+  const toggleCollections = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setCollectionsOpen((v) => !v)
+  }
+
+  // Close mega menu only when the mobile drawer transitions closed
+  // (not while desktop menuOpen stays false — that prevented the panel from opening).
+  const prevOpenRef = useRef(open)
+  useEffect(() => {
+    if (prevOpenRef.current && !open) {
+      setCollectionsOpen(false)
+    }
+    prevOpenRef.current = open
+  }, [open])
 
   useEffect(() => {
     if (!collectionsOpen) return undefined
@@ -236,33 +248,45 @@ function MainNavigation({ open, onClose, onOpenCart }) {
                   onMouseEnter={handleDesktopEnter}
                   onMouseLeave={scheduleCloseCollections}
                 >
-                  <button
-                    type="button"
-                    className={`main-nav__link main-nav__link--chevron${isCollectionsActive || collectionsOpen ? ' is-active' : ''}`}
-                    aria-expanded={collectionsOpen}
-                    aria-controls={dropdownId}
-                    aria-haspopup="true"
-                    aria-current={isCollectionsActive ? 'page' : undefined}
-                    onClick={() => setCollectionsOpen((v) => !v)}
-                  >
-                    <span>{item.label}</span>
-                    <svg
-                      className="main-nav__chevron"
-                      width="10"
-                      height="10"
-                      viewBox="0 0 12 12"
-                      aria-hidden="true"
+                  <div className="main-nav__link-wrap">
+                    <NavLink
+                      to={item.to}
+                      end
+                      className={() =>
+                        `main-nav__link main-nav__link--chevron${isCollectionsActive || collectionsOpen ? ' is-active' : ''}`
+                      }
+                      aria-current={isCollectionsActive ? 'page' : undefined}
+                      onClick={handleNavClick}
                     >
-                      <path
-                        d="M2.5 4.5 6 8l3.5-3.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
+                      <span>{item.label}</span>
+                    </NavLink>
+                    <button
+                      type="button"
+                      className={`main-nav__chevron-btn${collectionsOpen ? ' is-open' : ''}`}
+                      aria-expanded={collectionsOpen}
+                      aria-controls={dropdownId}
+                      aria-haspopup="true"
+                      aria-label={collectionsOpen ? 'Fechar menu de coleções' : 'Abrir menu de coleções'}
+                      onClick={toggleCollections}
+                    >
+                      <svg
+                        className="main-nav__chevron"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 12 12"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M2.5 4.5 6 8l3.5-3.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
 
                   {renderMegaPanel()}
                 </div>

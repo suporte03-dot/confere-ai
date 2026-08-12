@@ -39,6 +39,7 @@ export const mainNavigation = [
 /** Mega menu Coleções — rotas existentes do catálogo / âncoras da home */
 export const collectionsMegaMenu = [
   { label: 'Raízes do Sul', to: '/colecoes/raizes-do-sul' },
+  { label: 'Essência do Campo', to: '/colecoes/essencia-do-campo' },
   { label: 'Clássicos Terra & Estilo', to: '/colecoes/classicos-terra-estilo' },
   { label: 'Novidades', to: '/#novidades' },
   { label: 'Mais vendidos', to: '/#mais-vendidos' },
