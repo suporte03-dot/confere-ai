@@ -3,7 +3,9 @@
 import Link from 'next/link'
 import { footerHome } from '../../data/homeData'
 import santaNova from '../../assets/santa-nova-hero.png'
+import { staticAssetSrc } from '../../utils/staticAssetSrc'
 import TerraEstiloLogo from './TerraEstiloLogo'
+
 
 function IconWhatsApp() {
   return (
@@ -145,11 +147,12 @@ function Footer() {
       <div className="site-footer__ornament" aria-hidden="true">
         <span className="site-footer__ornament-line" />
         <img
-          src={santaNova}
+          src={staticAssetSrc(santaNova)}
           alt=""
           className="site-footer__santa"
           decoding="async"
         />
+
         <span className="site-footer__ornament-line" />
       </div>
 

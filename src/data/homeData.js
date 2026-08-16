@@ -1,11 +1,12 @@
 import { assetUrl } from '../utils/assetUrl'
+import { staticAssetSrc } from '../utils/staticAssetSrc'
 import coupleHeroAsset from '../assets/hero-terra-estilo-novo.png'
 import raizHeroAsset from '../assets/raiz-hero.png'
 import desejadosAtmosphere from '../assets/desejados.png'
 import headerAtmosphere from '../assets/header-atmosphere.png'
 import brandLogoCircular from '../assets/logo-terra-estilo.png'
 
-export const BRAND_LOGO_CIRCULAR_SRC = brandLogoCircular
+export const BRAND_LOGO_CIRCULAR_SRC = staticAssetSrc(brandLogoCircular)
 export const BRAND_LOGO_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_LOGO_HEADER_SRC = BRAND_LOGO_CIRCULAR_SRC
 export const BRAND_HERO_BOARD_SRC = BRAND_LOGO_CIRCULAR_SRC
@@ -13,9 +14,9 @@ export const BRAND_LOGO_WIDTH = 1024
 export const BRAND_LOGO_HEIGHT = 1024
 export const BRAND_MARBLE_SRC = assetUrl('/images/brand/marble-texture.svg')
 /** Atmosphere scrubbed from header-novo-premium.png (baked logo/nav/search/trust removed). */
-export const HEADER_ATMOSPHERE_SRC = headerAtmosphere
+export const HEADER_ATMOSPHERE_SRC = staticAssetSrc(headerAtmosphere)
 /** Cast photo cropped from terra-estilo+logo-novo mockup (left panel only; baked logo/copy excluded). */
-export const COUPLE_HERO_SRC = coupleHeroAsset
+export const COUPLE_HERO_SRC = staticAssetSrc(coupleHeroAsset)
 export const COUPLE_HERO_WIDTH = 640
 export const COUPLE_HERO_HEIGHT = 572
 
@@ -177,7 +178,8 @@ export const featuredCollection = {
     'Uma seleção premium de peças com tons naturais, cortes atemporais e acabamento refinado, inspirada na elegância e autenticidade do Sul do Brasil.',
   primaryCta: 'Comprar coleção',
   // Cast crop: heads/hats first, shirt brand when the panel allows.
-  image: raizHeroAsset,
+  image: staticAssetSrc(raizHeroAsset),
+
   imageAlt:
     'Casal com chapéus na campanha Coleção Raízes do Sul — Terra & Estilo.',
   objectPosition: '46% 16%',
@@ -191,7 +193,8 @@ export const bestsellersTabs = ['Todos', 'Feminino', 'Masculino', 'Acessórios']
 
 export const bestsellersSection = {
   // Atmosphere scrubbed from desejados.png mockup (baked copy/tabs removed).
-  backgroundImage: desejadosAtmosphere,
+  backgroundImage: staticAssetSrc(desejadosAtmosphere),
+
   eyebrow: 'Os mais desejados',
   title: 'Seleção Terra & Estilo',
   searchTitle: 'Resultados da busca',
