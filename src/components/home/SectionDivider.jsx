@@ -1,6 +1,8 @@
 import santaHero from '../../assets/santa-hero.png'
 import { staticAssetSrc } from '../../utils/staticAssetSrc'
 
+const SANTA_HERO_SRC = staticAssetSrc(santaHero)
+
 /**
  * Major-section separator: thin gold lines + centered Nossa Senhora.
  * Fully transparent — image integrates into the page background.
@@ -16,8 +18,7 @@ function SectionDivider({ variant = 'light', showSaint = true, className = '' })
       {showSaint ? (
         <div className="section-divider__medallion section-divider__medallion--saint">
           <img
-            src={staticAssetSrc(santaHero)}
-
+            src={SANTA_HERO_SRC}
             alt=""
             aria-hidden="true"
             className="section-divider__saint"

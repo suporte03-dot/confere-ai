@@ -2,7 +2,10 @@ import { useMemo, useState } from 'react'
 import { bestsellersTabs, bestsellersSection } from '../../data/homeData'
 import { products, getBestsellersProducts } from '../../data/mockData'
 import { useShop } from '../../context/ShopContext'
+import { staticAssetCssUrl } from '../../utils/staticAssetSrc'
 import ProductCard from '../ProductCard'
+
+const BESTSELLERS_BG_CSS = staticAssetCssUrl(bestsellersSection.backgroundImage)
 
 function BestsellersSection() {
   const {
@@ -35,8 +38,8 @@ function BestsellersSection() {
       className="bestsellers-section section"
       aria-labelledby="bestsellers-title"
       style={
-        bestsellersSection.backgroundImage
-          ? { '--bestsellers-bg': `url(${bestsellersSection.backgroundImage})` }
+        BESTSELLERS_BG_CSS !== 'none'
+          ? { '--bestsellers-bg': BESTSELLERS_BG_CSS }
           : undefined
       }
     >

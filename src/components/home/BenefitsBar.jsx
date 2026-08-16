@@ -1,6 +1,8 @@
 import { benefitsBar } from '../../data/homeData'
 import benefitsAtmosphere from '../../assets/beneficios-compra-atmosphere.png'
-import { staticAssetSrc } from '../../utils/staticAssetSrc'
+import { staticAssetCssUrl } from '../../utils/staticAssetSrc'
+
+const BENEFITS_ATMOSPHERE_CSS = staticAssetCssUrl(benefitsAtmosphere)
 
 
 const BENEFIT_ICONS = {
@@ -78,8 +80,7 @@ function BenefitsBar() {
       id="beneficios"
       className="benefits-bar section"
       aria-labelledby="benefits-title"
-      style={{ '--benefits-atmosphere': `url(${staticAssetSrc(benefitsAtmosphere)})` }}
-
+      style={{ '--benefits-atmosphere': BENEFITS_ATMOSPHERE_CSS }}
     >
       <div className="benefits-bar__atmosphere" aria-hidden="true" />
       <div className="container">

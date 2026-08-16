@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { HEADER_ATMOSPHERE_SRC } from '../../src/data/homeData'
+import { staticAssetCssUrl } from '../../src/utils/staticAssetSrc'
 import Header from '../../src/components/home/Header'
 import Footer from '../../src/components/home/Footer'
 import CartDrawer from '../../src/components/CartDrawer'
@@ -25,7 +26,7 @@ export default function SiteChrome({ children }) {
       <div className="app" id="inicio">
         <div
           className="site-chrome"
-          style={{ '--site-chrome-bg': `url(${HEADER_ATMOSPHERE_SRC})` }}
+          style={{ '--site-chrome-bg': staticAssetCssUrl(HEADER_ATMOSPHERE_SRC) }}
         >
           <header className="brand-header">
             <Header

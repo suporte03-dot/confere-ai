@@ -6,6 +6,8 @@ import santaNova from '../../assets/santa-nova-hero.png'
 import { staticAssetSrc } from '../../utils/staticAssetSrc'
 import TerraEstiloLogo from './TerraEstiloLogo'
 
+const SANTA_NOVA_SRC = staticAssetSrc(santaNova)
+
 
 function IconWhatsApp() {
   return (
@@ -147,7 +149,7 @@ function Footer() {
       <div className="site-footer__ornament" aria-hidden="true">
         <span className="site-footer__ornament-line" />
         <img
-          src={staticAssetSrc(santaNova)}
+          src={SANTA_NOVA_SRC}
           alt=""
           className="site-footer__santa"
           decoding="async"
