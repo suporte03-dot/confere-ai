@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import SectionDivider from '../components/home/SectionDivider'
 import BrandEssence from '../components/home/BrandEssence'
 import { assetUrl } from '../utils/assetUrl'
@@ -30,7 +32,7 @@ function AboutPage() {
 
       <div className="container catalog-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Sobre</span>
         </nav>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { categoryCards } from '../../data/homeData'
 
 function CategoryShowcase() {
@@ -19,7 +19,7 @@ function CategoryShowcase() {
           {categoryCards.map((category) => (
             <Link
               key={category.id}
-              to={category.to}
+              href={category.to}
               className="category-banner"
             >
               <img

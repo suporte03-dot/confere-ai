@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
@@ -31,7 +34,9 @@ function CategoryPage({ category }) {
 
 function CategoryPageContent({ category }) {
   const meta = categoryMeta[category]
-  const [searchParams, setSearchParams] = useSearchParams()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const subFromUrl = searchParams.get('sub') || ''
 
   const baseProducts = useMemo(() => getProductsByCategory(category), [category])
@@ -71,7 +76,7 @@ function CategoryPageContent({ category }) {
   const clearFilters = () => {
     setFilters(INITIAL_FILTERS)
     setSortId('relevantes')
-    setSearchParams({}, { replace: true })
+    router.replace(pathname)
   }
 
   const setFilter = (key, value) => {
@@ -81,9 +86,9 @@ function CategoryPageContent({ category }) {
   const selectSubKey = (subKey) => {
     setFilters((prev) => ({ ...prev, subKey, subcategory: '' }))
     if (subKey) {
-      setSearchParams({ sub: subKey }, { replace: true })
+      router.replace(`${pathname}?sub=${encodeURIComponent(subKey)}`)
     } else {
-      setSearchParams({}, { replace: true })
+      router.replace(pathname)
     }
   }
 
@@ -92,7 +97,7 @@ function CategoryPageContent({ category }) {
       <main className="catalog-page">
         <div className="container catalog-page__empty">
           <h1>Categoria não encontrada</h1>
-          <Link to="/" className="btn btn--gold">
+          <Link href="/" className="btn btn--gold">
             Voltar ao início
           </Link>
         </div>
@@ -128,7 +133,7 @@ function CategoryPageContent({ category }) {
 
       <div className="container catalog-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{meta.title}</span>
           {activeSubLabel && (

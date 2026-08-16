@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import SectionDivider from '../components/home/SectionDivider'
 import { footerHome } from '../data/homeData'
 import { assetUrl } from '../utils/assetUrl'
@@ -30,7 +32,7 @@ function StoresPage() {
 
       <div className="container catalog-page__body stores-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Lojas</span>
         </nav>
@@ -47,10 +49,10 @@ function StoresPage() {
             <li>Serra Gaúcha — RS</li>
           </ul>
           <div className="stores-card__actions">
-            <Link to="/contato" className="btn btn--gold">
+            <Link href="/contato" className="btn btn--gold">
               Falar com atendimento
             </Link>
-            <Link to="/colecoes" className="btn btn--outline">
+            <Link href="/colecoes" className="btn btn--outline">
               Ver coleções
             </Link>
           </div>

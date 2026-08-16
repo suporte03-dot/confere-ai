@@ -1,0 +1,16 @@
+/* Same CSS stack as Vite main.jsx + App.jsx (order matters). */
+@import '../src/index.css';
+@import '../src/App.css';
+@import '../src/home.css';
+@import '../src/catalog.css';
+@import '../src/preview.css';
+
+body {
+  min-height: 100vh;
+}
+
+/* Next mounts on body; Vite uses #root — keep both full-height. */
+#root,
+body {
+  min-height: 100vh;
+}

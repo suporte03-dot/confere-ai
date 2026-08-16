@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef, useState } from 'react'
 import { useShop } from '../../context/ShopContext'
 import { footerHome } from '../../data/homeData'

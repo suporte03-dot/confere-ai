@@ -1,5 +1,9 @@
+'use client'
+
 import { useEffect, useId, useRef, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import AppNavLink from '../AppNavLink'
 import { collectionsMegaMenu, footerHome, mainNavigation } from '../../data/homeData'
 import { brandCollections } from '../../data/catalog'
 import { useShop } from '../../context/ShopContext'
@@ -59,14 +63,22 @@ function FacebookIcon({ size = 18 }) {
 }
 
 function MainNavigation({ open, onClose, onOpenCart }) {
-  const location = useLocation()
+  const pathname = usePathname() || ''
+  const [hash, setHash] = useState('')
   const { cartCount } = useShop()
   const [collectionsOpen, setCollectionsOpen] = useState(false)
   const dropdownId = useId()
   const wrapRef = useRef(null)
   const closeTimerRef = useRef(null)
-  const locationKey = `${location.pathname}${location.hash}`
+  const locationKey = `${pathname}${hash}`
   const [trackedLocation, setTrackedLocation] = useState(locationKey)
+
+  useEffect(() => {
+    const syncHash = () => setHash(window.location.hash || '')
+    syncHash()
+    window.addEventListener('hashchange', syncHash)
+    return () => window.removeEventListener('hashchange', syncHash)
+  }, [pathname])
 
   if (trackedLocation !== locationKey) {
     setTrackedLocation(locationKey)
@@ -161,28 +173,28 @@ function MainNavigation({ open, onClose, onOpenCart }) {
           <ul>
             {collectionsMegaMenu.map((item) => (
               <li key={item.label}>
-                <NavLink
-                  to={item.to}
+                <AppNavLink
+                  href={item.to}
                   end={Boolean(item.isAll) || item.to === '/colecoes'}
                   className={({ isActive }) => {
                     const hashIndex = item.to.indexOf('#')
                     const hashActive = hashIndex !== -1
-                      && location.pathname === '/'
-                      && location.hash === item.to.slice(hashIndex)
+                      && pathname === '/'
+                      && hash === item.to.slice(hashIndex)
                     const active = hashActive || (isActive && hashIndex === -1)
                     return `main-nav__mega-link${item.isAll ? ' main-nav__mega-link--all' : ''}${active ? ' is-active' : ''}`
                   }}
                   onClick={handleNavClick}
                 >
                   {item.label}
-                </NavLink>
+                </AppNavLink>
               </li>
             ))}
           </ul>
         </div>
         {featuredCollection && (
           <Link
-            to={`/colecoes/${featuredCollection.slug}`}
+            href={`/colecoes/${featuredCollection.slug}`}
             className="main-nav__mega-feature"
             onClick={handleNavClick}
           >
@@ -238,7 +250,7 @@ function MainNavigation({ open, onClose, onOpenCart }) {
             : null
 
           if (item.hasDropdown) {
-            const isCollectionsActive = location.pathname.startsWith('/colecoes')
+            const isCollectionsActive = pathname.startsWith('/colecoes')
             return (
               <div key={item.label} className="main-nav__cluster">
                 {centerSlot}
@@ -249,8 +261,8 @@ function MainNavigation({ open, onClose, onOpenCart }) {
                   onMouseLeave={scheduleCloseCollections}
                 >
                   <div className="main-nav__link-wrap">
-                    <NavLink
-                      to={item.to}
+                    <AppNavLink
+                      href={item.to}
                       end
                       className={() =>
                         `main-nav__link main-nav__link--chevron${isCollectionsActive || collectionsOpen ? ' is-active' : ''}`
@@ -259,7 +271,7 @@ function MainNavigation({ open, onClose, onOpenCart }) {
                       onClick={handleNavClick}
                     >
                       <span>{item.label}</span>
-                    </NavLink>
+                    </AppNavLink>
                     <button
                       type="button"
                       className={`main-nav__chevron-btn${collectionsOpen ? ' is-open' : ''}`}
@@ -298,8 +310,8 @@ function MainNavigation({ open, onClose, onOpenCart }) {
             <div key={item.label} className="main-nav__cluster">
               {centerSlot}
               {ornament}
-              <NavLink
-                to={item.to}
+              <AppNavLink
+                href={item.to}
                 end={item.to === '/'}
                 className={({ isActive }) =>
                   `main-nav__link${isActive ? ' is-active' : ''}`
@@ -307,7 +319,7 @@ function MainNavigation({ open, onClose, onOpenCart }) {
                 onClick={handleNavClick}
               >
                 {item.label}
-              </NavLink>
+              </AppNavLink>
             </div>
           )
         })}

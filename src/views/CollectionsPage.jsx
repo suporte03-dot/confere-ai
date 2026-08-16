@@ -1,5 +1,8 @@
+'use client'
+
 import { useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
@@ -58,11 +61,11 @@ function CollectionsPage() {
 
       <div className="container catalog-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           {slug ? (
             <>
-              <Link to="/colecoes">Coleções</Link>
+              <Link href="/colecoes">Coleções</Link>
               <span aria-hidden="true">/</span>
               <span aria-current="page">{title}</span>
             </>
@@ -76,7 +79,7 @@ function CollectionsPage() {
             {brandCollections.map((collection) => (
               <Link
                 key={collection.slug}
-                to={`/colecoes/${collection.slug}`}
+                href={`/colecoes/${collection.slug}`}
                 className="collections-card"
               >
                 <img
@@ -120,7 +123,7 @@ function CollectionsPage() {
                   ))}
                 </select>
               </label>
-              <Link to="/colecoes" className="catalog-toolbar__clear">
+              <Link href="/colecoes" className="catalog-toolbar__clear">
                 Ver todas as coleções
               </Link>
             </div>
@@ -128,7 +131,7 @@ function CollectionsPage() {
             {visible.length === 0 ? (
               <div className="catalog-page__empty" role="status">
                 <p>Nenhum produto nesta coleção ainda.</p>
-                <Link to="/colecoes" className="btn btn--gold">
+                <Link href="/colecoes" className="btn btn--gold">
                   Ver todas
                 </Link>
               </div>

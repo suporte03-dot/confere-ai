@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useMemo } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
@@ -12,11 +15,11 @@ import {
 } from '../data/searchMap'
 
 function SearchPage() {
-  const [params] = useSearchParams()
+  const params = useSearchParams()
   const q = (params.get('q') || '').trim()
   const subParam = (params.get('sub') || '').trim()
   const catParam = (params.get('cat') || '').trim()
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setSearchQuery, clearSearch } = useShop()
 
   useEffect(() => {
@@ -25,7 +28,7 @@ function SearchPage() {
 
   const resetSearch = () => {
     clearSearch()
-    navigate('/')
+    router.push('/')
   }
 
   const intent = useMemo(() => (q ? resolveSearchIntent(q) : null), [q])
@@ -72,7 +75,7 @@ function SearchPage() {
 
       <div className="container catalog-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Busca</span>
         </nav>
@@ -101,7 +104,7 @@ function SearchPage() {
             <p>Experimente: blusa, calça, moletom, jaqueta, boné ou bolsa.</p>
             <div className="search-page__suggestions">
               {['blusa', 'calça', 'moletom', 'jaqueta', 'boné'].map((term) => (
-                <Link key={term} to={`/busca?q=${encodeURIComponent(term)}`} className="search-page__chip">
+                <Link key={term} href={`/busca?q=${encodeURIComponent(term)}`} className="search-page__chip">
                   {term}
                 </Link>
               ))}
@@ -119,10 +122,10 @@ function SearchPage() {
               <button type="button" className="btn btn--gold" onClick={resetSearch}>
                 Limpar busca
               </button>
-              <Link to="/masculino" className="btn btn--outline">
+              <Link href="/masculino" className="btn btn--outline">
                 Ver masculino
               </Link>
-              <Link to="/feminino" className="btn btn--outline">
+              <Link href="/feminino" className="btn btn--outline">
                 Ver feminino
               </Link>
             </div>

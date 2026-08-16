@@ -1,3 +1,5 @@
+'use client'
+
 import { formatCurrency, getProductImage } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 import VisualMedia from './VisualMedia'
