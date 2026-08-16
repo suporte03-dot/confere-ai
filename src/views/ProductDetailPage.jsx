@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import ProductInfoModal from '../components/ProductInfoModal'
 import {
   formatCurrency,
@@ -60,7 +63,7 @@ function ProductDetailPage() {
           <p className="product-detail-page__eyebrow">Terra & Estilo</p>
           <h1>Produto não encontrado</h1>
           <p>A peça que você procura pode ter saído de linha ou o link está incorreto.</p>
-          <Link to="/" className="btn btn--gold">
+          <Link href="/" className="btn btn--gold">
             Voltar ao início
           </Link>
         </div>
@@ -90,9 +93,9 @@ function ProductDetailPage() {
     <main className="product-detail-page">
       <div className="container product-detail-page__body">
         <nav className="catalog-breadcrumb" aria-label="Navegação">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
-          <Link to={categoryHref}>{product.department}</Link>
+          <Link href={categoryHref}>{product.department}</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{product.name}</span>
         </nav>

@@ -1,3 +1,5 @@
+'use client'
+
 import HeroSection from '../components/home/HeroSection'
 import SectionDivider from '../components/home/SectionDivider'
 import NovidadesSection from '../components/home/NovidadesSection'

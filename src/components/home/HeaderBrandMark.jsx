@@ -1,7 +1,9 @@
 /**
  * Marca no header — logo circular oficial + wordmark.
  */
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import { BRAND_LOGO_CIRCULAR_SRC } from '../../data/homeData'
 
 function HeaderBrandMark({ className = '', showWordmark = false }) {
@@ -10,7 +12,7 @@ function HeaderBrandMark({ className = '', showWordmark = false }) {
     .join(' ')
 
   return (
-    <Link to="/" className={`${linkClass} site-header__logo`} aria-label="Ir para a página inicial">
+    <Link href="/" className={`${linkClass} site-header__logo`} aria-label="Ir para a página inicial">
       <span className="header-brand__logo-ring" aria-hidden="true">
         <img
           src={BRAND_LOGO_CIRCULAR_SRC}

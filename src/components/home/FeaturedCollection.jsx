@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import {
   featuredCollection,
   BRAND_LOGO_CIRCULAR_SRC,
@@ -76,7 +76,7 @@ function FeaturedCollection() {
           <p className="featured-collection__description">{description}</p>
           <div className="featured-collection__actions">
             <Link
-              to={primaryHref}
+              href={primaryHref}
               className="featured-collection__button featured-collection__button--primary"
             >
               {primaryCta}

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import { footerHome } from '../../data/homeData'
 import santaNova from '../../assets/santa-nova-hero.png'
 import TerraEstiloLogo from './TerraEstiloLogo'
@@ -190,7 +192,7 @@ function Footer() {
           <ul>
             {footerHome.institucional.map((link) => (
               <li key={link.label}>
-                <Link to={link.to}>
+                <Link href={link.to}>
                   <span>{link.label}</span>
                   <span className="site-footer__chevron" aria-hidden="true"><IconChevron /></span>
                 </Link>

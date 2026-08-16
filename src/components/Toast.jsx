@@ -1,3 +1,5 @@
+'use client'
+
 import { useShop } from '../context/ShopContext'
 
 function Toast() {

@@ -1,5 +1,7 @@
+'use client'
+
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import {
   formatCurrency,
   getInstallment,
@@ -25,7 +27,7 @@ function ProductCard({
   showSizes = true,
   showRating = false,
 }) {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
   const [selectedSize, setSelectedSize] = useState(null)
   const [pickingSize, setPickingSize] = useState(false)
@@ -57,14 +59,14 @@ function ProductCard({
 
   const goToDetail = (event) => {
     if (event.target.closest('button, a, input, select, textarea, label')) return
-    navigate(detailPath)
+    router.push(detailPath)
   }
 
   const onCardKeyDown = (event) => {
     if (event.target !== event.currentTarget) return
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
-      navigate(detailPath)
+      router.push(detailPath)
     }
   }
 

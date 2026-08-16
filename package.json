@@ -4,14 +4,18 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "dev:vite": "vite",
+    "build:vite": "vite build",
+    "preview:vite": "vite preview",
     "generate:categorias": "node scripts/ensure-categoria-images.mjs --force",
     "prebuild": "node scripts/ensure-categoria-images.mjs",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "next": "^16.3.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.18.2"

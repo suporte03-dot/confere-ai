@@ -1,5 +1,7 @@
+'use client'
+
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import {
   products,
   matchesFilter,
@@ -29,7 +31,7 @@ function cartLineKey(product) {
 const ShopContext = createContext(null)
 
 export function ShopProvider({ children }) {
-  const navigate = useNavigate()
+  const router = useRouter()
   const [cart, setCart] = useState([])
   const [favorites, setFavorites] = useState(loadStoredFavorites)
   const [searchQuery, setSearchQuery] = useState('')
@@ -50,8 +52,8 @@ export function ShopProvider({ children }) {
     setSearchQuery('')
     setCategoryFilter(filterId || 'Todos')
     const path = pathForFilter(filterId)
-    navigate(path)
-  }, [navigate])
+    router.push(path)
+  }, [router])
 
   const performSearch = useCallback((termOverride) => {
     const term = (termOverride ?? searchQuery).trim()
@@ -63,28 +65,28 @@ export function ShopProvider({ children }) {
       setSearchQuery('')
       setCategoryFilter('Todos')
       if (intent.path === '/#novidades') {
-        navigate('/')
+        router.push('/')
         window.setTimeout(() => {
           document.getElementById('novidades')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }, 80)
         return true
       }
-      navigate(intent.path || '/colecoes')
+      router.push(intent.path || '/colecoes')
       return true
     }
 
     if (intent.type === 'category') {
       setSearchQuery('')
       setCategoryFilter(intent.category || 'Todos')
-      navigate(intent.path || pathForFilter(intent.category))
+      router.push(intent.path || pathForFilter(intent.category))
       return true
     }
 
     setSearchQuery(term)
     setCategoryFilter('Todos')
-    navigate(intent.path || `/busca?q=${encodeURIComponent(term)}`)
+    router.push(intent.path || `/busca?q=${encodeURIComponent(term)}`)
     return true
-  }, [navigate, searchQuery])
+  }, [router, searchQuery])
 
   const clearSearch = useCallback(() => {
     setSearchQuery('')

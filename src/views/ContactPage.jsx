@@ -1,5 +1,7 @@
+'use client'
+
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import SectionDivider from '../components/home/SectionDivider'
 import { footerHome } from '../data/homeData'
 import { useShop } from '../context/ShopContext'
@@ -82,7 +84,7 @@ function ContactPage() {
 
       <div className="container contact-page__body">
         <nav className="catalog-breadcrumb" aria-label="Breadcrumb">
-          <Link to="/">Início</Link>
+          <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">Contato</span>
         </nav>
