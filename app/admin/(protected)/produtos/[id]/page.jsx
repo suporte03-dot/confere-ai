@@ -45,6 +45,17 @@ export default async function AdminProductDetailPage({ params, searchParams }) {
     product = loaded
     categories = taxonomies.categories
     collections = taxonomies.collections
+
+    // Keep currently assigned taxonomy options even if inactive.
+    if (product?.category?.id && !categories.some((c) => c.id === product.category.id)) {
+      categories = [...categories, product.category]
+    }
+    if (
+      product?.collection?.id &&
+      !collections.some((c) => c.id === product.collection.id)
+    ) {
+      collections = [...collections, product.collection]
+    }
   } catch {
     loadError = 'Não foi possível carregar o produto.'
   }

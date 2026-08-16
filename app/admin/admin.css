@@ -224,6 +224,14 @@
   font-size: 0.92rem;
 }
 
+.admin-loading {
+  margin: 0;
+  padding: 1.25rem 0;
+  color: var(--admin-muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
 .admin-empty {
   display: grid;
   gap: 1rem;

@@ -308,6 +308,19 @@ export default function ProductEditor({
       setError(result.error)
       return
     }
+    if (result.image) {
+      setImages((prev) =>
+        prev.map((img) =>
+          img.id === imageId
+            ? {
+                ...img,
+                ...result.image,
+                publicUrl: productImagePublicUrl(result.image.storage_path),
+              }
+            : img,
+        ),
+      )
+    }
     setMessage(result.message || 'Imagem atualizada.')
     router.refresh()
   }

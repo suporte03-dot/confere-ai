@@ -376,10 +376,12 @@ export async function replaceProductImage(imageId, formData) {
       return fail(friendlyError(uploadError, 'Não foi possível substituir a imagem.'))
     }
 
-    const { error: updateError } = await supabase
+    const { data: updated, error: updateError } = await supabase
       .from('product_images')
       .update({ storage_path: storagePath })
       .eq('id', imageId)
+      .select('id, storage_path, position, is_cover, alt_text')
+      .single()
 
     if (updateError) {
       await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
@@ -391,7 +393,7 @@ export async function replaceProductImage(imageId, formData) {
     }
 
     revalidateProducts(current.product_id)
-    return ok({ message: 'Imagem atualizada.' })
+    return ok({ image: updated, message: 'Imagem atualizada.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível substituir a imagem.'))
   }
