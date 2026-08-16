@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { HEADER_ATMOSPHERE_SRC } from '../../src/data/homeData'
 import { staticAssetCssUrl } from '../../src/utils/staticAssetSrc'
 import Header from '../../src/components/home/Header'
@@ -11,14 +12,20 @@ import ScrollToTop from '../../src/components/ScrollToTop'
 
 /**
  * Next equivalent of Vite App.jsx SiteLayout + desktop-preview shell.
+ * Admin routes render without the public storefront chrome.
  */
 export default function SiteChrome({ children }) {
+  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
 
   const onMenuToggle = useCallback(() => setMenuOpen((v) => !v), [])
   const onSearchToggle = useCallback(() => setSearchOpen((v) => !v), [])
   const onNavClose = useCallback(() => setMenuOpen(false), [])
+
+  if (pathname?.startsWith('/admin')) {
+    return children
+  }
 
   return (
     <div className="desktop-preview">

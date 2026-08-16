@@ -1,0 +1,680 @@
+'use client'
+
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { productImagePublicUrl } from '../../../../src/lib/admin/format'
+import { slugify } from '../../../../src/lib/admin/slugify'
+import {
+  checkProductSlug,
+  deleteProductImage,
+  reorderProductImages,
+  replaceProductImage,
+  saveProduct,
+  setProductCoverImage,
+  uploadProductImage,
+} from './actions'
+
+function moneyToInput(value) {
+  if (value == null || value === '') return ''
+  const n = Number(value)
+  if (!Number.isFinite(n)) return ''
+  return n.toFixed(2).replace('.', ',')
+}
+
+function createVariantDraft(seed = {}) {
+  return {
+    id: seed.id || null,
+    _key: seed._key || `tmp-${Math.random().toString(36).slice(2, 10)}`,
+    size: seed.size || '',
+    color: seed.color || '',
+    stock: seed.stock ?? 0,
+    sku: seed.sku || '',
+  }
+}
+
+export default function ProductEditor({
+  mode = 'create',
+  readOnly = false,
+  product = null,
+  categories = [],
+  collections = [],
+}) {
+  const router = useRouter()
+  const fileInputRef = useRef(null)
+  const replaceInputRef = useRef(null)
+  const replaceTargetRef = useRef(null)
+  const [pending, startTransition] = useTransition()
+
+  const [name, setName] = useState(product?.name || '')
+  const [slug, setSlug] = useState(product?.slug || '')
+  const [slugTouched, setSlugTouched] = useState(Boolean(product?.slug))
+  const [description, setDescription] = useState(product?.description || '')
+  const [price, setPrice] = useState(moneyToInput(product?.price))
+  const [compareAtPrice, setCompareAtPrice] = useState(
+    moneyToInput(product?.compare_at_price),
+  )
+  const [categoryId, setCategoryId] = useState(product?.category_id || '')
+  const [collectionId, setCollectionId] = useState(product?.collection_id || '')
+  const [active, setActive] = useState(product?.active ?? true)
+  const [featured, setFeatured] = useState(product?.featured ?? false)
+  const [sku, setSku] = useState(product?.sku || '')
+  const [variants, setVariants] = useState(
+    (product?.product_variants || []).map((v) => createVariantDraft(v)),
+  )
+  const [images, setImages] = useState(product?.product_images || [])
+  const [productId, setProductId] = useState(product?.id || null)
+
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [slugHint, setSlugHint] = useState('')
+  const [busyImage, setBusyImage] = useState(false)
+
+  const isView = readOnly || mode === 'view'
+  const title = useMemo(() => {
+    if (mode === 'create') return 'Novo produto'
+    if (isView) return 'Visualizar produto'
+    return 'Editar produto'
+  }, [mode, isView])
+
+  useEffect(() => {
+    if (!message && !error) return undefined
+    const timer = setTimeout(() => {
+      setMessage('')
+      setError('')
+    }, 4500)
+    return () => clearTimeout(timer)
+  }, [message, error])
+
+  useEffect(() => {
+    if (!slug || isView) return undefined
+
+    let cancelled = false
+    const timer = setTimeout(async () => {
+      const result = await checkProductSlug(slug, productId)
+      if (cancelled) return
+      if (!result.ok) {
+        setSlugHint('')
+        return
+      }
+      setSlugHint(
+        result.available
+          ? 'Slug disponível.'
+          : 'Este slug já está em uso. Escolha outro.',
+      )
+    }, 350)
+
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [slug, productId, isView])
+
+  function onNameChange(value) {
+    setName(value)
+    if (!slugTouched && !isView) {
+      setSlug(slugify(value))
+    }
+  }
+
+  function onSlugChange(value) {
+    setSlugTouched(true)
+    setSlug(slugify(value))
+  }
+
+  function updateVariant(key, field, value) {
+    setVariants((prev) =>
+      prev.map((row) => (row._key === key ? { ...row, [field]: value } : row)),
+    )
+  }
+
+  function addVariant() {
+    setVariants((prev) => [...prev, createVariantDraft()])
+  }
+
+  function removeVariant(key) {
+    setVariants((prev) => prev.filter((row) => row._key !== key))
+  }
+
+  function onSave(event) {
+    event.preventDefault()
+    if (isView) return
+    setError('')
+    setMessage('')
+
+    startTransition(async () => {
+      const result = await saveProduct({
+        id: productId,
+        name,
+        slug,
+        description,
+        price,
+        compareAtPrice,
+        categoryId: categoryId || null,
+        collectionId: collectionId || null,
+        active,
+        featured,
+        sku,
+        variants,
+      })
+
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+
+      setMessage(result.message || 'Produto salvo com sucesso.')
+      setProductId(result.id)
+
+      if (mode === 'create') {
+        router.replace(`/admin/produtos/${result.id}`)
+        router.refresh()
+        return
+      }
+
+      router.refresh()
+    })
+  }
+
+  async function onPickImages(event) {
+    const files = [...(event.target.files || [])]
+    event.target.value = ''
+    if (!files.length) return
+
+    if (!productId) {
+      setError('Salve o produto antes de enviar fotos.')
+      return
+    }
+
+    setBusyImage(true)
+    setError('')
+    try {
+      for (const file of files) {
+        const formData = new FormData()
+        formData.set('file', file)
+        formData.set('altText', name || file.name)
+        const result = await uploadProductImage(productId, formData)
+        if (!result.ok) {
+          setError(result.error)
+          break
+        }
+        setImages((prev) => {
+          const next = [
+            ...prev.map((img) =>
+              result.image.is_cover ? { ...img, is_cover: false } : img,
+            ),
+            {
+              ...result.image,
+              publicUrl: productImagePublicUrl(result.image.storage_path),
+            },
+          ]
+          return next.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+        })
+        setMessage(result.message || 'Imagem atualizada.')
+      }
+      router.refresh()
+    } finally {
+      setBusyImage(false)
+    }
+  }
+
+  async function onSetCover(imageId) {
+    if (!productId || isView) return
+    setBusyImage(true)
+    setError('')
+    const result = await setProductCoverImage(productId, imageId)
+    setBusyImage(false)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
+    setImages((prev) =>
+      prev.map((img) => ({ ...img, is_cover: img.id === imageId })),
+    )
+    setMessage(result.message || 'Imagem atualizada.')
+    router.refresh()
+  }
+
+  async function onDeleteImage(imageId) {
+    if (isView) return
+    const confirmed = window.confirm('Excluir esta imagem?')
+    if (!confirmed) return
+    setBusyImage(true)
+    setError('')
+    const result = await deleteProductImage(imageId)
+    setBusyImage(false)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
+    setImages((prev) => {
+      const next = prev.filter((img) => img.id !== imageId)
+      if (next.length && !next.some((img) => img.is_cover)) {
+        next[0] = { ...next[0], is_cover: true }
+      }
+      return next
+    })
+    setMessage(result.message || 'Imagem atualizada.')
+    router.refresh()
+  }
+
+  async function moveImage(imageId, direction) {
+    if (!productId || isView) return
+    const index = images.findIndex((img) => img.id === imageId)
+    if (index < 0) return
+    const target = index + direction
+    if (target < 0 || target >= images.length) return
+
+    const next = [...images]
+    const [item] = next.splice(index, 1)
+    next.splice(target, 0, item)
+    const ordered = next.map((img, position) => ({ ...img, position }))
+    setImages(ordered)
+
+    setBusyImage(true)
+    const result = await reorderProductImages(
+      productId,
+      ordered.map((img) => img.id),
+    )
+    setBusyImage(false)
+    if (!result.ok) {
+      setError(result.error)
+      router.refresh()
+      return
+    }
+    setMessage(result.message || 'Imagem atualizada.')
+    router.refresh()
+  }
+
+  function onReplaceClick(imageId) {
+    replaceTargetRef.current = imageId
+    replaceInputRef.current?.click()
+  }
+
+  async function onReplaceFile(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    const imageId = replaceTargetRef.current
+    replaceTargetRef.current = null
+    if (!file || !imageId) return
+
+    setBusyImage(true)
+    setError('')
+    const formData = new FormData()
+    formData.set('file', file)
+    const result = await replaceProductImage(imageId, formData)
+    setBusyImage(false)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
+    setMessage(result.message || 'Imagem atualizada.')
+    router.refresh()
+  }
+
+  return (
+    <form className="admin-form admin-form--product" onSubmit={onSave} noValidate>
+      <div className="admin-panel__head">
+        <div>
+          <h1>{title}</h1>
+          <p>
+            {isView
+              ? 'Consulta do produto cadastrado.'
+              : 'Preencha os dados principais, variantes e fotos.'}
+          </p>
+        </div>
+        <div className="admin-actions admin-actions--compact">
+          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+            Voltar
+          </Link>
+          {productId && isView ? (
+            <Link href={`/admin/produtos/${productId}`} className="admin-btn">
+              Editar
+            </Link>
+          ) : null}
+          {!isView ? (
+            <button type="submit" className="admin-btn" disabled={pending}>
+              {pending ? 'Salvando…' : 'Salvar produto'}
+            </button>
+          ) : null}
+        </div>
+      </div>
+
+      {message ? <p className="admin-success" role="status">{message}</p> : null}
+      {error ? <p className="admin-error" role="alert">{error}</p> : null}
+
+      <section className="admin-section">
+        <h2>Informações principais</h2>
+        <div className="admin-grid-2">
+          <div className="admin-field">
+            <label htmlFor="product-name">Nome</label>
+            <input
+              id="product-name"
+              value={name}
+              onChange={(e) => onNameChange(e.target.value)}
+              disabled={isView || pending}
+              required
+            />
+          </div>
+          <div className="admin-field">
+            <label htmlFor="product-slug">Slug</label>
+            <input
+              id="product-slug"
+              value={slug}
+              onChange={(e) => onSlugChange(e.target.value)}
+              disabled={isView || pending}
+              required
+            />
+            {slugHint ? (
+              <span
+                className={`admin-field-hint ${slugHint.includes('já está') ? 'is-error' : 'is-ok'}`}
+              >
+                {slugHint}
+              </span>
+            ) : null}
+          </div>
+        </div>
+        <div className="admin-field">
+          <label htmlFor="product-description">Descrição</label>
+          <textarea
+            id="product-description"
+            rows={5}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            disabled={isView || pending}
+          />
+        </div>
+      </section>
+
+      <section className="admin-section">
+        <h2>Preço</h2>
+        <div className="admin-grid-2">
+          <div className="admin-field">
+            <label htmlFor="product-price">Preço atual</label>
+            <input
+              id="product-price"
+              inputMode="decimal"
+              placeholder="0,00"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              disabled={isView || pending}
+              required
+            />
+          </div>
+          <div className="admin-field">
+            <label htmlFor="product-compare">Preço anterior / promocional</label>
+            <input
+              id="product-compare"
+              inputMode="decimal"
+              placeholder="Opcional"
+              value={compareAtPrice}
+              onChange={(e) => setCompareAtPrice(e.target.value)}
+              disabled={isView || pending}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="admin-section">
+        <h2>Classificação</h2>
+        <div className="admin-grid-2">
+          <div className="admin-field">
+            <label htmlFor="product-category">Categoria</label>
+            <select
+              id="product-category"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              disabled={isView || pending}
+            >
+              <option value="">Selecione…</option>
+              {categories.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="admin-field">
+            <label htmlFor="product-collection">Coleção</label>
+            <select
+              id="product-collection"
+              value={collectionId}
+              onChange={(e) => setCollectionId(e.target.value)}
+              disabled={isView || pending}
+            >
+              <option value="">Selecione…</option>
+              {collections.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section className="admin-section">
+        <h2>Configurações</h2>
+        <div className="admin-grid-2">
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto ativo?</span>
+          </label>
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto em destaque?</span>
+          </label>
+        </div>
+        <div className="admin-field" style={{ marginTop: '1rem' }}>
+          <label htmlFor="product-sku">SKU</label>
+          <input
+            id="product-sku"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+            disabled={isView || pending}
+            placeholder="Opcional"
+          />
+        </div>
+      </section>
+
+      <section className="admin-section">
+        <div className="admin-section__head">
+          <h2>Tamanhos / cores / estoque</h2>
+          {!isView ? (
+            <button type="button" className="admin-btn admin-btn--ghost" onClick={addVariant}>
+              + Variante
+            </button>
+          ) : null}
+        </div>
+
+        {!variants.length ? (
+          <p className="admin-muted">Nenhuma variante cadastrada.</p>
+        ) : (
+          <div className="admin-variants">
+            {variants.map((variant) => (
+              <div key={variant._key} className="admin-variant-row">
+                <div className="admin-field">
+                  <label>Tamanho</label>
+                  <input
+                    value={variant.size}
+                    onChange={(e) => updateVariant(variant._key, 'size', e.target.value)}
+                    disabled={isView || pending}
+                    placeholder="P, M, G…"
+                  />
+                </div>
+                <div className="admin-field">
+                  <label>Cor</label>
+                  <input
+                    value={variant.color}
+                    onChange={(e) => updateVariant(variant._key, 'color', e.target.value)}
+                    disabled={isView || pending}
+                    placeholder="Preto, Marrom…"
+                  />
+                </div>
+                <div className="admin-field">
+                  <label>Estoque</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={variant.stock}
+                    onChange={(e) => updateVariant(variant._key, 'stock', e.target.value)}
+                    disabled={isView || pending}
+                  />
+                </div>
+                <div className="admin-field">
+                  <label>SKU variante</label>
+                  <input
+                    value={variant.sku}
+                    onChange={(e) => updateVariant(variant._key, 'sku', e.target.value)}
+                    disabled={isView || pending}
+                    placeholder="Opcional"
+                  />
+                </div>
+                {!isView ? (
+                  <button
+                    type="button"
+                    className="admin-link-btn admin-variant-remove"
+                    onClick={() => removeVariant(variant._key)}
+                  >
+                    Remover
+                  </button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="admin-section">
+        <div className="admin-section__head">
+          <h2>Fotos do produto</h2>
+          {!isView ? (
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost"
+              disabled={busyImage || pending}
+              onClick={() => {
+                if (!productId) {
+                  setError('Salve o produto antes de enviar fotos.')
+                  return
+                }
+                fileInputRef.current?.click()
+              }}
+            >
+              + Adicionar fotos
+            </button>
+          ) : null}
+        </div>
+
+        {!productId && !isView ? (
+          <p className="admin-muted">
+            Salve o produto uma primeira vez para liberar o envio de imagens.
+          </p>
+        ) : null}
+
+        <div className="admin-photos">
+          {images.map((image, index) => (
+            <article
+              key={image.id}
+              className={`admin-photo ${image.is_cover ? 'is-cover' : ''}`}
+            >
+              <div className="admin-photo__preview">
+                {image.publicUrl || productImagePublicUrl(image.storage_path) ? (
+                  <img
+                    src={image.publicUrl || productImagePublicUrl(image.storage_path)}
+                    alt={image.alt_text || ''}
+                  />
+                ) : (
+                  <span>Sem preview</span>
+                )}
+                <span className="admin-photo__badge">
+                  {image.is_cover ? 'CAPA' : index + 1}
+                </span>
+              </div>
+              {!isView ? (
+                <div className="admin-photo__actions">
+                  {!image.is_cover ? (
+                    <button type="button" onClick={() => onSetCover(image.id)} disabled={busyImage}>
+                      Definir capa
+                    </button>
+                  ) : null}
+                  <button type="button" onClick={() => moveImage(image.id, -1)} disabled={busyImage || index === 0}>
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => moveImage(image.id, 1)}
+                    disabled={busyImage || index === images.length - 1}
+                  >
+                    →
+                  </button>
+                  <button type="button" onClick={() => onReplaceClick(image.id)} disabled={busyImage}>
+                    Substituir
+                  </button>
+                  <button type="button" onClick={() => onDeleteImage(image.id)} disabled={busyImage}>
+                    Excluir
+                  </button>
+                </div>
+              ) : null}
+            </article>
+          ))}
+
+          {!isView ? (
+            <button
+              type="button"
+              className="admin-photo admin-photo--add"
+              disabled={busyImage || pending}
+              onClick={() => {
+                if (!productId) {
+                  setError('Salve o produto antes de enviar fotos.')
+                  return
+                }
+                fileInputRef.current?.click()
+              }}
+              aria-label="Adicionar foto"
+            >
+              <span>+</span>
+            </button>
+          ) : null}
+        </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          hidden
+          onChange={onPickImages}
+        />
+        <input
+          ref={replaceInputRef}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={onReplaceFile}
+        />
+      </section>
+
+      {!isView ? (
+        <div className="admin-actions">
+          <button type="submit" className="admin-btn" disabled={pending}>
+            {pending ? 'Salvando…' : 'Salvar produto'}
+          </button>
+          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+            Cancelar
+          </Link>
+        </div>
+      ) : null}
+    </form>
+  )
+}
