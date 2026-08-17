@@ -1,7 +1,27 @@
+'use client'
+
 import Link from 'next/link'
 import { categoryCards } from '../../data/homeData'
+import { useShop } from '../../context/ShopContext'
 
-function CategoryShowcase() {
+function CategoryShowcase({ categories: categoriesProp }) {
+  const { categories: contextCategories } = useShop()
+  const categories = categoriesProp ?? contextCategories ?? []
+
+  const activeSlugs = new Set(
+    categories
+      .map((c) => String(c.slug || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+      .filter(Boolean),
+  )
+  const cards =
+    activeSlugs.size > 0
+      ? categoryCards.filter((card) => {
+          if (card.to === '/colecoes') return true
+          const slug = String(card.to || '').replace(/^\//, '').toLowerCase()
+          return activeSlugs.has(slug)
+        })
+      : categoryCards
+
   return (
     <section id="categorias" className="categorias-section section" aria-labelledby="categorias-title">
       <div className="container categorias-section__container">
@@ -16,7 +36,7 @@ function CategoryShowcase() {
         </div>
 
         <div className="category-banners">
-          {categoryCards.map((category) => (
+          {cards.map((category) => (
             <Link
               key={category.id}
               href={category.to}

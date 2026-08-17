@@ -10,20 +10,23 @@ import BenefitsBar from '../components/home/BenefitsBar'
 import BrandEssence from '../components/home/BrandEssence'
 import InstagramSection from '../components/home/InstagramSection'
 import Newsletter from '../components/home/Newsletter'
+import { useShop } from '../context/ShopContext'
 
-function HomePage() {
+function HomePage({ featuredCollection = null }) {
+  const { products, categories } = useShop()
+
   return (
     <>
       <HeroSection />
       <SectionDivider variant="light" showSaint />
       <main>
-        <BestsellersSection />
+        <BestsellersSection products={products} />
         <SectionDivider variant="dark" showSaint />
-        <NovidadesSection />
+        <NovidadesSection products={products} />
         <SectionDivider variant="light" showSaint />
-        <CategoryShowcase />
+        <CategoryShowcase categories={categories} />
         <SectionDivider variant="dark" showSaint />
-        <FeaturedCollection />
+        <FeaturedCollection featuredCollection={featuredCollection} />
         <SectionDivider variant="light" showSaint />
         <BrandEssence />
         <SectionDivider variant="dark" showSaint />

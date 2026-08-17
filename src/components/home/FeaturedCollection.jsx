@@ -1,19 +1,23 @@
+'use client'
+
 import Link from 'next/link'
 import {
-  featuredCollection,
+  featuredCollection as featuredCollectionFallback,
   BRAND_LOGO_CIRCULAR_SRC,
 } from '../../data/homeData'
 
-function FeaturedCollection() {
-  const {
-    eyebrow,
-    title,
-    description,
-    primaryCta,
-    image,
-    imageAlt,
-    primaryHref = '/colecoes/raizes-do-sul',
-  } = featuredCollection
+function FeaturedCollection({ featuredCollection = null }) {
+  const eyebrow = featuredCollectionFallback.eyebrow
+  const title =
+    featuredCollection?.title || featuredCollection?.name || featuredCollectionFallback.title
+  const description =
+    featuredCollection?.description || featuredCollectionFallback.description
+  const primaryCta = featuredCollectionFallback.primaryCta
+  const image = featuredCollectionFallback.image
+  const imageAlt = featuredCollectionFallback.imageAlt
+  const primaryHref = featuredCollection?.slug
+    ? `/colecoes/${featuredCollection.slug}`
+    : featuredCollectionFallback.primaryHref || '/colecoes'
 
   return (
     <section

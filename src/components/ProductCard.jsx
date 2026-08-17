@@ -41,7 +41,11 @@ function ProductCard({
   const badge = product.badge
   const isNovo = product.new || (badge && /novo|novidade/i.test(badge))
   const needsSize = showSizes && sizes.length > 0
-  const detailPath = `/produto/${product.id}`
+  const detailPath = `/produto/${product.slug || product.id}`
+  const isAvailable =
+    product.available === true ||
+    (product.available !== false &&
+      (typeof product.stock !== 'number' || product.stock > 0))
 
   const badgeClass = badge
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`
@@ -71,6 +75,10 @@ function ProductCard({
   }
 
   const tryAdd = (sizeOverride) => {
+    if (!isAvailable) {
+      showToast('Produto indisponível.')
+      return false
+    }
     const size = sizeOverride ?? selectedSize
     if (needsSize && !size) {
       setPickingSize(true)
@@ -88,6 +96,10 @@ function ProductCard({
 
   const handleSizePick = (event, size) => {
     stop(event)
+    if (!isAvailable) {
+      showToast('Produto indisponível.')
+      return
+    }
     setSelectedSize(size)
     setPickingSize(false)
     addToCart({ ...product, selectedSize: size }, { size, requireSize: true })
@@ -150,8 +162,9 @@ function ProductCard({
           type="button"
           className="product-card__quick"
           onClick={handleAddToCart}
+          disabled={!isAvailable}
         >
-          Adicionar
+          {isAvailable ? 'Adicionar' : 'Indisponível'}
         </button>
 
         {showSizes && sizes.length > 0 && (

@@ -7,7 +7,7 @@ import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
 import { useShop } from '../context/ShopContext'
-import { products, searchProducts } from '../data/mockData'
+import { searchProducts } from '../data/mockData'
 import {
   groupProductsBySubcategory,
   getSubgroupLabel,
@@ -20,7 +20,7 @@ function SearchPage() {
   const subParam = (params.get('sub') || '').trim()
   const catParam = (params.get('cat') || '').trim()
   const router = useRouter()
-  const { setSearchQuery, clearSearch } = useShop()
+  const { setSearchQuery, clearSearch, products } = useShop()
 
   useEffect(() => {
     if (q) setSearchQuery(q)
@@ -41,7 +41,7 @@ function SearchPage() {
       category: activeCat || undefined,
       subKey: activeSub || undefined,
     })
-  }, [q, activeCat, activeSub])
+  }, [q, activeCat, activeSub, products])
 
   const sections = useMemo(
     () => groupProductsBySubcategory(results, activeCat || null),

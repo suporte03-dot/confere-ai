@@ -1442,6 +1442,10 @@ export function getProductHoverImage(product) {
 }
 
 export function getProductSizes(product) {
+  // Supabase-adapted products carry explicit variant sizes (may be empty).
+  if (product?.source === 'supabase') {
+    return Array.isArray(product.sizes) ? product.sizes : []
+  }
   if (Array.isArray(product?.sizes) && product.sizes.length) return product.sizes
   const dept = product?.department
   const category = product?.category
