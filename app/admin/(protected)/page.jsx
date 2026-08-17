@@ -20,10 +20,14 @@ export default function AdminHomePage() {
             </Link>
           </li>
           <li>
-            <span className="admin-nav-item admin-nav-item--muted">Coleções</span>
+            <Link className="admin-nav-item" href="/admin/colecoes">
+              Coleções
+            </Link>
           </li>
           <li>
-            <span className="admin-nav-item admin-nav-item--muted">Categorias</span>
+            <Link className="admin-nav-item" href="/admin/categorias">
+              Categorias
+            </Link>
           </li>
         </ul>
 

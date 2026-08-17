@@ -258,6 +258,20 @@
   font-size: 0.9rem;
 }
 
+.admin-table--compact {
+  min-width: 640px;
+}
+
+.admin-order-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.admin-card-item--text {
+  grid-template-columns: 1fr;
+}
+
 .admin-table th,
 .admin-table td {
   padding: 0.75rem 0.7rem;

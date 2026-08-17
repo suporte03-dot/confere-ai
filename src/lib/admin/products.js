@@ -126,11 +126,13 @@ export async function fetchActiveTaxonomies() {
       .from('categories')
       .select('id, name, slug')
       .eq('active', true)
+      .order('sort_order', { ascending: true })
       .order('name', { ascending: true }),
     supabase
       .from('collections')
       .select('id, name, slug')
       .eq('active', true)
+      .order('sort_order', { ascending: true })
       .order('name', { ascending: true }),
   ])
 
