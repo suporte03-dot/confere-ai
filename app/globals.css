@@ -4,6 +4,7 @@
 @import '../src/home.css';
 @import '../src/catalog.css';
 @import '../src/preview.css';
+@import '../src/responsive.css';
 
 body {
   min-height: 100vh;

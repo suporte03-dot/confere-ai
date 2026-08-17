@@ -18,6 +18,12 @@ export const metadata = {
   },
 }
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
+
 export default async function RootLayout({ children }) {
   const [products, categories, collections] = await Promise.all([
     listActiveProducts(),

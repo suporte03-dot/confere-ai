@@ -10,6 +10,7 @@
   --admin-danger: #8b2e2e;
 
   min-height: 100vh;
+  overflow-x: clip;
   background:
     radial-gradient(ellipse 80% 50% at 10% -10%, rgba(201, 155, 50, 0.12), transparent 55%),
     linear-gradient(180deg, #f8f3ea 0%, var(--admin-bg) 40%, #efe6d6 100%);
@@ -638,5 +639,122 @@
   .admin-section__head {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .admin-shell,
+  .admin-shell--wide {
+    width: min(1120px, calc(100% - 1.5rem));
+    padding: 1.25rem 0 2.5rem;
+  }
+
+  .admin-panel {
+    padding: 1.15rem 1rem;
+  }
+
+  .admin-btn,
+  .admin-nav a,
+  .admin-nav-item {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-nav a,
+  .admin-nav-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .admin-actions {
+    flex-direction: column;
+  }
+
+  .admin-actions form {
+    width: 100%;
+  }
+
+  .admin-actions .admin-btn,
+  .admin-actions a.admin-btn {
+    width: 100%;
+  }
+
+  .admin-field input,
+  .admin-field textarea,
+  .admin-field select {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  .admin-link-btn,
+  .admin-photo__actions button {
+    min-height: 44px;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .admin-photos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-photo--add {
+    min-height: 160px;
+  }
+
+  .admin-card-item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .admin-card-item__body strong,
+  .admin-card-item__body p {
+    overflow-wrap: anywhere;
+  }
+
+  .admin-check {
+    min-height: 44px;
+  }
+
+  .admin-check input {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .admin-shell,
+  .admin-shell--wide {
+    width: calc(100% - 1rem);
+  }
+
+  .admin-photos {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card-item {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card-item__media {
+    width: 100%;
+    height: 180px;
+  }
+
+  .admin-card-item__media img {
+    object-fit: cover;
+  }
+
+  .admin-brand {
+    font-size: 1.4rem;
+  }
+
+  .admin-row-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-row-actions .admin-link-btn {
+    width: 100%;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
   }
 }
