@@ -3,6 +3,7 @@ import {
   assertAdminAccess,
   fetchActiveTaxonomies,
 } from '../../../../../src/lib/admin/products'
+import { isAiConfigured } from '../../../../../src/lib/admin/ai-config'
 import { signOutAdmin } from '../../../actions'
 import ProductEditor from '../ProductEditor'
 
@@ -65,6 +66,7 @@ export default async function AdminNewProductPage() {
           mode="create"
           categories={categories}
           collections={collections}
+          aiEnabled={isAiConfigured()}
         />
       </section>
     </div>

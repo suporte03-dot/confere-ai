@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { productImagePublicUrl } from '../../../../src/lib/admin/format'
 import { slugify } from '../../../../src/lib/admin/slugify'
@@ -14,6 +15,8 @@ import {
   setProductCoverImage,
   uploadProductImage,
 } from './actions'
+
+const AiAssistPanel = dynamic(() => import('./AiAssistPanel'), { ssr: false })
 
 function moneyToInput(value) {
   if (value == null || value === '') return ''
@@ -33,12 +36,19 @@ function createVariantDraft(seed = {}) {
   }
 }
 
+function AiHint({ show }) {
+  if (!show) return null
+  return <span className="admin-ai-hint">✨ Sugerido pela IA</span>
+}
+
 export default function ProductEditor({
   mode = 'create',
   readOnly = false,
   product = null,
   categories = [],
   collections = [],
+  highlightVariantId = '',
+  aiEnabled = false,
 }) {
   const router = useRouter()
   const fileInputRef = useRef(null)
@@ -69,6 +79,7 @@ export default function ProductEditor({
   const [error, setError] = useState('')
   const [slugHint, setSlugHint] = useState('')
   const [busyImage, setBusyImage] = useState(false)
+  const [aiHints, setAiHints] = useState({})
 
   const isView = readOnly || mode === 'view'
   const title = useMemo(() => {
@@ -110,22 +121,38 @@ export default function ProductEditor({
     }
   }, [slug, productId, isView])
 
+  useEffect(() => {
+    if (!highlightVariantId) return undefined
+    const node = document.querySelector(
+      `[data-variant-id="${CSS.escape(highlightVariantId)}"]`,
+    )
+    if (!node) return undefined
+    node.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return undefined
+  }, [highlightVariantId, variants.length])
+
   function onNameChange(value) {
     setName(value)
+    setAiHints((prev) => ({ ...prev, name: false }))
     if (!slugTouched && !isView) {
       setSlug(slugify(value))
+      setAiHints((prev) => ({ ...prev, slug: false }))
     }
   }
 
   function onSlugChange(value) {
     setSlugTouched(true)
     setSlug(slugify(value))
+    setAiHints((prev) => ({ ...prev, slug: false }))
   }
 
   function updateVariant(key, field, value) {
     setVariants((prev) =>
       prev.map((row) => (row._key === key ? { ...row, [field]: value } : row)),
     )
+    if (field === 'color' || field === 'size') {
+      setAiHints((prev) => ({ ...prev, [field]: false }))
+    }
   }
 
   function addVariant() {
@@ -134,6 +161,56 @@ export default function ProductEditor({
 
   function removeVariant(key) {
     setVariants((prev) => prev.filter((row) => row._key !== key))
+  }
+
+  function applyAiSuggestions(suggestion) {
+    if (!suggestion || isView) return
+    const hints = {}
+    if (suggestion.name) {
+      setName(suggestion.name)
+      hints.name = true
+    }
+    if (suggestion.slug) {
+      setSlugTouched(true)
+      setSlug(suggestion.slug)
+      hints.slug = true
+    } else if (suggestion.name && !slugTouched) {
+      setSlug(slugify(suggestion.name))
+      hints.slug = true
+    }
+    if (suggestion.description) {
+      setDescription(suggestion.description)
+      hints.description = true
+    }
+    if (suggestion.categoryId) {
+      setCategoryId(suggestion.categoryId)
+      hints.categoryId = true
+    }
+    if (suggestion.primaryColor || suggestion.detectedSize) {
+      setVariants((prev) => {
+        if (!prev.length) {
+          return [
+            createVariantDraft({
+              color: suggestion.primaryColor || '',
+              size: suggestion.detectedSize || '',
+            }),
+          ]
+        }
+        const [first, ...rest] = prev
+        return [
+          {
+            ...first,
+            color: suggestion.primaryColor || first.color,
+            size: suggestion.detectedSize || first.size,
+          },
+          ...rest,
+        ]
+      })
+      if (suggestion.primaryColor) hints.color = true
+      if (suggestion.detectedSize) hints.size = true
+    }
+    setAiHints(hints)
+    setMessage('Sugestões aplicadas. Revise e salve o produto.')
   }
 
   function onSave(event) {
@@ -356,11 +433,19 @@ export default function ProductEditor({
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
+      {mode === 'create' && !isView ? (
+        <AiAssistPanel
+          enabled={aiEnabled}
+          disabled={pending}
+          onApply={applyAiSuggestions}
+        />
+      ) : null}
+
       <section className="admin-section">
         <h2>Informações principais</h2>
         <div className="admin-grid-2">
           <div className="admin-field">
-            <label htmlFor="product-name">Nome</label>
+            <label htmlFor="product-name">Nome <AiHint show={aiHints.name} /></label>
             <input
               id="product-name"
               value={name}
@@ -370,7 +455,7 @@ export default function ProductEditor({
             />
           </div>
           <div className="admin-field">
-            <label htmlFor="product-slug">Slug</label>
+            <label htmlFor="product-slug">Slug <AiHint show={aiHints.slug} /></label>
             <input
               id="product-slug"
               value={slug}
@@ -388,12 +473,15 @@ export default function ProductEditor({
           </div>
         </div>
         <div className="admin-field">
-          <label htmlFor="product-description">Descrição</label>
+          <label htmlFor="product-description">Descrição <AiHint show={aiHints.description} /></label>
           <textarea
             id="product-description"
             rows={5}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {
+              setDescription(e.target.value)
+              setAiHints((prev) => ({ ...prev, description: false }))
+            }}
             disabled={isView || pending}
           />
         </div>
@@ -432,11 +520,16 @@ export default function ProductEditor({
         <h2>Classificação</h2>
         <div className="admin-grid-2">
           <div className="admin-field">
-            <label htmlFor="product-category">Categoria</label>
+            <label htmlFor="product-category">
+              Categoria <AiHint show={aiHints.categoryId} />
+            </label>
             <select
               id="product-category"
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
+              onChange={(e) => {
+                setCategoryId(e.target.value)
+                setAiHints((prev) => ({ ...prev, categoryId: false }))
+              }}
               disabled={isView || pending}
             >
               <option value="">Selecione…</option>
@@ -514,10 +607,20 @@ export default function ProductEditor({
           <p className="admin-muted">Nenhuma variante cadastrada.</p>
         ) : (
           <div className="admin-variants">
-            {variants.map((variant) => (
-              <div key={variant._key} className="admin-variant-row">
+            {variants.map((variant, index) => (
+              <div
+                key={variant._key}
+                data-variant-id={variant.id || ''}
+                className={`admin-variant-row${
+                  highlightVariantId && variant.id === highlightVariantId
+                    ? ' admin-variant-row--alert'
+                    : ''
+                }`}
+              >
                 <div className="admin-field">
-                  <label>Tamanho</label>
+                  <label>
+                    Tamanho <AiHint show={index === 0 && aiHints.size} />
+                  </label>
                   <input
                     value={variant.size}
                     onChange={(e) => updateVariant(variant._key, 'size', e.target.value)}
@@ -526,7 +629,9 @@ export default function ProductEditor({
                   />
                 </div>
                 <div className="admin-field">
-                  <label>Cor</label>
+                  <label>
+                    Cor <AiHint show={index === 0 && aiHints.color} />
+                  </label>
                   <input
                     value={variant.color}
                     onChange={(e) => updateVariant(variant._key, 'color', e.target.value)}

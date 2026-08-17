@@ -109,6 +109,7 @@ export default async function AdminProductDetailPage({ params, searchParams }) {
             product={product}
             categories={categories}
             collections={collections}
+            highlightVariantId={resolvedSearch?.variante || ''}
           />
         ) : null}
       </section>

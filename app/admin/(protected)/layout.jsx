@@ -1,6 +1,8 @@
 import { redirect } from 'next/navigation'
 import { getAdminAccess } from '../../../src/lib/supabase/admin-auth'
+import { fetchStockAlerts } from '../../../src/lib/admin/stock-alerts'
 import { signOutAdmin } from '../actions'
+import AdminChrome from './AdminChrome'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,5 +38,7 @@ export default async function AdminProtectedLayout({ children }) {
     )
   }
 
-  return children
+  const alerts = await fetchStockAlerts()
+
+  return <AdminChrome initialAlerts={alerts}>{children}</AdminChrome>
 }
