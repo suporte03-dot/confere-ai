@@ -1,17 +1,32 @@
 'use client'
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AppNavLink from '../AppNavLink'
-import { collectionsMegaMenu, footerHome, mainNavigation } from '../../data/homeData'
+import { collectionsMegaMenu as collectionsMegaMenuFallback, footerHome, mainNavigation } from '../../data/homeData'
 import { brandCollections } from '../../data/catalog'
 import { useShop } from '../../context/ShopContext'
 
 const { instagramHref, facebookHref } = footerHome.atendimento
 
-const featuredCollection = brandCollections.find((c) => c.slug === 'raizes-do-sul')
-  || brandCollections[0]
+function buildCollectionsMegaMenu(collections) {
+  if (!Array.isArray(collections) || collections.length === 0) {
+    return collectionsMegaMenuFallback
+  }
+
+  const fromDb = collections.slice(0, 6).map((c) => ({
+    label: c.name || c.title,
+    to: `/colecoes/${c.slug}`,
+  }))
+
+  return [
+    ...fromDb,
+    { label: 'Novidades', to: '/#novidades' },
+    { label: 'Mais vendidos', to: '/#mais-vendidos' },
+    { label: 'Ver todas as coleções', to: '/colecoes', isAll: true },
+  ]
+}
 
 function isDesktopNav() {
   return typeof window !== 'undefined'
@@ -65,13 +80,46 @@ function FacebookIcon({ size = 18 }) {
 function MainNavigation({ open, onClose, onOpenCart }) {
   const pathname = usePathname() || ''
   const [hash, setHash] = useState('')
-  const { cartCount } = useShop()
+  const { cartCount, collections, categories } = useShop()
   const [collectionsOpen, setCollectionsOpen] = useState(false)
   const dropdownId = useId()
   const wrapRef = useRef(null)
   const closeTimerRef = useRef(null)
   const locationKey = `${pathname}${hash}`
   const [trackedLocation, setTrackedLocation] = useState(locationKey)
+
+  const collectionsMegaMenu = useMemo(
+    () => buildCollectionsMegaMenu(collections),
+    [collections],
+  )
+
+  const featuredCollection = useMemo(() => {
+    const fromDb =
+      collections.find((c) => c.featured) || collections[0] || null
+    if (fromDb) {
+      const brand =
+        brandCollections.find((c) => c.slug === fromDb.slug) || brandCollections[0]
+      return {
+        slug: fromDb.slug,
+        title: fromDb.title || fromDb.name,
+        image: fromDb.image || brand?.image,
+        objectPosition: fromDb.objectPosition || brand?.objectPosition,
+      }
+    }
+    return brandCollections.find((c) => c.slug === 'raizes-do-sul') || brandCollections[0]
+  }, [collections])
+
+  const navItems = useMemo(() => {
+    const activeSlugs = new Set((categories || []).map((c) => c.slug).filter(Boolean))
+    if (activeSlugs.size === 0) return mainNavigation
+    return mainNavigation.filter((item) => {
+      if (!item.to || item.to === '/colecoes' || item.to === '/sobre' || item.to === '/contato') {
+        return true
+      }
+      const slug = String(item.to).replace(/^\//, '')
+      return activeSlugs.has(slug)
+    })
+  }, [categories])
 
   useEffect(() => {
     const syncHash = () => setHash(window.location.hash || '')
@@ -235,10 +283,10 @@ function MainNavigation({ open, onClose, onOpenCart }) {
       </div>
 
       <div className="main-nav__inner">
-        {mainNavigation.map((item, index) => {
+        {navItems.map((item, index) => {
           const showOrnamentBefore = item.label === 'Sobre'
-          const prevIsCollections = mainNavigation[index - 1]?.hasDropdown
-          const mid = Math.ceil(mainNavigation.length / 2)
+          const prevIsCollections = navItems[index - 1]?.hasDropdown
+          const mid = Math.ceil(navItems.length / 2)
           const insertCenterSlot = index === mid
 
           const ornament = showOrnamentBefore && prevIsCollections

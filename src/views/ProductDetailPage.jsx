@@ -2,13 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import ProductInfoModal from '../components/ProductInfoModal'
 import {
   formatCurrency,
   getColorHex,
   getInstallment,
-  getProductById,
   getProductColors,
   getProductHoverImage,
   getProductImage,
@@ -23,38 +21,43 @@ const INFO_LINKS = [
   { id: 'medidas', label: 'Tabela de Medidas' },
 ]
 
-function ProductDetailPage() {
-  const { id } = useParams()
-  const product = useMemo(() => getProductById(id), [id])
+function ProductDetailPage({ product = null }) {
   const { addToCart, toggleFavorite, isFavorite, showToast } = useShop()
 
   const colors = useMemo(
-    () => (product ? getProductColors(product, { expand: true, minCount: 5 }) : []),
+    () => (product ? getProductColors(product, { expand: false, minCount: 0 }) : []),
     [product],
   )
   const sizes = useMemo(() => (product ? getProductSizes(product) : []), [product])
   const needsSize = sizes.length > 0
+  const galleryImages = useMemo(() => {
+    if (!product) return []
+    if (Array.isArray(product.images) && product.images.length) {
+      return product.images.map((img) => img.url).filter(Boolean)
+    }
+    const primary = getProductImage(product)
+    const hover = getProductHoverImage(product)
+    return [primary, hover].filter(Boolean)
+  }, [product])
 
   const [selectedColor, setSelectedColor] = useState(null)
   const [selectedSize, setSelectedSize] = useState(null)
   const [infoOpen, setInfoOpen] = useState(false)
   const [infoTab, setInfoTab] = useState('sobre')
-  const [activeImage, setActiveImage] = useState('primary')
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
 
   useEffect(() => {
     setSelectedColor(null)
     setSelectedSize(null)
-    setActiveImage('primary')
+    setActiveImageIndex(0)
     setInfoOpen(false)
-  }, [id])
+  }, [product?.id])
 
   const resolvedColor = selectedColor && colors.includes(selectedColor)
     ? selectedColor
     : colors[0] || null
   const favorite = product ? isFavorite(product.id) : false
-  const primaryImage = product ? getProductImage(product) : ''
-  const hoverImage = product ? getProductHoverImage(product) : ''
-  const displayImage = activeImage === 'hover' ? hoverImage : primaryImage
+  const displayImage = galleryImages[activeImageIndex] || (product ? getProductImage(product) : '')
 
   if (!product) {
     return (
@@ -88,6 +91,7 @@ function ProductDetailPage() {
   }
 
   const categoryHref = pathForFilter(product.department || product.category || 'Todos')
+  const thumbs = galleryImages.length >= 2 ? galleryImages.slice(0, 6) : galleryImages
 
   return (
     <main className="product-detail-page">
@@ -95,7 +99,7 @@ function ProductDetailPage() {
         <nav className="catalog-breadcrumb" aria-label="Navegação">
           <Link href="/">Início</Link>
           <span aria-hidden="true">/</span>
-          <Link href={categoryHref}>{product.department}</Link>
+          <Link href={categoryHref}>{product.department || product.categoryName || 'Catálogo'}</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{product.name}</span>
         </nav>
@@ -112,29 +116,28 @@ function ProductDetailPage() {
                 <span className="product-detail__badge">{product.badge}</span>
               )}
             </div>
-            <div className="product-detail__thumbs" role="group" aria-label="Imagens do produto">
-              <button
-                type="button"
-                className={`product-detail__thumb${activeImage === 'primary' ? ' is-active' : ''}`}
-                aria-pressed={activeImage === 'primary'}
-                onClick={() => setActiveImage('primary')}
-              >
-                <img src={primaryImage} alt="" />
-              </button>
-              <button
-                type="button"
-                className={`product-detail__thumb${activeImage === 'hover' ? ' is-active' : ''}`}
-                aria-pressed={activeImage === 'hover'}
-                onClick={() => setActiveImage('hover')}
-              >
-                <img src={hoverImage} alt="" />
-              </button>
-            </div>
+            {thumbs.length > 0 && (
+              <div className="product-detail__thumbs" role="group" aria-label="Imagens do produto">
+                {thumbs.map((src, index) => (
+                  <button
+                    key={`${src}-${index}`}
+                    type="button"
+                    className={`product-detail__thumb${activeImageIndex === index ? ' is-active' : ''}`}
+                    aria-pressed={activeImageIndex === index}
+                    onClick={() => setActiveImageIndex(index)}
+                  >
+                    <img src={src} alt="" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="product-detail__info">
             <p className="product-detail__eyebrow">
-              {product.department} · {product.subcategory}
+              {[product.department || product.categoryName, product.subcategory || product.collectionName]
+                .filter(Boolean)
+                .join(' · ')}
             </p>
             <h1 className="product-detail__title">{product.name}</h1>
             <p className="product-detail__desc">
@@ -210,8 +213,21 @@ function ProductDetailPage() {
               </div>
             )}
 
+            {typeof product.stock === 'number' && (
+              <p className="product-detail__stock">
+                {product.stock > 0
+                  ? `${product.stock} em estoque`
+                  : 'Indisponível no momento'}
+              </p>
+            )}
+
             <div className="product-detail__actions">
-              <button type="button" className="btn btn--primary product-detail__cta" onClick={handleAdd}>
+              <button
+                type="button"
+                className="btn btn--primary product-detail__cta"
+                onClick={handleAdd}
+                disabled={product.stock === 0}
+              >
                 Adicionar ao carrinho
               </button>
               <button

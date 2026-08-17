@@ -1,6 +1,13 @@
 import './globals.css'
 import Providers from './providers'
 import SiteChrome from './components/SiteChrome'
+import {
+  listActiveCategories,
+  listActiveCollections,
+  listActiveProducts,
+} from '../src/lib/catalog'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Terra & Estilo — A marca do agro brasileiro',
@@ -11,7 +18,13 @@ export const metadata = {
   },
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const [products, categories, collections] = await Promise.all([
+    listActiveProducts(),
+    listActiveCategories(),
+    listActiveCollections(),
+  ])
+
   return (
     <html lang="pt-BR">
       <head>
@@ -23,7 +36,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <Providers>
+        <Providers products={products} categories={categories} collections={collections}>
           <SiteChrome>{children}</SiteChrome>
         </Providers>
       </body>

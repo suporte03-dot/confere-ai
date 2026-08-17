@@ -1,10 +1,31 @@
-import { products, getNovidadesProducts } from '../../data/mockData'
+'use client'
+
+import { getNovidadesProducts } from '../../data/mockData'
 import ProductCard from '../ProductCard'
 
-function NovidadesSection() {
+function NovidadesSection({ products = [] }) {
   const items = getNovidadesProducts(products, 8)
 
-  if (!items.length) return null
+  if (!items.length) {
+    return (
+      <section id="novidades" className="novidades-section section" aria-labelledby="novidades-title">
+        <div className="container">
+          <div className="section-head">
+            <p className="section-head__eyebrow">Acabou de chegar</p>
+            <h2 id="novidades-title" className="section-head__title">
+              Novidades
+            </h2>
+            <p className="section-head__desc">
+              Em breve, lançamentos da temporada Terra &amp; Estilo.
+            </p>
+          </div>
+          <div className="product-grid-section__empty" role="status">
+            <p>Nenhuma novidade publicada no momento.</p>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section id="novidades" className="novidades-section section" aria-labelledby="novidades-title">

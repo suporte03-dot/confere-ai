@@ -41,7 +41,7 @@ function ProductCard({
   const badge = product.badge
   const isNovo = product.new || (badge && /novo|novidade/i.test(badge))
   const needsSize = showSizes && sizes.length > 0
-  const detailPath = `/produto/${product.id}`
+  const detailPath = `/produto/${product.slug || product.id}`
 
   const badgeClass = badge
     ? `product-card__badge--${badge.replace(/\s/g, '-').toLowerCase()}`

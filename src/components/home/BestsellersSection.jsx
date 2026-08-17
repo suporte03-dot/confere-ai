@@ -1,14 +1,17 @@
+'use client'
+
 import { useMemo, useState } from 'react'
 import { bestsellersTabs, bestsellersSection } from '../../data/homeData'
-import { products, getBestsellersProducts } from '../../data/mockData'
+import { getBestsellersProducts } from '../../data/mockData'
 import { useShop } from '../../context/ShopContext'
 import { staticAssetCssUrl } from '../../utils/staticAssetSrc'
 import ProductCard from '../ProductCard'
 
 const BESTSELLERS_BG_CSS = staticAssetCssUrl(bestsellersSection.backgroundImage)
 
-function BestsellersSection() {
+function BestsellersSection({ products: productsProp }) {
   const {
+    products: catalogProducts,
     filteredProducts,
     categoryFilter,
     isSearchActive,
@@ -17,6 +20,7 @@ function BestsellersSection() {
     setCategoryFilter,
   } = useShop()
 
+  const products = productsProp ?? catalogProducts ?? []
   const [tab, setTab] = useState('Todos')
 
   const showSearchResults = isSearchActive || categoryFilter !== 'Todos'
@@ -24,7 +28,7 @@ function BestsellersSection() {
   const items = useMemo(() => {
     if (showSearchResults) return filteredProducts
     return getBestsellersProducts(products, tab, 8)
-  }, [filteredProducts, showSearchResults, tab])
+  }, [filteredProducts, products, showSearchResults, tab])
 
   const handleTab = (next) => {
     setTab(next)
@@ -92,6 +96,10 @@ function BestsellersSection() {
             >
               Limpar busca
             </button>
+          </div>
+        ) : items.length === 0 ? (
+          <div className="product-grid-section__empty" role="status">
+            <p>Nenhum produto em destaque no momento.</p>
           </div>
         ) : (
           <div className="products-grid products-grid--bestsellers">

@@ -2,40 +2,62 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import ProductCard from '../components/ProductCard'
 import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
 import {
   brandCollections,
-  getCollectionMeta,
-  getProductsByCollection,
   filterAndSortProducts,
   SORT_OPTIONS,
 } from '../data/catalog'
-import { products } from '../data/mockData'
+import { useShop } from '../context/ShopContext'
 
-function CollectionsPage() {
-  const { slug } = useParams()
+function CollectionsPage({
+  slug = null,
+  collection = null,
+  collections: collectionsProp,
+  notFoundCollection = false,
+}) {
+  const { collections: contextCollections, products: catalogProducts } = useShop()
   const [sortId, setSortId] = useState('relevantes')
 
-  const active = slug ? getCollectionMeta(slug) : null
+  const listings = collectionsProp ?? contextCollections ?? []
+  const active = collection
   const baseProducts = useMemo(() => {
-    if (slug) return getProductsByCollection(slug, products)
-    return products.filter((p) => brandCollections.some((c) => c.slug === p.collection))
-  }, [slug])
+    if (slug) return active?.products || []
+    return catalogProducts.filter((p) =>
+      listings.some((c) => c.slug === p.collection || c.slug === p.collectionSlug),
+    )
+  }, [active, catalogProducts, listings, slug])
 
   const visible = useMemo(
     () => filterAndSortProducts(baseProducts, {}, sortId),
     [baseProducts, sortId],
   )
 
-  const title = active?.title || 'Coleções'
+  if (slug && notFoundCollection) {
+    return (
+      <main className="catalog-page">
+        <div className="container catalog-page__empty">
+          <p className="catalog-banner__eyebrow">Coleções</p>
+          <h1>Coleção não encontrada</h1>
+          <p>Esta coleção está indisponível ou o link está incorreto.</p>
+          <Link href="/colecoes" className="btn btn--gold">
+            Ver todas as coleções
+          </Link>
+        </div>
+      </main>
+    )
+  }
+
+  const title = active?.title || active?.name || 'Coleções'
   const description =
     active?.description ||
     'Curadoria Terra & Estilo — campanhas com identidade, presença e acabamento premium.'
-  const bannerImage = active?.image || brandCollections[0].image
-  const objectPosition = active?.objectPosition || 'center 28%'
+  const bannerImage =
+    active?.image || listings[0]?.image || brandCollections[0]?.image
+  const objectPosition = active?.objectPosition || listings[0]?.objectPosition || 'center 28%'
+  const gridCollections = listings.length > 0 ? listings : brandCollections
 
   return (
     <main className="catalog-page">
@@ -76,27 +98,33 @@ function CollectionsPage() {
 
         {!slug && (
           <div className="collections-grid">
-            {brandCollections.map((collection) => (
-              <Link
-                key={collection.slug}
-                href={`/colecoes/${collection.slug}`}
-                className="collections-card"
-              >
-                <img
-                  src={collection.image}
-                  alt=""
-                  style={{ objectPosition: collection.objectPosition }}
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span className="collections-card__shade" aria-hidden="true" />
-                <span className="collections-card__body">
-                  <strong>{collection.title}</strong>
-                  <em>{collection.description}</em>
-                  <span>Ver coleção →</span>
-                </span>
-              </Link>
-            ))}
+            {gridCollections.length === 0 ? (
+              <div className="catalog-page__empty" role="status">
+                <p>Nenhuma coleção publicada no momento.</p>
+              </div>
+            ) : (
+              gridCollections.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`/colecoes/${item.slug}`}
+                  className="collections-card"
+                >
+                  <img
+                    src={item.image}
+                    alt=""
+                    style={{ objectPosition: item.objectPosition }}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span className="collections-card__shade" aria-hidden="true" />
+                  <span className="collections-card__body">
+                    <strong>{item.title || item.name}</strong>
+                    <em>{item.description}</em>
+                    <span>Ver coleção →</span>
+                  </span>
+                </Link>
+              ))
+            )}
           </div>
         )}
 

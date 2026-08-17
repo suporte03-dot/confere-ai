@@ -3,7 +3,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  products,
   matchesFilter,
   getFilterLabel,
   searchProducts,
@@ -30,8 +29,14 @@ function cartLineKey(product) {
 
 const ShopContext = createContext(null)
 
-export function ShopProvider({ children }) {
+export function ShopProvider({
+  children,
+  products: catalogProducts = [],
+  categories = [],
+  collections = [],
+}) {
   const router = useRouter()
+  const products = Array.isArray(catalogProducts) ? catalogProducts : []
   const [cart, setCart] = useState([])
   const [favorites, setFavorites] = useState(loadStoredFavorites)
   const [searchQuery, setSearchQuery] = useState('')
@@ -172,7 +177,7 @@ export function ShopProvider({ children }) {
     }
 
     return products.filter((product) => matchesFilter(product, categoryFilter))
-  }, [categoryFilter, isSearchActive, searchQuery])
+  }, [categoryFilter, isSearchActive, products, searchQuery])
 
   const activeFilterLabel = useMemo(() => {
     if (isSearchActive) {
@@ -182,6 +187,9 @@ export function ShopProvider({ children }) {
   }, [categoryFilter, isSearchActive, searchQuery])
 
   const value = {
+    products,
+    categories,
+    collections,
     cart,
     cartCount,
     cartSubtotal,

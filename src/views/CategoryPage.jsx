@@ -16,6 +16,7 @@ import {
 } from '../data/catalog'
 import { getColorHex } from '../data/mockData'
 import { groupProductsBySubcategory, getSubgroupLabel } from '../data/searchMap'
+import { useShop } from '../context/ShopContext'
 
 const INITIAL_FILTERS = {
   subcategory: '',
@@ -28,18 +29,23 @@ const INITIAL_FILTERS = {
   onlyBestsellers: false,
 }
 
-function CategoryPage({ category }) {
-  return <CategoryPageContent key={category} category={category} />
+function CategoryPage({ category, products: productsProp }) {
+  return <CategoryPageContent key={category} category={category} productsProp={productsProp} />
 }
 
-function CategoryPageContent({ category }) {
+function CategoryPageContent({ category, productsProp }) {
   const meta = categoryMeta[category]
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
   const subFromUrl = searchParams.get('sub') || ''
+  const { products: catalogProducts } = useShop()
 
-  const baseProducts = useMemo(() => getProductsByCategory(category), [category])
+  const sourceProducts = productsProp ?? catalogProducts ?? []
+  const baseProducts = useMemo(
+    () => getProductsByCategory(category, sourceProducts),
+    [category, sourceProducts],
+  )
   const facets = useMemo(() => getFacetOptions(baseProducts, category), [baseProducts, category])
 
   const [filters, setFilters] = useState({

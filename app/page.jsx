@@ -1,9 +1,11 @@
 import HomePage from '../src/views/HomePage'
+import { getFeaturedCollection } from '../src/lib/catalog'
 
 /**
  * Phase 4: full Home parity — same section tree as Vite `/`.
- * Site chrome (Header/Footer/Cart/Toast) remains in layout via SiteChrome.
+ * Catalog data comes from layout → ShopProvider; featured collection is loaded here.
  */
-export default function Page() {
-  return <HomePage />
+export default async function Page() {
+  const featuredCollection = await getFeaturedCollection()
+  return <HomePage featuredCollection={featuredCollection} />
 }
