@@ -113,7 +113,19 @@ export const SORT_OPTIONS = [
 
 export function getProductsByCategory(category, catalog = products) {
   if (!category) return catalog
-  return catalog.filter((p) => p.category === category)
+  const key = String(category)
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+  return catalog.filter((p) => {
+    const slug = String(p.category || p.categorySlug || '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+    return slug === key
+  })
 }
 
 export function getProductsByCollection(slug, catalog = products) {
@@ -190,8 +202,8 @@ export function applyCatalogFilters(catalog, filters) {
     if (!(product.price >= range.min && (range.max === Infinity || product.price <= range.max))) {
       return false
     }
-    if (availability === 'in-stock' && !(product.stock > 0)) return false
-    if (availability === 'out-of-stock' && product.stock > 0) return false
+    if (availability === 'in-stock' && !(product.available === true || product.stock > 0)) return false
+    if (availability === 'out-of-stock' && (product.available === true || product.stock > 0)) return false
     if (onlyNew && !product.new && !/novo|novidade/i.test(String(product.badge || ''))) return false
     if (
       onlyBestsellers &&

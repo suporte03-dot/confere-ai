@@ -59,6 +59,26 @@ function ProductDetailPage({ product = null }) {
   const favorite = product ? isFavorite(product.id) : false
   const displayImage = galleryImages[activeImageIndex] || (product ? getProductImage(product) : '')
 
+  const selectedVariant = useMemo(() => {
+    if (!product || !Array.isArray(product.variants) || !product.variants.length) return null
+    return (
+      product.variants.find((v) => {
+        const sizeOk = !needsSize || !selectedSize || v.size === selectedSize
+        const colorOk = !resolvedColor || !v.color || v.color === resolvedColor
+        return sizeOk && colorOk
+      }) || null
+    )
+  }, [product, needsSize, selectedSize, resolvedColor])
+
+  const isAvailable = Boolean(
+    product &&
+      (product.available === true ||
+        (product.available !== false &&
+          typeof product.stock === 'number' &&
+          product.stock > 0)),
+  )
+  const selectedSku = selectedVariant?.sku || product?.sku || null
+
   if (!product) {
     return (
       <main className="product-detail-page">
@@ -75,6 +95,10 @@ function ProductDetailPage({ product = null }) {
   }
 
   const handleAdd = () => {
+    if (!isAvailable) {
+      showToast('Produto indisponível.')
+      return
+    }
     if (needsSize && !selectedSize) {
       showToast('Selecione um tamanho para adicionar ao carrinho.')
       return
@@ -213,22 +237,23 @@ function ProductDetailPage({ product = null }) {
               </div>
             )}
 
-            {typeof product.stock === 'number' && (
-              <p className="product-detail__stock">
-                {product.stock > 0
-                  ? `${product.stock} em estoque`
-                  : 'Indisponível no momento'}
-              </p>
-            )}
+            <p className="product-detail__stock">
+              {isAvailable && typeof product.stock === 'number'
+                ? `${product.stock} em estoque`
+                : 'Indisponível'}
+            </p>
+            {selectedSku ? (
+              <p className="product-detail__sku">SKU: {selectedSku}</p>
+            ) : null}
 
             <div className="product-detail__actions">
               <button
                 type="button"
                 className="btn btn--primary product-detail__cta"
                 onClick={handleAdd}
-                disabled={product.stock === 0}
+                disabled={!isAvailable}
               >
-                Adicionar ao carrinho
+                {isAvailable ? 'Adicionar ao carrinho' : 'Indisponível'}
               </button>
               <button
                 type="button"

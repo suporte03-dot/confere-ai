@@ -1,5 +1,10 @@
 import { createPublicClient } from '../supabase/public'
-import { adaptCategory, adaptCollection, adaptProduct } from './adapt'
+import {
+  adaptCategory,
+  adaptCollection,
+  adaptProduct,
+  normalizeCatalogSlug,
+} from './adapt'
 
 const PRODUCT_LIST_SELECT = `
   id,
@@ -8,6 +13,8 @@ const PRODUCT_LIST_SELECT = `
   description,
   price,
   compare_at_price,
+  category_id,
+  collection_id,
   active,
   featured,
   sku,
@@ -16,7 +23,7 @@ const PRODUCT_LIST_SELECT = `
   category:categories ( id, name, slug, active ),
   collection:collections ( id, name, slug, active, featured ),
   product_images ( id, storage_path, is_cover, position, alt_text ),
-  product_variants ( id, size, color, stock, sku )
+  product_variants ( id, size, color, stock, sku, active )
 `
 
 const PRODUCT_DETAIL_SELECT = PRODUCT_LIST_SELECT
@@ -205,23 +212,53 @@ export async function getCollectionBySlug(slug) {
   }
   if (!data) return null
 
-  const productRows = await fetchActiveProductRows(supabase, (q) =>
-    q.eq('collection_id', data.id),
+  // Products come from layout → ShopProvider; avoid a second full catalog round-trip.
+  // Callers that need an embedded list can use listProductsByCollectionId.
+  return adaptCollection(data)
+}
+
+/** Active products for a collection id (batched list query, not per-product). */
+export async function listProductsByCollectionId(collectionId) {
+  if (!collectionId) return []
+  const supabase = getClientSafe()
+  if (!supabase) return []
+
+  const rows = await fetchActiveProductRows(supabase, (q) =>
+    q.eq('collection_id', collectionId),
   )
-  const products = filterVisibleProducts(productRows).map((row) => adaptProduct(row))
-  return adaptCollection(data, { products })
+  return filterVisibleProducts(rows).map((row) => adaptProduct(row))
 }
 
 export async function getCategoryBySlug(slug) {
   if (!slug) return null
+  const key = normalizeCatalogSlug(slug)
   const categories = await listActiveCategories()
-  return categories.find((c) => c.slug === slug) || null
+  return (
+    categories.find(
+      (c) =>
+        normalizeCatalogSlug(c.slug) === key ||
+        normalizeCatalogSlug(c.rawSlug) === key,
+    ) || null
+  )
 }
 
+/**
+ * Active products for a category route slug (e.g. feminino, acessorios).
+ * Queries by category_id — avoids loading the full catalog twice.
+ */
 export async function listProductsByCategorySlug(slug) {
   if (!slug) return listActiveProducts()
-  const products = await listActiveProducts()
-  return products.filter((p) => p.category === slug || p.categorySlug === slug)
+
+  const supabase = getClientSafe()
+  if (!supabase) return []
+
+  const category = await getCategoryBySlug(slug)
+  if (!category?.id) return []
+
+  const rows = await fetchActiveProductRows(supabase, (q) =>
+    q.eq('category_id', category.id),
+  )
+  return filterVisibleProducts(rows).map((row) => adaptProduct(row))
 }
 
 export function productParamIsUuid(param) {

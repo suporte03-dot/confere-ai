@@ -8,8 +8,14 @@ export {
   getCollectionBySlug,
   getCategoryBySlug,
   listProductsByCategorySlug,
+  listProductsByCollectionId,
   getFeaturedCollection,
   productParamIsUuid,
 } from './queries'
 
-export { adaptProduct, adaptCategory, adaptCollection } from './adapt'
+export {
+  adaptProduct,
+  adaptCategory,
+  adaptCollection,
+  normalizeCatalogSlug,
+} from './adapt'

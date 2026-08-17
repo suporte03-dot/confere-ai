@@ -8,12 +8,16 @@ function CategoryShowcase({ categories: categoriesProp }) {
   const { categories: contextCategories } = useShop()
   const categories = categoriesProp ?? contextCategories ?? []
 
-  const activeSlugs = new Set(categories.map((c) => c.slug).filter(Boolean))
+  const activeSlugs = new Set(
+    categories
+      .map((c) => String(c.slug || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+      .filter(Boolean),
+  )
   const cards =
     activeSlugs.size > 0
       ? categoryCards.filter((card) => {
           if (card.to === '/colecoes') return true
-          const slug = String(card.to || '').replace(/^\//, '')
+          const slug = String(card.to || '').replace(/^\//, '').toLowerCase()
           return activeSlugs.has(slug)
         })
       : categoryCards

@@ -24,7 +24,14 @@ function CollectionsPage({
   const listings = collectionsProp ?? contextCollections ?? []
   const active = collection
   const baseProducts = useMemo(() => {
-    if (slug) return active?.products || []
+    if (slug) {
+      if (Array.isArray(active?.products) && active.products.length > 0) {
+        return active.products
+      }
+      return catalogProducts.filter(
+        (p) => p.collection === slug || p.collectionSlug === slug,
+      )
+    }
     return catalogProducts.filter((p) =>
       listings.some((c) => c.slug === p.collection || c.slug === p.collectionSlug),
     )

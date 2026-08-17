@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import CategoryPage from '../../src/views/CategoryPage'
-import { listProductsByCategorySlug } from '../../src/lib/catalog'
 
 export const metadata = {
   title: 'Acessórios — Terra & Estilo',
@@ -8,11 +7,10 @@ export const metadata = {
     'Bonés, cintos, mochilas e peças que fecham o look com a assinatura Terra & Estilo — identidade em cada detalhe.',
 }
 
-export default async function AcessoriosPage() {
-  const products = await listProductsByCategorySlug('acessorios')
+export default function AcessoriosPage() {
   return (
     <Suspense fallback={null}>
-      <CategoryPage category="acessorios" products={products} />
+      <CategoryPage category="acessorios" />
     </Suspense>
   )
 }

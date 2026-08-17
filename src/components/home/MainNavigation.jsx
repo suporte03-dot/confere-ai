@@ -110,13 +110,17 @@ function MainNavigation({ open, onClose, onOpenCart }) {
   }, [collections])
 
   const navItems = useMemo(() => {
-    const activeSlugs = new Set((categories || []).map((c) => c.slug).filter(Boolean))
+    const activeSlugs = new Set(
+      (categories || [])
+        .map((c) => String(c.slug || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
+        .filter(Boolean),
+    )
     if (activeSlugs.size === 0) return mainNavigation
     return mainNavigation.filter((item) => {
       if (!item.to || item.to === '/colecoes' || item.to === '/sobre' || item.to === '/contato') {
         return true
       }
-      const slug = String(item.to).replace(/^\//, '')
+      const slug = String(item.to).replace(/^\//, '').toLowerCase()
       return activeSlugs.has(slug)
     })
   }, [categories])

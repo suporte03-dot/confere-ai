@@ -5,6 +5,15 @@ import { brandCollections, categoryMeta } from '../../data/catalog'
 const NEW_DAYS = 45
 const FALLBACK_IMAGE = assetUrl('/images/terraestilo/fallback-produto.jpg')
 
+/** Strip accents / trim for route-safe category slugs (e.g. acessórios → acessorios). */
+export function normalizeCatalogSlug(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
 function uniqueSorted(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) =>
     String(a).localeCompare(String(b), 'pt-BR', { numeric: true }),
@@ -45,21 +54,31 @@ function deriveBadge({ featured, isNew, compareAtPrice, price }) {
 
 function resolveCategorySlug(category) {
   if (!category) return null
-  const slug = String(category.slug || '')
-    .trim()
-    .toLowerCase()
+  const slug = normalizeCatalogSlug(category.slug)
+  if (slug === 'feminino' || slug === 'masculino' || slug === 'calcados' || slug === 'acessorios' || slug === 'infantil') {
+    return slug
+  }
   if (slug) return slug
-  const name = String(category.name || '')
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+  const name = normalizeCatalogSlug(category.name)
   if (name.includes('femin')) return 'feminino'
   if (name.includes('mascul')) return 'masculino'
   if (name.includes('calcad')) return 'calcados'
   if (name.includes('acessor')) return 'acessorios'
   if (name.includes('infantil')) return 'infantil'
   return name || null
+}
+
+/** Public storefront only uses active variants; stock is never invented. */
+function activeVariantsFromRow(row) {
+  return [...(row.product_variants || [])]
+    .filter((v) => v && v.active === true)
+    .sort((a, b) => {
+      const sizeCmp = String(a.size || '').localeCompare(String(b.size || ''), 'pt-BR', {
+        numeric: true,
+      })
+      if (sizeCmp !== 0) return sizeCmp
+      return String(a.color || '').localeCompare(String(b.color || ''), 'pt-BR')
+    })
 }
 
 /**
@@ -76,17 +95,12 @@ export function adaptProduct(row, { detail = false } = {}) {
   const cover = mappedImages.find((img) => img.isCover) || mappedImages[0] || null
   const secondary = mappedImages.find((img) => img.url !== cover?.url) || cover
 
-  const variants = [...(row.product_variants || [])].sort((a, b) => {
-    const sizeCmp = String(a.size || '').localeCompare(String(b.size || ''), 'pt-BR', {
-      numeric: true,
-    })
-    if (sizeCmp !== 0) return sizeCmp
-    return String(a.color || '').localeCompare(String(b.color || ''), 'pt-BR')
-  })
-
+  const variants = activeVariantsFromRow(row)
   const sizes = uniqueSorted(variants.map((v) => v.size).filter(Boolean))
   const colors = uniqueSorted(variants.map((v) => v.color).filter(Boolean))
+  // Availability comes only from active variants — do not invent stock.
   const stock = variants.reduce((sum, v) => sum + (Number(v.stock) || 0), 0)
+  const available = variants.length > 0 && stock > 0
   const price = Number(row.price) || 0
   const oldPrice =
     row.compare_at_price != null && Number(row.compare_at_price) > 0
@@ -122,10 +136,14 @@ export function adaptProduct(row, { detail = false } = {}) {
           color: v.color || null,
           stock: Number(v.stock) || 0,
           sku: v.sku || null,
+          active: true,
         }))
       : undefined,
     stock,
+    available,
     sku: row.sku || null,
+    categoryId: row.category_id || category?.id || null,
+    collectionIdRaw: row.collection_id || collection?.id || null,
     category: categorySlug,
     department: category?.name || categoryMeta[categorySlug]?.title || '',
     subcategory: collection?.name || '',
@@ -145,12 +163,14 @@ export function adaptProduct(row, { detail = false } = {}) {
 
 export function adaptCategory(row) {
   if (!row) return null
-  const slug = String(row.slug || '').trim()
+  const rawSlug = String(row.slug || '').trim()
+  const slug = resolveCategorySlug({ slug: rawSlug, name: row.name }) || normalizeCatalogSlug(rawSlug)
   const meta = categoryMeta[slug] || null
   return {
     id: row.id,
     name: row.name,
     slug,
+    rawSlug,
     description: row.description || meta?.description || '',
     active: Boolean(row.active),
     sortOrder: Number(row.sort_order) || 0,

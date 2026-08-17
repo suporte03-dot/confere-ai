@@ -368,10 +368,20 @@ function CategoryPageContent({ category, productsProp }) {
           <div className="catalog-results">
             {visible.length === 0 ? (
               <div className="catalog-page__empty" role="status">
-                <p>Nenhum produto encontrado com esses filtros.</p>
-                <button type="button" className="btn btn--gold" onClick={clearFilters}>
-                  Limpar filtros
-                </button>
+                <p>
+                  {baseProducts.length === 0
+                    ? 'Nenhum produto publicado nesta categoria no momento.'
+                    : 'Nenhum produto encontrado com esses filtros.'}
+                </p>
+                {baseProducts.length > 0 && activeFilterCount > 0 ? (
+                  <button type="button" className="btn btn--gold" onClick={clearFilters}>
+                    Limpar filtros
+                  </button>
+                ) : (
+                  <Link href="/" className="btn btn--gold">
+                    Voltar ao início
+                  </Link>
+                )}
               </div>
             ) : sections && sections.length > 1 ? (
               <div className="search-page__sections">
