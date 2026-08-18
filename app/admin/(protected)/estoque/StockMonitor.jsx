@@ -8,7 +8,7 @@ import {
   filterStockAlerts,
   formatVariantLabel,
 } from '../../../../src/lib/admin/stock'
-import { AdminIcon } from '../../components/AdminIcons'
+import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
 import AdjustStockDialog from './AdjustStockDialog'
 
 const FILTERS = [
@@ -19,9 +19,9 @@ const FILTERS = [
 ]
 
 const STATS = [
-  { key: 'out', label: 'Esgotados', icon: 'out' },
-  { key: 'critical', label: 'Estoque crítico', icon: 'critical' },
-  { key: 'low', label: 'Estoque baixo', icon: 'low' },
+  { key: 'out', label: 'Esgotados', hint: 'peças sem estoque', icon: 'out' },
+  { key: 'critical', label: 'Estoque crítico', hint: 'peças no limite mínimo', icon: 'critical' },
+  { key: 'low', label: 'Estoque baixo', hint: 'peças abaixo do ideal', icon: 'low' },
 ]
 
 export default function StockMonitor({ alerts, summary, loadError }) {
@@ -59,6 +59,7 @@ export default function StockMonitor({ alerts, summary, loadError }) {
             <div>
               <span>{stat.label}</span>
               <strong>{summary?.[stat.key] || 0}</strong>
+              <em>{stat.hint}</em>
             </div>
           </article>
         ))}
@@ -69,10 +70,10 @@ export default function StockMonitor({ alerts, summary, loadError }) {
           <h2>Monitoramento de estoque</h2>
           <label className="admin-stock-search">
             <AdminIcon name="search" />
-            <span className="visually-hidden">Buscar produto, tamanho ou cor</span>
+            <span className="visually-hidden">Buscar produto, tamanho ou referência</span>
             <input
               type="search"
-              placeholder="Buscar produto, tamanho ou cor"
+              placeholder="Buscar produto, tamanho ou referência..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -111,6 +112,7 @@ export default function StockMonitor({ alerts, summary, loadError }) {
             </p>
             <Link href="/admin/produtos" className="admin-btn">
               Ver produtos
+              <AdminIcon name="arrow" />
             </Link>
           </div>
         ) : !rows.length ? (
@@ -146,20 +148,17 @@ export default function StockMonitor({ alerts, summary, loadError }) {
                       <td>
                         <div className="admin-row-actions">
                           {item.productId ? (
-                            <Link
+                            <AdminIconAction
                               href={`/admin/produtos/${item.productId}?variante=${item.id}`}
-                              className="admin-link-btn"
-                            >
-                              Ver produto
-                            </Link>
+                              icon="eye"
+                              label="Ver produto"
+                            />
                           ) : null}
-                          <button
-                            type="button"
-                            className="admin-link-btn"
+                          <AdminIconAction
+                            icon="pencil"
+                            label="Ajustar"
                             onClick={() => setAdjusting(item)}
-                          >
-                            Ajustar estoque
-                          </button>
+                          />
                         </div>
                       </td>
                     </tr>

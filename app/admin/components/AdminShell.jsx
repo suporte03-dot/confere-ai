@@ -193,7 +193,12 @@ export default function AdminShell({ user, initialAlerts, children }) {
             style={{ '--admin-hero-image': `url("${ADMIN_COVER_SRC}")` }}
           >
             <div className="admin-hero__shade" aria-hidden="true" />
-            <img className="admin-hero__logo" src={ADMIN_LOGO_SRC} alt="Terra & Estilo" />
+            <div className="admin-hero__ornament" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
             <div className="admin-hero__copy">
               <p className="admin-hero__hello">Olá, {user.name}.</p>
               <h1>Gestão Terra &amp; Estilo</h1>

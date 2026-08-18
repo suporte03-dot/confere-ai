@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { moveCategory, toggleCategoryActive } from './actions'
+import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
 
 export default function CategoriesListClient({ categories: initialCategories }) {
   const router = useRouter()
@@ -17,6 +18,8 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       ? { ...category, active: optimistic[category.id] }
       : category,
   )
+
+  const activeCount = categories.filter((item) => item.active).length
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -71,6 +74,7 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       <div className="admin-empty">
         <p>Nenhuma categoria cadastrada ainda.</p>
         <Link href="/admin/categorias/novo" className="admin-btn">
+          <AdminIcon name="plus" />
           Cadastrar primeira categoria
         </Link>
       </div>
@@ -82,85 +86,126 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
-      <div className="admin-table-wrap">
-        <table className="admin-table admin-table--compact">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Slug</th>
-              <th>Status</th>
-              <th>Ordem</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map((category, index) => (
-              <tr key={category.id}>
-                <td>
-                  <strong>{category.name}</strong>
-                </td>
-                <td>
-                  <span className="admin-muted">{category.slug}</span>
-                </td>
-                <td>
-                  <span
-                    className={`admin-badge ${category.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
-                  >
-                    {category.active ? 'Ativa' : 'Inativa'}
-                  </span>
-                </td>
-                <td>
-                  <div className="admin-order-controls">
-                    <span>{category.sortOrder}</span>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={pendingId === category.id || index === 0}
-                      onClick={() => onMove(category, 'up')}
-                      aria-label="Mover para cima"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={
-                        pendingId === category.id ||
-                        index === categories.length - 1
-                      }
-                      onClick={() => onMove(category, 'down')}
-                      aria-label="Mover para baixo"
-                    >
-                      ↓
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <div className="admin-row-actions">
-                    <Link
-                      href={`/admin/categorias/${category.id}`}
-                      className="admin-link-btn"
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={pendingId === category.id}
-                      onClick={() => onToggleActive(category)}
-                    >
-                      {pendingId === category.id
-                        ? '…'
-                        : category.active
-                          ? 'Desativar'
-                          : 'Ativar'}
-                    </button>
-                  </div>
-                </td>
+      <section className="admin-mini-stats" aria-label="Resumo de categorias">
+        <article>
+          <span className="admin-mini-stats__icon" aria-hidden="true">
+            <AdminIcon name="tag" />
+          </span>
+          <div>
+            <strong>{activeCount}</strong>
+            <em>categorias ativas</em>
+          </div>
+        </article>
+        <article>
+          <span className="admin-mini-stats__icon" aria-hidden="true">
+            <AdminIcon name="stock" />
+          </span>
+          <div>
+            <strong>{categories.length}</strong>
+            <em>categorias cadastradas</em>
+          </div>
+        </article>
+        <article>
+          <span className="admin-mini-stats__icon" aria-hidden="true">
+            <AdminIcon name="list" />
+          </span>
+          <div>
+            <strong>{categories.length}</strong>
+            <em>posições ordenadas</em>
+          </div>
+        </article>
+      </section>
+
+      <div className="admin-table-card">
+        <div className="admin-table-wrap">
+          <table className="admin-table admin-table--compact">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Status</th>
+                <th>Ordem</th>
+                <th>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {categories.map((category, index) => (
+                <tr key={category.id}>
+                  <td>
+                    <div className="admin-product-cell">
+                      <div className="admin-thumb">
+                        <AdminIcon name="categories" />
+                      </div>
+                      <strong>{category.name}</strong>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="admin-muted">{category.slug}</span>
+                  </td>
+                  <td>
+                    <span
+                      className={`admin-badge ${category.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
+                    >
+                      {category.active ? 'Ativa' : 'Inativa'}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="admin-order-controls">
+                      <button
+                        type="button"
+                        disabled={pendingId === category.id || index === 0}
+                        onClick={() => onMove(category, 'up')}
+                        aria-label="Mover para cima"
+                      >
+                        <AdminIcon name="up" />
+                      </button>
+                      <span>{category.sortOrder}</span>
+                      <button
+                        type="button"
+                        disabled={
+                          pendingId === category.id ||
+                          index === categories.length - 1
+                        }
+                        onClick={() => onMove(category, 'down')}
+                        aria-label="Mover para baixo"
+                      >
+                        <AdminIcon name="down" />
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="admin-row-actions">
+                      <AdminIconAction
+                        href={`/admin/categorias/${category.id}`}
+                        icon="pencil"
+                        label="Editar"
+                      />
+                      <AdminIconAction
+                        icon="power"
+                        label={
+                          pendingId === category.id
+                            ? '…'
+                            : category.active
+                              ? 'Desativar'
+                              : 'Ativar'
+                        }
+                        danger={category.active}
+                        disabled={pendingId === category.id}
+                        onClick={() => onToggleActive(category)}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <footer className="admin-table-foot">
+          <p>
+            <AdminIcon name="info" />
+            Arraste as categorias ou use as setas para reordenar.
+          </p>
+        </footer>
       </div>
 
       <ul className="admin-card-list" aria-label="Lista de categorias">
@@ -174,20 +219,18 @@ export default function CategoriesListClient({ categories: initialCategories }) 
                 {category.active ? 'Ativa' : 'Inativa'}
               </p>
               <div className="admin-row-actions">
-                <Link
+                <AdminIconAction
                   href={`/admin/categorias/${category.id}`}
-                  className="admin-link-btn"
-                >
-                  Editar
-                </Link>
-                <button
-                  type="button"
-                  className="admin-link-btn"
+                  icon="pencil"
+                  label="Editar"
+                />
+                <AdminIconAction
+                  icon="power"
+                  label={category.active ? 'Desativar' : 'Ativar'}
+                  danger={category.active}
                   disabled={pendingId === category.id}
                   onClick={() => onToggleActive(category)}
-                >
-                  {category.active ? 'Desativar' : 'Ativar'}
-                </button>
+                />
                 <button
                   type="button"
                   className="admin-link-btn"

@@ -4,6 +4,7 @@ import { fetchCategoriesForAdmin } from '../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import CategoriesListClient from './CategoriesListClient'
+import { AdminIcon } from '../../components/AdminIcons'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,6 +34,7 @@ export default async function AdminCategoriesPage() {
         description="Organize o catálogo com categorias ativas e ordenadas."
         actions={
           <Link href="/admin/categorias/novo" className="admin-btn">
+            <AdminIcon name="plus" />
             Nova categoria
           </Link>
         }

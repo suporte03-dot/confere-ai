@@ -4,6 +4,7 @@ import { fetchCollectionsForAdmin } from '../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import CollectionsListClient from './CollectionsListClient'
+import { AdminIcon } from '../../components/AdminIcons'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,9 +31,10 @@ export default async function AdminCollectionsPage() {
     <>
       <AdminPageHeader
         title="Coleções"
-        description="Gerencie coleções, destaques e a ordem de exibição."
+        description="Gerencie suas coleções, destaques e a ordem de exibição na loja."
         actions={
           <Link href="/admin/colecoes/novo" className="admin-btn">
+            <AdminIcon name="plus" />
             Nova coleção
           </Link>
         }

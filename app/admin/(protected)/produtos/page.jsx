@@ -3,6 +3,7 @@ import { assertAdminAccess, fetchProductsForAdmin } from '../../../../src/lib/ad
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import ProductsListClient from './ProductsListClient'
+import { AdminIcon } from '../../components/AdminIcons'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,8 @@ export default async function AdminProductsPage() {
         description="Gerencie o catálogo da loja com preços, variantes e fotos."
         actions={
           <Link href="/admin/produtos/novo" className="admin-btn">
-            + Novo produto
+            <AdminIcon name="plus" />
+            Novo produto
           </Link>
         }
       />

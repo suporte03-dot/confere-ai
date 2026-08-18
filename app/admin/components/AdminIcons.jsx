@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export function AdminIcon({ name, className, title }) {
   const path = PATHS[name]
   if (!path) return null
@@ -107,4 +109,128 @@ const PATHS = {
     </>
   ),
   chevron: <path d="m7 10 5 5 5-5" />,
+  arrow: (
+    <>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2.5 12S6.2 5.8 12 5.8 21.5 12 21.5 12 17.8 18.2 12 18.2 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="2.4" />
+    </>
+  ),
+  pencil: (
+    <>
+      <path d="M13.4 5.4 18.6 10.6" />
+      <path d="M4.5 19.5 5.8 14.6 16.2 4.2a2.1 2.1 0 0 1 3 3L8.8 17.6 4.5 19.5Z" />
+    </>
+  ),
+  power: (
+    <>
+      <path d="M12 3.5v8" />
+      <path d="M7.2 6.4a7 7 0 1 0 9.6 0" />
+    </>
+  ),
+  star: (
+    <path
+      d="M12 3.6 14.4 9l6 .6-4.5 4 1.3 5.8L12 16.8 6.8 19.4l1.3-5.8-4.5-4 6-.6L12 3.6Z"
+      fill="currentColor"
+      stroke="none"
+    />
+  ),
+  starOff: (
+    <path d="M12 3.6 14.4 9l6 .6-4.5 4 1.3 5.8L12 16.8 6.8 19.4l1.3-5.8-4.5-4 6-.6L12 3.6Z" />
+  ),
+  shield: (
+    <>
+      <path d="M12 3.5 19.5 6.5v5.4c0 4.3-3 6.8-7.5 8.6-4.5-1.8-7.5-4.3-7.5-8.6V6.5L12 3.5Z" />
+      <path d="m9 12 2 2 4-4.5" />
+    </>
+  ),
+  monitor: (
+    <>
+      <rect x="3.5" y="4.5" width="17" height="11.5" rx="1.4" />
+      <path d="M8.5 20h7" />
+      <path d="M12 16v4" />
+    </>
+  ),
+  lock: (
+    <>
+      <rect x="5.5" y="10.5" width="13" height="9.5" rx="1.4" />
+      <path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7" />
+    </>
+  ),
+  plus: (
+    <>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </>
+  ),
+  info: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 10.5V17" />
+      <path d="M12 7.4h.01" />
+    </>
+  ),
+  up: <path d="m6 14 6-6 6 6" />,
+  down: <path d="m6 10 6 6 6-6" />,
+  tag: (
+    <>
+      <path d="M3.8 12.4 11.4 4.8h7.3v7.3L11.1 20.7a1.4 1.4 0 0 1-2 0L3.8 14.4a1.4 1.4 0 0 1 0-2Z" />
+      <circle cx="16.2" cy="7.8" r="1.1" />
+    </>
+  ),
+  list: (
+    <>
+      <path d="M8 7h12" />
+      <path d="M8 12h12" />
+      <path d="M8 17h12" />
+      <path d="M4 7h.01" />
+      <path d="M4 12h.01" />
+      <path d="M4 17h.01" />
+    </>
+  ),
+  prev: <path d="m14 6-6 6 6 6" />,
+  next: <path d="m10 6 6 6-6 6" />,
+}
+
+export function AdminIconAction({
+  href,
+  icon,
+  label,
+  danger,
+  gold,
+  className = '',
+  type = 'button',
+  ...props
+}) {
+  const cls = [
+    'admin-icon-action',
+    danger ? 'admin-icon-action--danger' : '',
+    gold ? 'admin-icon-action--gold' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const inner = (
+    <>
+      <AdminIcon name={icon} />
+      <span>{label}</span>
+    </>
+  )
+  if (href) {
+    return (
+      <Link href={href} className={cls} {...props}>
+        {inner}
+      </Link>
+    )
+  }
+  return (
+    <button type={type} className={cls} {...props}>
+      {inner}
+    </button>
+  )
 }
