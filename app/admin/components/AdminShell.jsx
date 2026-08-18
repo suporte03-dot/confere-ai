@@ -10,16 +10,17 @@ import { createClient } from '../../../src/lib/supabase/client'
 import { buildStockAlertState } from '../../../src/lib/admin/stock'
 import { getStockAlertsAction } from '../(protected)/alerts/actions'
 import AdminUserMenu from './AdminUserMenu'
+import { AdminIcon } from './AdminIcons'
 
 const EMPTY = buildStockAlertState([])
 
 const NAV = [
-  { href: '/admin', label: 'Visão Geral', exact: true },
-  { href: '/admin/produtos', label: 'Produtos' },
-  { href: '/admin/categorias', label: 'Categorias' },
-  { href: '/admin/colecoes', label: 'Coleções' },
-  { href: '/admin/estoque', label: 'Estoque' },
-  { href: '/admin/minha-conta', label: 'Minha Conta' },
+  { href: '/admin', label: 'Visão Geral', icon: 'overview', exact: true },
+  { href: '/admin/produtos', label: 'Produtos', icon: 'products' },
+  { href: '/admin/categorias', label: 'Categorias', icon: 'categories' },
+  { href: '/admin/colecoes', label: 'Coleções', icon: 'collections' },
+  { href: '/admin/estoque', label: 'Estoque', icon: 'stock' },
+  { href: '/admin/minha-conta', label: 'Minha Conta', icon: 'account' },
 ]
 
 function sectionTitle(pathname) {
@@ -103,7 +104,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
         )
         .subscribe()
     } catch {
-      // Realtime optional
+      // Realtime is optional; refetch on focus remains as fallback.
     }
     return () => {
       window.removeEventListener('focus', onFocus)
@@ -140,16 +141,20 @@ export default function AdminShell({ user, initialAlerts, children }) {
               className={navActive(pathname, item) ? 'is-active' : ''}
               aria-current={navActive(pathname, item) ? 'page' : undefined}
             >
+              <AdminIcon name={item.icon} />
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <form action={signOutAdmin} className="admin-sidebar__signout">
-          <button type="submit" className="admin-btn admin-btn--ghost">
-            Sair
-          </button>
-        </form>
+        <div className="admin-sidebar__foot">
+          <form action={signOutAdmin} className="admin-sidebar__signout">
+            <button type="submit" className="admin-btn admin-btn--ghost">
+              <AdminIcon name="logout" />
+              Sair
+            </button>
+          </form>
+        </div>
       </aside>
 
       <div className="admin-stage">
@@ -176,9 +181,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
             aria-expanded={alertsOpen}
             onClick={() => setAlertsOpen((v) => !v)}
           >
-            <span className="admin-alert-bell__icon" aria-hidden="true">
-              🔔
-            </span>
+            <AdminIcon name="bell" className="admin-alert-bell__icon" />
             {count > 0 ? <em className="admin-alert-bell__badge">{count}</em> : null}
           </button>
           <AdminUserMenu user={user} />

@@ -32,6 +32,25 @@ export function isAlertStock(stock) {
   return classifyStock(stock) !== STOCK_STATUS.NORMAL
 }
 
+export function formatVariantLabel(item) {
+  return [item?.color, item?.size].filter(Boolean).join(' • ')
+}
+
+export function filterStockAlerts(alerts = [], { query = '', filter = 'all' } = {}) {
+  const q = String(query || '').trim().toLowerCase()
+  return alerts.filter((item) => {
+    if (filter === 'out' && item.status !== STOCK_STATUS.OUT) return false
+    if (filter === 'critical' && item.status !== STOCK_STATUS.CRITICAL) return false
+    if (filter === 'low' && item.status !== STOCK_STATUS.LOW) return false
+    if (!q) return true
+    const haystack = [item.productName, item.size, item.color, item.sku]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+    return haystack.includes(q)
+  })
+}
+
 function compareAlerts(a, b) {
   const order = { out: 0, critical: 1, low: 2 }
   const statusCmp = (order[a.status] ?? 9) - (order[b.status] ?? 9)

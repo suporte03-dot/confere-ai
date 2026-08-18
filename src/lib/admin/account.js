@@ -1,9 +1,73 @@
 export const ADMIN_LOGO_SRC = '/images/logo-terra-estilo.png'
 export const ADMIN_COVER_SRC = '/images/hero/couple-hero.jpg'
 
-export function roleLabel(role) {
-  if (role === 'owner') return 'Proprietário'
-  if (role === 'admin') return 'Administrador'
+const FEMININE_FIRST_NAMES = new Set([
+  'ana',
+  'alice',
+  'amanda',
+  'beatriz',
+  'bruna',
+  'camila',
+  'carla',
+  'carol',
+  'carolina',
+  'claudia',
+  'cristina',
+  'daniela',
+  'fernanda',
+  'gabriela',
+  'helena',
+  'isabela',
+  'isabella',
+  'jessica',
+  'juliana',
+  'larissa',
+  'laura',
+  'leticia',
+  'lucia',
+  'luciana',
+  'maria',
+  'mariana',
+  'marta',
+  'paula',
+  'patricia',
+  'raquel',
+  'renata',
+  'sandra',
+  'sofia',
+  'sophia',
+  'vanessa',
+])
+
+function normalizePersonToken(value) {
+  return String(value || '')
+    .trim()
+    .split(/\s+/)[0]
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
+export function isFeminineDisplayName(name, extra = {}) {
+  const gender = String(extra.gender || extra.sexo || extra.pronoun || '')
+    .trim()
+    .toLowerCase()
+  if (['f', 'female', 'feminino', 'mulher', 'she', 'ela'].includes(gender)) {
+    return true
+  }
+  if (['m', 'male', 'masculino', 'homem', 'he', 'ele'].includes(gender)) {
+    return false
+  }
+  const first = normalizePersonToken(name)
+  if (!first) return false
+  if (FEMININE_FIRST_NAMES.has(first)) return true
+  return first.endsWith('a') && !['luca', 'joshua'].includes(first)
+}
+
+export function roleLabel(role, name, extra = {}) {
+  const feminine = isFeminineDisplayName(name, extra)
+  if (role === 'owner') return feminine ? 'Proprietária' : 'Proprietário'
+  if (role === 'admin') return feminine ? 'Administradora' : 'Administrador'
   return 'Acesso restrito'
 }
 
@@ -32,11 +96,17 @@ export function buildAdminUser(user, profile) {
   const name = displayNameFromUser(user, profile)
   const email = user?.email || ''
   const role = profile?.role || ''
+  const extra = {
+    gender:
+      profile?.gender ||
+      user?.user_metadata?.gender ||
+      user?.user_metadata?.sexo,
+  }
   return {
     name,
     email,
     role,
-    roleLabel: roleLabel(role),
+    roleLabel: roleLabel(role, name, extra),
     initials: initialsFromName(name, email),
   }
 }

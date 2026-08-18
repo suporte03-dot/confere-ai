@@ -1,6 +1,12 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { classifyStock, buildStockAlertState, STOCK_STATUS } from './stock.js'
+import {
+  classifyStock,
+  buildStockAlertState,
+  filterStockAlerts,
+  formatVariantLabel,
+  STOCK_STATUS,
+} from './stock.js'
 
 test('estoque 10 → normal, sem alerta', () => {
   assert.equal(classifyStock(10), STOCK_STATUS.NORMAL)
@@ -50,4 +56,45 @@ test('variante inativa não entra no alerta', () => {
     { id: 'x', stock: 0, active: false, product: { name: 'Peça' } },
   ])
   assert.equal(state.summary.total, 0)
+})
+
+test('busca por nome, tamanho, cor e SKU', () => {
+  const alerts = [
+    {
+      id: '1',
+      status: STOCK_STATUS.CRITICAL,
+      productName: 'Camisa Country Premium',
+      color: 'Preto',
+      size: 'M',
+      sku: 'CAM-M-PT',
+    },
+    {
+      id: '2',
+      status: STOCK_STATUS.OUT,
+      productName: 'Bota Texas',
+      color: 'Marrom',
+      size: '38',
+      sku: 'BOT-38',
+    },
+  ]
+  assert.equal(filterStockAlerts(alerts, { query: 'country' }).length, 1)
+  assert.equal(filterStockAlerts(alerts, { query: '38' })[0].id, '2')
+  assert.equal(filterStockAlerts(alerts, { query: 'marrom' })[0].id, '2')
+  assert.equal(filterStockAlerts(alerts, { query: 'cam-m' })[0].id, '1')
+})
+
+test('filtros esgotados, críticos e baixo', () => {
+  const alerts = [
+    { id: 'out', status: STOCK_STATUS.OUT, productName: 'A' },
+    { id: 'crit', status: STOCK_STATUS.CRITICAL, productName: 'B' },
+    { id: 'low', status: STOCK_STATUS.LOW, productName: 'C' },
+  ]
+  assert.equal(filterStockAlerts(alerts, { filter: 'out' })[0].id, 'out')
+  assert.equal(filterStockAlerts(alerts, { filter: 'critical' })[0].id, 'crit')
+  assert.equal(filterStockAlerts(alerts, { filter: 'low' })[0].id, 'low')
+  assert.equal(filterStockAlerts(alerts, { filter: 'all' }).length, 3)
+})
+
+test('rótulo da variação usa ponto médio', () => {
+  assert.equal(formatVariantLabel({ color: 'Preto', size: 'M' }), 'Preto • M')
 })

@@ -14,7 +14,15 @@ export async function getStockAlertsAction() {
 
   try {
     const state = await fetchStockAlerts()
-    return { ok: true, ...state }
+    if (!state.ok) {
+      return { ok: false, error: state.error, ...EMPTY }
+    }
+    return {
+      ok: true,
+      alerts: state.alerts,
+      grouped: state.grouped,
+      summary: state.summary,
+    }
   } catch {
     return { ok: false, error: 'Não foi possível carregar os alertas.', ...EMPTY }
   }

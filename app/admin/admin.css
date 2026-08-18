@@ -344,6 +344,21 @@
   color: #7a5a14;
 }
 
+.admin-badge--critical {
+  background: rgba(196, 92, 38, 0.12);
+  color: #9a4a1e;
+}
+
+.admin-badge--low {
+  background: rgba(201, 155, 50, 0.16);
+  color: #7a5a14;
+}
+
+.admin-badge--out {
+  background: rgba(139, 46, 46, 0.1);
+  color: var(--admin-danger);
+}
+
 .admin-btn:focus-visible,
 .admin-link-btn:focus-visible,
 .admin-header__menu:focus-visible,
@@ -818,8 +833,9 @@
 }
 
 .admin-alert-bell__icon {
-  font-size: 1.15rem;
-  line-height: 1;
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .admin-alert-bell__badge {
