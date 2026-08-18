@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../../src/lib/supabase/client'
 import { isAdminRole } from '../../../src/lib/supabase/roles'
@@ -9,6 +10,7 @@ export default function LoginForm() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [denied, setDenied] = useState(false)
   const [pending, setPending] = useState(false)
@@ -28,13 +30,6 @@ export default function LoginForm() {
         })
 
       if (signInError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.warn('SUPABASE_LOGIN_ERROR', {
-            code: signInError.code,
-            message: signInError.message,
-            status: signInError.status,
-          })
-        }
         setError('Não foi possível entrar. Verifique e-mail e senha.')
         return
       }
@@ -84,16 +79,26 @@ export default function LoginForm() {
 
       <div className="admin-field">
         <label htmlFor="admin-password">Senha</label>
-        <input
-          id="admin-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          disabled={pending}
-        />
+        <div className="admin-password-wrap">
+          <input
+            id="admin-password"
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={pending}
+          />
+          <button
+            type="button"
+            className="admin-link-btn"
+            aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            onClick={() => setShowPassword((v) => !v)}
+          >
+            {showPassword ? 'Ocultar' : 'Mostrar'}
+          </button>
+        </div>
       </div>
 
       {error ? <p className="admin-error">{error}</p> : null}
@@ -106,6 +111,9 @@ export default function LoginForm() {
       <button className="admin-btn" type="submit" disabled={pending}>
         {pending ? 'Entrando…' : 'Entrar'}
       </button>
+      <Link href="/admin/recuperar-senha" className="admin-text-link">
+        Esqueci minha senha
+      </Link>
     </form>
   )
 }

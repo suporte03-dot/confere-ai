@@ -5,6 +5,24 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { formatBRL, formatDateTime } from '../../../../src/lib/admin/format'
 import { toggleProductActive } from './actions'
+import { classifyStock, STOCK_LEVELS, STOCK_STATUS } from '../../../../src/lib/admin/stock'
+
+const FILTERS = [
+  { id: 'all', label: 'Todos' },
+  { id: 'active', label: 'Ativos' },
+  { id: 'inactive', label: 'Inativos' },
+  { id: 'featured', label: 'Destaques' },
+  { id: 'low', label: 'Estoque baixo' },
+]
+
+function stockBadge(totalStock) {
+  const status = classifyStock(totalStock)
+  if (status === STOCK_STATUS.OUT) return { label: 'Esgotado', className: 'admin-badge--out' }
+  if (status === STOCK_STATUS.CRITICAL || status === STOCK_STATUS.LOW) {
+    return { label: 'Estoque baixo', className: 'admin-badge--low' }
+  }
+  return null
+}
 
 export default function ProductsListClient({ products: initialProducts }) {
   const router = useRouter()
@@ -12,12 +30,24 @@ export default function ProductsListClient({ products: initialProducts }) {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [pendingId, setPendingId] = useState(null)
+  const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState('all')
 
-  const products = initialProducts.map((product) =>
-    Object.prototype.hasOwnProperty.call(optimistic, product.id)
-      ? { ...product, active: optimistic[product.id] }
-      : product,
-  )
+  const products = initialProducts
+    .map((product) =>
+      Object.prototype.hasOwnProperty.call(optimistic, product.id)
+        ? { ...product, active: optimistic[product.id] }
+        : product,
+    )
+    .filter((product) => {
+      const haystack = `${product.name} ${product.slug} ${product.categoryName}`.toLowerCase()
+      if (query.trim() && !haystack.includes(query.trim().toLowerCase())) return false
+      if (filter === 'active') return product.active
+      if (filter === 'inactive') return !product.active
+      if (filter === 'featured') return product.featured
+      if (filter === 'low') return product.totalStock <= STOCK_LEVELS.LOW_MAX
+      return true
+    })
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -51,7 +81,7 @@ export default function ProductsListClient({ products: initialProducts }) {
     router.refresh()
   }
 
-  if (!products.length) {
+  if (!initialProducts.length) {
     return (
       <div className="admin-empty">
         <p>Nenhum produto cadastrado ainda.</p>
@@ -67,19 +97,44 @@ export default function ProductsListClient({ products: initialProducts }) {
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
+      <div className="admin-toolbar">
+        <label className="admin-search">
+          <span className="visually-hidden">Buscar produtos</span>
+          <input
+            type="search"
+            placeholder="Buscar por nome, slug ou categoria"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+        <div className="admin-filters" role="group" aria-label="Filtros de produtos">
+          {FILTERS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={filter === item.id ? 'is-active' : ''}
+              onClick={() => setFilter(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {!products.length ? (
+        <p className="admin-muted">Nenhum produto encontrado com esses filtros.</p>
+      ) : null}
+
       <div className="admin-table-wrap">
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Capa</th>
+              <th>Foto</th>
               <th>Nome</th>
               <th>Categoria</th>
-              <th>Coleção</th>
               <th>Preço</th>
-              <th>Status</th>
-              <th>Destaque</th>
               <th>Estoque</th>
-              <th>Atualizado</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -102,18 +157,25 @@ export default function ProductsListClient({ products: initialProducts }) {
                   </div>
                 </td>
                 <td>{product.categoryName}</td>
-                <td>{product.collectionName}</td>
                 <td>{formatBRL(product.price)}</td>
-                <td>
-                  <span
-                    className={`admin-badge ${product.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
-                  >
-                    {product.active ? 'Ativo' : 'Inativo'}
-                  </span>
-                </td>
-                <td>{product.featured ? 'Sim' : 'Não'}</td>
                 <td>{product.totalStock}</td>
-                <td>{formatDateTime(product.updatedAt)}</td>
+                <td>
+                  <div className="admin-status-stack">
+                    <span
+                      className={`admin-badge ${product.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
+                    >
+                      {product.active ? 'Ativo' : 'Inativo'}
+                    </span>
+                    {product.featured ? (
+                      <span className="admin-badge admin-badge--gold">Destaque</span>
+                    ) : null}
+                    {stockBadge(product.totalStock) ? (
+                      <span className={`admin-badge ${stockBadge(product.totalStock).className}`}>
+                        {stockBadge(product.totalStock).label}
+                      </span>
+                    ) : null}
+                  </div>
+                </td>
                 <td>
                   <div className="admin-row-actions">
                     <Link
@@ -166,6 +228,19 @@ export default function ProductsListClient({ products: initialProducts }) {
               <p>
                 {formatBRL(product.price)} · Estoque {product.totalStock}
               </p>
+              <div className="admin-status-stack">
+                <span className={`admin-badge ${product.active ? 'admin-badge--ok' : 'admin-badge--off'}`}>
+                  {product.active ? 'Ativo' : 'Inativo'}
+                </span>
+                {product.featured ? (
+                  <span className="admin-badge admin-badge--gold">Destaque</span>
+                ) : null}
+                {stockBadge(product.totalStock) ? (
+                  <span className={`admin-badge ${stockBadge(product.totalStock).className}`}>
+                    {stockBadge(product.totalStock).label}
+                  </span>
+                ) : null}
+              </div>
               <p className="admin-muted">{formatDateTime(product.updatedAt)}</p>
               <div className="admin-row-actions">
                 <Link

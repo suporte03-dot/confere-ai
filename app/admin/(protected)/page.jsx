@@ -1,63 +1,108 @@
 import Link from 'next/link'
-import { signOutAdmin } from '../actions'
+import { fetchProductsForAdmin } from '../../../src/lib/admin/products'
+import { fetchCollectionsForAdmin } from '../../../src/lib/admin/taxonomies'
 import { fetchStockAlerts } from '../../../src/lib/admin/stock-alerts'
 
 export default async function AdminHomePage() {
-  const stock = await fetchStockAlerts()
-  const { summary } = stock
+  let products = []
+  let collections = []
+  let stock = { summary: { out: 0, critical: 0, low: 0, total: 0 }, alerts: [] }
+
+  try {
+    ;[products, collections, stock] = await Promise.all([
+      fetchProductsForAdmin(),
+      fetchCollectionsForAdmin(),
+      fetchStockAlerts(),
+    ])
+  } catch {
+    // Keep empty dashboard rather than crashing the shell.
+  }
+
+  const activeProducts = products.filter((item) => item.active).length
+  const activeCollections = collections.filter((item) => item.active).length
+  const attention = stock.summary.total
+  const previewAlerts = (stock.alerts || []).slice(0, 4)
 
   return (
-    <div className="admin-shell">
-      <p className="admin-brand">
-        Terra &amp; <span>Estilo</span>
-      </p>
-      <p className="admin-kicker">Painel administrativo</p>
-
-      <section className="admin-panel">
-        <h1>Admin</h1>
-        <p>Gerencie o catálogo e as seções da loja.</p>
-
-        <div className="admin-stock-summary" aria-label="Resumo de estoque">
-          <article className="admin-stock-summary__card admin-stock-summary__card--out">
-            <strong>{summary.out}</strong>
-            <span>esgotados</span>
-          </article>
-          <article className="admin-stock-summary__card admin-stock-summary__card--critical">
-            <strong>{summary.critical}</strong>
-            <span>críticos</span>
-          </article>
-          <article className="admin-stock-summary__card admin-stock-summary__card--low">
-            <strong>{summary.low}</strong>
-            <span>baixos</span>
-          </article>
-        </div>
-
-        <ul className="admin-nav">
-          <li>
-            <Link className="admin-nav-item" href="/admin/produtos">
-              Produtos
-            </Link>
-          </li>
-          <li>
-            <Link className="admin-nav-item" href="/admin/colecoes">
-              Coleções
-            </Link>
-          </li>
-          <li>
-            <Link className="admin-nav-item" href="/admin/categorias">
-              Categorias
-            </Link>
-          </li>
-        </ul>
-
-        <div className="admin-actions">
-          <form action={signOutAdmin}>
-            <button type="submit" className="admin-btn admin-btn--ghost">
-              Sair
-            </button>
-          </form>
-        </div>
+    <>
+      <section className="admin-kpis" aria-label="Indicadores da loja">
+        <article>
+          <span>Produtos</span>
+          <strong>{activeProducts}</strong>
+          <em>produtos ativos</em>
+        </article>
+        <article>
+          <span>Estoque</span>
+          <strong>{attention}</strong>
+          <em>{attention === 1 ? 'peça precisa de atenção' : 'peças precisam de atenção'}</em>
+        </article>
+        <article>
+          <span>Coleções</span>
+          <strong>{activeCollections}</strong>
+          <em>coleções ativas</em>
+        </article>
       </section>
-    </div>
+
+      <h2 className="admin-block-title">Gerenciar</h2>
+      <div className="admin-shortcuts">
+        <article>
+          <h3>Produtos</h3>
+          <p>Gerencie peças, fotos, preços, tamanhos e estoque.</p>
+          <Link href="/admin/produtos" className="admin-btn">
+            Gerenciar produtos
+          </Link>
+        </article>
+        <article>
+          <h3>Coleções</h3>
+          <p>Organize os produtos por coleção e destaque.</p>
+          <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
+            Gerenciar coleções
+          </Link>
+        </article>
+        <article>
+          <h3>Categorias</h3>
+          <p>Administre masculino, feminino, acessórios e outras categorias.</p>
+          <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
+            Gerenciar categorias
+          </Link>
+        </article>
+      </div>
+
+      <section className="admin-attention">
+        <div className="admin-page-header">
+          <div>
+            <h2>Estoque que precisa da sua atenção</h2>
+            <p>Variantes esgotadas, críticas ou baixas.</p>
+          </div>
+          <Link href="/admin/estoque" className="admin-btn admin-btn--ghost">
+            Ver estoque
+          </Link>
+        </div>
+        {previewAlerts.length ? (
+          <ul className="admin-attention__list">
+            {previewAlerts.map((item) => (
+              <li key={item.id}>
+                <div>
+                  <strong>{item.productName}</strong>
+                  <span>
+                    {[item.color, item.size && `Tam. ${item.size}`, item.label]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </span>
+                </div>
+                <Link
+                  href={`/admin/produtos/${item.productId}?variante=${item.id}`}
+                  className="admin-link-btn"
+                >
+                  Ver produto
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="admin-muted">Nenhum alerta de estoque no momento.</p>
+        )}
+      </section>
+    </>
   )
 }

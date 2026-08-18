@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
 import { fetchCollectionById } from '../../../../../src/lib/admin/taxonomies'
-import { signOutAdmin } from '../../../actions'
+import AdminDenied from '../../../components/AdminDenied'
+import AdminPageHeader from '../../../components/AdminPageHeader'
 import CollectionEditor from '../CollectionEditor'
 
 export const dynamic = 'force-dynamic'
@@ -10,17 +11,9 @@ export default async function AdminCollectionDetailPage({ params }) {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
     return (
-      <div className="admin-shell admin-shell--wide">
-        <section className="admin-panel admin-denied">
-          <h1>Acesso negado</h1>
-          <p>Faça login com um perfil administrador para gerenciar coleções.</p>
-          <div className="admin-actions">
-            <Link href="/admin/login" className="admin-btn">
-              Ir para login
-            </Link>
-          </div>
-        </section>
-      </div>
+      <AdminDenied>
+        <p>Faça login com um perfil administrador para gerenciar coleções.</p>
+      </AdminDenied>
     )
   }
 
@@ -38,51 +31,34 @@ export default async function AdminCollectionDetailPage({ params }) {
 
   if (!loadError && !collection) {
     return (
-      <div className="admin-shell admin-shell--wide">
-        <section className="admin-panel">
-          <h1>Coleção não encontrada</h1>
-          <p>O item solicitado não existe ou não está disponível.</p>
-          <div className="admin-actions">
-            <Link href="/admin/colecoes" className="admin-btn">
-              Voltar à listagem
-            </Link>
-          </div>
-        </section>
-      </div>
+      <>
+        <AdminPageHeader title="Coleção não encontrada" />
+        <Link href="/admin/colecoes" className="admin-btn">
+          Voltar à listagem
+        </Link>
+      </>
     )
   }
 
   return (
-    <div className="admin-shell admin-shell--wide">
-      <div className="admin-topbar">
-        <div>
-          <p className="admin-brand">
-            Terra &amp; <span>Estilo</span>
-          </p>
-          <p className="admin-kicker">Editar coleção</p>
-        </div>
-        <div className="admin-actions admin-actions--compact">
+    <>
+      <AdminPageHeader
+        title="Editar coleção"
+        description={collection?.name}
+        actions={
           <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
-            Voltar
+            Cancelar
           </Link>
-          <form action={signOutAdmin}>
-            <button type="submit" className="admin-btn admin-btn--ghost">
-              Sair
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <section className="admin-panel">
-        {loadError ? <p className="admin-error">{loadError}</p> : null}
-        {!loadError && collection ? (
-          <CollectionEditor
-            key={`${collection.id}-${collection.updatedAt}`}
-            mode="edit"
-            collection={collection}
-          />
-        ) : null}
-      </section>
-    </div>
+        }
+      />
+      {loadError ? <p className="admin-error">{loadError}</p> : null}
+      {!loadError && collection ? (
+        <CollectionEditor
+          key={`${collection.id}-${collection.updatedAt}`}
+          mode="edit"
+          collection={collection}
+        />
+      ) : null}
+    </>
   )
 }

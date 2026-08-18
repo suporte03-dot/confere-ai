@@ -1,4 +1,5 @@
 import './admin.css'
+import './admin-shell.css'
 
 export const dynamic = 'force-dynamic'
 

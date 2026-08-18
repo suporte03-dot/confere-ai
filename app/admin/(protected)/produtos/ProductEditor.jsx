@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -82,11 +82,6 @@ export default function ProductEditor({
   const [aiHints, setAiHints] = useState({})
 
   const isView = readOnly || mode === 'view'
-  const title = useMemo(() => {
-    if (mode === 'create') return 'Novo produto'
-    if (isView) return 'Visualizar produto'
-    return 'Editar produto'
-  }, [mode, isView])
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -404,32 +399,6 @@ export default function ProductEditor({
 
   return (
     <form className="admin-form admin-form--product" onSubmit={onSave} noValidate>
-      <div className="admin-panel__head">
-        <div>
-          <h1>{title}</h1>
-          <p>
-            {isView
-              ? 'Consulta do produto cadastrado.'
-              : 'Preencha os dados principais, variantes e fotos.'}
-          </p>
-        </div>
-        <div className="admin-actions admin-actions--compact">
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Voltar
-          </Link>
-          {productId && isView ? (
-            <Link href={`/admin/produtos/${productId}`} className="admin-btn">
-              Editar
-            </Link>
-          ) : null}
-          {!isView ? (
-            <button type="submit" className="admin-btn" disabled={pending}>
-              {pending ? 'Salvando…' : 'Salvar produto'}
-            </button>
-          ) : null}
-        </div>
-      </div>
-
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
@@ -442,7 +411,7 @@ export default function ProductEditor({
       ) : null}
 
       <section className="admin-section">
-        <h2>Informações principais</h2>
+        <h2>Informações</h2>
         <div className="admin-grid-2">
           <div className="admin-field">
             <label htmlFor="product-name">Nome <AiHint show={aiHints.name} /></label>
@@ -483,6 +452,16 @@ export default function ProductEditor({
               setAiHints((prev) => ({ ...prev, description: false }))
             }}
             disabled={isView || pending}
+          />
+        </div>
+        <div className="admin-field">
+          <label htmlFor="product-sku">SKU</label>
+          <input
+            id="product-sku"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+            disabled={isView || pending}
+            placeholder="Opcional"
           />
         </div>
       </section>
@@ -560,42 +539,8 @@ export default function ProductEditor({
       </section>
 
       <section className="admin-section">
-        <h2>Configurações</h2>
-        <div className="admin-grid-2">
-          <label className="admin-check">
-            <input
-              type="checkbox"
-              checked={active}
-              onChange={(e) => setActive(e.target.checked)}
-              disabled={isView || pending}
-            />
-            <span>Produto ativo?</span>
-          </label>
-          <label className="admin-check">
-            <input
-              type="checkbox"
-              checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
-              disabled={isView || pending}
-            />
-            <span>Produto em destaque?</span>
-          </label>
-        </div>
-        <div className="admin-field" style={{ marginTop: '1rem' }}>
-          <label htmlFor="product-sku">SKU</label>
-          <input
-            id="product-sku"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-            disabled={isView || pending}
-            placeholder="Opcional"
-          />
-        </div>
-      </section>
-
-      <section className="admin-section">
         <div className="admin-section__head">
-          <h2>Tamanhos / cores / estoque</h2>
+          <h2>Variações</h2>
           {!isView ? (
             <button type="button" className="admin-btn admin-btn--ghost" onClick={addVariant}>
               + Variante
@@ -675,7 +620,7 @@ export default function ProductEditor({
 
       <section className="admin-section">
         <div className="admin-section__head">
-          <h2>Fotos do produto</h2>
+          <h2>Fotos</h2>
           {!isView ? (
             <button
               type="button"
@@ -783,16 +728,45 @@ export default function ProductEditor({
         />
       </section>
 
-      {!isView ? (
-        <div className="admin-actions">
+      <section className="admin-section">
+        <h2>Publicação</h2>
+        <div className="admin-grid-2">
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto ativo</span>
+          </label>
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto em destaque</span>
+          </label>
+        </div>
+      </section>
+
+      <div className="admin-sticky-actions">
+        <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+          {isView ? 'Voltar' : 'Cancelar'}
+        </Link>
+        {productId && isView ? (
+          <Link href={`/admin/produtos/${productId}`} className="admin-btn">
+            Editar
+          </Link>
+        ) : null}
+        {!isView ? (
           <button type="submit" className="admin-btn" disabled={pending}>
             {pending ? 'Salvando…' : 'Salvar produto'}
           </button>
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </form>
   )
 }

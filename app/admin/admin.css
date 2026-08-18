@@ -255,7 +255,7 @@
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 920px;
+  min-width: 760px;
   font-size: 0.9rem;
 }
 
@@ -339,9 +339,17 @@
   color: #2d6a3a;
 }
 
-.admin-badge--off {
-  background: rgba(98, 89, 79, 0.12);
-  color: var(--admin-muted);
+.admin-badge--gold {
+  background: rgba(201, 155, 50, 0.14);
+  color: #7a5a14;
+}
+
+.admin-btn:focus-visible,
+.admin-link-btn:focus-visible,
+.admin-header__menu:focus-visible,
+.admin-alert-bell:focus-visible {
+  outline: 2px solid rgba(201, 155, 50, 0.7);
+  outline-offset: 2px;
 }
 
 .admin-row-actions {
