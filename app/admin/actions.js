@@ -39,6 +39,12 @@ export async function signInAdmin(email, password) {
     return { ok: true }
   } catch (error) {
     console.error(error)
+    const message = error instanceof Error ? error.message : ''
+    if (message.startsWith('Missing SUPABASE_')) {
+      return fail(
+        'Configuração de autenticação incompleta. Defina a chave anon/publishable real na Vercel.',
+      )
+    }
     return fail('Erro inesperado ao autenticar. Tente novamente.')
   }
 }

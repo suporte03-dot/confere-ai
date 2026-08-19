@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
-import { getServerSupabaseEnv } from './env'
+import { readServerSupabaseEnv } from './env'
 
 /**
  * Refresh Supabase auth cookies for the incoming request (Next.js Proxy).
@@ -10,7 +10,10 @@ export async function updateSession(request) {
     request,
   })
 
-  const { url, key } = getServerSupabaseEnv()
+  const { url, key } = readServerSupabaseEnv()
+  if (!url || !key) {
+    return supabaseResponse
+  }
 
   const supabase = createServerClient(url, key, {
     cookies: {
