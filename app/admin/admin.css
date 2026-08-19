@@ -1058,6 +1058,28 @@
   cursor: not-allowed;
 }
 
+.admin-photo__meta {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.admin-photo__meta strong {
+  font-size: 0.72rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-photo__meta span,
+.admin-photo__meta em {
+  font-size: 0.7rem;
+  font-style: normal;
+  color: var(--admin-muted);
+}
+
 .admin-photo--add {
   appearance: none;
   border: 1px dashed rgba(201, 155, 50, 0.55);

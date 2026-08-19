@@ -1,26 +1,13 @@
 'use client'
 
 import { useRef, useState } from 'react'
-
-async function compressImage(file, { maxEdge = 1280, quality = 0.82 } = {}) {
-  if (typeof createImageBitmap !== 'function') return file
-  const bitmap = await createImageBitmap(file)
-  const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height))
-  const width = Math.max(1, Math.round(bitmap.width * scale))
-  const height = Math.max(1, Math.round(bitmap.height * scale))
-  const canvas = document.createElement('canvas')
-  canvas.width = width
-  canvas.height = height
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return file
-  ctx.drawImage(bitmap, 0, 0, width, height)
-  const blob = await new Promise((resolve) => {
-    canvas.toBlob(resolve, 'image/jpeg', quality)
-  })
-  bitmap.close?.()
-  if (!blob) return file
-  return new File([blob], 'peca.jpg', { type: 'image/jpeg' })
-}
+import { createClient } from '../../../../src/lib/supabase/client'
+import {
+  buildAiIntakePath,
+  formatImageBytes,
+  uploadImageToBucket,
+  validateImageFile,
+} from '../../../../src/lib/admin/product-image-upload'
 
 export default function AiAssistPanel({
   enabled = false,
@@ -31,12 +18,14 @@ export default function AiAssistPanel({
   const [previewUrl, setPreviewUrl] = useState('')
   const [file, setFile] = useState(null)
   const [busy, setBusy] = useState(false)
+  const [status, setStatus] = useState('')
   const [error, setError] = useState('')
   const [suggestion, setSuggestion] = useState(null)
 
   function resetAnalysis(keepFile = true) {
     setError('')
     setSuggestion(null)
+    setStatus('')
     if (!keepFile) {
       setFile(null)
       setPreviewUrl('')
@@ -48,6 +37,11 @@ export default function AiAssistPanel({
     event.target.value = ''
     resetAnalysis(false)
     if (!next) return
+    const fileError = validateImageFile(next)
+    if (fileError) {
+      setError(fileError)
+      return
+    }
     setFile(next)
     setPreviewUrl(URL.createObjectURL(next))
   }
@@ -57,22 +51,41 @@ export default function AiAssistPanel({
     setBusy(true)
     setError('')
     setSuggestion(null)
+    setStatus('Preparando imagem...')
     try {
-      const compact = await compressImage(file)
-      const formData = new FormData()
-      formData.set('file', compact)
+      const fileError = validateImageFile(file)
+      if (fileError) {
+        setError(fileError)
+        return
+      }
+
+      const supabase = createClient()
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user?.id) {
+        setError('Faça login para continuar.')
+        return
+      }
+
+      setStatus('Enviando imagem...')
+      const storagePath = buildAiIntakePath(user.id, file)
+      await uploadImageToBucket(supabase, file, storagePath)
+
       const response = await fetch('/api/admin/ai/product-suggest', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ storagePath }),
       })
       const payload = await response.json().catch(() => null)
       if (!response.ok || !payload?.ok) {
         setError(payload?.error || 'Não conseguimos analisar esta foto.')
         return
       }
+      setStatus('Imagem enviada.')
       setSuggestion(payload.suggestion)
     } catch {
-      setError('Não conseguimos analisar esta foto.')
+      setError('Não foi possível enviar a imagem.')
     } finally {
       setBusy(false)
     }
@@ -107,13 +120,20 @@ export default function AiAssistPanel({
           )}
         </button>
         <div className="admin-ai__actions">
+          {file ? (
+            <p className="admin-photo__meta">
+              <strong>{file.name}</strong>
+              <span>{formatImageBytes(file.size)}</span>
+              {status ? <em>{status}</em> : null}
+            </p>
+          ) : null}
           <button
             type="button"
             className="admin-btn"
             onClick={analyze}
             disabled={!enabled || !file || disabled || busy}
           >
-            {busy ? 'Analisando a peça…' : 'Preencher com IA'}
+            {busy ? status || 'Analisando a peça…' : 'Preencher com IA'}
           </button>
           <button
             type="button"
@@ -129,7 +149,7 @@ export default function AiAssistPanel({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/webp"
         capture="environment"
         hidden
         onChange={onPickFile}

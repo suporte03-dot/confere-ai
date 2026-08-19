@@ -7,13 +7,21 @@ import { useRouter } from 'next/navigation'
 import { productImagePublicUrl } from '../../../../src/lib/admin/format'
 import { slugify } from '../../../../src/lib/admin/slugify'
 import {
+  buildProductImagePath,
+  formatImageBytes,
+  removeStorageObject,
+  uploadImageToBucket,
+  validateImageFile,
+} from '../../../../src/lib/admin/product-image-upload'
+import { createClient } from '../../../../src/lib/supabase/client'
+import {
+  attachProductImage,
   checkProductSlug,
   deleteProductImage,
   reorderProductImages,
   replaceProductImage,
   saveProduct,
   setProductCoverImage,
-  uploadProductImage,
 } from './actions'
 
 const AiAssistPanel = dynamic(() => import('./AiAssistPanel'), { ssr: false })
@@ -79,6 +87,7 @@ export default function ProductEditor({
   const [error, setError] = useState('')
   const [slugHint, setSlugHint] = useState('')
   const [busyImage, setBusyImage] = useState(false)
+  const [uploads, setUploads] = useState([])
   const [aiHints, setAiHints] = useState({})
 
   const isView = readOnly || mode === 'view'
@@ -258,18 +267,73 @@ export default function ProductEditor({
       return
     }
 
+    const prepared = files.map((file, index) => ({
+      key: `${Date.now()}-${index}-${file.name}`,
+      file,
+      name: file.name,
+      size: file.size,
+      previewUrl: URL.createObjectURL(file),
+      status: 'Preparando imagem...',
+      error: validateImageFile(file),
+    }))
+
+    const invalid = prepared.find((item) => item.error)
+    if (invalid) {
+      prepared.forEach((item) => URL.revokeObjectURL(item.previewUrl))
+      setError(invalid.error)
+      return
+    }
+
+    setUploads(prepared)
     setBusyImage(true)
     setError('')
+    setMessage('Preparando imagem...')
+
+    const supabase = createClient()
     try {
-      for (const file of files) {
-        const formData = new FormData()
-        formData.set('file', file)
-        formData.set('altText', name || file.name)
-        const result = await uploadProductImage(productId, formData)
-        if (!result.ok) {
-          setError(result.error)
+      for (const item of prepared) {
+        setUploads((prev) =>
+          prev.map((row) =>
+            row.key === item.key ? { ...row, status: 'Enviando imagem...' } : row,
+          ),
+        )
+        setMessage('Enviando imagem...')
+
+        let storagePath = ''
+        try {
+          storagePath = buildProductImagePath(productId, item.file)
+          await uploadImageToBucket(supabase, item.file, storagePath)
+        } catch {
+          setUploads((prev) =>
+            prev.map((row) =>
+              row.key === item.key
+                ? { ...row, status: 'Não foi possível enviar a imagem.', error: true }
+                : row,
+            ),
+          )
+          setError('Não foi possível enviar a imagem.')
           break
         }
+
+        const result = await attachProductImage({
+          productId,
+          storagePath,
+          altText: name || item.name,
+        })
+
+        if (!result.ok) {
+          await removeStorageObject(supabase, storagePath)
+          setUploads((prev) =>
+            prev.map((row) =>
+              row.key === item.key
+                ? { ...row, status: 'Não foi possível enviar a imagem.', error: true }
+                : row,
+            ),
+          )
+          setError(result.error || 'Não foi possível enviar a imagem.')
+          break
+        }
+
         setImages((prev) => {
           const next = [
             ...prev.map((img) =>
@@ -282,11 +346,22 @@ export default function ProductEditor({
           ]
           return next.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
         })
-        setMessage(result.message || 'Imagem atualizada.')
+        setUploads((prev) =>
+          prev.map((row) =>
+            row.key === item.key ? { ...row, status: 'Imagem enviada.' } : row,
+          ),
+        )
+        setMessage('Imagem enviada.')
       }
       router.refresh()
     } finally {
       setBusyImage(false)
+      window.setTimeout(() => {
+        setUploads((prev) => {
+          prev.forEach((item) => URL.revokeObjectURL(item.previewUrl))
+          return []
+        })
+      }, 1200)
     }
   }
 
@@ -368,33 +443,50 @@ export default function ProductEditor({
     event.target.value = ''
     const imageId = replaceTargetRef.current
     replaceTargetRef.current = null
-    if (!file || !imageId) return
+    if (!file || !imageId || !productId) return
+
+    const fileError = validateImageFile(file)
+    if (fileError) {
+      setError(fileError)
+      return
+    }
 
     setBusyImage(true)
     setError('')
-    const formData = new FormData()
-    formData.set('file', file)
-    const result = await replaceProductImage(imageId, formData)
-    setBusyImage(false)
-    if (!result.ok) {
-      setError(result.error)
-      return
+    setMessage('Preparando imagem...')
+    const supabase = createClient()
+    let storagePath = ''
+    try {
+      setMessage('Enviando imagem...')
+      storagePath = buildProductImagePath(productId, file)
+      await uploadImageToBucket(supabase, file, storagePath)
+      const result = await replaceProductImage({ imageId, storagePath })
+      if (!result.ok) {
+        await removeStorageObject(supabase, storagePath)
+        setError(result.error || 'Não foi possível enviar a imagem.')
+        return
+      }
+      if (result.image) {
+        setImages((prev) =>
+          prev.map((img) =>
+            img.id === imageId
+              ? {
+                  ...img,
+                  ...result.image,
+                  publicUrl: productImagePublicUrl(result.image.storage_path),
+                }
+              : img,
+          ),
+        )
+      }
+      setMessage('Imagem enviada.')
+      router.refresh()
+    } catch {
+      if (storagePath) await removeStorageObject(supabase, storagePath)
+      setError('Não foi possível enviar a imagem.')
+    } finally {
+      setBusyImage(false)
     }
-    if (result.image) {
-      setImages((prev) =>
-        prev.map((img) =>
-          img.id === imageId
-            ? {
-                ...img,
-                ...result.image,
-                publicUrl: productImagePublicUrl(result.image.storage_path),
-              }
-            : img,
-        ),
-      )
-    }
-    setMessage(result.message || 'Imagem atualizada.')
-    router.refresh()
   }
 
   return (
@@ -692,6 +784,19 @@ export default function ProductEditor({
             </article>
           ))}
 
+          {uploads.map((item) => (
+            <article key={item.key} className="admin-photo admin-photo--pending">
+              <div className="admin-photo__preview">
+                <img src={item.previewUrl} alt="" />
+              </div>
+              <p className="admin-photo__meta">
+                <strong>{item.name}</strong>
+                <span>{formatImageBytes(item.size)}</span>
+                <em>{item.status}</em>
+              </p>
+            </article>
+          ))}
+
           {!isView ? (
             <button
               type="button"
@@ -714,7 +819,7 @@ export default function ProductEditor({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           multiple
           hidden
           onChange={onPickImages}
@@ -722,7 +827,7 @@ export default function ProductEditor({
         <input
           ref={replaceInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           hidden
           onChange={onReplaceFile}
         />

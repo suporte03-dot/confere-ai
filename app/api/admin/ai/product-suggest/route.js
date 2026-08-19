@@ -4,26 +4,23 @@ import {
   buildSuggestSystemPrompt,
   parseAiSuggestionText,
 } from '../../../../../src/lib/admin/ai-product-suggest'
+import { createClient } from '../../../../../src/lib/supabase/server'
+import {
+  IMAGE_BUCKET,
+  MAX_IMAGE_BYTES,
+  isSafeAiIntakePath,
+} from '../../../../../src/lib/admin/product-image-upload'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
-
-const ALLOWED_TYPES = new Set([
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-])
-const MAX_BYTES = 4 * 1024 * 1024
 
 function json(status, body) {
   return Response.json(body, { status })
 }
 
-async function fileToDataUrl(file) {
-  const buffer = Buffer.from(await file.arrayBuffer())
-  const mime = file.type || 'image/jpeg'
+async function objectToDataUrl(blob) {
+  const buffer = Buffer.from(await blob.arrayBuffer())
+  const mime = blob.type || 'image/jpeg'
   return `data:${mime};base64,${buffer.toString('base64')}`
 }
 
@@ -47,22 +44,31 @@ export async function POST(request) {
     })
   }
 
-  let formData
+  let payload
   try {
-    formData = await request.formData()
+    payload = await request.json()
   } catch {
     return json(400, { ok: false, error: 'Não foi possível ler a imagem enviada.' })
   }
 
-  const file = formData.get('file')
-  if (!file || typeof file !== 'object' || !file.size) {
-    return json(400, { ok: false, error: 'Selecione uma foto da peça.' })
+  const storagePath = String(payload?.storagePath || '').trim()
+  const userId = gate.access?.user?.id
+  if (!isSafeAiIntakePath(userId, storagePath)) {
+    return json(400, { ok: false, error: 'Caminho de imagem inválido.' })
   }
-  if (!ALLOWED_TYPES.has(file.type)) {
-    return json(400, { ok: false, error: 'Envie uma imagem JPG, PNG ou WEBP.' })
+
+  const supabase = await createClient()
+  const { data: file, error: downloadError } = await supabase.storage
+    .from(IMAGE_BUCKET)
+    .download(storagePath)
+
+  if (downloadError || !file) {
+    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+    return json(400, { ok: false, error: 'Não foi possível ler a imagem enviada.' })
   }
-  if (file.size > MAX_BYTES) {
-    return json(400, { ok: false, error: 'A imagem é muito grande. Use até 4 MB.' })
+  if (file.size > MAX_IMAGE_BYTES) {
+    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+    return json(400, { ok: false, error: 'A imagem deve ter no máximo 5 MB.' })
   }
 
   let categories = []
@@ -74,7 +80,7 @@ export async function POST(request) {
   }
 
   const apiKey = getOpenAiApiKey()
-  const dataUrl = await fileToDataUrl(file)
+  const dataUrl = await objectToDataUrl(file)
 
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -111,8 +117,8 @@ export async function POST(request) {
       })
     }
 
-    const payload = await response.json()
-    const text = payload?.choices?.[0]?.message?.content
+    const aiPayload = await response.json()
+    const text = aiPayload?.choices?.[0]?.message?.content
     const suggestion = parseAiSuggestionText(text, categories)
     if (!suggestion || (!suggestion.name && !suggestion.description && !suggestion.primaryColor)) {
       return json(502, {
@@ -129,5 +135,7 @@ export async function POST(request) {
       error: 'Não conseguimos analisar esta foto.',
       code: 'ai_failed',
     })
+  } finally {
+    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
   }
 }
