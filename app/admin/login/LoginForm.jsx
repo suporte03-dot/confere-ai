@@ -54,7 +54,8 @@ export default function LoginForm() {
 
       router.replace('/admin')
       router.refresh()
-    } catch {
+    } catch (error) {
+      console.error(error)
       setError('Erro inesperado ao autenticar. Tente novamente.')
     } finally {
       setPending(false)
