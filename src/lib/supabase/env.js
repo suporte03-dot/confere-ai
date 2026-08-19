@@ -1,7 +1,31 @@
 /**
  * Explicit Supabase env reads.
  * Browser uses NEXT_PUBLIC_*; server/proxy prefer SUPABASE_* with NEXT_PUBLIC_* fallback.
+ * Placeholder values (e.g. "sua chave real") must not win over a real key later in the chain.
  */
+
+function firstUsable(isUsable, ...values) {
+  return values.find((value) => isUsable(value)) || ''
+}
+
+function isUsableSupabaseUrl(url) {
+  if (!url || typeof url !== 'string') {
+    return false
+  }
+  const value = url.trim()
+  return /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(value)
+}
+
+function isUsableSupabaseKey(key) {
+  if (!key || typeof key !== 'string') {
+    return false
+  }
+  const value = key.trim()
+  if (/sua chave|your[- ]?key|placeholder|changeme|example/i.test(value)) {
+    return false
+  }
+  return value.startsWith('eyJ') || value.startsWith('sb_publishable_')
+}
 
 function readRuntimeBrowserEnv() {
   if (typeof window === 'undefined') {
@@ -15,11 +39,17 @@ function readRuntimeBrowserEnv() {
 
 export function getBrowserSupabaseEnv() {
   const runtime = readRuntimeBrowserEnv()
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || runtime.url
-  const key =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    runtime.key
+  const url = firstUsable(
+    isUsableSupabaseUrl,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    runtime.url,
+  )
+  const key = firstUsable(
+    isUsableSupabaseKey,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    runtime.key,
+  )
 
   if (!url) {
     throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL')
@@ -32,11 +62,17 @@ export function getBrowserSupabaseEnv() {
 }
 
 export function getServerSupabaseEnv() {
-  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const url = firstUsable(
+    isUsableSupabaseUrl,
+    process.env.SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+  )
+  const key = firstUsable(
+    isUsableSupabaseKey,
+    process.env.SUPABASE_PUBLISHABLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  )
 
   if (!url) {
     throw new Error('Missing SUPABASE_URL')
@@ -49,7 +85,11 @@ export function getServerSupabaseEnv() {
 }
 
 export function getSupabaseProjectUrl() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
+  const url = firstUsable(
+    isUsableSupabaseUrl,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_URL,
+  )
   if (!url) {
     throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL')
   }
