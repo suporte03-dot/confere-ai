@@ -6,7 +6,13 @@ import { isAdminRole } from './roles'
  * Does not load admin business data — only auth/role.
  */
 export async function getAdminAccess() {
-  const supabase = await createClient()
+  let supabase
+  try {
+    supabase = await createClient()
+  } catch (error) {
+    console.error(error)
+    return { user: null, profile: null, allowed: false }
+  }
 
   const {
     data: { user },

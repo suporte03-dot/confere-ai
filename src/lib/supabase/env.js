@@ -61,18 +61,24 @@ export function getBrowserSupabaseEnv() {
   return { url, key }
 }
 
+export function readServerSupabaseEnv() {
+  return {
+    url: firstUsable(
+      isUsableSupabaseUrl,
+      process.env.SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+    ),
+    key: firstUsable(
+      isUsableSupabaseKey,
+      process.env.SUPABASE_PUBLISHABLE_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    ),
+  }
+}
+
 export function getServerSupabaseEnv() {
-  const url = firstUsable(
-    isUsableSupabaseUrl,
-    process.env.SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-  )
-  const key = firstUsable(
-    isUsableSupabaseKey,
-    process.env.SUPABASE_PUBLISHABLE_KEY,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  )
+  const { url, key } = readServerSupabaseEnv()
 
   if (!url) {
     throw new Error('Missing SUPABASE_URL')
