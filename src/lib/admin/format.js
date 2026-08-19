@@ -1,4 +1,4 @@
-import { getBrowserSupabaseEnv } from '../supabase/env'
+import { getSupabaseProjectUrl } from '../supabase/env'
 
 export function formatBRL(value) {
   const n = Number(value)
@@ -36,7 +36,7 @@ export function productImagePublicUrl(storagePath) {
   if (!storagePath) return null
   if (/^https?:\/\//i.test(storagePath)) return storagePath
   try {
-    const { url } = getBrowserSupabaseEnv()
+    const url = getSupabaseProjectUrl()
     return `${url}/storage/v1/object/public/product-images/${storagePath}`
   } catch {
     return null

@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '../../../src/lib/supabase/client'
-import { isAdminRole } from '../../../src/lib/supabase/roles'
+import { signInAdmin } from '../actions'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -22,39 +21,19 @@ export default function LoginForm() {
     setPending(true)
 
     try {
-      const supabase = createClient()
-      const { data: signInData, error: signInError } =
-        await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password,
-        })
-
-      if (signInError) {
-        setError('Não foi possível entrar. Verifique e-mail e senha.')
-        return
-      }
-
-      const user = signInData.user
-      if (!user) {
-        setError('Sessão inválida após o login.')
-        return
-      }
-
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('id, role')
-        .eq('id', user.id)
-        .maybeSingle()
-
-      if (profileError || !profile || !isAdminRole(profile.role)) {
+      const result = await signInAdmin(email, password)
+      if (result?.denied) {
         setDenied(true)
-        await supabase.auth.signOut()
         return
       }
-
+      if (!result?.ok) {
+        setError(result?.error || 'Erro inesperado ao autenticar. Tente novamente.')
+        return
+      }
       router.replace('/admin')
       router.refresh()
-    } catch {
+    } catch (error) {
+      console.error(error)
       setError('Erro inesperado ao autenticar. Tente novamente.')
     } finally {
       setPending(false)
