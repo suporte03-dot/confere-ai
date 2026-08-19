@@ -59,6 +59,19 @@ function CategoryPageContent({ category, productsProp }) {
     setFilters((prev) => ({ ...prev, subKey: subFromUrl }))
   }, [subFromUrl])
 
+  useEffect(() => {
+    if (!filtersOpen) return undefined
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setFiltersOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    document.body.classList.add('filters-drawer-open')
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.classList.remove('filters-drawer-open')
+    }
+  }, [filtersOpen])
+
   const visible = useMemo(
     () => filterAndSortProducts(baseProducts, filters, sortId),
     [baseProducts, filters, sortId],
@@ -219,6 +232,13 @@ function CategoryPageContent({ category, productsProp }) {
         </div>
 
         <div className="catalog-layout">
+          <button
+            type="button"
+            className={`catalog-filters-overlay${filtersOpen ? ' is-open' : ''}`}
+            aria-label="Fechar filtros"
+            tabIndex={filtersOpen ? 0 : -1}
+            onClick={() => setFiltersOpen(false)}
+          />
           <aside
             className={`catalog-filters${filtersOpen ? ' catalog-filters--open' : ''}`}
             aria-label="Filtros de produtos"

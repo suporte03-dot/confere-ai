@@ -19,11 +19,26 @@ export async function getAdminAccess() {
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('id, role')
+    .select('id, role, full_name, name')
     .eq('id', user.id)
     .maybeSingle()
 
-  if (profileError || !profile) {
+  if (profileError) {
+    const fallback = await supabase
+      .from('profiles')
+      .select('id, role')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (fallback.error || !fallback.data) {
+      return { user, profile: null, allowed: false }
+    }
+
+    const allowed = isAdminRole(fallback.data.role)
+    return { user, profile: fallback.data, allowed }
+  }
+
+  if (!profile) {
     return { user, profile: null, allowed: false }
   }
 

@@ -8,6 +8,7 @@ import {
   toggleCollectionActive,
   toggleCollectionFeatured,
 } from './actions'
+import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
 
 export default function CollectionsListClient({
   collections: initialCollections,
@@ -111,6 +112,7 @@ export default function CollectionsListClient({
       <div className="admin-empty">
         <p>Nenhuma coleção cadastrada ainda.</p>
         <Link href="/admin/colecoes/novo" className="admin-btn">
+          <AdminIcon name="plus" />
           Cadastrar primeira coleção
         </Link>
       </div>
@@ -122,95 +124,123 @@ export default function CollectionsListClient({
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
-      <div className="admin-table-wrap">
-        <table className="admin-table admin-table--compact">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Slug</th>
-              <th>Status</th>
-              <th>Destaque</th>
-              <th>Ordem</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {collections.map((collection, index) => (
-              <tr key={collection.id}>
-                <td>
-                  <strong>{collection.name}</strong>
-                </td>
-                <td>
-                  <span className="admin-muted">{collection.slug}</span>
-                </td>
-                <td>
-                  <span
-                    className={`admin-badge ${collection.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
-                  >
-                    {collection.active ? 'Ativa' : 'Inativa'}
-                  </span>
-                </td>
-                <td>{collection.featured ? 'Sim' : 'Não'}</td>
-                <td>
-                  <div className="admin-order-controls">
-                    <span>{collection.sortOrder}</span>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={pendingId === collection.id || index === 0}
-                      onClick={() => onMove(collection, 'up')}
-                      aria-label="Mover para cima"
-                    >
-                      ↑
-                    </button>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={
-                        pendingId === collection.id ||
-                        index === collections.length - 1
-                      }
-                      onClick={() => onMove(collection, 'down')}
-                      aria-label="Mover para baixo"
-                    >
-                      ↓
-                    </button>
-                  </div>
-                </td>
-                <td>
-                  <div className="admin-row-actions">
-                    <Link
-                      href={`/admin/colecoes/${collection.id}`}
-                      className="admin-link-btn"
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={pendingId === collection.id}
-                      onClick={() => onToggleActive(collection)}
-                    >
-                      {pendingId === collection.id
-                        ? '…'
-                        : collection.active
-                          ? 'Desativar'
-                          : 'Ativar'}
-                    </button>
-                    <button
-                      type="button"
-                      className="admin-link-btn"
-                      disabled={pendingId === collection.id}
-                      onClick={() => onToggleFeatured(collection)}
-                    >
-                      {collection.featured ? 'Remover destaque' : 'Destacar'}
-                    </button>
-                  </div>
-                </td>
+      <div className="admin-table-card">
+        <div className="admin-table-wrap">
+          <table className="admin-table admin-table--compact">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Slug</th>
+                <th>Status</th>
+                <th>Destaque</th>
+                <th>Ordem</th>
+                <th>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {collections.map((collection, index) => (
+                <tr key={collection.id}>
+                  <td>
+                    <div className="admin-product-cell">
+                      <div className="admin-thumb">
+                        <AdminIcon name="tag" />
+                      </div>
+                      <div className="admin-cell-stack">
+                        <strong>{collection.name}</strong>
+                        {collection.description ? (
+                          <span className="admin-muted">{collection.description}</span>
+                        ) : null}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="admin-muted">{collection.slug}</span>
+                  </td>
+                  <td>
+                    <span
+                      className={`admin-badge ${collection.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
+                    >
+                      {collection.active ? 'Ativa' : 'Inativa'}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`admin-featured${collection.featured ? ' is-on' : ''}`}>
+                      <AdminIcon name={collection.featured ? 'star' : 'starOff'} />
+                      {collection.featured ? 'Sim' : 'Não'}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="admin-order-controls">
+                      <button
+                        type="button"
+                        disabled={pendingId === collection.id || index === 0}
+                        onClick={() => onMove(collection, 'up')}
+                        aria-label="Mover para cima"
+                      >
+                        <AdminIcon name="up" />
+                      </button>
+                      <span>{collection.sortOrder}</span>
+                      <button
+                        type="button"
+                        disabled={
+                          pendingId === collection.id ||
+                          index === collections.length - 1
+                        }
+                        onClick={() => onMove(collection, 'down')}
+                        aria-label="Mover para baixo"
+                      >
+                        <AdminIcon name="down" />
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="admin-row-actions">
+                      <AdminIconAction
+                        href={`/admin/colecoes/${collection.id}`}
+                        icon="pencil"
+                        label="Editar"
+                      />
+                      <AdminIconAction
+                        icon="power"
+                        label={
+                          pendingId === collection.id
+                            ? '…'
+                            : collection.active
+                              ? 'Desativar'
+                              : 'Ativar'
+                        }
+                        danger={collection.active}
+                        disabled={pendingId === collection.id}
+                        onClick={() => onToggleActive(collection)}
+                      />
+                      <AdminIconAction
+                        icon={collection.featured ? 'star' : 'starOff'}
+                        label="Destaque"
+                        gold={collection.featured}
+                        disabled={pendingId === collection.id}
+                        onClick={() => onToggleFeatured(collection)}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <footer className="admin-table-foot">
+          <span>
+            {collections.length} {collections.length === 1 ? 'coleção encontrada' : 'coleções encontradas'}
+          </span>
+          <div className="admin-pagination" aria-label="Paginação">
+            <button type="button" disabled aria-label="Página anterior">
+              <AdminIcon name="prev" />
+            </button>
+            <span className="is-current">1</span>
+            <button type="button" disabled aria-label="Próxima página">
+              <AdminIcon name="next" />
+            </button>
+          </div>
+        </footer>
       </div>
 
       <ul className="admin-card-list" aria-label="Lista de coleções">
@@ -228,28 +258,25 @@ export default function CollectionsListClient({
                 {collection.featured ? 'Sim' : 'Não'}
               </p>
               <div className="admin-row-actions">
-                <Link
+                <AdminIconAction
                   href={`/admin/colecoes/${collection.id}`}
-                  className="admin-link-btn"
-                >
-                  Editar
-                </Link>
-                <button
-                  type="button"
-                  className="admin-link-btn"
+                  icon="pencil"
+                  label="Editar"
+                />
+                <AdminIconAction
+                  icon="power"
+                  label={collection.active ? 'Desativar' : 'Ativar'}
+                  danger={collection.active}
                   disabled={pendingId === collection.id}
                   onClick={() => onToggleActive(collection)}
-                >
-                  {collection.active ? 'Desativar' : 'Ativar'}
-                </button>
-                <button
-                  type="button"
-                  className="admin-link-btn"
+                />
+                <AdminIconAction
+                  icon={collection.featured ? 'star' : 'starOff'}
+                  label="Destaque"
+                  gold={collection.featured}
                   disabled={pendingId === collection.id}
                   onClick={() => onToggleFeatured(collection)}
-                >
-                  {collection.featured ? 'Remover destaque' : 'Destacar'}
-                </button>
+                />
                 <button
                   type="button"
                   className="admin-link-btn"

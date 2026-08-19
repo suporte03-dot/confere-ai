@@ -1,8 +1,10 @@
 import Link from 'next/link'
 import { assertAdminAccess } from '../../../../src/lib/admin/products'
 import { fetchCollectionsForAdmin } from '../../../../src/lib/admin/taxonomies'
-import { signOutAdmin } from '../../actions'
+import AdminDenied from '../../components/AdminDenied'
+import AdminPageHeader from '../../components/AdminPageHeader'
 import CollectionsListClient from './CollectionsListClient'
+import { AdminIcon } from '../../components/AdminIcons'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,17 +12,9 @@ export default async function AdminCollectionsPage() {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
     return (
-      <div className="admin-shell admin-shell--wide">
-        <section className="admin-panel admin-denied">
-          <h1>Acesso negado</h1>
-          <p>Faça login com um perfil administrador para gerenciar coleções.</p>
-          <div className="admin-actions">
-            <Link href="/admin/login" className="admin-btn">
-              Ir para login
-            </Link>
-          </div>
-        </section>
-      </div>
+      <AdminDenied>
+        <p>Faça login com um perfil administrador para gerenciar coleções.</p>
+      </AdminDenied>
     )
   }
 
@@ -34,42 +28,19 @@ export default async function AdminCollectionsPage() {
   }
 
   return (
-    <div className="admin-shell admin-shell--wide">
-      <div className="admin-topbar">
-        <div>
-          <p className="admin-brand">
-            Terra &amp; <span>Estilo</span>
-          </p>
-          <p className="admin-kicker">Coleções</p>
-        </div>
-        <div className="admin-actions admin-actions--compact">
-          <Link href="/admin" className="admin-btn admin-btn--ghost">
-            Voltar
-          </Link>
-          <form action={signOutAdmin}>
-            <button type="submit" className="admin-btn admin-btn--ghost">
-              Sair
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <section className="admin-panel">
-        <div className="admin-panel__head">
-          <div>
-            <h1>Coleções</h1>
-            <p>Gerencie coleções, destaques e a ordem de exibição.</p>
-          </div>
+    <>
+      <AdminPageHeader
+        title="Coleções"
+        description="Gerencie suas coleções, destaques e a ordem de exibição na loja."
+        actions={
           <Link href="/admin/colecoes/novo" className="admin-btn">
-            + Nova coleção
+            <AdminIcon name="plus" />
+            Nova coleção
           </Link>
-        </div>
-
-        {loadError ? <p className="admin-error">{loadError}</p> : null}
-        {!loadError ? (
-          <CollectionsListClient collections={collections} />
-        ) : null}
-      </section>
-    </div>
+        }
+      />
+      {loadError ? <p className="admin-error">{loadError}</p> : null}
+      {!loadError ? <CollectionsListClient collections={collections} /> : null}
+    </>
   )
 }

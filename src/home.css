@@ -2135,7 +2135,7 @@ body.nav-drawer-open {
     order: 1;
     width: 100%;
     height: min(54vh, 500px);
-    min-height: 380px;
+    min-height: min(380px, 52vh);
   }
 
   .brand-hero__models-image {
@@ -5343,7 +5343,7 @@ body.nav-drawer-open {
   }
 
   .site-footer__payments {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   .site-footer__col--atendimento ul li {
@@ -5909,14 +5909,19 @@ body.nav-drawer-open {
   .site-header--premium .header-actions,
   .header-actions {
     gap: 0;
+    min-width: 0;
   }
 
   .site-header__action {
-    min-width: 40px;
-    width: 40px;
-    height: 40px;
-    min-height: 40px;
-    padding: 8px;
+    min-width: 44px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 10px;
+  }
+
+  .site-header__action span {
+    display: none;
   }
 
   .header-brand__text .header-brand__tagline {

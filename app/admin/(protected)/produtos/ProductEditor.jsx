@@ -1,19 +1,30 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { useEffect, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { productImagePublicUrl } from '../../../../src/lib/admin/format'
 import { slugify } from '../../../../src/lib/admin/slugify'
 import {
+  buildProductImagePath,
+  formatImageBytes,
+  removeStorageObject,
+  uploadImageToBucket,
+  validateImageFile,
+} from '../../../../src/lib/admin/product-image-upload'
+import { createClient } from '../../../../src/lib/supabase/client'
+import {
+  attachProductImage,
   checkProductSlug,
   deleteProductImage,
   reorderProductImages,
   replaceProductImage,
   saveProduct,
   setProductCoverImage,
-  uploadProductImage,
 } from './actions'
+
+const AiAssistPanel = dynamic(() => import('./AiAssistPanel'), { ssr: false })
 
 function moneyToInput(value) {
   if (value == null || value === '') return ''
@@ -33,12 +44,19 @@ function createVariantDraft(seed = {}) {
   }
 }
 
+function AiHint({ show }) {
+  if (!show) return null
+  return <span className="admin-ai-hint">✨ Sugerido pela IA</span>
+}
+
 export default function ProductEditor({
   mode = 'create',
   readOnly = false,
   product = null,
   categories = [],
   collections = [],
+  highlightVariantId = '',
+  aiEnabled = false,
 }) {
   const router = useRouter()
   const fileInputRef = useRef(null)
@@ -69,13 +87,10 @@ export default function ProductEditor({
   const [error, setError] = useState('')
   const [slugHint, setSlugHint] = useState('')
   const [busyImage, setBusyImage] = useState(false)
+  const [uploads, setUploads] = useState([])
+  const [aiHints, setAiHints] = useState({})
 
   const isView = readOnly || mode === 'view'
-  const title = useMemo(() => {
-    if (mode === 'create') return 'Novo produto'
-    if (isView) return 'Visualizar produto'
-    return 'Editar produto'
-  }, [mode, isView])
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -110,22 +125,38 @@ export default function ProductEditor({
     }
   }, [slug, productId, isView])
 
+  useEffect(() => {
+    if (!highlightVariantId) return undefined
+    const node = document.querySelector(
+      `[data-variant-id="${CSS.escape(highlightVariantId)}"]`,
+    )
+    if (!node) return undefined
+    node.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    return undefined
+  }, [highlightVariantId, variants.length])
+
   function onNameChange(value) {
     setName(value)
+    setAiHints((prev) => ({ ...prev, name: false }))
     if (!slugTouched && !isView) {
       setSlug(slugify(value))
+      setAiHints((prev) => ({ ...prev, slug: false }))
     }
   }
 
   function onSlugChange(value) {
     setSlugTouched(true)
     setSlug(slugify(value))
+    setAiHints((prev) => ({ ...prev, slug: false }))
   }
 
   function updateVariant(key, field, value) {
     setVariants((prev) =>
       prev.map((row) => (row._key === key ? { ...row, [field]: value } : row)),
     )
+    if (field === 'color' || field === 'size') {
+      setAiHints((prev) => ({ ...prev, [field]: false }))
+    }
   }
 
   function addVariant() {
@@ -134,6 +165,56 @@ export default function ProductEditor({
 
   function removeVariant(key) {
     setVariants((prev) => prev.filter((row) => row._key !== key))
+  }
+
+  function applyAiSuggestions(suggestion) {
+    if (!suggestion || isView) return
+    const hints = {}
+    if (suggestion.name) {
+      setName(suggestion.name)
+      hints.name = true
+    }
+    if (suggestion.slug) {
+      setSlugTouched(true)
+      setSlug(suggestion.slug)
+      hints.slug = true
+    } else if (suggestion.name && !slugTouched) {
+      setSlug(slugify(suggestion.name))
+      hints.slug = true
+    }
+    if (suggestion.description) {
+      setDescription(suggestion.description)
+      hints.description = true
+    }
+    if (suggestion.categoryId) {
+      setCategoryId(suggestion.categoryId)
+      hints.categoryId = true
+    }
+    if (suggestion.primaryColor || suggestion.detectedSize) {
+      setVariants((prev) => {
+        if (!prev.length) {
+          return [
+            createVariantDraft({
+              color: suggestion.primaryColor || '',
+              size: suggestion.detectedSize || '',
+            }),
+          ]
+        }
+        const [first, ...rest] = prev
+        return [
+          {
+            ...first,
+            color: suggestion.primaryColor || first.color,
+            size: suggestion.detectedSize || first.size,
+          },
+          ...rest,
+        ]
+      })
+      if (suggestion.primaryColor) hints.color = true
+      if (suggestion.detectedSize) hints.size = true
+    }
+    setAiHints(hints)
+    setMessage('Sugestões aplicadas. Revise e salve o produto.')
   }
 
   function onSave(event) {
@@ -186,18 +267,73 @@ export default function ProductEditor({
       return
     }
 
+    const prepared = files.map((file, index) => ({
+      key: `${Date.now()}-${index}-${file.name}`,
+      file,
+      name: file.name,
+      size: file.size,
+      previewUrl: URL.createObjectURL(file),
+      status: 'Preparando imagem...',
+      error: validateImageFile(file),
+    }))
+
+    const invalid = prepared.find((item) => item.error)
+    if (invalid) {
+      prepared.forEach((item) => URL.revokeObjectURL(item.previewUrl))
+      setError(invalid.error)
+      return
+    }
+
+    setUploads(prepared)
     setBusyImage(true)
     setError('')
+    setMessage('Preparando imagem...')
+
+    const supabase = createClient()
     try {
-      for (const file of files) {
-        const formData = new FormData()
-        formData.set('file', file)
-        formData.set('altText', name || file.name)
-        const result = await uploadProductImage(productId, formData)
-        if (!result.ok) {
-          setError(result.error)
+      for (const item of prepared) {
+        setUploads((prev) =>
+          prev.map((row) =>
+            row.key === item.key ? { ...row, status: 'Enviando imagem...' } : row,
+          ),
+        )
+        setMessage('Enviando imagem...')
+
+        let storagePath = ''
+        try {
+          storagePath = buildProductImagePath(productId, item.file)
+          await uploadImageToBucket(supabase, item.file, storagePath)
+        } catch {
+          setUploads((prev) =>
+            prev.map((row) =>
+              row.key === item.key
+                ? { ...row, status: 'Não foi possível enviar a imagem.', error: true }
+                : row,
+            ),
+          )
+          setError('Não foi possível enviar a imagem.')
           break
         }
+
+        const result = await attachProductImage({
+          productId,
+          storagePath,
+          altText: name || item.name,
+        })
+
+        if (!result.ok) {
+          await removeStorageObject(supabase, storagePath)
+          setUploads((prev) =>
+            prev.map((row) =>
+              row.key === item.key
+                ? { ...row, status: 'Não foi possível enviar a imagem.', error: true }
+                : row,
+            ),
+          )
+          setError(result.error || 'Não foi possível enviar a imagem.')
+          break
+        }
+
         setImages((prev) => {
           const next = [
             ...prev.map((img) =>
@@ -210,11 +346,22 @@ export default function ProductEditor({
           ]
           return next.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
         })
-        setMessage(result.message || 'Imagem atualizada.')
+        setUploads((prev) =>
+          prev.map((row) =>
+            row.key === item.key ? { ...row, status: 'Imagem enviada.' } : row,
+          ),
+        )
+        setMessage('Imagem enviada.')
       }
       router.refresh()
     } finally {
       setBusyImage(false)
+      window.setTimeout(() => {
+        setUploads((prev) => {
+          prev.forEach((item) => URL.revokeObjectURL(item.previewUrl))
+          return []
+        })
+      }, 1200)
     }
   }
 
@@ -296,71 +443,70 @@ export default function ProductEditor({
     event.target.value = ''
     const imageId = replaceTargetRef.current
     replaceTargetRef.current = null
-    if (!file || !imageId) return
+    if (!file || !imageId || !productId) return
+
+    const fileError = validateImageFile(file)
+    if (fileError) {
+      setError(fileError)
+      return
+    }
 
     setBusyImage(true)
     setError('')
-    const formData = new FormData()
-    formData.set('file', file)
-    const result = await replaceProductImage(imageId, formData)
-    setBusyImage(false)
-    if (!result.ok) {
-      setError(result.error)
-      return
+    setMessage('Preparando imagem...')
+    const supabase = createClient()
+    let storagePath = ''
+    try {
+      setMessage('Enviando imagem...')
+      storagePath = buildProductImagePath(productId, file)
+      await uploadImageToBucket(supabase, file, storagePath)
+      const result = await replaceProductImage({ imageId, storagePath })
+      if (!result.ok) {
+        await removeStorageObject(supabase, storagePath)
+        setError(result.error || 'Não foi possível enviar a imagem.')
+        return
+      }
+      if (result.image) {
+        setImages((prev) =>
+          prev.map((img) =>
+            img.id === imageId
+              ? {
+                  ...img,
+                  ...result.image,
+                  publicUrl: productImagePublicUrl(result.image.storage_path),
+                }
+              : img,
+          ),
+        )
+      }
+      setMessage('Imagem enviada.')
+      router.refresh()
+    } catch {
+      if (storagePath) await removeStorageObject(supabase, storagePath)
+      setError('Não foi possível enviar a imagem.')
+    } finally {
+      setBusyImage(false)
     }
-    if (result.image) {
-      setImages((prev) =>
-        prev.map((img) =>
-          img.id === imageId
-            ? {
-                ...img,
-                ...result.image,
-                publicUrl: productImagePublicUrl(result.image.storage_path),
-              }
-            : img,
-        ),
-      )
-    }
-    setMessage(result.message || 'Imagem atualizada.')
-    router.refresh()
   }
 
   return (
     <form className="admin-form admin-form--product" onSubmit={onSave} noValidate>
-      <div className="admin-panel__head">
-        <div>
-          <h1>{title}</h1>
-          <p>
-            {isView
-              ? 'Consulta do produto cadastrado.'
-              : 'Preencha os dados principais, variantes e fotos.'}
-          </p>
-        </div>
-        <div className="admin-actions admin-actions--compact">
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Voltar
-          </Link>
-          {productId && isView ? (
-            <Link href={`/admin/produtos/${productId}`} className="admin-btn">
-              Editar
-            </Link>
-          ) : null}
-          {!isView ? (
-            <button type="submit" className="admin-btn" disabled={pending}>
-              {pending ? 'Salvando…' : 'Salvar produto'}
-            </button>
-          ) : null}
-        </div>
-      </div>
-
       {message ? <p className="admin-success" role="status">{message}</p> : null}
       {error ? <p className="admin-error" role="alert">{error}</p> : null}
 
+      {mode === 'create' && !isView ? (
+        <AiAssistPanel
+          enabled={aiEnabled}
+          disabled={pending}
+          onApply={applyAiSuggestions}
+        />
+      ) : null}
+
       <section className="admin-section">
-        <h2>Informações principais</h2>
+        <h2>Informações</h2>
         <div className="admin-grid-2">
           <div className="admin-field">
-            <label htmlFor="product-name">Nome</label>
+            <label htmlFor="product-name">Nome <AiHint show={aiHints.name} /></label>
             <input
               id="product-name"
               value={name}
@@ -370,7 +516,7 @@ export default function ProductEditor({
             />
           </div>
           <div className="admin-field">
-            <label htmlFor="product-slug">Slug</label>
+            <label htmlFor="product-slug">Slug <AiHint show={aiHints.slug} /></label>
             <input
               id="product-slug"
               value={slug}
@@ -388,13 +534,26 @@ export default function ProductEditor({
           </div>
         </div>
         <div className="admin-field">
-          <label htmlFor="product-description">Descrição</label>
+          <label htmlFor="product-description">Descrição <AiHint show={aiHints.description} /></label>
           <textarea
             id="product-description"
             rows={5}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {
+              setDescription(e.target.value)
+              setAiHints((prev) => ({ ...prev, description: false }))
+            }}
             disabled={isView || pending}
+          />
+        </div>
+        <div className="admin-field">
+          <label htmlFor="product-sku">SKU</label>
+          <input
+            id="product-sku"
+            value={sku}
+            onChange={(e) => setSku(e.target.value)}
+            disabled={isView || pending}
+            placeholder="Opcional"
           />
         </div>
       </section>
@@ -432,11 +591,16 @@ export default function ProductEditor({
         <h2>Classificação</h2>
         <div className="admin-grid-2">
           <div className="admin-field">
-            <label htmlFor="product-category">Categoria</label>
+            <label htmlFor="product-category">
+              Categoria <AiHint show={aiHints.categoryId} />
+            </label>
             <select
               id="product-category"
               value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
+              onChange={(e) => {
+                setCategoryId(e.target.value)
+                setAiHints((prev) => ({ ...prev, categoryId: false }))
+              }}
               disabled={isView || pending}
             >
               <option value="">Selecione…</option>
@@ -467,42 +631,8 @@ export default function ProductEditor({
       </section>
 
       <section className="admin-section">
-        <h2>Configurações</h2>
-        <div className="admin-grid-2">
-          <label className="admin-check">
-            <input
-              type="checkbox"
-              checked={active}
-              onChange={(e) => setActive(e.target.checked)}
-              disabled={isView || pending}
-            />
-            <span>Produto ativo?</span>
-          </label>
-          <label className="admin-check">
-            <input
-              type="checkbox"
-              checked={featured}
-              onChange={(e) => setFeatured(e.target.checked)}
-              disabled={isView || pending}
-            />
-            <span>Produto em destaque?</span>
-          </label>
-        </div>
-        <div className="admin-field" style={{ marginTop: '1rem' }}>
-          <label htmlFor="product-sku">SKU</label>
-          <input
-            id="product-sku"
-            value={sku}
-            onChange={(e) => setSku(e.target.value)}
-            disabled={isView || pending}
-            placeholder="Opcional"
-          />
-        </div>
-      </section>
-
-      <section className="admin-section">
         <div className="admin-section__head">
-          <h2>Tamanhos / cores / estoque</h2>
+          <h2>Variações</h2>
           {!isView ? (
             <button type="button" className="admin-btn admin-btn--ghost" onClick={addVariant}>
               + Variante
@@ -514,10 +644,20 @@ export default function ProductEditor({
           <p className="admin-muted">Nenhuma variante cadastrada.</p>
         ) : (
           <div className="admin-variants">
-            {variants.map((variant) => (
-              <div key={variant._key} className="admin-variant-row">
+            {variants.map((variant, index) => (
+              <div
+                key={variant._key}
+                data-variant-id={variant.id || ''}
+                className={`admin-variant-row${
+                  highlightVariantId && variant.id === highlightVariantId
+                    ? ' admin-variant-row--alert'
+                    : ''
+                }`}
+              >
                 <div className="admin-field">
-                  <label>Tamanho</label>
+                  <label>
+                    Tamanho <AiHint show={index === 0 && aiHints.size} />
+                  </label>
                   <input
                     value={variant.size}
                     onChange={(e) => updateVariant(variant._key, 'size', e.target.value)}
@@ -526,7 +666,9 @@ export default function ProductEditor({
                   />
                 </div>
                 <div className="admin-field">
-                  <label>Cor</label>
+                  <label>
+                    Cor <AiHint show={index === 0 && aiHints.color} />
+                  </label>
                   <input
                     value={variant.color}
                     onChange={(e) => updateVariant(variant._key, 'color', e.target.value)}
@@ -570,7 +712,7 @@ export default function ProductEditor({
 
       <section className="admin-section">
         <div className="admin-section__head">
-          <h2>Fotos do produto</h2>
+          <h2>Fotos</h2>
           {!isView ? (
             <button
               type="button"
@@ -642,6 +784,19 @@ export default function ProductEditor({
             </article>
           ))}
 
+          {uploads.map((item) => (
+            <article key={item.key} className="admin-photo admin-photo--pending">
+              <div className="admin-photo__preview">
+                <img src={item.previewUrl} alt="" />
+              </div>
+              <p className="admin-photo__meta">
+                <strong>{item.name}</strong>
+                <span>{formatImageBytes(item.size)}</span>
+                <em>{item.status}</em>
+              </p>
+            </article>
+          ))}
+
           {!isView ? (
             <button
               type="button"
@@ -664,7 +819,7 @@ export default function ProductEditor({
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           multiple
           hidden
           onChange={onPickImages}
@@ -672,22 +827,51 @@ export default function ProductEditor({
         <input
           ref={replaceInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           hidden
           onChange={onReplaceFile}
         />
       </section>
 
-      {!isView ? (
-        <div className="admin-actions">
+      <section className="admin-section">
+        <h2>Publicação</h2>
+        <div className="admin-grid-2">
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto ativo</span>
+          </label>
+          <label className="admin-check">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+              disabled={isView || pending}
+            />
+            <span>Produto em destaque</span>
+          </label>
+        </div>
+      </section>
+
+      <div className="admin-sticky-actions">
+        <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+          {isView ? 'Voltar' : 'Cancelar'}
+        </Link>
+        {productId && isView ? (
+          <Link href={`/admin/produtos/${productId}`} className="admin-btn">
+            Editar
+          </Link>
+        ) : null}
+        {!isView ? (
           <button type="submit" className="admin-btn" disabled={pending}>
             {pending ? 'Salvando…' : 'Salvar produto'}
           </button>
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </form>
   )
 }

@@ -8,16 +8,10 @@ import {
   isSlugAvailable,
 } from '../../../../src/lib/admin/products'
 import { slugify } from '../../../../src/lib/admin/slugify'
-
-const IMAGE_BUCKET = 'product-images'
-const ALLOWED_IMAGE_TYPES = new Set([
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-  'image/avif',
-])
+import {
+  IMAGE_BUCKET,
+  isSafeProductImagePath,
+} from '../../../../src/lib/admin/product-image-upload'
 
 function fail(message) {
   return { ok: false, error: message }
@@ -84,30 +78,6 @@ function validateProductPayload(payload) {
   }
   if (payload.compare_at_price != null && payload.compare_at_price < 0) {
     return 'O preço anterior/promocional é inválido.'
-  }
-  return null
-}
-
-function extensionFromFile(file) {
-  const fromName = file.name?.split('.').pop()?.toLowerCase()
-  if (fromName && /^[a-z0-9]+$/.test(fromName)) return fromName
-  const map = {
-    'image/jpeg': 'jpg',
-    'image/jpg': 'jpg',
-    'image/png': 'png',
-    'image/webp': 'webp',
-    'image/gif': 'gif',
-    'image/avif': 'avif',
-  }
-  return map[file.type] || 'jpg'
-}
-
-function assertImageFile(file) {
-  if (!file || typeof file !== 'object' || !file.size) {
-    return 'Selecione uma imagem para enviar.'
-  }
-  if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
-    return 'Envie apenas arquivos de imagem (JPG, PNG, WEBP…).'
   }
   return null
 }
@@ -247,7 +217,12 @@ export async function saveProduct(input) {
   }
 }
 
-export async function uploadProductImage(productId, formData) {
+export async function attachProductImage({
+  productId,
+  storagePath,
+  altText = null,
+  isCover = false,
+} = {}) {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
     return fail(
@@ -259,12 +234,9 @@ export async function uploadProductImage(productId, formData) {
 
   try {
     if (!productId) return fail('Salve o produto antes de enviar imagens.')
-    const file = formData.get('file')
-    const fileError = assertImageFile(file)
-    if (fileError) return fail(fileError)
-
-    const altText = String(formData.get('altText') || '').trim() || null
-    const makeCover = String(formData.get('makeCover') || '') === 'true'
+    if (!isSafeProductImagePath(productId, storagePath)) {
+      return fail('Caminho de imagem inválido.')
+    }
 
     const supabase = await createClient()
 
@@ -282,21 +254,7 @@ export async function uploadProductImage(productId, formData) {
       existing?.length > 0
         ? Math.max(...existing.map((row) => Number(row.position) || 0)) + 1
         : 0
-    const shouldBeCover = makeCover || !existing?.some((row) => row.is_cover)
-
-    const ext = extensionFromFile(file)
-    const storagePath = `${productId}/${crypto.randomUUID()}.${ext}`
-
-    const { error: uploadError } = await supabase.storage
-      .from(IMAGE_BUCKET)
-      .upload(storagePath, file, {
-        contentType: file.type,
-        upsert: false,
-      })
-
-    if (uploadError) {
-      return fail(friendlyError(uploadError, 'Não foi possível enviar a imagem.'))
-    }
+    const shouldBeCover = Boolean(isCover) || !existing?.some((row) => row.is_cover)
 
     if (shouldBeCover && existing?.length) {
       const { error: clearError } = await supabase
@@ -304,7 +262,6 @@ export async function uploadProductImage(productId, formData) {
         .update({ is_cover: false })
         .eq('product_id', productId)
       if (clearError) {
-        await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
         return fail(friendlyError(clearError, 'Não foi possível definir a capa.'))
       }
     }
@@ -316,27 +273,26 @@ export async function uploadProductImage(productId, formData) {
         storage_path: storagePath,
         position: nextPosition,
         is_cover: shouldBeCover,
-        alt_text: altText,
+        alt_text: String(altText || '').trim() || null,
       })
       .select('id, storage_path, position, is_cover, alt_text')
       .single()
 
     if (insertError) {
-      await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
       return fail(friendlyError(insertError, 'Não foi possível salvar a imagem.'))
     }
 
     revalidateProducts(productId)
     return ok({
       image: inserted,
-      message: 'Imagem atualizada.',
+      message: 'Imagem enviada.',
     })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível enviar a imagem.'))
   }
 }
 
-export async function replaceProductImage(imageId, formData) {
+export async function replaceProductImage({ imageId, storagePath } = {}) {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
     return fail(
@@ -347,9 +303,7 @@ export async function replaceProductImage(imageId, formData) {
   }
 
   try {
-    const file = formData.get('file')
-    const fileError = assertImageFile(file)
-    if (fileError) return fail(fileError)
+    if (!imageId) return fail('Imagem não encontrada.')
 
     const supabase = await createClient()
     const { data: current, error: currentError } = await supabase
@@ -362,18 +316,8 @@ export async function replaceProductImage(imageId, formData) {
       return fail('Imagem não encontrada.')
     }
 
-    const ext = extensionFromFile(file)
-    const storagePath = `${current.product_id}/${crypto.randomUUID()}.${ext}`
-
-    const { error: uploadError } = await supabase.storage
-      .from(IMAGE_BUCKET)
-      .upload(storagePath, file, {
-        contentType: file.type,
-        upsert: false,
-      })
-
-    if (uploadError) {
-      return fail(friendlyError(uploadError, 'Não foi possível substituir a imagem.'))
+    if (!isSafeProductImagePath(current.product_id, storagePath)) {
+      return fail('Caminho de imagem inválido.')
     }
 
     const { data: updated, error: updateError } = await supabase
@@ -384,16 +328,15 @@ export async function replaceProductImage(imageId, formData) {
       .single()
 
     if (updateError) {
-      await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
       return fail(friendlyError(updateError, 'Não foi possível atualizar a imagem.'))
     }
 
-    if (current.storage_path) {
+    if (current.storage_path && current.storage_path !== storagePath) {
       await supabase.storage.from(IMAGE_BUCKET).remove([current.storage_path])
     }
 
     revalidateProducts(current.product_id)
-    return ok({ image: updated, message: 'Imagem atualizada.' })
+    return ok({ image: updated, message: 'Imagem enviada.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível substituir a imagem.'))
   }
@@ -489,6 +432,18 @@ export async function deleteProductImage(imageId) {
 
     if (currentError || !current) return fail('Imagem não encontrada.')
 
+    if (current.storage_path) {
+      const { error: storageError } = await supabase.storage
+        .from(IMAGE_BUCKET)
+        .remove([current.storage_path])
+      if (
+        storageError &&
+        !/not found|not exist|No such file/i.test(storageError.message || '')
+      ) {
+        return fail(friendlyError(storageError, 'Não foi possível excluir a imagem.'))
+      }
+    }
+
     const { error: deleteError } = await supabase
       .from('product_images')
       .delete()
@@ -496,10 +451,6 @@ export async function deleteProductImage(imageId) {
 
     if (deleteError) {
       return fail(friendlyError(deleteError, 'Não foi possível excluir a imagem.'))
-    }
-
-    if (current.storage_path) {
-      await supabase.storage.from(IMAGE_BUCKET).remove([current.storage_path])
     }
 
     if (current.is_cover) {

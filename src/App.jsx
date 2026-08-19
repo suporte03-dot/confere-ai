@@ -20,6 +20,7 @@ import './App.css'
 import './home.css'
 import './catalog.css'
 import './preview.css'
+import './responsive.css'
 
 function SiteLayout({
   menuOpen,

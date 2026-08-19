@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
@@ -22,11 +22,6 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [slugHint, setSlugHint] = useState('')
-
-  const title = useMemo(
-    () => (mode === 'create' ? 'Nova categoria' : 'Editar categoria'),
-    [mode],
-  )
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -107,9 +102,6 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
   return (
     <form className="admin-form admin-form--product" onSubmit={onSave}>
       <div className="admin-section">
-        <h1>{title}</h1>
-        <p>Defina nome, slug e ordem de exibição da categoria.</p>
-
         {message ? (
           <p className="admin-success" role="status">
             {message}
@@ -192,7 +184,7 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
           {pending ? 'Salvando…' : 'Salvar categoria'}
         </button>
         <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
-          Voltar à listagem
+          Cancelar
         </Link>
       </div>
     </form>
