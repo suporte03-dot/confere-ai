@@ -36,6 +36,18 @@ function isUsableSupabaseKey(key) {
   return false
 }
 
+/** Prefer legacy anon JWT when present — SUPABASE_PUBLISHABLE_KEY is often left as a template. */
+const SERVER_SUPABASE_KEY_VARS = [
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  process.env.SUPABASE_PUBLISHABLE_KEY,
+]
+
+const BROWSER_SUPABASE_KEY_VARS = [
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+]
+
 function readRuntimeBrowserEnv() {
   if (typeof window === 'undefined') {
     return { url: '', key: '' }
@@ -53,12 +65,7 @@ export function getBrowserSupabaseEnv() {
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     runtime.url,
   )
-  const key = firstUsable(
-    isUsableSupabaseKey,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    runtime.key,
-  )
+  const key = firstUsable(isUsableSupabaseKey, ...BROWSER_SUPABASE_KEY_VARS, runtime.key)
 
   if (!url) {
     throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL')
@@ -77,12 +84,7 @@ export function readServerSupabaseEnv() {
       process.env.SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_URL,
     ),
-    key: firstUsable(
-      isUsableSupabaseKey,
-      process.env.SUPABASE_PUBLISHABLE_KEY,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    ),
+    key: firstUsable(isUsableSupabaseKey, ...SERVER_SUPABASE_KEY_VARS),
   }
 }
 
