@@ -12,7 +12,7 @@ assert.equal(isUsableSupabaseUrl('sua url real'), false)
 assert.equal(isUsableSupabaseKey('sb_publishable_...'), false)
 assert.equal(isUsableSupabaseKey('sb_publishable_................'), false)
 assert.equal(
-  isUsableSupabaseKey('sb_publishable_' + 'x'.repeat(40)),
+  isUsableSupabaseKey('sb_publishable_' + 'x'.repeat(31)),
   true,
 )
 assert.equal(isUsableSupabaseKey('sb_publishable_' + 'x'.repeat(20)), false)

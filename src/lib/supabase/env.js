@@ -50,9 +50,9 @@ export function isUsableSupabaseKey(key) {
   if (value.startsWith('eyJ')) {
     return value.length >= 100
   }
-  // New publishable keys (require substantial length beyond the prefix)
+  // New publishable keys (reject short placeholders like sb_publishable_...)
   if (value.startsWith('sb_publishable_')) {
-    return value.length >= 50
+    return value.length >= 40
   }
   return false
 }
