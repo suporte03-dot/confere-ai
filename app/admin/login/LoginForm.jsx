@@ -27,7 +27,10 @@ export default function LoginForm() {
         return
       }
       if (!result?.ok) {
-        setError(result?.error || 'Erro inesperado ao autenticar. Tente novamente.')
+        const hint = result?.envHint ? ` (${result.envHint})` : ''
+        setError(
+          `${result?.error || 'Erro inesperado ao autenticar. Tente novamente.'}${hint}`,
+        )
         return
       }
       router.replace('/admin')
