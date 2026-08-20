@@ -2,13 +2,25 @@ import Link from 'next/link'
 import { fetchProductsForAdmin } from '../../../src/lib/admin/products'
 import { fetchCollectionsForAdmin } from '../../../src/lib/admin/taxonomies'
 import { fetchStockAlerts } from '../../../src/lib/admin/stock-alerts'
+import { fetchOrderDashboardStats } from '../../../src/lib/orders/service'
+import { formatBRL } from '../../../src/lib/admin/format'
 import { formatVariantLabel } from '../../../src/lib/admin/stock'
 import { AdminIcon } from '../components/AdminIcons'
+
+const EMPTY_ORDER_STATS = {
+  pendingPayment: 0,
+  paid: 0,
+  processing: 0,
+  shipped: 0,
+  delivered: 0,
+  confirmedSalesTotal: 0,
+}
 
 export default async function AdminHomePage() {
   let products = []
   let collections = []
   let stock = { summary: { out: 0, critical: 0, low: 0, total: 0 }, alerts: [] }
+  let orderStats = EMPTY_ORDER_STATS
   let loadError = false
 
   try {
@@ -19,6 +31,12 @@ export default async function AdminHomePage() {
     ])
   } catch {
     loadError = true
+  }
+
+  try {
+    orderStats = await fetchOrderDashboardStats()
+  } catch {
+    orderStats = EMPTY_ORDER_STATS
   }
 
   const activeProducts = products.filter((item) => item.active).length
@@ -41,7 +59,7 @@ export default async function AdminHomePage() {
           <div>
             <span>Produtos</span>
             <strong>{activeProducts}</strong>
-            <em>produtos ativos</em>
+            <em>produtos publicados</em>
           </div>
           <Link href="/admin/produtos" className="admin-kpis__go" aria-label="Ir para produtos">
             <AdminIcon name="arrow" />
@@ -73,10 +91,89 @@ export default async function AdminHomePage() {
             <AdminIcon name="arrow" />
           </Link>
         </article>
+        <article>
+          <span className="admin-kpis__icon" aria-hidden="true">
+            <AdminIcon name="orders" />
+          </span>
+          <div>
+            <span>Aguardando pagamento</span>
+            <strong>{orderStats.pendingPayment}</strong>
+            <em>pedidos pendentes</em>
+          </div>
+          <Link href="/admin/pedidos?status=pending_payment" className="admin-kpis__go" aria-label="Ir para pedidos">
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
+      </section>
+
+      <section className="admin-kpis" aria-label="Indicadores de pedidos">
+        <article>
+          <span className="admin-kpis__icon" aria-hidden="true">
+            <AdminIcon name="check" />
+          </span>
+          <div>
+            <span>Pagos</span>
+            <strong>{orderStats.paid}</strong>
+            <em>confirmados</em>
+          </div>
+          <Link href="/admin/pedidos?status=paid" className="admin-kpis__go" aria-label="Pedidos pagos">
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
+        <article>
+          <span className="admin-kpis__icon" aria-hidden="true">
+            <AdminIcon name="list" />
+          </span>
+          <div>
+            <span>Em preparação</span>
+            <strong>{orderStats.processing}</strong>
+            <em>pedidos</em>
+          </div>
+          <Link href="/admin/pedidos?status=processing" className="admin-kpis__go" aria-label="Pedidos em preparação">
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
+        <article>
+          <span className="admin-kpis__icon" aria-hidden="true">
+            <AdminIcon name="arrow" />
+          </span>
+          <div>
+            <span>Enviados</span>
+            <strong>{orderStats.shipped}</strong>
+            <em>em trânsito</em>
+          </div>
+          <Link href="/admin/pedidos?status=shipped" className="admin-kpis__go" aria-label="Pedidos enviados">
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
+        <article>
+          <span className="admin-kpis__icon" aria-hidden="true">
+            <AdminIcon name="orders" />
+          </span>
+          <div>
+            <span>Vendas confirmadas</span>
+            <strong>{formatBRL(orderStats.confirmedSalesTotal)}</strong>
+            <em>total pago</em>
+          </div>
+          <Link href="/admin/pedidos" className="admin-kpis__go" aria-label="Ver todos os pedidos">
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
       </section>
 
       <h2 className="admin-block-title">Gerenciar</h2>
       <div className="admin-shortcuts">
+        <article>
+          <span className="admin-shortcuts__icon" aria-hidden="true">
+            <AdminIcon name="orders" />
+          </span>
+          <h3>Pedidos</h3>
+          <p>Confirme pagamentos e acompanhe preparação e envio.</p>
+          <Link href="/admin/pedidos" className="admin-btn">
+            Gerenciar pedidos
+            <AdminIcon name="arrow" />
+          </Link>
+        </article>
         <article>
           <span className="admin-shortcuts__icon" aria-hidden="true">
             <AdminIcon name="products" />
@@ -90,23 +187,12 @@ export default async function AdminHomePage() {
         </article>
         <article>
           <span className="admin-shortcuts__icon" aria-hidden="true">
-            <AdminIcon name="tag" />
+            <AdminIcon name="settings" />
           </span>
-          <h3>Coleções</h3>
-          <p>Organize os produtos por coleção e destaque.</p>
-          <Link href="/admin/colecoes" className="admin-btn">
-            Gerenciar coleções
-            <AdminIcon name="arrow" />
-          </Link>
-        </article>
-        <article>
-          <span className="admin-shortcuts__icon" aria-hidden="true">
-            <AdminIcon name="stock" />
-          </span>
-          <h3>Categorias</h3>
-          <p>Administre masculino, feminino, acessórios e outras categorias.</p>
-          <Link href="/admin/categorias" className="admin-btn">
-            Gerenciar categorias
+          <h3>Configurações</h3>
+          <p>Pix, contatos e parâmetros operacionais da loja.</p>
+          <Link href="/admin/configuracoes" className="admin-btn">
+            Abrir configurações
             <AdminIcon name="arrow" />
           </Link>
         </article>

@@ -1,10 +1,13 @@
 'use client'
 
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { formatCurrency, getProductImage } from '../data/mockData'
 import { useShop } from '../context/ShopContext'
 import VisualMedia from './VisualMedia'
 
 function CartDrawer() {
+  const router = useRouter()
   const {
     cart,
     cartOpen,
@@ -12,10 +15,15 @@ function CartDrawer() {
     cartSubtotal,
     removeFromCart,
     updateQty,
-    showToast,
+    clearCart,
   } = useShop()
 
   if (!cartOpen) return null
+
+  function goCheckout() {
+    setCartOpen(false)
+    router.push('/checkout')
+  }
 
   return (
     <>
@@ -73,12 +81,25 @@ function CartDrawer() {
                 <span>Subtotal</span>
                 <strong>{formatCurrency(cartSubtotal)}</strong>
               </div>
-              <button type="button" className="btn btn--primary btn--block" onClick={() => showToast('Checkout simulado — em breve!')}>
+              <button type="button" className="btn btn--primary btn--block" onClick={goCheckout}>
                 Finalizar compra
               </button>
-              <button type="button" className="btn btn--ghost btn--block" onClick={() => setCartOpen(false)}>
-                Continuar comprando
+              <button
+                type="button"
+                className="btn btn--ghost btn--block"
+                onClick={() => {
+                  clearCart()
+                }}
+              >
+                Limpar carrinho
               </button>
+              <Link
+                href="/"
+                className="btn btn--ghost btn--block"
+                onClick={() => setCartOpen(false)}
+              >
+                Continuar comprando
+              </Link>
             </div>
           </>
         )}

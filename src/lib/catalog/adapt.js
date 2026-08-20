@@ -71,7 +71,7 @@ function resolveCategorySlug(category) {
 /** Public storefront only uses active variants; stock is never invented. */
 function activeVariantsFromRow(row) {
   return [...(row.product_variants || [])]
-    .filter((v) => v && v.active === true)
+    .filter((v) => v && v.active !== false)
     .sort((a, b) => {
       const sizeCmp = String(a.size || '').localeCompare(String(b.size || ''), 'pt-BR', {
         numeric: true,
@@ -129,16 +129,14 @@ export function adaptProduct(row, { detail = false } = {}) {
     image,
     hoverImage,
     images: mappedImages,
-    variants: detail
-      ? variants.map((v) => ({
-          id: v.id,
-          size: v.size || null,
-          color: v.color || null,
-          stock: Number(v.stock) || 0,
-          sku: v.sku || null,
-          active: true,
-        }))
-      : undefined,
+    variants: variants.map((v) => ({
+      id: v.id,
+      size: v.size || null,
+      color: v.color || null,
+      stock: Number(v.stock) || 0,
+      sku: v.sku || null,
+      active: true,
+    })),
     stock,
     available,
     sku: row.sku || null,

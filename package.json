@@ -13,13 +13,16 @@
     "generate:categorias": "node scripts/ensure-categoria-images.mjs --force",
     "prebuild": "node scripts/ensure-categoria-images.mjs",
     "lint": "eslint .",
+    "test:unit": "node --test src/lib/admin/*.test.mjs src/lib/pix/*.test.mjs src/lib/orders/*.test.mjs",
     "test:e2e": "playwright test",
-    "test:e2e:admin": "playwright test e2e/admin"
+    "test:e2e:admin": "playwright test e2e/admin",
+    "test:e2e:store": "playwright test e2e/store"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
     "next": "^16.3.1",
+    "qrcode": "^1.5.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.18.2"
@@ -27,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.62.1",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",

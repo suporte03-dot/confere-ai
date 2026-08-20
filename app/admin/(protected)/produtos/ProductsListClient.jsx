@@ -11,8 +11,8 @@ import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 const FILTERS = [
   { id: 'all', label: 'Todos' },
-  { id: 'active', label: 'Ativos' },
-  { id: 'inactive', label: 'Inativos' },
+  { id: 'active', label: 'Publicados' },
+  { id: 'inactive', label: 'Rascunhos' },
   { id: 'featured', label: 'Destaques' },
   { id: 'low', label: 'Estoque baixo' },
 ]
@@ -45,7 +45,7 @@ function ProductActions({ product, pendingId, onToggleActive, onDelete }) {
       />
       <AdminIconAction
         icon="power"
-        label={busy ? '…' : product.active ? 'Desativar' : 'Ativar'}
+        label={busy ? '…' : product.active ? 'Despublicar' : 'Publicar'}
         danger={product.active}
         disabled={busy}
         onClick={() => onToggleActive(product)}
@@ -223,7 +223,7 @@ export default function ProductsListClient({ products: initialProducts }) {
                           <span
                             className={`admin-badge ${product.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
                           >
-                            {product.active ? 'Ativo' : 'Inativo'}
+                            {product.active ? 'Publicado' : 'Rascunho'}
                           </span>
                           {product.featured ? (
                             <span className="admin-badge admin-badge--gold">Destaque</span>
@@ -277,7 +277,7 @@ export default function ProductsListClient({ products: initialProducts }) {
                 </p>
                 <div className="admin-status-stack">
                   <span className={`admin-badge ${product.active ? 'admin-badge--ok' : 'admin-badge--off'}`}>
-                    {product.active ? 'Ativo' : 'Inativo'}
+                    {product.active ? 'Publicado' : 'Rascunho'}
                   </span>
                   {product.featured ? (
                     <span className="admin-badge admin-badge--gold">Destaque</span>

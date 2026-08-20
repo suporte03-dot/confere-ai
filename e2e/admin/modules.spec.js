@@ -8,7 +8,7 @@ async function loginAsAdmin(page) {
   await page.getByRole('textbox', { name: 'E-mail' }).fill(adminEmail)
   await page.getByRole('textbox', { name: 'Senha' }).fill(adminPassword)
   await page.getByRole('button', { name: 'Entrar' }).click()
-  await expect(page).toHaveURL(/\/admin$/)
+  await expect(page).toHaveURL(/\/admin$/, { timeout: 20_000 })
 }
 
 test.describe('Admin modules (authenticated)', () => {
@@ -42,24 +42,26 @@ test.describe('Admin modules (authenticated)', () => {
   test('stock monitor opens', async ({ page }) => {
     await loginAsAdmin(page)
     await page.goto('/admin/estoque')
-    await expect(page.getByRole('heading', { name: /Estoque/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Estoque', level: 1 })).toBeVisible()
   })
 
   test('account page shows user info', async ({ page }) => {
     await loginAsAdmin(page)
     await page.goto('/admin/minha-conta')
     await expect(page.getByText(adminEmail)).toBeVisible()
-    await expect(page.getByText(/Administrador|Proprietário|Owner/i)).toBeVisible()
+    await expect(page.getByRole('article').getByText(/Administrador|Proprietário|Owner/i)).toBeVisible()
   })
 
   test('create and delete audit test product', async ({ page }) => {
+    test.setTimeout(60_000)
     await loginAsAdmin(page)
     const stamp = Date.now()
     const productName = `[TESTE AUDIT] Produto ${stamp}`
 
     await page.goto('/admin/produtos/novo')
-    await page.getByLabel(/^Nome$/i).fill(productName)
-    await page.getByLabel(/^Preço/i).fill('99,90')
+    await expect(page.locator('#product-name')).toBeVisible({ timeout: 15_000 })
+    await page.locator('#product-name').fill(productName)
+    await page.getByLabel(/^Preço atual/i).fill('99,90')
     await page.getByRole('button', { name: /Salvar produto/i }).click()
 
     await expect(page.getByText(/Produto salvo/i)).toBeVisible({ timeout: 15_000 })

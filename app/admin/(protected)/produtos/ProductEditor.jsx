@@ -76,7 +76,7 @@ export default function ProductEditor({
   )
   const [categoryId, setCategoryId] = useState(product?.category_id || '')
   const [collectionId, setCollectionId] = useState(product?.collection_id || '')
-  const [active, setActive] = useState(product?.active ?? true)
+  const [active, setActive] = useState(product?.active ?? false)
   const [featured, setFeatured] = useState(product?.featured ?? false)
   const [sku, setSku] = useState(product?.sku || '')
   const [variants, setVariants] = useState(
@@ -870,8 +870,11 @@ export default function ProductEditor({
               onChange={(e) => setActive(e.target.checked)}
               disabled={isView || pending}
             />
-            <span>Produto ativo</span>
+            <span>Publicado na loja</span>
           </label>
+          <p className="admin-field-hint" style={{ gridColumn: '1 / -1', marginTop: '-0.35rem' }}>
+            Produtos não publicados ficam como rascunho e não aparecem na loja.
+          </p>
           <label className="admin-check">
             <input
               type="checkbox"

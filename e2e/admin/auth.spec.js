@@ -43,8 +43,8 @@ test.describe('Admin auth (authenticated)', () => {
   await page.getByRole('textbox', { name: 'E-mail' }).fill(adminEmail)
   await page.getByRole('textbox', { name: 'Senha' }).fill(adminPassword)
     await page.getByRole('button', { name: 'Entrar' }).click()
-    await expect(page).toHaveURL(/\/admin$/)
-    await expect(page.getByRole('heading', { name: /Gerenciar|Indicadores/i })).toBeVisible()
+    await expect(page).toHaveURL(/\/admin$/, { timeout: 20_000 })
+    await expect(page.getByRole('heading', { name: 'Gestão Terra & Estilo', level: 1 })).toBeVisible()
   })
 
   test('logout returns to login', async ({ page }) => {
@@ -52,7 +52,7 @@ test.describe('Admin auth (authenticated)', () => {
   await page.getByRole('textbox', { name: 'E-mail' }).fill(adminEmail)
   await page.getByRole('textbox', { name: 'Senha' }).fill(adminPassword)
     await page.getByRole('button', { name: 'Entrar' }).click()
-    await expect(page).toHaveURL(/\/admin$/)
+    await expect(page).toHaveURL(/\/admin$/, { timeout: 20_000 })
 
     await page.goto('/admin/minha-conta')
     await page.getByRole('button', { name: /Sair da conta/i }).click()

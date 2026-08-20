@@ -27,6 +27,15 @@ function revalidateProducts(productId) {
   revalidatePath('/admin/estoque')
   revalidatePath('/admin')
   if (productId) revalidatePath(`/admin/produtos/${productId}`)
+  revalidatePath('/')
+  revalidatePath('/produto')
+  revalidatePath('/busca')
+  revalidatePath('/feminino')
+  revalidatePath('/masculino')
+  revalidatePath('/calcados')
+  revalidatePath('/acessorios')
+  revalidatePath('/colecoes')
+  if (productId) revalidatePath(`/produto/${productId}`)
 }
 
 function sanitizeVariants(variants) {
@@ -132,6 +141,7 @@ async function syncVariants(supabase, productId, variants) {
       color: variant.color || null,
       stock: variant.stock,
       sku: variant.sku,
+      active: true,
     }
 
     if (variant.id && existingIds.has(variant.id)) {
@@ -172,8 +182,8 @@ export async function toggleProductActive(productId, nextActive) {
     revalidateProducts(productId)
     return ok({
       message: nextActive
-        ? 'Produto ativado com sucesso.'
-        : 'Produto desativado com sucesso.',
+        ? 'Produto publicado com sucesso.'
+        : 'Produto despublicado com sucesso.',
     })
   } catch (error) {
     return fail(friendlyError(error))
