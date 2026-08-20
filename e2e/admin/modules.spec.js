@@ -59,8 +59,9 @@ test.describe('Admin modules (authenticated)', () => {
     const productName = `[TESTE AUDIT] Produto ${stamp}`
 
     await page.goto('/admin/produtos/novo')
-    await expect(page.locator('#product-name')).toBeVisible({ timeout: 15_000 })
-    await page.locator('#product-name').fill(productName)
+    const nameInput = page.getByRole('textbox', { name: /^Nome/i }).first()
+    await expect(nameInput).toBeVisible({ timeout: 15_000 })
+    await nameInput.fill(productName)
     await page.getByLabel(/^Preço atual/i).fill('99,90')
     await page.getByRole('button', { name: /Salvar produto/i }).click()
 
