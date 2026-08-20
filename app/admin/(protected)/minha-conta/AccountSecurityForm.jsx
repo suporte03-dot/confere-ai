@@ -11,7 +11,8 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [pending, setPending] = useState(false)
+  const [namePending, setNamePending] = useState(false)
+  const [passwordPending, setPasswordPending] = useState(false)
   const [nameMessage, setNameMessage] = useState('')
   const [nameError, setNameError] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
@@ -28,21 +29,28 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
       setNameError('Informe um nome para exibição.')
       return
     }
-    setPending(true)
+    setNamePending(true)
     try {
       const supabase = createClient()
-      const { error } = await supabase.auth.updateUser({
+      const { data: authData, error } = await supabase.auth.updateUser({
         data: { full_name: next },
       })
       if (error) {
         setNameError('Não foi possível atualizar o nome.')
         return
       }
+      const userId = authData?.user?.id
+      if (userId) {
+        await supabase
+          .from('profiles')
+          .update({ full_name: next, name: next })
+          .eq('id', userId)
+      }
       setNameMessage('Nome atualizado.')
     } catch {
       setNameError('Não foi possível atualizar o nome.')
     } finally {
-      setPending(false)
+      setNamePending(false)
     }
   }
 
@@ -58,7 +66,7 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
       setPasswordError('A confirmação não coincide com a nova senha.')
       return
     }
-    setPending(true)
+    setPasswordPending(true)
     try {
       const supabase = createClient()
       const { error } = await supabase.auth.updateUser({ password })
@@ -72,7 +80,7 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
     } catch {
       setPasswordError('Não foi possível alterar a senha. Tente novamente.')
     } finally {
-      setPending(false)
+      setPasswordPending(false)
     }
   }
 
@@ -113,12 +121,12 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
                 id="account-name"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
-                disabled={pending}
+                disabled={namePending}
               />
             </div>
             {nameError ? <p className="admin-error">{nameError}</p> : null}
             {nameMessage ? <p className="admin-success">{nameMessage}</p> : null}
-            <button className="admin-btn" type="submit" disabled={pending}>
+            <button className="admin-btn" type="submit" disabled={namePending}>
               Salvar nome
               <AdminIcon name="arrow" />
             </button>
@@ -135,7 +143,7 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
                   autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={pending}
+                  disabled={passwordPending}
                 />
                 <button
                   type="button"
@@ -161,7 +169,7 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
                   autoComplete="new-password"
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
-                  disabled={pending}
+                  disabled={passwordPending}
                 />
                 <button
                   type="button"
@@ -177,7 +185,7 @@ export default function AccountSecurityForm({ email, name, roleLabel }) {
             {passwordMessage ? (
               <p className="admin-success">{passwordMessage}</p>
             ) : null}
-            <button className="admin-btn" type="submit" disabled={pending}>
+            <button className="admin-btn" type="submit" disabled={passwordPending}>
               <AdminIcon name="lock" />
               Alterar senha
             </button>

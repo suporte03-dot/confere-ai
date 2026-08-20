@@ -22,11 +22,11 @@ export default function ResetPasswordForm() {
     let active = true
 
     supabase.auth.getSession().then(({ data }) => {
-      if (active && data.session) setReady(true)
+      if (active && data.session?.user?.recovery_sent_at) setReady(true)
     })
 
     const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') {
+      if (event === 'PASSWORD_RECOVERY') {
         setReady(true)
       }
     })

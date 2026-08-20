@@ -9,6 +9,7 @@ export default async function AdminHomePage() {
   let products = []
   let collections = []
   let stock = { summary: { out: 0, critical: 0, low: 0, total: 0 }, alerts: [] }
+  let loadError = false
 
   try {
     ;[products, collections, stock] = await Promise.all([
@@ -17,7 +18,7 @@ export default async function AdminHomePage() {
       fetchStockAlerts(),
     ])
   } catch {
-    // Keep empty dashboard rather than crashing the shell.
+    loadError = true
   }
 
   const activeProducts = products.filter((item) => item.active).length
@@ -27,6 +28,11 @@ export default async function AdminHomePage() {
 
   return (
     <>
+      {loadError ? (
+        <p className="admin-error" role="alert">
+          Não foi possível carregar os indicadores do painel. Atualize a página ou tente novamente.
+        </p>
+      ) : null}
       <section className="admin-kpis" aria-label="Indicadores da loja">
         <article>
           <span className="admin-kpis__icon" aria-hidden="true">

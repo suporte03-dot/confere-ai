@@ -23,22 +23,39 @@ function ok(data = {}) {
 
 function revalidateProducts(productId) {
   revalidatePath('/admin/produtos')
+  revalidatePath('/admin/estoque')
   revalidatePath('/admin')
   if (productId) revalidatePath(`/admin/produtos/${productId}`)
 }
 
 function sanitizeVariants(variants) {
   if (!Array.isArray(variants)) return []
-  return variants
-    .map((v) => ({
+  const cleaned = []
+  for (const v of variants) {
+    const size = String(v.size || '').trim()
+    const color = String(v.color || '').trim()
+    const sku = v.sku ? String(v.sku).trim() : null
+    const stockRaw = v.stock
+    const stockParsed =
+      stockRaw === '' || stockRaw == null
+        ? 0
+        : Number.parseInt(String(stockRaw), 10)
+    if (!Number.isFinite(stockParsed) || stockParsed < 0) {
+      throw new Error('Informe um estoque válido (número inteiro ≥ 0) em cada variante.')
+    }
+    const row = {
       id: v.id || null,
-      size: String(v.size || '').trim(),
-      color: String(v.color || '').trim(),
-      stock: Math.max(0, Number.parseInt(v.stock, 10) || 0),
-      sku: v.sku ? String(v.sku).trim() : null,
+      size,
+      color,
+      stock: stockParsed,
+      sku,
       _key: v._key || null,
-    }))
-    .filter((v) => v.size || v.color || v.stock > 0 || v.sku)
+    }
+    if (row.size || row.color || row.stock > 0 || row.sku) {
+      cleaned.push(row)
+    }
+  }
+  return cleaned
 }
 
 function buildProductPayload(input) {
@@ -78,6 +95,13 @@ function validateProductPayload(payload) {
   }
   if (payload.compare_at_price != null && payload.compare_at_price < 0) {
     return 'O preço anterior/promocional é inválido.'
+  }
+  if (
+    payload.compare_at_price != null &&
+    payload.price != null &&
+    payload.compare_at_price < payload.price
+  ) {
+    return 'O preço anterior deve ser maior ou igual ao preço de venda.'
   }
   return null
 }
@@ -134,12 +158,15 @@ export async function toggleProductActive(productId, nextActive) {
 
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('products')
       .update({ active: Boolean(nextActive) })
       .eq('id', productId)
+      .select('id')
+      .maybeSingle()
 
     if (error) return fail(friendlyError(error, 'Não foi possível atualizar o status.'))
+    if (!data) return fail('Produto não encontrado.')
 
     revalidateProducts(productId)
     return ok({
@@ -355,6 +382,17 @@ export async function setProductCoverImage(productId, imageId) {
   try {
     const supabase = await createClient()
 
+    const { data: target, error: targetError } = await supabase
+      .from('product_images')
+      .select('id')
+      .eq('id', imageId)
+      .eq('product_id', productId)
+      .maybeSingle()
+
+    if (targetError || !target) {
+      return fail('Imagem não encontrada.')
+    }
+
     const { error: clearError } = await supabase
       .from('product_images')
       .update({ is_cover: false })
@@ -363,13 +401,16 @@ export async function setProductCoverImage(productId, imageId) {
       return fail(friendlyError(clearError, 'Não foi possível alterar a capa.'))
     }
 
-    const { error } = await supabase
+    const { data: updated, error } = await supabase
       .from('product_images')
       .update({ is_cover: true })
       .eq('id', imageId)
       .eq('product_id', productId)
+      .select('id')
+      .maybeSingle()
 
     if (error) return fail(friendlyError(error, 'Não foi possível definir a capa.'))
+    if (!updated) return fail('Imagem não encontrada.')
 
     revalidateProducts(productId)
     return ok({ message: 'Imagem atualizada.' })

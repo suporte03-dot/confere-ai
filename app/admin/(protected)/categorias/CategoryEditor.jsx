@@ -40,7 +40,7 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
       const result = await checkCategorySlug(slug, categoryId)
       if (cancelled) return
       if (!result.ok) {
-        setSlugHint('')
+        setSlugHint('Não foi possível validar o slug.')
         return
       }
       setSlugHint(
@@ -70,6 +70,11 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
     event.preventDefault()
     setError('')
     setMessage('')
+
+    if (slugHint.includes('já está em uso')) {
+      setError('Este slug já está em uso. Escolha outro.')
+      return
+    }
 
     startTransition(async () => {
       const result = await saveCategory({

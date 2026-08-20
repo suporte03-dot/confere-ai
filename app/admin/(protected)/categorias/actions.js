@@ -57,12 +57,15 @@ export async function toggleCategoryActive(categoryId, nextActive) {
 
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('categories')
       .update({ active: Boolean(nextActive) })
       .eq('id', categoryId)
+      .select('id')
+      .maybeSingle()
 
     if (error) return fail(friendlyError(error, 'Não foi possível atualizar o status.'))
+    if (!data) return fail('Categoria não encontrada.')
 
     revalidateCategories(categoryId)
     return ok({

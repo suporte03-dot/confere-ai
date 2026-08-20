@@ -12,7 +12,9 @@
     "preview:vite": "vite preview",
     "generate:categorias": "node scripts/ensure-categoria-images.mjs --force",
     "prebuild": "node scripts/ensure-categoria-images.mjs",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:e2e": "playwright test",
+    "test:e2e:admin": "playwright test e2e/admin"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",

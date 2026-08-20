@@ -41,7 +41,7 @@ export default function CollectionEditor({ mode = 'create', collection = null })
       const result = await checkCollectionSlug(slug, collectionId)
       if (cancelled) return
       if (!result.ok) {
-        setSlugHint('')
+        setSlugHint('Não foi possível validar o slug.')
         return
       }
       setSlugHint(
@@ -71,6 +71,11 @@ export default function CollectionEditor({ mode = 'create', collection = null })
     event.preventDefault()
     setError('')
     setMessage('')
+
+    if (slugHint.includes('já está em uso')) {
+      setError('Este slug já está em uso. Escolha outro.')
+      return
+    }
 
     startTransition(async () => {
       const result = await saveCollection({

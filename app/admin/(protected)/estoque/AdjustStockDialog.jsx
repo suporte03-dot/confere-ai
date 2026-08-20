@@ -27,9 +27,15 @@ export default function AdjustStockDialog({ item, onClose, onSaved }) {
   async function onSubmit(event) {
     event.preventDefault()
     setError('')
+    const trimmed = String(stock).trim()
+    const parsed = Number.parseInt(trimmed, 10)
+    if (!trimmed || !Number.isInteger(parsed) || parsed < 0) {
+      setError('Informe uma quantidade válida (número inteiro ≥ 0).')
+      return
+    }
     setPending(true)
     try {
-      const result = await updateVariantStock(item.id, Number(stock))
+      const result = await updateVariantStock(item.id, parsed)
       if (!result.ok) {
         setError(result.error)
         return

@@ -72,7 +72,7 @@ export default function LoginForm() {
           <button
             type="button"
             className="admin-link-btn"
-            aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
             onClick={() => setShowPassword((v) => !v)}
           >
             {showPassword ? 'Ocultar' : 'Mostrar'}

@@ -58,12 +58,15 @@ export async function toggleCollectionActive(collectionId, nextActive) {
 
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('collections')
       .update({ active: Boolean(nextActive) })
       .eq('id', collectionId)
+      .select('id')
+      .maybeSingle()
 
     if (error) return fail(friendlyError(error, 'Não foi possível atualizar o status.'))
+    if (!data) return fail('Coleção não encontrada.')
 
     revalidateCollections(collectionId)
     return ok({
@@ -82,14 +85,17 @@ export async function toggleCollectionFeatured(collectionId, nextFeatured) {
 
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('collections')
       .update({ featured: Boolean(nextFeatured) })
       .eq('id', collectionId)
+      .select('id')
+      .maybeSingle()
 
     if (error) {
       return fail(friendlyError(error, 'Não foi possível atualizar o destaque.'))
     }
+    if (!data) return fail('Coleção não encontrada.')
 
     revalidateCollections(collectionId)
     return ok({
