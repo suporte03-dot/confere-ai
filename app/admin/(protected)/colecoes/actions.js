@@ -9,6 +9,7 @@ import {
   isCollectionSlugAvailable,
 } from '../../../../src/lib/admin/taxonomies'
 import { slugify } from '../../../../src/lib/admin/slugify'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 function fail(message) {
   return { ok: false, error: message }
@@ -208,5 +209,46 @@ export async function moveCollection(collectionId, direction) {
     return ok({ message: 'Ordem atualizada.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível alterar a ordem.'))
+  }
+}
+
+export async function deleteCollection(collectionId) {
+  const gate = await assertAdminAccess()
+  if (!gate.ok) return gateFail(gate)
+
+  try {
+    const supabase = await createClient()
+    const { data: collection, error: collectionError } = await supabase
+      .from('collections')
+      .select('id, name, slug')
+      .eq('id', collectionId)
+      .maybeSingle()
+
+    if (collectionError || !collection) return fail('Coleção não encontrada.')
+    if (!isAuditTestRecord(collection)) {
+      return fail(
+        'Exclusão permitida apenas para registros de teste cujo nome começa com [TESTE AUDIT].',
+      )
+    }
+
+    const { count, error: countError } = await supabase
+      .from('products')
+      .select('id', { count: 'exact', head: true })
+      .eq('collection_id', collectionId)
+
+    if (countError) {
+      return fail(friendlyError(countError, 'Não foi possível excluir a coleção.'))
+    }
+    if (count > 0) {
+      return fail('Não é possível excluir: ainda há produtos vinculados a esta coleção.')
+    }
+
+    const { error } = await supabase.from('collections').delete().eq('id', collectionId)
+    if (error) return fail(friendlyError(error, 'Não foi possível excluir a coleção.'))
+
+    revalidateCollections(collectionId)
+    return ok({ message: 'Coleção de teste excluída.' })
+  } catch (error) {
+    return fail(friendlyError(error, 'Não foi possível excluir a coleção.'))
   }
 }

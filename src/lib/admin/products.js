@@ -1,6 +1,7 @@
 import { createClient } from '../supabase/server'
 import { getAdminAccess } from '../supabase/admin-auth'
 import { productImagePublicUrl } from './format'
+import { summarizeVariantStock } from './stock'
 
 const PRODUCT_LIST_SELECT = `
   id,
@@ -64,9 +65,8 @@ export async function fetchProductsForAdmin() {
     )
     const cover =
       images.find((img) => img.is_cover) || images[0] || null
-    const totalStock = (row.product_variants || []).reduce(
-      (sum, v) => sum + (Number(v.stock) || 0),
-      0,
+    const { totalStock, worstStock, hasAlertVariant } = summarizeVariantStock(
+      row.product_variants,
     )
 
     return {
@@ -82,6 +82,8 @@ export async function fetchProductsForAdmin() {
       categoryName: row.category?.name || '—',
       collectionName: row.collection?.name || '—',
       totalStock,
+      worstStock,
+      hasAlertVariant,
       coverUrl: cover ? productImagePublicUrl(cover.storage_path) : null,
     }
   })

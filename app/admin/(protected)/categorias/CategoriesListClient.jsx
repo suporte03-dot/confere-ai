@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { moveCategory, toggleCategoryActive } from './actions'
+import { moveCategory, toggleCategoryActive, deleteCategory } from './actions'
 import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CategoriesListClient({ categories: initialCategories }) {
   const router = useRouter()
@@ -65,6 +66,27 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       return
     }
 
+    setMessage(result.message)
+    router.refresh()
+  }
+
+  async function onDelete(category) {
+    if (
+      !window.confirm(
+        `Excluir a categoria de teste “${category.name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    setPendingId(category.id)
+    setError('')
+    setMessage('')
+    const result = await deleteCategory(category.id)
+    setPendingId(null)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
     setMessage(result.message)
     router.refresh()
   }
@@ -193,6 +215,15 @@ export default function CategoriesListClient({ categories: initialCategories }) 
                         disabled={pendingId === category.id}
                         onClick={() => onToggleActive(category)}
                       />
+                      {isAuditTestRecord(category) ? (
+                        <AdminIconAction
+                          icon="trash"
+                          label="Excluir teste"
+                          danger
+                          disabled={pendingId === category.id}
+                          onClick={() => onDelete(category)}
+                        />
+                      ) : null}
                     </div>
                   </td>
                 </tr>
@@ -203,7 +234,7 @@ export default function CategoriesListClient({ categories: initialCategories }) 
         <footer className="admin-table-foot">
           <p>
             <AdminIcon name="info" />
-            Arraste as categorias ou use as setas para reordenar.
+            Use as setas para reordenar as categorias.
           </p>
         </footer>
       </div>
@@ -231,6 +262,15 @@ export default function CategoriesListClient({ categories: initialCategories }) 
                   disabled={pendingId === category.id}
                   onClick={() => onToggleActive(category)}
                 />
+                {isAuditTestRecord(category) ? (
+                  <AdminIconAction
+                    icon="trash"
+                    label="Excluir teste"
+                    danger
+                    disabled={pendingId === category.id}
+                    onClick={() => onDelete(category)}
+                  />
+                ) : null}
                 <button
                   type="button"
                   className="admin-link-btn"

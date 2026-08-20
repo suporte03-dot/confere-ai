@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
-import { checkCategorySlug, saveCategory } from './actions'
+import { checkCategorySlug, saveCategory, deleteCategory } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CategoryEditor({ mode = 'create', category = null }) {
   const router = useRouter()
@@ -104,6 +105,26 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
     })
   }
 
+  async function onDelete() {
+    if (!categoryId) return
+    if (
+      !window.confirm(
+        `Excluir a categoria de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteCategory(categoryId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/categorias')
+      router.refresh()
+    })
+  }
+
   return (
     <form className="admin-form admin-form--product" onSubmit={onSave}>
       <div className="admin-section">
@@ -191,6 +212,16 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
         <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
           Cancelar
         </Link>
+        {categoryId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDelete}
+          >
+            Excluir teste
+          </button>
+        ) : null}
       </div>
     </form>
   )

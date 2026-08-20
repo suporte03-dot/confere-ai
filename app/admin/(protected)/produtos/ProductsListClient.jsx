@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { formatBRL, formatDateTime } from '../../../../src/lib/admin/format'
-import { toggleProductActive } from './actions'
-import { classifyStock, STOCK_LEVELS, STOCK_STATUS } from '../../../../src/lib/admin/stock'
+import { toggleProductActive, deleteProduct } from './actions'
+import { classifyStock, STOCK_STATUS } from '../../../../src/lib/admin/stock'
 import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 const FILTERS = [
   { id: 'all', label: 'Todos' },
@@ -16,16 +17,19 @@ const FILTERS = [
   { id: 'low', label: 'Estoque baixo' },
 ]
 
-function stockBadge(totalStock) {
-  const status = classifyStock(totalStock)
+function stockBadge(worstStock) {
+  const status = classifyStock(worstStock)
   if (status === STOCK_STATUS.OUT) return { label: 'Esgotado', className: 'admin-badge--out' }
-  if (status === STOCK_STATUS.CRITICAL || status === STOCK_STATUS.LOW) {
+  if (status === STOCK_STATUS.CRITICAL) {
+    return { label: 'Estoque crítico', className: 'admin-badge--low' }
+  }
+  if (status === STOCK_STATUS.LOW) {
     return { label: 'Estoque baixo', className: 'admin-badge--low' }
   }
   return null
 }
 
-function ProductActions({ product, pendingId, onToggleActive }) {
+function ProductActions({ product, pendingId, onToggleActive, onDelete }) {
   const busy = pendingId === product.id
   return (
     <div className="admin-row-actions">
@@ -46,6 +50,15 @@ function ProductActions({ product, pendingId, onToggleActive }) {
         disabled={busy}
         onClick={() => onToggleActive(product)}
       />
+      {isAuditTestRecord(product) ? (
+        <AdminIconAction
+          icon="trash"
+          label="Excluir teste"
+          danger
+          disabled={busy}
+          onClick={() => onDelete(product)}
+        />
+      ) : null}
     </div>
   )
 }
@@ -71,7 +84,7 @@ export default function ProductsListClient({ products: initialProducts }) {
       if (filter === 'active') return product.active
       if (filter === 'inactive') return !product.active
       if (filter === 'featured') return product.featured
-      if (filter === 'low') return product.totalStock <= STOCK_LEVELS.LOW_MAX
+      if (filter === 'low') return product.hasAlertVariant
       return true
     })
 
@@ -103,6 +116,23 @@ export default function ProductsListClient({ products: initialProducts }) {
       return
     }
 
+    setMessage(result.message)
+    router.refresh()
+  }
+
+  async function onDelete(product) {
+    if (!window.confirm(`Excluir o produto de teste “${product.name}”? Esta ação não pode ser desfeita.`)) {
+      return
+    }
+    setPendingId(product.id)
+    setError('')
+    setMessage('')
+    const result = await deleteProduct(product.id)
+    setPendingId(null)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
     setMessage(result.message)
     router.refresh()
   }
@@ -167,7 +197,7 @@ export default function ProductsListClient({ products: initialProducts }) {
               </thead>
               <tbody>
                 {products.map((product) => {
-                  const badge = stockBadge(product.totalStock)
+                  const badge = stockBadge(product.worstStock ?? product.totalStock)
                   return (
                     <tr key={product.id}>
                       <td>
@@ -208,6 +238,7 @@ export default function ProductsListClient({ products: initialProducts }) {
                           product={product}
                           pendingId={pendingId}
                           onToggleActive={onToggleActive}
+                          onDelete={onDelete}
                         />
                       </td>
                     </tr>
@@ -220,22 +251,13 @@ export default function ProductsListClient({ products: initialProducts }) {
             <span>
               Mostrando {products.length} de {initialProducts.length} produtos
             </span>
-            <div className="admin-pagination" aria-label="Paginação">
-              <button type="button" disabled aria-label="Página anterior">
-                <AdminIcon name="prev" />
-              </button>
-              <span className="is-current">1</span>
-              <button type="button" disabled aria-label="Próxima página">
-                <AdminIcon name="next" />
-              </button>
-            </div>
           </footer>
         </div>
       )}
 
       <ul className="admin-card-list" aria-label="Lista de produtos">
         {products.map((product) => {
-          const badge = stockBadge(product.totalStock)
+          const badge = stockBadge(product.worstStock ?? product.totalStock)
           return (
             <li key={product.id} className="admin-card-item">
               <div className="admin-card-item__media">
@@ -269,6 +291,7 @@ export default function ProductsListClient({ products: initialProducts }) {
                   product={product}
                   pendingId={pendingId}
                   onToggleActive={onToggleActive}
+                  onDelete={onDelete}
                 />
               </div>
             </li>

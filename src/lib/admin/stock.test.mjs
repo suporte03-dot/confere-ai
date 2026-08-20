@@ -5,6 +5,7 @@ import {
   buildStockAlertState,
   filterStockAlerts,
   formatVariantLabel,
+  summarizeVariantStock,
   STOCK_STATUS,
 } from './stock.js'
 
@@ -39,6 +40,13 @@ test('alerta some quando estoque volta a 10', () => {
   assert.equal(before.summary.out, 1)
   const after = buildStockAlertState([{ id: 'm', stock: 10, product: { name: 'Camisa' } }])
   assert.equal(after.summary.total, 0)
+})
+
+test('listagem usa o pior estoque da variante, não o total', () => {
+  const summary = summarizeVariantStock([{ stock: 0 }, { stock: 20 }])
+  assert.equal(summary.totalStock, 20)
+  assert.equal(summary.worstStock, 0)
+  assert.equal(summary.hasAlertVariant, true)
 })
 
 test('M esgotado e G disponível → somente M', () => {

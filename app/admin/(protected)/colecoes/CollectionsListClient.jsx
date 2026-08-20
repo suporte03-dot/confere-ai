@@ -7,8 +7,10 @@ import {
   moveCollection,
   toggleCollectionActive,
   toggleCollectionFeatured,
+  deleteCollection,
 } from './actions'
 import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CollectionsListClient({
   collections: initialCollections,
@@ -103,6 +105,27 @@ export default function CollectionsListClient({
       return
     }
 
+    setMessage(result.message)
+    router.refresh()
+  }
+
+  async function onDelete(collection) {
+    if (
+      !window.confirm(
+        `Excluir a coleção de teste “${collection.name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    setPendingId(collection.id)
+    setError('')
+    setMessage('')
+    const result = await deleteCollection(collection.id)
+    setPendingId(null)
+    if (!result.ok) {
+      setError(result.error)
+      return
+    }
     setMessage(result.message)
     router.refresh()
   }
@@ -220,6 +243,15 @@ export default function CollectionsListClient({
                         disabled={pendingId === collection.id}
                         onClick={() => onToggleFeatured(collection)}
                       />
+                      {isAuditTestRecord(collection) ? (
+                        <AdminIconAction
+                          icon="trash"
+                          label="Excluir teste"
+                          danger
+                          disabled={pendingId === collection.id}
+                          onClick={() => onDelete(collection)}
+                        />
+                      ) : null}
                     </div>
                   </td>
                 </tr>
@@ -231,15 +263,6 @@ export default function CollectionsListClient({
           <span>
             {collections.length} {collections.length === 1 ? 'coleção encontrada' : 'coleções encontradas'}
           </span>
-          <div className="admin-pagination" aria-label="Paginação">
-            <button type="button" disabled aria-label="Página anterior">
-              <AdminIcon name="prev" />
-            </button>
-            <span className="is-current">1</span>
-            <button type="button" disabled aria-label="Próxima página">
-              <AdminIcon name="next" />
-            </button>
-          </div>
         </footer>
       </div>
 
@@ -277,6 +300,15 @@ export default function CollectionsListClient({
                   disabled={pendingId === collection.id}
                   onClick={() => onToggleFeatured(collection)}
                 />
+                {isAuditTestRecord(collection) ? (
+                  <AdminIconAction
+                    icon="trash"
+                    label="Excluir teste"
+                    danger
+                    disabled={pendingId === collection.id}
+                    onClick={() => onDelete(collection)}
+                  />
+                ) : null}
                 <button
                   type="button"
                   className="admin-link-btn"

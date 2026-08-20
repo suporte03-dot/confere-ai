@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
-import { checkCollectionSlug, saveCollection } from './actions'
+import { checkCollectionSlug, saveCollection, deleteCollection } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CollectionEditor({ mode = 'create', collection = null }) {
   const router = useRouter()
@@ -106,6 +107,26 @@ export default function CollectionEditor({ mode = 'create', collection = null })
     })
   }
 
+  async function onDelete() {
+    if (!collectionId) return
+    if (
+      !window.confirm(
+        `Excluir a coleção de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteCollection(collectionId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/colecoes')
+      router.refresh()
+    })
+  }
+
   return (
     <form className="admin-form admin-form--product" onSubmit={onSave}>
       <div className="admin-section">
@@ -201,6 +222,16 @@ export default function CollectionEditor({ mode = 'create', collection = null })
         <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
           Cancelar
         </Link>
+        {collectionId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDelete}
+          >
+            Excluir teste
+          </button>
+        ) : null}
       </div>
     </form>
   )

@@ -12,6 +12,7 @@ import {
   IMAGE_BUCKET,
   isSafeProductImagePath,
 } from '../../../../src/lib/admin/product-image-upload'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 function fail(message) {
   return { ok: false, error: message }
@@ -435,6 +436,25 @@ export async function reorderProductImages(productId, orderedIds) {
     }
 
     const supabase = await createClient()
+    const { data: existing, error: existingError } = await supabase
+      .from('product_images')
+      .select('id')
+      .eq('product_id', productId)
+
+    if (existingError) {
+      return fail(friendlyError(existingError, 'Não foi possível reordenar as imagens.'))
+    }
+
+    const existingIds = (existing || []).map((row) => row.id)
+    const uniqueOrdered = new Set(orderedIds)
+    if (
+      existingIds.length !== orderedIds.length ||
+      uniqueOrdered.size !== orderedIds.length ||
+      orderedIds.some((id) => !existingIds.includes(id))
+    ) {
+      return fail('Ordem de imagens inválida.')
+    }
+
     for (let index = 0; index < orderedIds.length; index += 1) {
       const { error } = await supabase
         .from('product_images')
@@ -514,5 +534,73 @@ export async function deleteProductImage(imageId) {
     return ok({ message: 'Imagem atualizada.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível excluir a imagem.'))
+  }
+}
+
+export async function deleteProduct(productId) {
+  const gate = await assertAdminAccess()
+  if (!gate.ok) {
+    return fail(
+      gate.reason === 'unauthenticated'
+        ? 'Faça login para continuar.'
+        : 'Acesso negado. Seu perfil não tem permissão de administrador.',
+    )
+  }
+
+  try {
+    if (!productId) return fail('Produto não encontrado.')
+    const supabase = await createClient()
+    const { data: product, error: productError } = await supabase
+      .from('products')
+      .select('id, name, slug')
+      .eq('id', productId)
+      .maybeSingle()
+
+    if (productError || !product) return fail('Produto não encontrado.')
+    if (!isAuditTestRecord(product)) {
+      return fail(
+        'Exclusão permitida apenas para registros de teste cujo nome começa com [TESTE AUDIT].',
+      )
+    }
+
+    const { data: images, error: imagesError } = await supabase
+      .from('product_images')
+      .select('storage_path')
+      .eq('product_id', productId)
+
+    if (imagesError) {
+      return fail(friendlyError(imagesError, 'Não foi possível excluir o produto.'))
+    }
+
+    const paths = (images || []).map((row) => row.storage_path).filter(Boolean)
+    if (paths.length) {
+      await supabase.storage.from(IMAGE_BUCKET).remove(paths)
+    }
+
+    const { error: deleteImagesError } = await supabase
+      .from('product_images')
+      .delete()
+      .eq('product_id', productId)
+    if (deleteImagesError) {
+      return fail(friendlyError(deleteImagesError, 'Não foi possível excluir o produto.'))
+    }
+
+    const { error: deleteVariantsError } = await supabase
+      .from('product_variants')
+      .delete()
+      .eq('product_id', productId)
+    if (deleteVariantsError) {
+      return fail(friendlyError(deleteVariantsError, 'Não foi possível excluir o produto.'))
+    }
+
+    const { error: deleteError } = await supabase.from('products').delete().eq('id', productId)
+    if (deleteError) {
+      return fail(friendlyError(deleteError, 'Não foi possível excluir o produto.'))
+    }
+
+    revalidateProducts(productId)
+    return ok({ message: 'Produto de teste excluído.' })
+  } catch (error) {
+    return fail(friendlyError(error, 'Não foi possível excluir o produto.'))
   }
 }

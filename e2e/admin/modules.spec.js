@@ -52,7 +52,7 @@ test.describe('Admin modules (authenticated)', () => {
     await expect(page.getByText(/Administrador|Proprietário|Owner/i)).toBeVisible()
   })
 
-  test('create test product flow (no delete)', async ({ page }) => {
+  test('create and delete audit test product', async ({ page }) => {
     await loginAsAdmin(page)
     const stamp = Date.now()
     const productName = `[TESTE AUDIT] Produto ${stamp}`
@@ -65,7 +65,9 @@ test.describe('Admin modules (authenticated)', () => {
     await expect(page.getByText(/Produto salvo/i)).toBeVisible({ timeout: 15_000 })
     await expect(page).toHaveURL(/\/admin\/produtos\//)
 
-    await page.getByRole('link', { name: /Produtos/i }).first().click()
-    await expect(page.getByText(productName)).toBeVisible()
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', { name: 'Excluir teste' }).click()
+    await expect(page).toHaveURL(/\/admin\/produtos$/)
+    await expect(page.getByText(productName)).toHaveCount(0)
   })
 })

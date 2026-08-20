@@ -22,7 +22,9 @@ import {
   replaceProductImage,
   saveProduct,
   setProductCoverImage,
+  deleteProduct,
 } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 const AiAssistPanel = dynamic(() => import('./AiAssistPanel'), { ssr: false })
 
@@ -258,6 +260,26 @@ export default function ProductEditor({
         return
       }
 
+      router.refresh()
+    })
+  }
+
+  async function onDeleteProduct() {
+    if (!productId || isView) return
+    if (
+      !window.confirm(
+        `Excluir o produto de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteProduct(productId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/produtos')
       router.refresh()
     })
   }
@@ -874,6 +896,16 @@ export default function ProductEditor({
         {!isView ? (
           <button type="submit" className="admin-btn" disabled={pending}>
             {pending ? 'Salvando…' : 'Salvar produto'}
+          </button>
+        ) : null}
+        {!isView && productId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDeleteProduct}
+          >
+            Excluir teste
           </button>
         ) : null}
       </div>

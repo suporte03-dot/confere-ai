@@ -32,6 +32,18 @@ export function isAlertStock(stock) {
   return classifyStock(stock) !== STOCK_STATUS.NORMAL
 }
 
+export function summarizeVariantStock(variants = []) {
+  const stocks = (variants || []).map((item) => Number(item?.stock) || 0)
+  if (!stocks.length) {
+    return { totalStock: 0, worstStock: 0, hasAlertVariant: true }
+  }
+  return {
+    totalStock: stocks.reduce((sum, value) => sum + value, 0),
+    worstStock: Math.min(...stocks),
+    hasAlertVariant: stocks.some((value) => isAlertStock(value)),
+  }
+}
+
 export function formatVariantLabel(item) {
   return [item?.color, item?.size].filter(Boolean).join(' • ')
 }
