@@ -15,6 +15,7 @@ assert.equal(
   isUsableSupabaseKey('sb_publishable_' + 'x'.repeat(40)),
   true,
 )
+assert.equal(isUsableSupabaseKey('sb_publishable_' + 'x'.repeat(20)), false)
 assert.equal(isUsableSupabaseKey('eyJ' + 'a'.repeat(100)), true)
 assert.equal(isUsableSupabaseKey('sua chave real aqui'), false)
 assert.equal(isUsableSupabaseKey('short'), false)
