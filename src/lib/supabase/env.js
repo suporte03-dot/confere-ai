@@ -21,10 +21,19 @@ function isUsableSupabaseKey(key) {
     return false
   }
   const value = key.trim()
-  if (/sua chave|your[- ]?key|placeholder|changeme|example/i.test(value)) {
+  if (
+    /sua chave|your[- ]?key|placeholder|changeme|example|\.\.\./i.test(value) ||
+    value === 'sb_publishable_...'
+  ) {
     return false
   }
-  return value.startsWith('eyJ') || value.startsWith('sb_publishable_')
+  if (value.startsWith('eyJ')) {
+    return value.length >= 100
+  }
+  if (value.startsWith('sb_publishable_')) {
+    return value.length >= 40
+  }
+  return false
 }
 
 function readRuntimeBrowserEnv() {

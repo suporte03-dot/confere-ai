@@ -17,6 +17,12 @@ export async function signInAdmin(email, password) {
     })
 
     if (error) {
+      const message = String(error.message || '').toLowerCase()
+      if (message.includes('invalid api key') || message.includes('api key')) {
+        return fail(
+          'Chave Supabase inválida na Vercel. Cole a anon/publishable real do dashboard do Supabase e faça redeploy.',
+        )
+      }
       return fail('Não foi possível entrar. Verifique e-mail e senha.')
     }
 
