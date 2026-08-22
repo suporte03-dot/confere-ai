@@ -386,7 +386,8 @@
     linear-gradient(90deg, rgba(16, 12, 10, 0.82) 12%, rgba(16, 12, 10, 0.42) 58%, rgba(16, 12, 10, 0.18) 100%),
     var(--admin-hero-image);
   background-size: cover, cover;
-  background-position: center, center top;
+  /* Couple photo: faces sit high; bias up/right so the man is not cropped */
+  background-position: center, 68% 8%;
   background-repeat: no-repeat, no-repeat;
   color: #f6efe4;
 }
@@ -901,7 +902,7 @@
   padding: 2.5rem;
   background:
     linear-gradient(180deg, rgba(16, 12, 10, 0.18), rgba(16, 12, 10, 0.72)),
-    var(--admin-login-image) center / cover no-repeat;
+    var(--admin-login-image) 68% 8% / cover no-repeat;
   color: #f6efe4;
 }
 
