@@ -3,6 +3,7 @@ import { assertAdminAccess } from '../../../../../src/lib/admin/products'
 import { fetchCategoryById } from '../../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import CategoryEditor from '../CategoryEditor'
 
 export const dynamic = 'force-dynamic'
@@ -46,9 +47,12 @@ export default async function AdminCategoryDetailPage({ params }) {
         title="Editar categoria"
         description={category?.name}
         actions={
-          <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
+          <>
+            <HelpButton topic="categorias" showFirstVisit={false} />
+            <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
+              Cancelar
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

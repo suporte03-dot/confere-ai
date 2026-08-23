@@ -4,6 +4,7 @@ import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import ProductsListClient from './ProductsListClient'
 import { AdminIcon } from '../../components/AdminIcons'
+import HelpButton from '../../components/help/HelpButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,10 +33,13 @@ export default async function AdminProductsPage() {
         title="Produtos"
         description="Gerencie o catálogo da loja com preços, variantes e fotos."
         actions={
-          <Link href="/admin/produtos/novo" className="admin-btn">
-            <AdminIcon name="plus" />
-            Novo produto
-          </Link>
+          <>
+            <HelpButton topic="produtos" />
+            <Link href="/admin/produtos/novo" className="admin-btn">
+              <AdminIcon name="plus" />
+              Novo produto
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

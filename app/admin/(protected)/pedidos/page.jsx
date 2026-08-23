@@ -2,6 +2,7 @@ import { assertAdminAccess } from '../../../../src/lib/admin/products'
 import { fetchOrdersForAdmin } from '../../../../src/lib/orders/service'
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
+import HelpButton from '../../components/help/HelpButton'
 import OrdersListClient from './OrdersListClient'
 
 export const dynamic = 'force-dynamic'
@@ -37,6 +38,7 @@ export default async function AdminOrdersPage({ searchParams }) {
       <AdminPageHeader
         title="Pedidos"
         description="Acompanhe pagamentos, preparação e envios da loja."
+        actions={<HelpButton topic="pedidos" />}
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}
       {!loadError ? (

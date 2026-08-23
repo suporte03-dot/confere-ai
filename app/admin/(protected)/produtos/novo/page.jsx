@@ -3,6 +3,7 @@ import { assertAdminAccess, fetchActiveTaxonomies } from '../../../../../src/lib
 import { isAiConfigured } from '../../../../../src/lib/admin/ai-config'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import ProductEditor from '../ProductEditor'
 
 export const dynamic = 'force-dynamic'
@@ -35,9 +36,12 @@ export default async function AdminNewProductPage() {
         title="Novo produto"
         description="Cadastre a peça, revise as sugestões e salve quando estiver pronto."
         actions={
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
+          <>
+            <HelpButton topic="produtos" showFirstVisit={false} />
+            <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+              Cancelar
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}
