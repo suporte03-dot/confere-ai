@@ -27,7 +27,10 @@ export default function LoginForm() {
         return
       }
       if (!result?.ok) {
-        setError(result?.error || 'Erro inesperado ao autenticar. Tente novamente.')
+        const hint = result?.envHint ? ` (${result.envHint})` : ''
+        setError(
+          `${result?.error || 'Erro inesperado ao autenticar. Tente novamente.'}${hint}`,
+        )
         return
       }
       router.replace('/admin')
@@ -72,7 +75,7 @@ export default function LoginForm() {
           <button
             type="button"
             className="admin-link-btn"
-            aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+            aria-label={showPassword ? 'Ocultar' : 'Mostrar'}
             onClick={() => setShowPassword((v) => !v)}
           >
             {showPassword ? 'Ocultar' : 'Mostrar'}

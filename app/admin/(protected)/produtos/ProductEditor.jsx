@@ -22,7 +22,9 @@ import {
   replaceProductImage,
   saveProduct,
   setProductCoverImage,
+  deleteProduct,
 } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 const AiAssistPanel = dynamic(() => import('./AiAssistPanel'), { ssr: false })
 
@@ -74,7 +76,7 @@ export default function ProductEditor({
   )
   const [categoryId, setCategoryId] = useState(product?.category_id || '')
   const [collectionId, setCollectionId] = useState(product?.collection_id || '')
-  const [active, setActive] = useState(product?.active ?? true)
+  const [active, setActive] = useState(product?.active ?? false)
   const [featured, setFeatured] = useState(product?.featured ?? false)
   const [sku, setSku] = useState(product?.sku || '')
   const [variants, setVariants] = useState(
@@ -109,7 +111,7 @@ export default function ProductEditor({
       const result = await checkProductSlug(slug, productId)
       if (cancelled) return
       if (!result.ok) {
-        setSlugHint('')
+        setSlugHint('Não foi possível validar o slug.')
         return
       }
       setSlugHint(
@@ -223,6 +225,11 @@ export default function ProductEditor({
     setError('')
     setMessage('')
 
+    if (slugHint.includes('já está em uso')) {
+      setError('Este slug já está em uso. Escolha outro.')
+      return
+    }
+
     startTransition(async () => {
       const result = await saveProduct({
         id: productId,
@@ -253,6 +260,26 @@ export default function ProductEditor({
         return
       }
 
+      router.refresh()
+    })
+  }
+
+  async function onDeleteProduct() {
+    if (!productId || isView) return
+    if (
+      !window.confirm(
+        `Excluir o produto de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteProduct(productId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/produtos')
       router.refresh()
     })
   }
@@ -843,8 +870,11 @@ export default function ProductEditor({
               onChange={(e) => setActive(e.target.checked)}
               disabled={isView || pending}
             />
-            <span>Produto ativo</span>
+            <span>Publicado na loja</span>
           </label>
+          <p className="admin-field-hint" style={{ gridColumn: '1 / -1', marginTop: '-0.35rem' }}>
+            Produtos não publicados ficam como rascunho e não aparecem na loja.
+          </p>
           <label className="admin-check">
             <input
               type="checkbox"
@@ -869,6 +899,16 @@ export default function ProductEditor({
         {!isView ? (
           <button type="submit" className="admin-btn" disabled={pending}>
             {pending ? 'Salvando…' : 'Salvar produto'}
+          </button>
+        ) : null}
+        {!isView && productId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDeleteProduct}
+          >
+            Excluir teste
           </button>
         ) : null}
       </div>

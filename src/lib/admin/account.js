@@ -89,7 +89,7 @@ export function displayNameFromUser(user, profile) {
     user?.user_metadata?.display_name
   const profileName = profile?.full_name || profile?.name || profile?.display_name
   const fromEmail = user?.email ? String(user.email).split('@')[0] : ''
-  return String(profileName || metaName || fromEmail || 'Administrador').trim()
+  return String(metaName || profileName || fromEmail || 'Administrador').trim()
 }
 
 export function buildAdminUser(user, profile) {

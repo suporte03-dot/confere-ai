@@ -2,10 +2,31 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '../../src/lib/supabase/server'
+import { getSupabaseEnvHealth } from '../../src/lib/supabase/env'
 import { isAdminRole } from '../../src/lib/supabase/roles'
 
-function fail(message) {
-  return { ok: false, error: message }
+function fail(message, extra = {}) {
+  return { ok: false, error: message, ...extra }
+}
+
+function formatEnvHint(health) {
+  if (!health) return ''
+  const slots = [
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'SUPABASE_URL',
+    'SUPABASE_PUBLISHABLE_KEY',
+  ]
+  return slots
+    .map((name) => {
+      const slot = health[name]
+      if (!slot?.exists) return `${name}=ausente`
+      if (slot.placeholder) return `${name}=placeholder`
+      if (slot.usable) return `${name}=ok`
+      return `${name}=inválida`
+    })
+    .join(' · ')
 }
 
 export async function signInAdmin(email, password) {
@@ -21,6 +42,7 @@ export async function signInAdmin(email, password) {
       if (message.includes('invalid api key') || message.includes('api key')) {
         return fail(
           'Chave Supabase inválida na Vercel. Cole a anon/publishable real do dashboard do Supabase e faça redeploy.',
+          { envHint: formatEnvHint(getSupabaseEnvHealth()) },
         )
       }
       return fail('Não foi possível entrar. Verifique e-mail e senha.')
@@ -46,9 +68,14 @@ export async function signInAdmin(email, password) {
   } catch (error) {
     console.error(error)
     const message = error instanceof Error ? error.message : ''
-    if (message.startsWith('Missing SUPABASE_')) {
+    const health = getSupabaseEnvHealth()
+    if (
+      message.startsWith('Missing SUPABASE_') ||
+      message.startsWith('Missing NEXT_PUBLIC_SUPABASE_')
+    ) {
       return fail(
-        'Configuração de autenticação incompleta. Defina a chave anon/publishable real na Vercel.',
+        'Configuração de autenticação incompleta. Defina a chave anon/publishable real na Vercel (Preview e Production) e faça redeploy.',
+        { envHint: formatEnvHint(health) },
       )
     }
     return fail('Erro inesperado ao autenticar. Tente novamente.')

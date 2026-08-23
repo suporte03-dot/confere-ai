@@ -105,7 +105,12 @@ function ProductDetailPage({ product = null }) {
     }
     addToCart(
       { ...product, selectedSize, selectedColor: resolvedColor },
-      { size: selectedSize, color: resolvedColor, requireSize: needsSize },
+      {
+        size: selectedSize,
+        color: resolvedColor,
+        requireSize: needsSize,
+        variantId: selectedVariant?.id || null,
+      },
     )
   }
 

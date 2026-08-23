@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
-import { checkCategorySlug, saveCategory } from './actions'
+import { checkCategorySlug, saveCategory, deleteCategory } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CategoryEditor({ mode = 'create', category = null }) {
   const router = useRouter()
@@ -40,7 +41,7 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
       const result = await checkCategorySlug(slug, categoryId)
       if (cancelled) return
       if (!result.ok) {
-        setSlugHint('')
+        setSlugHint('Não foi possível validar o slug.')
         return
       }
       setSlugHint(
@@ -71,6 +72,11 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
     setError('')
     setMessage('')
 
+    if (slugHint.includes('já está em uso')) {
+      setError('Este slug já está em uso. Escolha outro.')
+      return
+    }
+
     startTransition(async () => {
       const result = await saveCategory({
         id: categoryId,
@@ -95,6 +101,26 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
         return
       }
 
+      router.refresh()
+    })
+  }
+
+  async function onDelete() {
+    if (!categoryId) return
+    if (
+      !window.confirm(
+        `Excluir a categoria de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteCategory(categoryId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/categorias')
       router.refresh()
     })
   }
@@ -186,6 +212,16 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
         <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
           Cancelar
         </Link>
+        {categoryId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDelete}
+          >
+            Excluir teste
+          </button>
+        ) : null}
       </div>
     </form>
   )

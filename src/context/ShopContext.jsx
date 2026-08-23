@@ -11,6 +11,7 @@ import { pathForFilter } from '../data/catalog'
 import { resolveSearchIntent } from '../data/searchMap'
 
 const FAVORITES_KEY = 'terraestilo-favorites'
+const CART_KEY = 'terraestilo-cart'
 
 function loadStoredFavorites() {
   try {
@@ -21,10 +22,37 @@ function loadStoredFavorites() {
   }
 }
 
+function loadStoredCart() {
+  try {
+    const stored = localStorage.getItem(CART_KEY)
+    const parsed = stored ? JSON.parse(stored) : []
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function resolveVariantId(product, selectedSize, selectedColor) {
+  if (product?.variantId) return product.variantId
+  const variants = product?.variants || []
+  if (!variants.length) return null
+  const match = variants.find((v) => {
+    const sizeOk = !selectedSize || v.size === selectedSize
+    const colorOk = !selectedColor || !v.color || v.color === selectedColor
+    return sizeOk && colorOk && (Number(v.stock) || 0) > 0
+  })
+  return match?.id || variants.find((v) => {
+    const sizeOk = !selectedSize || v.size === selectedSize
+    const colorOk = !selectedColor || !v.color || v.color === selectedColor
+    return sizeOk && colorOk
+  })?.id || null
+}
+
 function cartLineKey(product) {
   const size = product.selectedSize || product.size || ''
   const color = product.selectedColor || product.color || ''
-  return `${product.id}::${size}::${color}`
+  const variantId = product.variantId || ''
+  return `${product.id}::${variantId}::${size}::${color}`
 }
 
 const ShopContext = createContext(null)
@@ -38,6 +66,7 @@ export function ShopProvider({
   const router = useRouter()
   const products = Array.isArray(catalogProducts) ? catalogProducts : []
   const [cart, setCart] = useState([])
+  const [cartHydrated, setCartHydrated] = useState(false)
   const [favorites, setFavorites] = useState(loadStoredFavorites)
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('Todos')
@@ -45,8 +74,22 @@ export function ShopProvider({
   const [toastMessage, setToastMessage] = useState(null)
 
   useEffect(() => {
+    setCart(loadStoredCart())
+    setCartHydrated(true)
+  }, [])
+
+  useEffect(() => {
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites))
   }, [favorites])
+
+  useEffect(() => {
+    if (!cartHydrated) return
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart))
+    } catch {
+      // ignore quota / private mode
+    }
+  }, [cart, cartHydrated])
 
   const showToast = useCallback((message) => {
     setToastMessage(message)
@@ -109,11 +152,30 @@ export function ShopProvider({
       return false
     }
 
-    const line = {
-      ...product,
+    const catalogProduct = products.find((p) => p.id === product.id) || product
+    const variantId =
+      options.variantId ||
+      resolveVariantId(catalogProduct, selectedSize, selectedColor)
+
+    if (!variantId) {
+      showToast('Selecione um tamanho disponível para continuar.')
+      return false
+    }
+
+    const lineBase = {
+      id: product.id,
+      name: product.name,
+      price: Number(catalogProduct.price ?? product.price) || 0,
+      image: product.image || catalogProduct.image,
+      subcategory: product.subcategory || catalogProduct.subcategory,
+      variant: product.variant,
       selectedSize: selectedSize || null,
       selectedColor: selectedColor || null,
-      lineId: cartLineKey({ ...product, selectedSize, selectedColor }),
+      variantId,
+    }
+    const line = {
+      ...lineBase,
+      lineId: cartLineKey(lineBase),
     }
 
     setCart((prev) => {
@@ -130,7 +192,7 @@ export function ShopProvider({
     const detailLabel = bits ? ` (${bits})` : ''
     showToast(`${product.name}${detailLabel} adicionado ao carrinho.`)
     return true
-  }, [showToast])
+  }, [products, showToast])
 
   const removeFromCart = useCallback((lineIdOrProductId) => {
     setCart((prev) =>
@@ -151,6 +213,10 @@ export function ShopProvider({
       ),
     )
   }, [removeFromCart])
+
+  const clearCart = useCallback(() => {
+    setCart([])
+  }, [])
 
   const toggleFavorite = useCallback((productId) => {
     setFavorites((prev) => {
@@ -210,6 +276,7 @@ export function ShopProvider({
     addToCart,
     removeFromCart,
     updateQty,
+    clearCart,
     toggleFavorite,
     isFavorite: (id) => favorites.includes(id),
     toastMessage,

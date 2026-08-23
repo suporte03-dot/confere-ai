@@ -9,6 +9,7 @@ import {
   isCategorySlugAvailable,
 } from '../../../../src/lib/admin/taxonomies'
 import { slugify } from '../../../../src/lib/admin/slugify'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 function fail(message) {
   return { ok: false, error: message }
@@ -57,12 +58,15 @@ export async function toggleCategoryActive(categoryId, nextActive) {
 
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('categories')
       .update({ active: Boolean(nextActive) })
       .eq('id', categoryId)
+      .select('id')
+      .maybeSingle()
 
     if (error) return fail(friendlyError(error, 'Não foi possível atualizar o status.'))
+    if (!data) return fail('Categoria não encontrada.')
 
     revalidateCategories(categoryId)
     return ok({
@@ -175,5 +179,46 @@ export async function moveCategory(categoryId, direction) {
     return ok({ message: 'Ordem atualizada.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível alterar a ordem.'))
+  }
+}
+
+export async function deleteCategory(categoryId) {
+  const gate = await assertAdminAccess()
+  if (!gate.ok) return gateFail(gate)
+
+  try {
+    const supabase = await createClient()
+    const { data: category, error: categoryError } = await supabase
+      .from('categories')
+      .select('id, name, slug')
+      .eq('id', categoryId)
+      .maybeSingle()
+
+    if (categoryError || !category) return fail('Categoria não encontrada.')
+    if (!isAuditTestRecord(category)) {
+      return fail(
+        'Exclusão permitida apenas para registros de teste cujo nome começa com [TESTE AUDIT].',
+      )
+    }
+
+    const { count, error: countError } = await supabase
+      .from('products')
+      .select('id', { count: 'exact', head: true })
+      .eq('category_id', categoryId)
+
+    if (countError) {
+      return fail(friendlyError(countError, 'Não foi possível excluir a categoria.'))
+    }
+    if (count > 0) {
+      return fail('Não é possível excluir: ainda há produtos vinculados a esta categoria.')
+    }
+
+    const { error } = await supabase.from('categories').delete().eq('id', categoryId)
+    if (error) return fail(friendlyError(error, 'Não foi possível excluir a categoria.'))
+
+    revalidateCategories(categoryId)
+    return ok({ message: 'Categoria de teste excluída.' })
+  } catch (error) {
+    return fail(friendlyError(error, 'Não foi possível excluir a categoria.'))
   }
 }

@@ -2,29 +2,36 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { signOutAdmin } from '../actions'
 import { ADMIN_COVER_SRC, ADMIN_LOGO_SRC } from '../../../src/lib/admin/account'
-import StockAlertsPanel from '../(protected)/StockAlertsPanel'
 import { createClient } from '../../../src/lib/supabase/client'
 import { buildStockAlertState } from '../../../src/lib/admin/stock'
 import { getStockAlertsAction } from '../(protected)/alerts/actions'
 import AdminUserMenu from './AdminUserMenu'
 import { AdminIcon } from './AdminIcons'
 
+const StockAlertsPanel = dynamic(() => import('../(protected)/StockAlertsPanel'), {
+  ssr: false,
+})
+
 const EMPTY = buildStockAlertState([])
 
 const NAV = [
   { href: '/admin', label: 'Visão Geral', icon: 'overview', exact: true },
+  { href: '/admin/pedidos', label: 'Pedidos', icon: 'orders' },
   { href: '/admin/produtos', label: 'Produtos', icon: 'products' },
   { href: '/admin/categorias', label: 'Categorias', icon: 'categories' },
   { href: '/admin/colecoes', label: 'Coleções', icon: 'collections' },
   { href: '/admin/estoque', label: 'Estoque', icon: 'stock' },
+  { href: '/admin/configuracoes', label: 'Configurações', icon: 'settings' },
   { href: '/admin/minha-conta', label: 'Minha Conta', icon: 'account' },
 ]
 
 function sectionTitle(pathname) {
   if (pathname === '/admin') return 'Visão Geral'
+  if (pathname.startsWith('/admin/pedidos')) return 'Pedidos'
   if (pathname.startsWith('/admin/produtos/novo')) return 'Novo produto'
   if (pathname.startsWith('/admin/produtos')) return 'Produtos'
   if (pathname.startsWith('/admin/categorias/novo')) return 'Nova categoria'
@@ -32,6 +39,7 @@ function sectionTitle(pathname) {
   if (pathname.startsWith('/admin/colecoes/novo')) return 'Nova coleção'
   if (pathname.startsWith('/admin/colecoes')) return 'Coleções'
   if (pathname.startsWith('/admin/estoque')) return 'Estoque'
+  if (pathname.startsWith('/admin/configuracoes')) return 'Configurações'
   if (pathname.startsWith('/admin/minha-conta')) return 'Minha Conta'
   return 'Painel'
 }
@@ -128,8 +136,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
         <Link href="/admin" className="admin-sidebar__brand">
           <img src={ADMIN_LOGO_SRC} alt="" width="44" height="44" />
           <span>
-            Terra &amp; Estilo
-            <em>Painel</em>
+            Terra & Estilo<em>Painel</em>
           </span>
         </Link>
 
@@ -201,9 +208,9 @@ export default function AdminShell({ user, initialAlerts, children }) {
             </div>
             <div className="admin-hero__copy">
               <p className="admin-hero__hello">Olá, {user.name}.</p>
-              <h1>Gestão Terra &amp; Estilo</h1>
+              <h1>Gestão Terra & Estilo</h1>
               <p>
-                Produtos, estoque, coleções e conteúdo da sua loja em um só lugar.
+                Produtos, estoque, pedidos e conteúdo da sua loja em um só lugar.
               </p>
               <span>Bem-vindo ao painel administrativo.</span>
             </div>

@@ -382,9 +382,13 @@
   padding: 1.6rem 1.8rem;
   overflow: hidden;
   border-radius: 12px;
-  background:
+  background-image:
     linear-gradient(90deg, rgba(16, 12, 10, 0.82) 12%, rgba(16, 12, 10, 0.42) 58%, rgba(16, 12, 10, 0.18) 100%),
-    var(--admin-hero-image) center / cover no-repeat;
+    var(--admin-hero-image);
+  background-size: cover, cover;
+  /* Couple photo is portrait: pin top/right so hats and faces stay in frame */
+  background-position: center, 72% 0%;
+  background-repeat: no-repeat, no-repeat;
   color: #f6efe4;
 }
 
@@ -898,7 +902,7 @@
   padding: 2.5rem;
   background:
     linear-gradient(180deg, rgba(16, 12, 10, 0.18), rgba(16, 12, 10, 0.72)),
-    var(--admin-login-image) center / cover no-repeat;
+    var(--admin-login-image) 72% 0% / cover no-repeat;
   color: #f6efe4;
 }
 

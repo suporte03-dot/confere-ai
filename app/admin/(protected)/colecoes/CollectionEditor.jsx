@@ -4,7 +4,8 @@ import { useEffect, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
-import { checkCollectionSlug, saveCollection } from './actions'
+import { checkCollectionSlug, saveCollection, deleteCollection } from './actions'
+import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
 export default function CollectionEditor({ mode = 'create', collection = null }) {
   const router = useRouter()
@@ -41,7 +42,7 @@ export default function CollectionEditor({ mode = 'create', collection = null })
       const result = await checkCollectionSlug(slug, collectionId)
       if (cancelled) return
       if (!result.ok) {
-        setSlugHint('')
+        setSlugHint('Não foi possível validar o slug.')
         return
       }
       setSlugHint(
@@ -72,6 +73,11 @@ export default function CollectionEditor({ mode = 'create', collection = null })
     setError('')
     setMessage('')
 
+    if (slugHint.includes('já está em uso')) {
+      setError('Este slug já está em uso. Escolha outro.')
+      return
+    }
+
     startTransition(async () => {
       const result = await saveCollection({
         id: collectionId,
@@ -97,6 +103,26 @@ export default function CollectionEditor({ mode = 'create', collection = null })
         return
       }
 
+      router.refresh()
+    })
+  }
+
+  async function onDelete() {
+    if (!collectionId) return
+    if (
+      !window.confirm(
+        `Excluir a coleção de teste “${name}”? Esta ação não pode ser desfeita.`,
+      )
+    ) {
+      return
+    }
+    startTransition(async () => {
+      const result = await deleteCollection(collectionId)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      router.replace('/admin/colecoes')
       router.refresh()
     })
   }
@@ -196,6 +222,16 @@ export default function CollectionEditor({ mode = 'create', collection = null })
         <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
           Cancelar
         </Link>
+        {collectionId && isAuditTestRecord({ name, slug }) ? (
+          <button
+            type="button"
+            className="admin-btn admin-btn--danger-ghost"
+            disabled={pending}
+            onClick={onDelete}
+          >
+            Excluir teste
+          </button>
+        ) : null}
       </div>
     </form>
   )

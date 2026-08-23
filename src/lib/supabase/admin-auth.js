@@ -1,11 +1,12 @@
+import { cache } from 'react'
 import { createClient } from './server'
 import { isAdminRole } from './roles'
 
 /**
  * Server-side admin gate: validated user + profiles.role.
- * Does not load admin business data — only auth/role.
+ * Cached per request so layout and pages share the same result.
  */
-export async function getAdminAccess() {
+export const getAdminAccess = cache(async function getAdminAccess() {
   let supabase
   try {
     supabase = await createClient()
@@ -50,4 +51,4 @@ export async function getAdminAccess() {
 
   const allowed = isAdminRole(profile.role)
   return { user, profile, allowed }
-}
+})
