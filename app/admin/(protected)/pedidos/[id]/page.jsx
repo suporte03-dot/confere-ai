@@ -4,6 +4,7 @@ import { assertAdminAccess } from '../../../../../src/lib/admin/products'
 import { fetchOrderDetailForAdmin } from '../../../../../src/lib/orders/service'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import OrderDetailClient from '../OrderDetailClient'
 
 export const dynamic = 'force-dynamic'
@@ -36,9 +37,12 @@ export default async function AdminOrderDetailPage({ params }) {
         title={order ? `Pedido ${order.order_number}` : 'Pedido'}
         description="Detalhes, pagamento e histórico de status."
         actions={
-          <Link href="/admin/pedidos" className="admin-btn admin-btn--ghost">
-            Voltar aos pedidos
-          </Link>
+          <>
+            <HelpButton topic="pedidos" showFirstVisit={false} />
+            <Link href="/admin/pedidos" className="admin-btn admin-btn--ghost">
+              Voltar aos pedidos
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import CategoryEditor from '../CategoryEditor'
 
 export const dynamic = 'force-dynamic'
@@ -21,9 +22,12 @@ export default async function AdminNewCategoryPage() {
       <AdminPageHeader
         title="Nova categoria"
         actions={
-          <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
+          <>
+            <HelpButton topic="categorias" showFirstVisit={false} />
+            <Link href="/admin/categorias" className="admin-btn admin-btn--ghost">
+              Cancelar
+            </Link>
+          </>
         }
       />
       <CategoryEditor mode="create" />

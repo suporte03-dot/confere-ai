@@ -1,6 +1,7 @@
 import { getAdminAccess } from '../../../../src/lib/supabase/admin-auth'
 import { buildAdminUser } from '../../../../src/lib/admin/account'
 import AdminPageHeader from '../../components/AdminPageHeader'
+import HelpButton from '../../components/help/HelpButton'
 import AccountSecurityForm from './AccountSecurityForm'
 
 export const dynamic = 'force-dynamic'
@@ -14,6 +15,7 @@ export default async function AdminAccountPage() {
       <AdminPageHeader
         title="Minha conta"
         description="Dados da sua sessão e alteração de senha."
+        actions={<HelpButton topic="minha-conta" />}
       />
       <AccountSecurityForm
         email={account.email}

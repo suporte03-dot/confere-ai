@@ -6,6 +6,8 @@ import { fetchOrderDashboardStats } from '../../../src/lib/orders/service'
 import { formatBRL } from '../../../src/lib/admin/format'
 import { formatVariantLabel } from '../../../src/lib/admin/stock'
 import { AdminIcon } from '../components/AdminIcons'
+import AdminPageHeader from '../components/AdminPageHeader'
+import HelpButton from '../components/help/HelpButton'
 
 const EMPTY_ORDER_STATS = {
   pendingPayment: 0,
@@ -46,6 +48,11 @@ export default async function AdminHomePage() {
 
   return (
     <>
+      <AdminPageHeader
+        title="Visão Geral"
+        description="Acompanhe indicadores e atalhos da operação da loja."
+        actions={<HelpButton topic="overview" />}
+      />
       {loadError ? (
         <p className="admin-error" role="alert">
           Não foi possível carregar os indicadores do painel. Atualize a página ou tente novamente.

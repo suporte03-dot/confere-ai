@@ -5,6 +5,7 @@ import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import CollectionsListClient from './CollectionsListClient'
 import { AdminIcon } from '../../components/AdminIcons'
+import HelpButton from '../../components/help/HelpButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,10 +34,13 @@ export default async function AdminCollectionsPage() {
         title="Coleções"
         description="Gerencie suas coleções, destaques e a ordem de exibição na loja."
         actions={
-          <Link href="/admin/colecoes/novo" className="admin-btn">
-            <AdminIcon name="plus" />
-            Nova coleção
-          </Link>
+          <>
+            <HelpButton topic="colecoes" />
+            <Link href="/admin/colecoes/novo" className="admin-btn">
+              <AdminIcon name="plus" />
+              Nova coleção
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

@@ -6,6 +6,7 @@ import {
 } from '../../../../../src/lib/admin/products'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import ProductEditor from '../ProductEditor'
 
 export const dynamic = 'force-dynamic'
@@ -70,9 +71,12 @@ export default async function AdminProductDetailPage({ params, searchParams }) {
         title={readOnly ? 'Visualizar produto' : 'Editar produto'}
         description={product?.name}
         actions={
-          <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
+          <>
+            <HelpButton topic="produtos" showFirstVisit={false} />
+            <Link href="/admin/produtos" className="admin-btn admin-btn--ghost">
+              Cancelar
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

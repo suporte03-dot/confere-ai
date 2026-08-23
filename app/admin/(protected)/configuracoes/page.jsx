@@ -2,6 +2,7 @@ import { assertAdminAccess } from '../../../../src/lib/admin/products'
 import { fetchStoreSettings } from '../../../../src/lib/store/settings'
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
+import HelpButton from '../../components/help/HelpButton'
 import StoreSettingsForm from './StoreSettingsForm'
 
 export const dynamic = 'force-dynamic'
@@ -30,6 +31,7 @@ export default async function AdminSettingsPage() {
       <AdminPageHeader
         title="Configurações"
         description="Pix, contatos e parâmetros operacionais da loja."
+        actions={<HelpButton topic="configuracoes" />}
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}
       {settings ? <StoreSettingsForm settings={settings} /> : null}

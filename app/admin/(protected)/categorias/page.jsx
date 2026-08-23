@@ -5,6 +5,7 @@ import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import CategoriesListClient from './CategoriesListClient'
 import { AdminIcon } from '../../components/AdminIcons'
+import HelpButton from '../../components/help/HelpButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,10 +34,13 @@ export default async function AdminCategoriesPage() {
         title="Categorias"
         description="Organize o catálogo com categorias ativas e ordenadas."
         actions={
-          <Link href="/admin/categorias/novo" className="admin-btn">
-            <AdminIcon name="plus" />
-            Nova categoria
-          </Link>
+          <>
+            <HelpButton topic="categorias" />
+            <Link href="/admin/categorias/novo" className="admin-btn">
+              <AdminIcon name="plus" />
+              Nova categoria
+            </Link>
+          </>
         }
       />
       {loadError ? <p className="admin-error">{loadError}</p> : null}

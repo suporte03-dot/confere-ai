@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
+import HelpButton from '../../../components/help/HelpButton'
 import CollectionEditor from '../CollectionEditor'
 
 export const dynamic = 'force-dynamic'
@@ -21,9 +22,12 @@ export default async function AdminNewCollectionPage() {
       <AdminPageHeader
         title="Nova coleção"
         actions={
-          <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
-            Cancelar
-          </Link>
+          <>
+            <HelpButton topic="colecoes" showFirstVisit={false} />
+            <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
+              Cancelar
+            </Link>
+          </>
         }
       />
       <CollectionEditor mode="create" />
