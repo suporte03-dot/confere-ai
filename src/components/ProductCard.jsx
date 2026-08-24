@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   formatCurrency,
@@ -188,7 +189,9 @@ function ProductCard({
         <p className="product-card__cat">
           {product.department} · {product.subcategory}
         </p>
-        <h3 className="product-card__name">{product.name}</h3>
+        <Link href={detailPath} className="product-card__name-link" onClick={stop}>
+          <h3 className="product-card__name">{product.name}</h3>
+        </Link>
 
         {showRating && (
           <p className="product-card__rating" aria-label={`Avaliação ${rating} de 5`}>

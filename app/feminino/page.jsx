@@ -1,11 +1,8 @@
 import { Suspense } from 'react'
 import CategoryPage from '../../src/views/CategoryPage'
+import { buildCategoryMetadata } from '../../src/lib/seo/metadata'
 
-export const metadata = {
-  title: 'Feminino — Terra & Estilo',
-  description:
-    'Silhuetas leves, tecidos naturais e presença contemporânea — moda feminina que honra a terra e traduz sofisticação do Sul do Brasil.',
-}
+export const metadata = buildCategoryMetadata('feminino')
 
 export default function FemininoPage() {
   return (

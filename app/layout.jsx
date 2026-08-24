@@ -1,22 +1,18 @@
 import './globals.css'
 import Providers from './providers'
 import SiteChrome from './components/SiteChrome'
+import JsonLd from '../src/components/seo/JsonLd'
 import {
   listActiveCategories,
   listActiveCollections,
   listActiveProducts,
 } from '../src/lib/catalog'
+import { rootMetadata } from '../src/lib/seo/metadata'
+import { organizationSchema, websiteSchema } from '../src/lib/seo/schema'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata = {
-  title: 'Terra & Estilo — A marca do agro brasileiro',
-  description:
-    'Terra & Estilo — A marca do agro brasileiro. Moda premium com identidade, elegância e autenticidade.',
-  icons: {
-    icon: '/favicon.png',
-  },
-}
+export const metadata = rootMetadata
 
 export const viewport = {
   width: 'device-width',
@@ -42,6 +38,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body>
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
         <Providers products={products} categories={categories} collections={collections}>
           <SiteChrome>{children}</SiteChrome>
         </Providers>
