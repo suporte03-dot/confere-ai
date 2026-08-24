@@ -5,6 +5,7 @@ import {
   fetchStoreSettings,
   toPublicPaymentSettings,
 } from '../../../src/lib/store/settings'
+import { NOINDEX_ROBOTS } from '../../../src/lib/seo/site'
 import '../../checkout/checkout.css'
 
 export const dynamic = 'force-dynamic'
@@ -12,9 +13,9 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata({ params }) {
   const { token } = await params
   const result = await fetchOrderByPublicToken(token)
-  if (!result.ok) return { title: 'Pedido — Terra & Estilo' }
   return {
-    title: `Pedido ${result.order.order_number} — Terra & Estilo`,
+    title: result.ok ? `Pedido ${result.order.order_number}` : 'Pedido',
+    robots: NOINDEX_ROBOTS,
   }
 }
 

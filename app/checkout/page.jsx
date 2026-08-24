@@ -1,10 +1,8 @@
 import CheckoutForm from './CheckoutForm'
+import { privatePageMetadata } from '../../src/lib/seo/metadata'
 import './checkout.css'
 
-export const metadata = {
-  title: 'Checkout — Terra & Estilo',
-  description: 'Finalize seu pedido na Terra & Estilo.',
-}
+export const metadata = privatePageMetadata.checkout
 
 export default function CheckoutPage() {
   return (

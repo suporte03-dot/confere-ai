@@ -1,10 +1,7 @@
 import Link from 'next/link'
+import { privatePageMetadata } from '../src/lib/seo/metadata'
 
-export const metadata = {
-  title: 'Página não encontrada — Terra & Estilo',
-  description:
-    'Terra & Estilo — A marca do agro brasileiro. Moda premium com identidade, elegância e autenticidade.',
-}
+export const metadata = privatePageMetadata.notFound
 
 export default function NotFound() {
   return (

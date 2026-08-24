@@ -1,11 +1,8 @@
 import { Suspense } from 'react'
 import CategoryPage from '../../src/views/CategoryPage'
+import { buildCategoryMetadata } from '../../src/lib/seo/metadata'
 
-export const metadata = {
-  title: 'Acessórios — Terra & Estilo',
-  description:
-    'Bonés, cintos, mochilas e peças que fecham o look com a assinatura Terra & Estilo — identidade em cada detalhe.',
-}
+export const metadata = buildCategoryMetadata('acessorios')
 
 export default function AcessoriosPage() {
   return (

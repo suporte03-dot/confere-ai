@@ -1,11 +1,8 @@
 import { Suspense } from 'react'
 import CategoryPage from '../../src/views/CategoryPage'
+import { buildCategoryMetadata } from '../../src/lib/seo/metadata'
 
-export const metadata = {
-  title: 'Calçados — Terra & Estilo',
-  description:
-    'Botas, coturnos, tênis e chinelos selecionados para acompanhar o ritmo do campo à cidade com conforto e caráter.',
-}
+export const metadata = buildCategoryMetadata('calcados')
 
 export default function CalcadosPage() {
   return (
