@@ -45,6 +45,17 @@ test.describe('Admin modules (authenticated)', () => {
     await expect(page.getByRole('heading', { name: 'Estoque', level: 1 })).toBeVisible()
   })
 
+  test('desempenho dashboard opens with period filters', async ({ page }) => {
+    await loginAsAdmin(page)
+    await page.goto('/admin/desempenho')
+    await expect(page.getByRole('heading', { name: /Desempenho da Loja/i })).toBeVisible()
+    await expect(page.getByLabel('Indicadores principais')).toBeVisible()
+    await expect(page.getByRole('button', { name: '30 dias' })).toBeVisible()
+    await page.getByRole('button', { name: '7 dias' }).click()
+    await expect(page).toHaveURL(/periodo=7d/)
+    await expect(page.getByText(/Faturamento/i).first()).toBeVisible()
+  })
+
   test('account page shows user info', async ({ page }) => {
     await loginAsAdmin(page)
     await page.goto('/admin/minha-conta')

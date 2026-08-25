@@ -26,6 +26,11 @@ test.describe('Admin auth (public routes)', () => {
     await expect(page).toHaveURL(/\/admin\/login/)
   })
 
+  test('protected desempenho redirects to login when unauthenticated', async ({ page }) => {
+    await page.goto('/admin/desempenho')
+    await expect(page).toHaveURL(/\/admin\/login/)
+  })
+
   test('recover password page loads', async ({ page }) => {
     await page.goto('/admin/recuperar-senha')
     await expect(page.getByRole('heading', { name: 'Esqueci minha senha' })).toBeVisible()

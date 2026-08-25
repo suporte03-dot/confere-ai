@@ -25,6 +25,7 @@ const NAV = [
   { href: '/admin/categorias', label: 'Categorias', icon: 'categories' },
   { href: '/admin/colecoes', label: 'Coleções', icon: 'collections' },
   { href: '/admin/estoque', label: 'Estoque', icon: 'stock' },
+  { href: '/admin/desempenho', label: 'Desempenho', icon: 'monitor' },
   { href: '/admin/configuracoes', label: 'Configurações', icon: 'settings' },
   { href: '/admin/minha-conta', label: 'Minha Conta', icon: 'account' },
   { href: '/admin/ajuda', label: 'Ajuda', icon: 'help' },
@@ -40,6 +41,7 @@ function sectionTitle(pathname) {
   if (pathname.startsWith('/admin/colecoes/novo')) return 'Nova coleção'
   if (pathname.startsWith('/admin/colecoes')) return 'Coleções'
   if (pathname.startsWith('/admin/estoque')) return 'Estoque'
+  if (pathname.startsWith('/admin/desempenho')) return 'Desempenho'
   if (pathname.startsWith('/admin/configuracoes')) return 'Configurações'
   if (pathname.startsWith('/admin/minha-conta')) return 'Minha Conta'
   if (pathname.startsWith('/admin/ajuda')) return 'Ajuda'
