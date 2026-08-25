@@ -18,13 +18,20 @@ export const STOCK_STATUS_LABEL = {
   normal: 'Normal',
 }
 
-export function classifyStock(stock) {
+export function classifyStock(stock, options = {}) {
   const n = Number(stock)
+  const lowMax = Number.isFinite(Number(options.lowMax))
+    ? Number(options.lowMax)
+    : STOCK_LEVELS.LOW_MAX
+  const criticalMax = Number.isFinite(Number(options.criticalMax))
+    ? Number(options.criticalMax)
+    : STOCK_LEVELS.CRITICAL_MAX
+
   if (!Number.isFinite(n) || n <= STOCK_LEVELS.OUT_OF_STOCK) {
     return STOCK_STATUS.OUT
   }
-  if (n <= STOCK_LEVELS.CRITICAL_MAX) return STOCK_STATUS.CRITICAL
-  if (n <= STOCK_LEVELS.LOW_MAX) return STOCK_STATUS.LOW
+  if (n <= criticalMax) return STOCK_STATUS.CRITICAL
+  if (n <= lowMax) return STOCK_STATUS.LOW
   return STOCK_STATUS.NORMAL
 }
 
