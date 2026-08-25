@@ -30,6 +30,31 @@ test.describe('SEO public routes', () => {
     expect(canonical).toMatch(/terraeestilo\.com\.br/)
   })
 
+  test('site icons are served and linked in head', async ({ page, request }) => {
+    for (const path of [
+      '/favicon.ico',
+      '/icon-48.png',
+      '/icon-192.png',
+      '/apple-touch-icon.png',
+      '/site.webmanifest',
+    ]) {
+      const res = await request.get(path)
+      expect(res.ok(), path).toBeTruthy()
+    }
+
+    await page.goto('/')
+    const iconHrefs = await page.locator('link[rel="icon"]').evaluateAll((nodes) =>
+      nodes.map((n) => n.getAttribute('href') || ''),
+    )
+    expect(iconHrefs.some((href) => /favicon\.ico|icon-48\.png|icon\.png/i.test(href))).toBeTruthy()
+
+    const apple = await page.locator('link[rel="apple-touch-icon"]').first().getAttribute('href')
+    expect(apple || '').toMatch(/apple/i)
+
+    const manifest = await page.locator('link[rel="manifest"]').getAttribute('href')
+    expect(manifest || '').toMatch(/site\.webmanifest/)
+  })
+
   test('admin login is noindex', async ({ page }) => {
     await page.goto('/admin/login')
     const robots = await page.locator('meta[name="robots"]').getAttribute('content')
