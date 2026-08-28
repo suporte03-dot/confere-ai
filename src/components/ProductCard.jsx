@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import {
   formatCurrency,
@@ -119,20 +120,24 @@ function ProductCard({
     >
       <div className="product-card__media">
         <div className="product-card__image">
-          <img
+          <Image
             src={primaryImage}
             alt={product.name}
             className="product-card__img product-card__img--primary"
             loading="lazy"
             decoding="async"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1100px) 25vw, 280px"
           />
-          <img
+          <Image
             src={hoverImage}
             alt=""
             className="product-card__img product-card__img--hover"
             loading="lazy"
             decoding="async"
             aria-hidden="true"
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1100px) 25vw, 280px"
           />
         </div>
 

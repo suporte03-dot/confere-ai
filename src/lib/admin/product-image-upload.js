@@ -1,4 +1,5 @@
 export const IMAGE_BUCKET = 'product-images'
+export const AI_IMAGE_BUCKET = 'ai-intake'
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 export const ALLOWED_IMAGE_TYPES = new Set([
   'image/jpeg',
@@ -111,9 +112,14 @@ export function isSafeAiIntakePath(userId, storagePath) {
   return isSafeObjectName(path.slice(prefix.length)) && path.length <= 240
 }
 
-export async function uploadImageToBucket(supabase, file, storagePath) {
+export async function uploadImageToBucket(
+  supabase,
+  file,
+  storagePath,
+  bucket = IMAGE_BUCKET,
+) {
   const contentType = file.type === 'image/jpg' ? 'image/jpeg' : file.type
-  const { data, error } = await supabase.storage.from(IMAGE_BUCKET).upload(storagePath, file, {
+  const { data, error } = await supabase.storage.from(bucket).upload(storagePath, file, {
     contentType,
     cacheControl: '3600',
     upsert: false,
@@ -122,7 +128,7 @@ export async function uploadImageToBucket(supabase, file, storagePath) {
   return data?.path || storagePath
 }
 
-export async function removeStorageObject(supabase, storagePath) {
+export async function removeStorageObject(supabase, storagePath, bucket = IMAGE_BUCKET) {
   if (!storagePath) return
-  await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+  await supabase.storage.from(bucket).remove([storagePath])
 }

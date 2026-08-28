@@ -84,4 +84,58 @@ test.describe('Admin modules (authenticated)', () => {
     await expect(page).toHaveURL(/\/admin\/produtos$/)
     await expect(page.getByText(productName)).toHaveCount(0)
   })
+
+  test('product image lifecycle uses Storage and cleans the audit product', async ({ page }) => {
+    test.setTimeout(90_000)
+    await loginAsAdmin(page)
+    const stamp = Date.now()
+    const productName = `[TESTE AUDIT] Imagens ${stamp}`
+    let productCreated = false
+
+    try {
+      await page.goto('/admin/produtos/novo')
+      await page.getByRole('textbox', { name: /^Nome/i }).first().fill(productName)
+      await page.getByLabel(/^Preço atual/i).fill('89,90')
+      await page.getByRole('button', { name: /Salvar produto/i }).click()
+
+      await expect(page.getByText(/Produto salvo/i)).toBeVisible({ timeout: 20_000 })
+      await expect(page).toHaveURL(/\/admin\/produtos\/(?!novo(?:\/|$))/)
+      productCreated = true
+
+      const imageInput = page.locator(
+        'input[type="file"][accept="image/jpeg,image/png,image/webp"][multiple]',
+      )
+      await imageInput.setInputFiles(['public/favicon.png', 'public/favicon.png'])
+      await expect(page.getByText('Imagem enviada.').last()).toBeVisible({ timeout: 30_000 })
+      const savedPhotos = page.locator(
+        '.admin-photo:not(.admin-photo--pending):not(.admin-photo--add)',
+      )
+      await expect(savedPhotos).toHaveCount(2)
+      await expect(
+        savedPhotos.locator(
+          'img[src*="/storage/v1/object/public/product-images/products/"][src$=".webp"]',
+        ),
+      ).toHaveCount(2)
+
+      const coverButtons = page
+        .locator('.admin-photo:not(.admin-photo--pending):not(.admin-photo--add)')
+        .getByRole('button', { name: 'Definir capa' })
+      await coverButtons.first().click()
+      await expect(page.locator('.admin-photo.is-cover')).toHaveCount(1)
+
+      page.once('dialog', (dialog) => dialog.accept())
+      await page
+        .locator('.admin-photo:not(.admin-photo--pending):not(.admin-photo--add)')
+        .getByRole('button', { name: 'Excluir' })
+        .first()
+        .click()
+      await expect(savedPhotos).toHaveCount(1)
+    } finally {
+      if (productCreated) {
+        page.once('dialog', (dialog) => dialog.accept())
+        await page.getByRole('button', { name: 'Excluir teste' }).click()
+        await expect(page).toHaveURL(/\/admin\/produtos$/)
+      }
+    }
+  })
 })

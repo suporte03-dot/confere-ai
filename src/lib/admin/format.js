@@ -36,8 +36,12 @@ export function productImagePublicUrl(storagePath) {
   if (!storagePath) return null
   if (/^https?:\/\//i.test(storagePath)) return storagePath
   try {
-    const url = getSupabaseProjectUrl()
-    return `${url}/storage/v1/object/public/product-images/${storagePath}`
+    const url = getSupabaseProjectUrl().replace(/\/+$/, '')
+    const encodedPath = String(storagePath)
+      .split('/')
+      .map((segment) => encodeURIComponent(segment))
+      .join('/')
+    return `${url}/storage/v1/object/public/product-images/${encodedPath}`
   } catch {
     return null
   }

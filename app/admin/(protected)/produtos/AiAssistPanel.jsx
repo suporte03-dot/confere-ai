@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import { createClient } from '../../../../src/lib/supabase/client'
 import {
+  AI_IMAGE_BUCKET,
   buildAiIntakePath,
   formatImageBytes,
   uploadImageToBucket,
@@ -70,7 +71,7 @@ export default function AiAssistPanel({
 
       setStatus('Enviando imagem...')
       const storagePath = buildAiIntakePath(user.id, file)
-      await uploadImageToBucket(supabase, file, storagePath)
+      await uploadImageToBucket(supabase, file, storagePath, AI_IMAGE_BUCKET)
 
       const response = await fetch('/api/admin/ai/product-suggest', {
         method: 'POST',
