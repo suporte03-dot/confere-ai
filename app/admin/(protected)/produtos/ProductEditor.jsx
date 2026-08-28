@@ -7,19 +7,14 @@ import { useRouter } from 'next/navigation'
 import { productImagePublicUrl } from '../../../../src/lib/admin/format'
 import { slugify } from '../../../../src/lib/admin/slugify'
 import {
-  buildProductImagePath,
   formatImageBytes,
-  removeStorageObject,
-  uploadImageToBucket,
   validateImageFile,
 } from '../../../../src/lib/admin/product-image-upload'
-import { createClient } from '../../../../src/lib/supabase/client'
+import { uploadProductImageFile } from '../../../../src/lib/admin/product-image-client'
 import {
-  attachProductImage,
   checkProductSlug,
   deleteProductImage,
   reorderProductImages,
-  replaceProductImage,
   saveProduct,
   setProductCoverImage,
   deleteProduct,
@@ -316,7 +311,6 @@ export default function ProductEditor({
     setError('')
     setMessage('Preparando imagem...')
 
-    const supabase = createClient()
     try {
       for (const item of prepared) {
         setUploads((prev) =>
@@ -326,10 +320,40 @@ export default function ProductEditor({
         )
         setMessage('Enviando imagem...')
 
-        let storagePath = ''
         try {
-          storagePath = buildProductImagePath(productId, item.file)
-          await uploadImageToBucket(supabase, item.file, storagePath)
+          const result = await uploadProductImageFile(productId, item.file, {
+            altText: name || item.name,
+          })
+          if (!result.ok) {
+            setUploads((prev) =>
+              prev.map((row) =>
+                row.key === item.key
+                  ? { ...row, status: result.error || 'Não foi possível enviar a imagem.', error: true }
+                  : row,
+              ),
+            )
+            setError(result.error || 'Não foi possível enviar a imagem.')
+            break
+          }
+
+          setImages((prev) => {
+            const next = [
+              ...prev.map((img) =>
+                result.image.is_cover ? { ...img, is_cover: false } : img,
+              ),
+              {
+                ...result.image,
+                publicUrl: productImagePublicUrl(result.image.storage_path),
+              },
+            ]
+            return next.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+          })
+          setUploads((prev) =>
+            prev.map((row) =>
+              row.key === item.key ? { ...row, status: 'Imagem enviada.' } : row,
+            ),
+          )
+          setMessage('Imagem enviada.')
         } catch {
           setUploads((prev) =>
             prev.map((row) =>
@@ -341,44 +365,6 @@ export default function ProductEditor({
           setError('Não foi possível enviar a imagem.')
           break
         }
-
-        const result = await attachProductImage({
-          productId,
-          storagePath,
-          altText: name || item.name,
-        })
-
-        if (!result.ok) {
-          await removeStorageObject(supabase, storagePath)
-          setUploads((prev) =>
-            prev.map((row) =>
-              row.key === item.key
-                ? { ...row, status: 'Não foi possível enviar a imagem.', error: true }
-                : row,
-            ),
-          )
-          setError(result.error || 'Não foi possível enviar a imagem.')
-          break
-        }
-
-        setImages((prev) => {
-          const next = [
-            ...prev.map((img) =>
-              result.image.is_cover ? { ...img, is_cover: false } : img,
-            ),
-            {
-              ...result.image,
-              publicUrl: productImagePublicUrl(result.image.storage_path),
-            },
-          ]
-          return next.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
-        })
-        setUploads((prev) =>
-          prev.map((row) =>
-            row.key === item.key ? { ...row, status: 'Imagem enviada.' } : row,
-          ),
-        )
-        setMessage('Imagem enviada.')
       }
       router.refresh()
     } finally {
@@ -481,15 +467,10 @@ export default function ProductEditor({
     setBusyImage(true)
     setError('')
     setMessage('Preparando imagem...')
-    const supabase = createClient()
-    let storagePath = ''
     try {
       setMessage('Enviando imagem...')
-      storagePath = buildProductImagePath(productId, file)
-      await uploadImageToBucket(supabase, file, storagePath)
-      const result = await replaceProductImage({ imageId, storagePath })
+      const result = await uploadProductImageFile(productId, file, { imageId })
       if (!result.ok) {
-        await removeStorageObject(supabase, storagePath)
         setError(result.error || 'Não foi possível enviar a imagem.')
         return
       }
@@ -509,7 +490,6 @@ export default function ProductEditor({
       setMessage('Imagem enviada.')
       router.refresh()
     } catch {
-      if (storagePath) await removeStorageObject(supabase, storagePath)
       setError('Não foi possível enviar a imagem.')
     } finally {
       setBusyImage(false)

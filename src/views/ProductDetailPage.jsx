@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ProductInfoModal from '../components/ProductInfoModal'
 import {
   formatCurrency,
@@ -136,10 +137,13 @@ function ProductDetailPage({ product = null }) {
         <div className="product-detail">
           <div className="product-detail__gallery">
             <div className="product-detail__stage">
-              <img
+              <Image
                 src={displayImage}
                 alt={`${product.name}${resolvedColor ? ` — ${resolvedColor}` : ''}`}
                 className="product-detail__img"
+                fill
+                sizes="(max-width: 900px) 100vw, 55vw"
+                priority
               />
               {product.badge && (
                 <span className="product-detail__badge">{product.badge}</span>
@@ -155,7 +159,7 @@ function ProductDetailPage({ product = null }) {
                     aria-pressed={activeImageIndex === index}
                     onClick={() => setActiveImageIndex(index)}
                   >
-                    <img src={src} alt="" />
+                    <Image src={src} alt="" width={96} height={120} sizes="96px" />
                   </button>
                 ))}
               </div>

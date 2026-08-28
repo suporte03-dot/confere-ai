@@ -31,6 +31,14 @@ test.describe('Admin auth (public routes)', () => {
     await expect(page).toHaveURL(/\/admin\/login/)
   })
 
+  test('image upload API rejects unauthenticated requests', async ({ request }) => {
+    const response = await request.post(
+      '/api/admin/products/00000000-0000-0000-0000-000000000000/images',
+      { multipart: { file: { name: 'fake.png', mimeType: 'image/png', buffer: Buffer.from('x') } } },
+    )
+    expect(response.status()).toBe(401)
+  })
+
   test('recover password page loads', async ({ page }) => {
     await page.goto('/admin/recuperar-senha')
     await expect(page.getByRole('heading', { name: 'Esqueci minha senha' })).toBeVisible()

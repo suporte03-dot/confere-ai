@@ -10,7 +10,6 @@ import {
 import { slugify } from '../../../../src/lib/admin/slugify'
 import {
   IMAGE_BUCKET,
-  isSafeProductImagePath,
 } from '../../../../src/lib/admin/product-image-upload'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
@@ -36,6 +35,19 @@ function revalidateProducts(productId) {
   revalidatePath('/acessorios')
   revalidatePath('/colecoes')
   if (productId) revalidatePath(`/produto/${productId}`)
+}
+
+async function removeStorageObjectIfUnreferenced(supabase, storagePath) {
+  if (!storagePath) return null
+  const { count, error: countError } = await supabase
+    .from('product_images')
+    .select('id', { count: 'exact', head: true })
+    .eq('storage_path', storagePath)
+  if (countError) throw countError
+  if ((count || 0) > 0) return null
+
+  const { error } = await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+  return error || null
 }
 
 function sanitizeVariants(variants) {
@@ -255,131 +267,6 @@ export async function saveProduct(input) {
   }
 }
 
-export async function attachProductImage({
-  productId,
-  storagePath,
-  altText = null,
-  isCover = false,
-} = {}) {
-  const gate = await assertAdminAccess()
-  if (!gate.ok) {
-    return fail(
-      gate.reason === 'unauthenticated'
-        ? 'Faça login para continuar.'
-        : 'Acesso negado. Seu perfil não tem permissão de administrador.',
-    )
-  }
-
-  try {
-    if (!productId) return fail('Salve o produto antes de enviar imagens.')
-    if (!isSafeProductImagePath(productId, storagePath)) {
-      return fail('Caminho de imagem inválido.')
-    }
-
-    const supabase = await createClient()
-
-    const { data: existing, error: existingError } = await supabase
-      .from('product_images')
-      .select('id, position, is_cover')
-      .eq('product_id', productId)
-      .order('position', { ascending: true })
-
-    if (existingError) {
-      return fail(friendlyError(existingError, 'Não foi possível ler as imagens.'))
-    }
-
-    const nextPosition =
-      existing?.length > 0
-        ? Math.max(...existing.map((row) => Number(row.position) || 0)) + 1
-        : 0
-    const shouldBeCover = Boolean(isCover) || !existing?.some((row) => row.is_cover)
-
-    if (shouldBeCover && existing?.length) {
-      const { error: clearError } = await supabase
-        .from('product_images')
-        .update({ is_cover: false })
-        .eq('product_id', productId)
-      if (clearError) {
-        return fail(friendlyError(clearError, 'Não foi possível definir a capa.'))
-      }
-    }
-
-    const { data: inserted, error: insertError } = await supabase
-      .from('product_images')
-      .insert({
-        product_id: productId,
-        storage_path: storagePath,
-        position: nextPosition,
-        is_cover: shouldBeCover,
-        alt_text: String(altText || '').trim() || null,
-      })
-      .select('id, storage_path, position, is_cover, alt_text')
-      .single()
-
-    if (insertError) {
-      return fail(friendlyError(insertError, 'Não foi possível salvar a imagem.'))
-    }
-
-    revalidateProducts(productId)
-    return ok({
-      image: inserted,
-      message: 'Imagem enviada.',
-    })
-  } catch (error) {
-    return fail(friendlyError(error, 'Não foi possível enviar a imagem.'))
-  }
-}
-
-export async function replaceProductImage({ imageId, storagePath } = {}) {
-  const gate = await assertAdminAccess()
-  if (!gate.ok) {
-    return fail(
-      gate.reason === 'unauthenticated'
-        ? 'Faça login para continuar.'
-        : 'Acesso negado. Seu perfil não tem permissão de administrador.',
-    )
-  }
-
-  try {
-    if (!imageId) return fail('Imagem não encontrada.')
-
-    const supabase = await createClient()
-    const { data: current, error: currentError } = await supabase
-      .from('product_images')
-      .select('id, product_id, storage_path')
-      .eq('id', imageId)
-      .maybeSingle()
-
-    if (currentError || !current) {
-      return fail('Imagem não encontrada.')
-    }
-
-    if (!isSafeProductImagePath(current.product_id, storagePath)) {
-      return fail('Caminho de imagem inválido.')
-    }
-
-    const { data: updated, error: updateError } = await supabase
-      .from('product_images')
-      .update({ storage_path: storagePath })
-      .eq('id', imageId)
-      .select('id, storage_path, position, is_cover, alt_text')
-      .single()
-
-    if (updateError) {
-      return fail(friendlyError(updateError, 'Não foi possível atualizar a imagem.'))
-    }
-
-    if (current.storage_path && current.storage_path !== storagePath) {
-      await supabase.storage.from(IMAGE_BUCKET).remove([current.storage_path])
-    }
-
-    revalidateProducts(current.product_id)
-    return ok({ image: updated, message: 'Imagem enviada.' })
-  } catch (error) {
-    return fail(friendlyError(error, 'Não foi possível substituir a imagem.'))
-  }
-}
-
 export async function setProductCoverImage(productId, imageId) {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
@@ -503,18 +390,6 @@ export async function deleteProductImage(imageId) {
 
     if (currentError || !current) return fail('Imagem não encontrada.')
 
-    if (current.storage_path) {
-      const { error: storageError } = await supabase.storage
-        .from(IMAGE_BUCKET)
-        .remove([current.storage_path])
-      if (
-        storageError &&
-        !/not found|not exist|No such file/i.test(storageError.message || '')
-      ) {
-        return fail(friendlyError(storageError, 'Não foi possível excluir a imagem.'))
-      }
-    }
-
     const { error: deleteError } = await supabase
       .from('product_images')
       .delete()
@@ -522,6 +397,16 @@ export async function deleteProductImage(imageId) {
 
     if (deleteError) {
       return fail(friendlyError(deleteError, 'Não foi possível excluir a imagem.'))
+    }
+
+    if (current.storage_path) {
+      const storageError = await removeStorageObjectIfUnreferenced(
+        supabase,
+        current.storage_path,
+      )
+      if (storageError) {
+        console.error('[product-image] failed to remove deleted object', storageError)
+      }
     }
 
     if (current.is_cover) {
@@ -583,9 +468,6 @@ export async function deleteProduct(productId) {
     }
 
     const paths = (images || []).map((row) => row.storage_path).filter(Boolean)
-    if (paths.length) {
-      await supabase.storage.from(IMAGE_BUCKET).remove(paths)
-    }
 
     const { error: deleteImagesError } = await supabase
       .from('product_images')
@@ -606,6 +488,17 @@ export async function deleteProduct(productId) {
     const { error: deleteError } = await supabase.from('products').delete().eq('id', productId)
     if (deleteError) {
       return fail(friendlyError(deleteError, 'Não foi possível excluir o produto.'))
+    }
+
+    for (const storagePath of paths) {
+      try {
+        const storageError = await removeStorageObjectIfUnreferenced(supabase, storagePath)
+        if (storageError) {
+          console.error('[product-image] failed to remove product object', storageError)
+        }
+      } catch (cleanupError) {
+        console.error('[product-image] failed to clean product object', cleanupError)
+      }
     }
 
     revalidateProducts(productId)

@@ -1,4 +1,5 @@
 import { assertAdminAccess, fetchActiveTaxonomies } from '../../../../../src/lib/admin/products'
+import { Buffer } from 'node:buffer'
 import { getOpenAiApiKey, isAiConfigured } from '../../../../../src/lib/admin/ai-config'
 import {
   buildSuggestSystemPrompt,
@@ -6,7 +7,7 @@ import {
 } from '../../../../../src/lib/admin/ai-product-suggest'
 import { createClient } from '../../../../../src/lib/supabase/server'
 import {
-  IMAGE_BUCKET,
+  AI_IMAGE_BUCKET,
   MAX_IMAGE_BYTES,
   isSafeAiIntakePath,
 } from '../../../../../src/lib/admin/product-image-upload'
@@ -59,25 +60,21 @@ export async function POST(request) {
 
   const supabase = await createClient()
   const { data: file, error: downloadError } = await supabase.storage
-    .from(IMAGE_BUCKET)
+    .from(AI_IMAGE_BUCKET)
     .download(storagePath)
 
   if (downloadError || !file) {
-    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+    await supabase.storage.from(AI_IMAGE_BUCKET).remove([storagePath])
     return json(400, { ok: false, error: 'Não foi possível ler a imagem enviada.' })
   }
   if (file.size > MAX_IMAGE_BYTES) {
-    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+    await supabase.storage.from(AI_IMAGE_BUCKET).remove([storagePath])
     return json(400, { ok: false, error: 'A imagem deve ter no máximo 5 MB.' })
   }
 
-  let categories = []
-  try {
-    const taxonomies = await fetchActiveTaxonomies()
-    categories = taxonomies.categories || []
-  } catch {
-    categories = []
-  }
+  const categories = await fetchActiveTaxonomies()
+    .then((taxonomies) => taxonomies.categories || [])
+    .catch(() => [])
 
   const apiKey = getOpenAiApiKey()
   const dataUrl = await objectToDataUrl(file)
@@ -136,6 +133,6 @@ export async function POST(request) {
       code: 'ai_failed',
     })
   } finally {
-    await supabase.storage.from(IMAGE_BUCKET).remove([storagePath])
+    await supabase.storage.from(AI_IMAGE_BUCKET).remove([storagePath])
   }
 }
