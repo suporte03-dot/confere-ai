@@ -8,7 +8,7 @@ import { signOutAdmin } from '../actions'
 import { ADMIN_COVER_SRC, ADMIN_LOGO_SRC } from '../../../src/lib/admin/account'
 import { createClient } from '../../../src/lib/supabase/client'
 import { buildStockAlertState } from '../../../src/lib/admin/stock'
-import { getStockAlertsAction } from '../(protected)/alerts/actions'
+import { getAdminAlertsAction } from '../(protected)/alerts/actions'
 import AdminUserMenu from './AdminUserMenu'
 import { AdminIcon } from './AdminIcons'
 
@@ -16,7 +16,11 @@ const StockAlertsPanel = dynamic(() => import('../(protected)/StockAlertsPanel')
   ssr: false,
 })
 
-const EMPTY = buildStockAlertState([])
+const EMPTY = {
+  ...buildStockAlertState([]),
+  notifications: [],
+  alertCount: 0,
+}
 
 const NAV = [
   { href: '/admin', label: 'Visão Geral', icon: 'overview', exact: true },
@@ -62,22 +66,15 @@ export default function AdminShell({ user, initialAlerts, children }) {
   const isHome = pathname === '/admin'
 
   const refresh = useCallback(async () => {
-    const next = await getStockAlertsAction()
+    const next = await getAdminAlertsAction()
     if (next?.ok) {
-      setState({
-        alerts: next.alerts,
-        grouped: next.grouped,
-        summary: next.summary,
-      })
+      setState(next)
     }
   }, [])
 
   useEffect(() => {
-    setState(initialAlerts || EMPTY)
-  }, [initialAlerts])
-
-  useEffect(() => {
-    setNavOpen(false)
+    const timer = window.setTimeout(() => setNavOpen(false), 0)
+    return () => window.clearTimeout(timer)
   }, [pathname])
 
   useEffect(() => {
@@ -114,6 +111,21 @@ export default function AdminShell({ user, initialAlerts, children }) {
           { event: '*', schema: 'public', table: 'product_variants' },
           () => refresh(),
         )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'orders' },
+          () => refresh(),
+        )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'order_status_history' },
+          () => refresh(),
+        )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'order_email_events' },
+          () => refresh(),
+        )
         .subscribe()
     } catch {
       // Realtime is optional; refetch on focus remains as fallback.
@@ -124,7 +136,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
     }
   }, [refresh])
 
-  const count = state.summary?.total || 0
+  const count = state.alertCount ?? state.summary?.total ?? 0
 
   return (
     <div className="admin-app">
@@ -187,7 +199,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
             type="button"
             className={`admin-alert-bell${count ? ' has-alerts' : ''}`}
             aria-label={
-              count ? `Alertas de estoque, ${count} pendentes` : 'Alertas de estoque'
+              count ? `Alertas administrativos, ${count} pendentes` : 'Alertas administrativos'
             }
             aria-expanded={alertsOpen}
             onClick={() => setAlertsOpen((v) => !v)}
@@ -226,6 +238,7 @@ export default function AdminShell({ user, initialAlerts, children }) {
 
       <StockAlertsPanel
         open={alertsOpen}
+        notifications={state.notifications}
         grouped={state.grouped}
         summary={state.summary}
         onClose={() => setAlertsOpen(false)}

@@ -2,6 +2,7 @@
 
 import { assertAdminAccess } from '../../../../src/lib/admin/products'
 import { fetchStockAlerts } from '../../../../src/lib/admin/stock-alerts'
+import { fetchAdminAlerts } from '../../../../src/lib/admin/alerts'
 import { buildStockAlertState } from '../../../../src/lib/admin/stock'
 
 const EMPTY = buildStockAlertState([])
@@ -25,5 +26,34 @@ export async function getStockAlertsAction() {
     }
   } catch {
     return { ok: false, error: 'Não foi possível carregar os alertas.', ...EMPTY }
+  }
+}
+
+export async function getAdminAlertsAction() {
+  const gate = await assertAdminAccess()
+  if (!gate.ok) {
+    return {
+      ok: false,
+      error: 'Sessão inválida.',
+      alerts: EMPTY.alerts,
+      grouped: EMPTY.grouped,
+      summary: EMPTY.summary,
+      notifications: [],
+      alertCount: 0,
+    }
+  }
+
+  try {
+    return await fetchAdminAlerts()
+  } catch {
+    return {
+      ok: false,
+      error: 'Não foi possível carregar os alertas.',
+      alerts: EMPTY.alerts,
+      grouped: EMPTY.grouped,
+      summary: EMPTY.summary,
+      notifications: [],
+      alertCount: 0,
+    }
   }
 }

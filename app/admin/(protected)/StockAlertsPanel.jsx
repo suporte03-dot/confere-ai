@@ -2,28 +2,18 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { STOCK_STATUS_LABEL, formatVariantLabel } from '../../../src/lib/admin/stock'
+import { formatDateTime } from '../../../src/lib/admin/format'
 import { AdminIcon } from '../components/AdminIcons'
 
 const SECTIONS = [
-  { key: 'out', tone: 'out', title: 'Esgotados' },
-  { key: 'critical', tone: 'critical', title: 'Críticos' },
-  { key: 'low', tone: 'low', title: 'Estoque baixo' },
+  { kind: 'order', title: 'Pedidos', className: 'admin-alerts-group--low', icon: 'orders' },
+  { kind: 'stock', title: 'Estoque', className: 'admin-alerts-group--critical', icon: 'stock' },
+  { kind: 'email', title: 'E-mails', className: 'admin-alerts-group--out', icon: 'bell' },
 ]
 
-function unitsLabel(stock) {
-  const n = Number(stock) || 0
-  return n === 1 ? '1 unidade' : `${n} unidades`
-}
-
-export default function StockAlertsPanel({
-  open,
-  grouped,
-  summary,
-  onClose,
-}) {
+export default function StockAlertsPanel({ open, notifications = [], onClose }) {
   const closeRef = useRef(null)
-  const hasAlerts = (summary?.total || 0) > 0
+  const hasAlerts = notifications.length > 0
 
   useEffect(() => {
     if (open) closeRef.current?.focus()
@@ -41,12 +31,15 @@ export default function StockAlertsPanel({
       <aside
         className={`admin-alerts-panel${open ? ' is-open' : ''}`}
         aria-hidden={!open}
-        aria-label="Alertas de estoque"
+        aria-label="Alertas administrativos"
       >
         <div className="admin-alerts-panel__head">
           <div>
             <p className="admin-alerts-panel__kicker">Gestão</p>
-            <h2>Alertas de estoque</h2>
+            <h2>Central de alertas</h2>
+            <span className="admin-alerts-panel__count">
+              {hasAlerts ? `${notifications.length} pendente${notifications.length === 1 ? '' : 's'}` : 'Tudo em dia'}
+            </span>
           </div>
           <button
             ref={closeRef}
@@ -61,38 +54,34 @@ export default function StockAlertsPanel({
 
         {!hasAlerts ? (
           <p className="admin-alerts-empty">
-            Nenhuma peça precisa de reposição no momento. Os alertas aparecem automaticamente
-            quando alguma variação atinge o estoque mínimo.
+            Nenhum pedido ou operação precisa de atenção no momento.
           </p>
         ) : (
           <div className="admin-alerts-groups">
             {SECTIONS.map((section) => {
-              const items = grouped?.[section.key] || []
+              const items = notifications.filter((item) => item.kind === section.kind)
               if (!items.length) return null
               return (
-                <section key={section.key} className={`admin-alerts-group admin-alerts-group--${section.tone}`}>
+                <section key={section.kind} className={`admin-alerts-group ${section.className}`}>
                   <h3>
-                    <span aria-hidden="true" />
+                    <span aria-hidden="true"><AdminIcon name={section.icon} /></span>
                     {section.title}
                     <em>{items.length}</em>
                   </h3>
                   <ul>
                     {items.map((item) => (
                       <li key={item.id}>
-                        <div className="admin-alerts-item__copy">
-                          <strong>{item.productName}</strong>
-                          <span>{formatVariantLabel(item) || STOCK_STATUS_LABEL[item.status]}</span>
-                          <span>{unitsLabel(item.stock)}</span>
+                        <div className={`admin-alerts-item__icon admin-alerts-item__icon--${item.tone || 'gold'}`} aria-hidden="true">
+                          <AdminIcon name={section.icon} />
                         </div>
-                        {item.productId ? (
-                          <Link
-                            href={`/admin/produtos/${item.productId}?variante=${item.id}`}
-                            className="admin-link-btn"
-                            onClick={onClose}
-                          >
-                            Ver produto
-                          </Link>
-                        ) : null}
+                        <div className="admin-alerts-item__copy">
+                          <strong>{item.title}</strong>
+                          <span>{item.detail}</span>
+                          {item.date ? <time dateTime={item.date}>{formatDateTime(item.date)}</time> : null}
+                        </div>
+                        <Link href={item.href} className="admin-link-btn" onClick={onClose}>
+                          Ver
+                        </Link>
                       </li>
                     ))}
                   </ul>

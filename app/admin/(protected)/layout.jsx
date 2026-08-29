@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { getAdminAccess } from '../../../src/lib/supabase/admin-auth'
-import { fetchStockAlerts } from '../../../src/lib/admin/stock-alerts'
+import { fetchAdminAlerts } from '../../../src/lib/admin/alerts'
 import { buildAdminUser } from '../../../src/lib/admin/account'
 import { signOutAdmin } from '../actions'
 import AdminShell from '../components/AdminShell'
@@ -34,7 +34,7 @@ export default async function AdminProtectedLayout({ children }) {
     )
   }
 
-  const alerts = await fetchStockAlerts()
+  const alerts = await fetchAdminAlerts()
   const adminUser = buildAdminUser(user, profile)
 
   return (
