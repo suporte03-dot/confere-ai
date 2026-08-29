@@ -5,6 +5,7 @@ import { createClient } from '../../../../src/lib/supabase/server'
 import { assertAdminAccess } from '../../../../src/lib/admin/products'
 import { friendlyError } from '../../../../src/lib/admin/format'
 import { PIX_KEY_TYPES } from '../../../../src/lib/pix/emv'
+import { sendTestEmail } from '../../../../src/lib/email/service'
 
 function fail(message) {
   return { ok: false, error: message }
@@ -103,5 +104,17 @@ export async function saveStoreSettingsAction(input) {
     return ok({ message: 'Configurações salvas com sucesso.' })
   } catch (error) {
     return fail(friendlyError(error, 'Não foi possível salvar as configurações.'))
+  }
+}
+
+export async function sendTestEmailAction(recipient) {
+  const gate = await assertAdminAccess()
+  if (!gate.ok) return gateFail(gate)
+
+  try {
+    const result = await sendTestEmail(recipient)
+    return result.ok ? ok(result) : fail(result.error)
+  } catch (error) {
+    return fail(friendlyError(error, 'Não foi possível enviar o e-mail de teste.'))
   }
 }

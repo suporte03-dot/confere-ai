@@ -1,5 +1,8 @@
 import { assertAdminAccess } from '../../../../src/lib/admin/products'
-import { fetchOrdersForAdmin } from '../../../../src/lib/orders/service'
+import {
+  fetchOrderDashboardStats,
+  fetchOrdersForAdmin,
+} from '../../../../src/lib/orders/service'
 import AdminDenied from '../../components/AdminDenied'
 import AdminPageHeader from '../../components/AdminPageHeader'
 import HelpButton from '../../components/help/HelpButton'
@@ -20,15 +23,29 @@ export default async function AdminOrdersPage({ searchParams }) {
   const resolved = await searchParams
   const status = resolved?.status || 'all'
   const q = resolved?.q || ''
+  const payment = resolved?.payment || 'all'
+  const period = resolved?.period || 'all'
+  const dateFrom = resolved?.from || ''
+  const dateTo = resolved?.to || ''
+  const sort = resolved?.sort || 'newest'
 
   let orders = []
+  let stats = null
   let loadError = ''
 
   try {
-    orders = await fetchOrdersForAdmin({
-      status: status === 'all' ? null : status,
-      q,
-    })
+    ;[orders, stats] = await Promise.all([
+      fetchOrdersForAdmin({
+        status: status === 'all' ? null : status,
+        q,
+        payment,
+        period,
+        dateFrom,
+        dateTo,
+        sort,
+      }),
+      fetchOrderDashboardStats(),
+    ])
   } catch {
     loadError = 'Não foi possível carregar os pedidos. Tente novamente.'
   }
@@ -44,8 +61,14 @@ export default async function AdminOrdersPage({ searchParams }) {
       {!loadError ? (
         <OrdersListClient
           orders={orders}
+          stats={stats}
           initialQ={q}
           initialStatus={status}
+          initialPayment={payment}
+          initialPeriod={period}
+          initialDateFrom={dateFrom}
+          initialDateTo={dateTo}
+          initialSort={sort}
         />
       ) : null}
     </>

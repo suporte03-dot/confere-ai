@@ -1,3 +1,5 @@
+/* global process */
+
 import { test, expect } from '@playwright/test'
 
 const hasAdminCreds = Boolean(
@@ -18,11 +20,18 @@ test.describe('Admin pedidos e configurações', () => {
   test('pedidos carrega', async ({ page }) => {
     await page.goto('/admin/pedidos')
     await expect(page.getByRole('heading', { name: /pedidos/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /aguardando pagamento/i })).toBeVisible()
+    await expect(page.getByRole('button', { name: /pagos/i })).toBeVisible()
+    await expect(page.getByLabel('Período')).toBeVisible()
+    await expect(page.getByLabel('Pagamento')).toBeVisible()
+    await expect(page.getByLabel('Ordenar')).toBeVisible()
   })
 
   test('configurações carrega formulário Pix', async ({ page }) => {
     await page.goto('/admin/configuracoes')
     await expect(page.getByRole('heading', { name: /configurações/i })).toBeVisible()
     await expect(page.getByText(/chave pix/i).first()).toBeVisible()
+    await expect(page.getByRole('heading', { name: /e-mails da loja/i })).toBeVisible()
+    await expect(page.getByText(/smtp:/i)).toBeVisible()
   })
 })

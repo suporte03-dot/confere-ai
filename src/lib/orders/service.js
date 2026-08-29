@@ -1,6 +1,7 @@
 import { createClient } from '../supabase/server'
 import { createPublicClient } from '../supabase/public'
 import { friendlyError } from '../admin/format'
+import { dispatchOrderCreatedEmails } from '../email/service'
 
 function mapRpcError(result, fallback) {
   if (!result) return fallback
@@ -19,6 +20,11 @@ export async function placeGuestOrder(payload) {
   }
   const err = mapRpcError(data, 'Não foi possível criar o pedido.')
   if (err) return { ok: false, error: err }
+  await dispatchOrderCreatedEmails({
+    orderId: data.order_id,
+    publicToken: data.public_token,
+    phone: payload.customer?.phone || '',
+  })
   return {
     ok: true,
     orderId: data.order_id,
@@ -44,7 +50,15 @@ export async function fetchOrderByPublicToken(token) {
   return { ok: true, order: data.order }
 }
 
-export async function fetchOrdersForAdmin({ status = null, q = '' } = {}) {
+export async function fetchOrdersForAdmin({
+  status = null,
+  q = '',
+  payment = 'all',
+  period = 'all',
+  dateFrom = '',
+  dateTo = '',
+  sort = 'newest',
+} = {}) {
   const supabase = await createClient()
   await supabase.rpc('release_expired_reservations')
 
@@ -66,31 +80,113 @@ export async function fetchOrdersForAdmin({ status = null, q = '' } = {}) {
       updated_at
     `,
     )
-    .order('created_at', { ascending: false })
     .limit(200)
 
   if (status && status !== 'all') {
     query = query.eq('order_status', status)
   }
+  if (payment && payment !== 'all') {
+    query = query.eq('payment_status', payment)
+  }
+  const searchTerm = String(q || '').trim()
+  if (searchTerm) {
+    const safeSearchTerm = searchTerm
+      .replace(/[^\p{L}\p{N}@+\- ]/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+    if (safeSearchTerm) {
+      query = query.or(
+        [
+          `order_number.ilike.%${safeSearchTerm}%`,
+          `customer_name.ilike.%${safeSearchTerm}%`,
+          `customer_email.ilike.%${safeSearchTerm}%`,
+          `customer_phone.ilike.%${safeSearchTerm}%`,
+        ].join(','),
+      )
+    }
+  }
+
+  const range = resolveOrderDateRange(period, dateFrom, dateTo)
+  if (range.from) query = query.gte('created_at', range.from)
+  if (range.to) query = query.lt('created_at', range.to)
+
+  if (sort === 'oldest') {
+    query = query.order('created_at', { ascending: true })
+  } else if (sort === 'highest') {
+    query = query.order('total', { ascending: false })
+  } else if (sort === 'lowest') {
+    query = query.order('total', { ascending: true })
+  } else {
+    query = query.order('created_at', { ascending: false })
+  }
 
   const { data, error } = await query
   if (error) throw error
 
-  const term = String(q || '').trim().toLowerCase()
+  const term = searchTerm.toLowerCase()
   const rows = data || []
-  if (!term) return rows
+  const filteredRows = term
+    ? rows.filter((row) => {
+        const hay = [
+          row.order_number,
+          row.customer_name,
+          row.customer_email,
+          row.customer_phone,
+        ]
+          .join(' ')
+          .toLowerCase()
+        return hay.includes(term)
+      })
+    : rows
 
-  return rows.filter((row) => {
-    const hay = [
-      row.order_number,
-      row.customer_name,
-      row.customer_email,
-      row.customer_phone,
-    ]
-      .join(' ')
-      .toLowerCase()
-    return hay.includes(term)
-  })
+  if (!filteredRows.length) return filteredRows
+
+  // Email telemetry is optional until the additive migration is applied.
+  const { data: emailEvents, error: emailError } = await supabase
+    .from('order_email_events')
+    .select('id, order_id, event_type, recipient, status, sent_at, failed_at, error_code')
+    .in('order_id', filteredRows.map((row) => row.id))
+
+  if (emailError) return filteredRows
+
+  return filteredRows.map((row) => ({
+    ...row,
+    email_events: (emailEvents || []).filter((event) => event.order_id === row.id),
+  }))
+}
+
+function startOfLocalDay(date) {
+  const result = new Date(date)
+  result.setHours(0, 0, 0, 0)
+  return result
+}
+
+function resolveOrderDateRange(period, dateFrom, dateTo) {
+  const now = new Date()
+  let from = null
+  let to = null
+
+  if (period === 'today') {
+    from = startOfLocalDay(now)
+    to = new Date(from)
+    to.setDate(to.getDate() + 1)
+  } else if (period === '7d' || period === '30d') {
+    from = startOfLocalDay(now)
+    from.setDate(from.getDate() - (period === '7d' ? 6 : 29))
+    to = now
+  } else if (period === 'month') {
+    from = new Date(now.getFullYear(), now.getMonth(), 1)
+    to = new Date(now.getFullYear(), now.getMonth() + 1, 1)
+  } else if (period === 'custom' && dateFrom) {
+    from = new Date(`${dateFrom}T00:00:00`)
+    to = dateTo ? new Date(`${dateTo}T00:00:00`) : new Date(from)
+    to.setDate(to.getDate() + 1)
+  }
+
+  return {
+    from: from && !Number.isNaN(from.getTime()) ? from.toISOString() : null,
+    to: to && !Number.isNaN(to.getTime()) ? to.toISOString() : null,
+  }
 }
 
 export async function fetchOrderDetailForAdmin(orderId) {
@@ -104,7 +200,8 @@ export async function fetchOrderDetailForAdmin(orderId) {
   if (error) throw error
   if (!order) return null
 
-  const [{ data: items }, { data: history }] = await Promise.all([
+  const [{ data: items }, { data: history }, { data: emailEvents, error: emailError }] =
+    await Promise.all([
     supabase
       .from('order_items')
       .select('*')
@@ -115,12 +212,18 @@ export async function fetchOrderDetailForAdmin(orderId) {
       .select('*')
       .eq('order_id', orderId)
       .order('created_at', { ascending: true }),
+    supabase
+      .from('order_email_events')
+      .select('id, order_id, event_type, recipient, status, sent_at, failed_at, error_code')
+      .eq('order_id', orderId)
+      .order('created_at', { ascending: true }),
   ])
 
   return {
     ...order,
     items: items || [],
     history: history || [],
+    emailEvents: emailError ? [] : emailEvents || [],
   }
 }
 
@@ -153,25 +256,35 @@ export async function fetchOrderDashboardStats() {
   const supabase = await createClient()
   await supabase.rpc('release_expired_reservations')
 
-  const { data, error } = await supabase
+  const statuses = ['pending_payment', 'paid', 'processing', 'shipped', 'delivered']
+  const countResults = await Promise.all(
+    statuses.map((status) =>
+      supabase
+        .from('orders')
+        .select('id', { count: 'exact', head: true })
+        .eq('order_status', status),
+    ),
+  )
+  const countError = countResults.find((result) => result.error)?.error
+  if (countError) throw countError
+
+  const { data: paidRows, error: paidError } = await supabase
     .from('orders')
-    .select('order_status, payment_status, total')
-    .limit(2000)
+    .select('total')
+    .eq('payment_status', 'paid')
+  if (paidError) throw paidError
 
-  if (error) throw error
-
-  const rows = data || []
-  const countBy = (pred) => rows.filter(pred).length
-  const sumPaid = rows
-    .filter((r) => r.payment_status === 'paid')
-    .reduce((sum, r) => sum + (Number(r.total) || 0), 0)
+  const countByStatus = Object.fromEntries(
+    statuses.map((status, index) => [status, countResults[index].count || 0]),
+  )
+  const sumPaid = (paidRows || []).reduce((sum, row) => sum + (Number(row.total) || 0), 0)
 
   return {
-    pendingPayment: countBy((r) => r.order_status === 'pending_payment'),
-    paid: countBy((r) => r.order_status === 'paid'),
-    processing: countBy((r) => r.order_status === 'processing'),
-    shipped: countBy((r) => r.order_status === 'shipped'),
-    delivered: countBy((r) => r.order_status === 'delivered'),
+    pendingPayment: countByStatus.pending_payment,
+    paid: countByStatus.paid,
+    processing: countByStatus.processing,
+    shipped: countByStatus.shipped,
+    delivered: countByStatus.delivered,
     confirmedSalesTotal: sumPaid,
   }
 }
