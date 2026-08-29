@@ -201,7 +201,14 @@ export default function OrderDetailClient({ order }) {
             <tbody>
               {(order.items || []).map((item) => (
                 <tr key={item.id}>
-                  <td><div className="admin-product-cell"><div className="admin-thumb" aria-hidden="true">TE</div><strong>{item.product_name}</strong></div></td>
+                  <td>
+                    <div className="admin-product-cell">
+                      <div className="admin-thumb">
+                        {item.image_url ? <img src={item.image_url} alt="" /> : 'TE'}
+                      </div>
+                      <strong>{item.product_name}</strong>
+                    </div>
+                  </td>
                   <td>{item.variant_label || '—'}</td>
                   <td>{item.quantity}</td>
                   <td>{formatBRL(item.unit_price)}</td>

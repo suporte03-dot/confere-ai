@@ -1,6 +1,6 @@
 import { createClient } from '../supabase/server'
 import { createPublicClient } from '../supabase/public'
-import { friendlyError } from '../admin/format'
+import { friendlyError, productImagePublicUrl } from '../admin/format'
 import { dispatchOrderCreatedEmails } from '../email/service'
 
 function mapRpcError(result, fallback) {
@@ -200,11 +200,14 @@ export async function fetchOrderDetailForAdmin(orderId) {
   if (error) throw error
   if (!order) return null
 
-  const [{ data: items }, { data: history }, { data: emailEvents, error: emailError }] =
-    await Promise.all([
+  const [
+    { data: itemsWithProduct, error: itemsError },
+    { data: history },
+    { data: emailEvents, error: emailError },
+  ] = await Promise.all([
     supabase
       .from('order_items')
-      .select('*')
+      .select('*, product:products(product_images(storage_path, is_cover, position))')
       .eq('order_id', orderId)
       .order('created_at', { ascending: true }),
     supabase
@@ -218,6 +221,24 @@ export async function fetchOrderDetailForAdmin(orderId) {
       .eq('order_id', orderId)
       .order('created_at', { ascending: true }),
   ])
+
+  const { data: fallbackItems } = itemsError
+    ? await supabase
+        .from('order_items')
+        .select('*')
+        .eq('order_id', orderId)
+        .order('created_at', { ascending: true })
+    : { data: null }
+  const items = (itemsWithProduct || fallbackItems || []).map((item) => {
+    const images = [...(item.product?.product_images || [])].sort(
+      (a, b) => (a.position ?? 0) - (b.position ?? 0),
+    )
+    const cover = images.find((image) => image.is_cover) || images[0]
+    return {
+      ...item,
+      image_url: cover ? productImagePublicUrl(cover.storage_path) : null,
+    }
+  })
 
   return {
     ...order,

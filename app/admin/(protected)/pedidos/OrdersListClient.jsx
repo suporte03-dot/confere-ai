@@ -207,6 +207,15 @@ export default function OrdersListClient({
   }
 
   const cards = ['pending_payment', 'paid', 'processing', 'shipped']
+  const hasActiveFilters = Boolean(
+    query.trim() ||
+      status !== 'all' ||
+      payment !== 'all' ||
+      period !== 'all' ||
+      dateFrom ||
+      dateTo ||
+      sort !== 'newest',
+  )
 
   return (
     <>
@@ -287,7 +296,7 @@ export default function OrdersListClient({
 
       {!orders.length ? (
         <div className="admin-empty admin-orders-empty">
-          <p>{initialOrders.length ? 'Nenhum pedido encontrado com esses filtros.' : 'Nenhum pedido registrado ainda.'}</p>
+          <p>{hasActiveFilters ? 'Nenhum pedido encontrado com esses filtros.' : 'Nenhum pedido registrado ainda.'}</p>
         </div>
       ) : (
         <div className="admin-table-card admin-orders-table-card">

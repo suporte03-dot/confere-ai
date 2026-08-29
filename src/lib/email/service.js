@@ -3,6 +3,7 @@ import { createClient } from '../supabase/server'
 import { createPublicClient } from '../supabase/public'
 import { fetchStoreSettings } from '../store/settings'
 import { absoluteUrl } from '../seo/site'
+import { productImagePublicUrl } from '../admin/format'
 import { getSmtpStatus, smtpConfig } from './config'
 
 const EMAIL_EVENTS = new Set([
@@ -78,6 +79,7 @@ function itemRows(items = []) {
       return `
         <tr>
           <td style="padding:12px 0;border-bottom:1px solid #e8dfd2;color:#272019;font-size:14px;">
+            ${item.image_url ? `<img src="${escapeHtml(item.image_url)}" alt="" width="42" height="52" style="float:left;margin-right:10px;object-fit:cover;">` : ''}
             <strong>${name}</strong>${variant}
           </td>
           <td style="padding:12px 0;border-bottom:1px solid #e8dfd2;color:#746d64;font-size:13px;text-align:center;">
@@ -191,7 +193,7 @@ function adminContent(order) {
 
 async function claimEvent({ orderId, eventType, recipient, force = false }) {
   const supabase = await createClient()
-  const { data, error } = await supabase.rpc('claim_order_email_event', {
+  const { data, error } = await supabase.rpc('claim_order_email_event_serialized', {
     p_order_id: orderId,
     p_event_type: eventType,
     p_recipient: recipient,
@@ -205,7 +207,7 @@ async function claimEvent({ orderId, eventType, recipient, force = false }) {
 async function completeEvent(eventId, success, code = null) {
   try {
     const supabase = await createClient()
-    await supabase.rpc('complete_order_email_event', {
+    await supabase.rpc('complete_order_email_event_serialized', {
       p_event_id: eventId,
       p_status: success ? 'sent' : 'failed',
       p_error_code: code,
@@ -318,14 +320,30 @@ async function fetchAdminOrder(orderId) {
   const supabase = await createClient()
   const [{ data: order, error: orderError }, { data: items, error: itemsError }] = await Promise.all([
     supabase.from('orders').select('*').eq('id', orderId).maybeSingle(),
-    supabase.from('order_items').select('*').eq('order_id', orderId).order('created_at', { ascending: true }),
+    supabase
+      .from('order_items')
+      .select('*, product:products(product_images(storage_path, is_cover, position))')
+      .eq('order_id', orderId)
+      .order('created_at', { ascending: true }),
   ])
   if (orderError || itemsError || !order) return null
-  return { ...order, items: items || [] }
+  return {
+    ...order,
+    items: (items || []).map((item) => {
+      const images = [...(item.product?.product_images || [])].sort(
+        (a, b) => (a.position ?? 0) - (b.position ?? 0),
+      )
+      const cover = images.find((image) => image.is_cover) || images[0]
+      return {
+        ...item,
+        image_url: cover ? productImagePublicUrl(cover.storage_path) : null,
+      }
+    }),
+  }
 }
 
 export async function dispatchOrderEmailEvent({ orderId, eventType, force = false }) {
-  if (!EMAIL_EVENTS.has(eventType) || eventType === 'order_created') {
+  if (!EMAIL_EVENTS.has(eventType)) {
     return { ok: false, error: 'Evento de e-mail inválido.' }
   }
   try {
