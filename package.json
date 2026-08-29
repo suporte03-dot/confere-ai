@@ -13,7 +13,7 @@
     "generate:categorias": "node scripts/ensure-categoria-images.mjs --force",
     "prebuild": "node scripts/ensure-categoria-images.mjs",
     "lint": "eslint .",
-    "test:unit": "node --test src/lib/admin/*.test.mjs src/lib/pix/*.test.mjs src/lib/orders/*.test.mjs src/lib/supabase/*.test.mjs",
+    "test:unit": "node --test src/lib/admin/*.test.mjs src/lib/email/*.test.mjs src/lib/pix/*.test.mjs src/lib/orders/*.test.mjs src/lib/supabase/*.test.mjs",
     "test:e2e": "playwright test",
     "test:e2e:admin": "playwright test e2e/admin",
     "test:e2e:store": "playwright test e2e/store"
@@ -22,6 +22,7 @@
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
     "next": "^16.3.1",
+    "nodemailer": "^9.0.6",
     "qrcode": "^1.5.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",

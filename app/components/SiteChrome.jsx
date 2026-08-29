@@ -23,7 +23,7 @@ export default function SiteChrome({ children }) {
   const onSearchToggle = useCallback(() => setSearchOpen((v) => !v), [])
   const onNavClose = useCallback(() => setMenuOpen(false), [])
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin') || pathname === '/checkout') {
     return children
   }
 

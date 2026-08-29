@@ -3,13 +3,14 @@
 import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { PIX_KEY_TYPES } from '../../../../src/lib/pix/emv'
-import { saveStoreSettingsAction } from './actions'
+import { saveStoreSettingsAction, sendTestEmailAction } from './actions'
 
-export default function StoreSettingsForm({ settings }) {
+export default function StoreSettingsForm({ settings, smtpStatus }) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [testEmail, setTestEmail] = useState(settings?.commercial_email || '')
   const [form, setForm] = useState({
     pix_key_type: settings?.pix_key_type || 'random',
     pix_key: settings?.pix_key || '',
@@ -48,6 +49,20 @@ export default function StoreSettingsForm({ settings }) {
       }
       setMessage(result.message || 'Configurações salvas.')
       router.refresh()
+    })
+  }
+
+  function onTestEmail(event) {
+    event.preventDefault()
+    setError('')
+    setMessage('')
+    startTransition(async () => {
+      const result = await sendTestEmailAction(testEmail)
+      if (!result.ok) {
+        setError(result.error)
+        return
+      }
+      setMessage(result.message || 'E-mail de teste enviado com sucesso.')
     })
   }
 
@@ -164,6 +179,56 @@ export default function StoreSettingsForm({ settings }) {
               onChange={(e) => setField('commercial_email', e.target.value)}
               disabled={pending}
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="admin-section admin-email-settings">
+        <div className="admin-section__head">
+          <div>
+            <h2>E-mails da loja</h2>
+            <p className="admin-muted">
+              O envio transacional usa SMTP configurado no ambiente do Preview/Production.
+            </p>
+          </div>
+          <span className={`admin-email-status ${smtpStatus?.configured ? 'is-ok' : 'is-off'}`}>
+            <i aria-hidden="true" />
+            SMTP: {smtpStatus?.configured ? 'Configurado' : 'Não configurado'}
+          </span>
+        </div>
+        <dl className="admin-email-meta">
+          <div>
+            <dt>E-mail comercial</dt>
+            <dd>{form.commercial_email || 'Não informado'}</dd>
+          </div>
+          <div>
+            <dt>Nome do remetente</dt>
+            <dd>{smtpStatus?.fromName || 'Terra & Estilo'}</dd>
+          </div>
+          <div>
+            <dt>Remetente SMTP</dt>
+            <dd>{smtpStatus?.fromEmail || '—'}</dd>
+          </div>
+        </dl>
+        {!smtpStatus?.configured ? (
+          <p className="admin-field-hint">
+            Preencha no ambiente: {smtpStatus?.missing?.join(', ') || 'variáveis SMTP'}.
+          </p>
+        ) : null}
+        <div className="admin-email-test">
+          <label htmlFor="test-email">Enviar e-mail de teste para</label>
+          <div>
+            <input
+              id="test-email"
+              type="email"
+              value={testEmail}
+              onChange={(e) => setTestEmail(e.target.value)}
+              placeholder="seu@email.com"
+              disabled={pending}
+            />
+            <button type="button" className="admin-btn admin-btn--ghost" onClick={onTestEmail} disabled={pending}>
+              {pending ? 'Enviando…' : 'Enviar e-mail de teste'}
+            </button>
           </div>
         </div>
       </section>
