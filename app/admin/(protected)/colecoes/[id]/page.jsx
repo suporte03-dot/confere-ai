@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
-import { fetchCollectionById } from '../../../../../src/lib/admin/taxonomies'
+import {
+  fetchCollectionById,
+  fetchCollectionsForAdmin,
+} from '../../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
 import HelpButton from '../../../components/help/HelpButton'
@@ -22,10 +25,14 @@ export default async function AdminCollectionDetailPage({ params }) {
   const id = resolvedParams?.id
 
   let collection = null
+  let existingCollections = []
   let loadError = ''
 
   try {
-    collection = await fetchCollectionById(id)
+    ;[collection, existingCollections] = await Promise.all([
+      fetchCollectionById(id),
+      fetchCollectionsForAdmin(),
+    ])
   } catch {
     loadError = 'Não foi possível carregar a coleção.'
   }
@@ -61,6 +68,7 @@ export default async function AdminCollectionDetailPage({ params }) {
           key={`${collection.id}-${collection.updatedAt}`}
           mode="edit"
           collection={collection}
+          existingCollections={existingCollections}
         />
       ) : null}
     </>

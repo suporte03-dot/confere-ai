@@ -1,13 +1,19 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { slugify } from '../../../../src/lib/admin/slugify'
-import { checkCollectionSlug, saveCollection, deleteCollection } from './actions'
+import { findCollectionByNormalizedName } from '../../../../src/lib/admin/collection-name'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
+import { checkCollectionSlug, saveCollection, deleteCollection } from './actions'
+import CollectionNameCombobox from './CollectionNameCombobox'
 
-export default function CollectionEditor({ mode = 'create', collection = null }) {
+export default function CollectionEditor({
+  mode = 'create',
+  collection = null,
+  existingCollections = [],
+}) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
 
@@ -24,6 +30,14 @@ export default function CollectionEditor({ mode = 'create', collection = null })
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [slugHint, setSlugHint] = useState('')
+
+  const nameDuplicate = useMemo(
+    () =>
+      findCollectionByNormalizedName(existingCollections, name, {
+        excludeId: collectionId,
+      }),
+    [existingCollections, name, collectionId],
+  )
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -63,6 +77,15 @@ export default function CollectionEditor({ mode = 'create', collection = null })
     if (!slugTouched) setSlug(slugify(value))
   }
 
+  function onSelectExisting(option) {
+    setName(option.name)
+    if (!slugTouched) setSlug(option.slug || slugify(option.name))
+  }
+
+  function onSelectCreate(label) {
+    onNameChange(label)
+  }
+
   function onSlugChange(value) {
     setSlugTouched(true)
     setSlug(slugify(value))
@@ -72,6 +95,11 @@ export default function CollectionEditor({ mode = 'create', collection = null })
     event.preventDefault()
     setError('')
     setMessage('')
+
+    if (nameDuplicate) {
+      setError('Esta coleção já existe.')
+      return
+    }
 
     if (slugHint.includes('já está em uso')) {
       setError('Este slug já está em uso. Escolha outro.')
@@ -144,13 +172,28 @@ export default function CollectionEditor({ mode = 'create', collection = null })
         <div className="admin-grid-2">
           <div className="admin-field">
             <label htmlFor="collection-name">Nome</label>
-            <input
+            <CollectionNameCombobox
               id="collection-name"
               value={name}
-              onChange={(e) => onNameChange(e.target.value)}
+              existingCollections={existingCollections}
+              excludeId={collectionId}
               required
-              autoComplete="off"
+              disabled={pending}
+              onChange={onNameChange}
+              onSelectExisting={onSelectExisting}
+              onSelectCreate={onSelectCreate}
             />
+            {nameDuplicate ? (
+              <span className="admin-field-hint is-error" role="status">
+                Esta coleção já existe.{' '}
+                <Link
+                  href={`/admin/colecoes/${nameDuplicate.id}`}
+                  className="admin-inline-link"
+                >
+                  Editar coleção existente
+                </Link>
+              </span>
+            ) : null}
           </div>
           <div className="admin-field">
             <label htmlFor="collection-slug">Slug</label>
@@ -219,7 +262,7 @@ export default function CollectionEditor({ mode = 'create', collection = null })
       </div>
 
       <div className="admin-actions">
-        <button type="submit" className="admin-btn" disabled={pending}>
+        <button type="submit" className="admin-btn" disabled={pending || Boolean(nameDuplicate)}>
           {pending ? 'Salvando…' : 'Salvar coleção'}
         </button>
         <Link href="/admin/colecoes" className="admin-btn admin-btn--ghost">
