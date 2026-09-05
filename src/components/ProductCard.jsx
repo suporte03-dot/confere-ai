@@ -221,7 +221,7 @@ function ProductCard({
           <p className="product-card__price">{formatCurrency(product.price)}</p>
         </div>
         <p className="product-card__installments">
-          ou {getInstallment(product.price, product.installments || 10)}
+          ou {getInstallment(product.price, product.installments || 6)}
         </p>
         <button
           type="button"
