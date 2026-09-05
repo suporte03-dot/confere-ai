@@ -8,7 +8,7 @@ import CategoryEditor from '../CategoryEditor'
 
 export const dynamic = 'force-dynamic'
 
-export default async function AdminNewCategoryPage() {
+export default async function AdminNewCategoryPage({ searchParams }) {
   const gate = await assertAdminAccess()
   if (!gate.ok) {
     return (
@@ -18,6 +18,9 @@ export default async function AdminNewCategoryPage() {
     )
   }
 
+  const resolvedSearch = await searchParams
+  const requestedParentId = String(resolvedSearch?.parentId || '').trim()
+
   let parentOptions = []
   try {
     parentOptions = await fetchRootCategoriesForAdmin()
@@ -25,10 +28,19 @@ export default async function AdminNewCategoryPage() {
     parentOptions = []
   }
 
+  const parentMatch = parentOptions.find((item) => item.id === requestedParentId)
+  const initialParentId = parentMatch?.id || ''
+  const parentName = parentMatch?.name || ''
+
   return (
     <>
       <AdminPageHeader
-        title="Nova categoria"
+        title={initialParentId ? 'Nova subcategoria' : 'Nova categoria'}
+        description={
+          initialParentId
+            ? `Vinculada a ${parentName}`
+            : undefined
+        }
         actions={
           <>
             <HelpButton topic="categorias" showFirstVisit={false} />
@@ -38,7 +50,12 @@ export default async function AdminNewCategoryPage() {
           </>
         }
       />
-      <CategoryEditor mode="create" parentOptions={parentOptions} />
+      <CategoryEditor
+        mode="create"
+        parentOptions={parentOptions}
+        initialParentId={initialParentId}
+        lockParent={Boolean(initialParentId)}
+      />
     </>
   )
 }
