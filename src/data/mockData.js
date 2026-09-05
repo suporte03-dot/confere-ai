@@ -1081,7 +1081,7 @@ function enrichProduct(product) {
     subKey,
     new: Boolean(isNew),
     featured: Boolean(featured),
-    installments: product.installments ?? 6,
+    installments: product.installments ?? 5,
     ...(sizes ? { sizes } : {}),
   }
 }
@@ -1255,7 +1255,7 @@ export function formatCurrency(value) {
   })
 }
 
-export function getInstallment(price, installments = 6) {
+export function getInstallment(price, installments = 5) {
   const installmentValue = price / installments
   return `${installments}x de ${formatCurrency(installmentValue)} sem juros`
 }
