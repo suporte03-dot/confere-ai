@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { moveCategory, toggleCategoryActive, deleteCategory } from './actions'
-import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
+import { AdminIcon } from '../../components/AdminIcons'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 import { buildCategoryTree } from '../../../../src/lib/admin/category-tree'
 
@@ -17,6 +17,10 @@ function siblingBounds(siblings, id) {
   }
 }
 
+function subCountLabel(count) {
+  return `${count} subcategoria${count === 1 ? '' : 's'}`
+}
+
 function StatusBadge({ active }) {
   return (
     <span className={`admin-badge ${active ? 'admin-badge--ok' : 'admin-badge--off'}`}>
@@ -27,7 +31,7 @@ function StatusBadge({ active }) {
 
 function OrderControls({ pending, bounds, onUp, onDown, sortOrder }) {
   return (
-    <div className="admin-order-controls">
+    <div className="admin-order-controls admin-order-controls--compact">
       <button
         type="button"
         disabled={pending || bounds.isFirst}
@@ -49,12 +53,99 @@ function OrderControls({ pending, bounds, onUp, onDown, sortOrder }) {
   )
 }
 
+function CategoryMoreMenu({
+  open,
+  onOpenChange,
+  editHref,
+  active,
+  pending,
+  canDelete,
+  onToggleActive,
+  onDelete,
+  editLabel = 'Editar categoria',
+}) {
+  const wrapRef = useRef(null)
+  const menuId = useId()
+
+  useEffect(() => {
+    if (!open) return undefined
+    function onPointer(event) {
+      if (!wrapRef.current?.contains(event.target)) onOpenChange(false)
+    }
+    function onKey(event) {
+      if (event.key === 'Escape') onOpenChange(false)
+    }
+    document.addEventListener('pointerdown', onPointer)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointer)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open, onOpenChange])
+
+  return (
+    <div className="admin-cat-menu" ref={wrapRef}>
+      <button
+        type="button"
+        className="admin-cat-menu__trigger"
+        aria-label="Mais ações"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+        disabled={pending}
+        onClick={() => onOpenChange(!open)}
+      >
+        <span aria-hidden="true">⋯</span>
+      </button>
+      {open ? (
+        <div className="admin-cat-menu__panel" role="menu" id={menuId}>
+          <Link
+            href={editHref}
+            role="menuitem"
+            className="admin-cat-menu__item"
+            onClick={() => onOpenChange(false)}
+          >
+            {editLabel}
+          </Link>
+          <button
+            type="button"
+            role="menuitem"
+            className="admin-cat-menu__item"
+            disabled={pending}
+            onClick={() => {
+              onOpenChange(false)
+              onToggleActive()
+            }}
+          >
+            {active ? 'Desativar' : 'Ativar'}
+          </button>
+          {canDelete ? (
+            <button
+              type="button"
+              role="menuitem"
+              className="admin-cat-menu__item admin-cat-menu__item--danger"
+              disabled={pending}
+              onClick={() => {
+                onOpenChange(false)
+                onDelete()
+              }}
+            >
+              Excluir
+            </button>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
 export default function CategoriesListClient({ categories: initialCategories }) {
   const router = useRouter()
   const [optimistic, setOptimistic] = useState({})
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [pendingId, setPendingId] = useState(null)
+  const [menuKey, setMenuKey] = useState(null)
   const [expanded, setExpanded] = useState(() => {
     const initial = {}
     for (const item of initialCategories || []) {
@@ -147,47 +238,6 @@ export default function CategoriesListClient({ categories: initialCategories }) 
     router.refresh()
   }
 
-  function CategoryActions({ category, showAddSubcategory = false }) {
-    return (
-      <div className="admin-row-actions">
-        <AdminIconAction
-          href={`/admin/categorias/${category.id}`}
-          icon="pencil"
-          label="Editar"
-        />
-        {showAddSubcategory ? (
-          <AdminIconAction
-            href={`/admin/categorias/novo?parentId=${encodeURIComponent(category.id)}`}
-            icon="plus"
-            label="Adicionar subcategoria"
-          />
-        ) : null}
-        <AdminIconAction
-          icon="power"
-          label={
-            pendingId === category.id
-              ? '…'
-              : category.active
-                ? 'Desativar'
-                : 'Ativar'
-          }
-          danger={category.active}
-          disabled={pendingId === category.id}
-          onClick={() => onToggleActive(category)}
-        />
-        {isAuditTestRecord(category) ? (
-          <AdminIconAction
-            icon="trash"
-            label="Excluir teste"
-            danger
-            disabled={pendingId === category.id}
-            onClick={() => onDelete(category)}
-          />
-        ) : null}
-      </div>
-    )
-  }
-
   if (!categories.length) {
     return (
       <div className="admin-empty">
@@ -208,15 +258,6 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       <section className="admin-mini-stats" aria-label="Resumo de categorias">
         <article>
           <span className="admin-mini-stats__icon" aria-hidden="true">
-            <AdminIcon name="tag" />
-          </span>
-          <div>
-            <strong>{activeCount}</strong>
-            <em>categorias ativas</em>
-          </div>
-        </article>
-        <article>
-          <span className="admin-mini-stats__icon" aria-hidden="true">
             <AdminIcon name="stock" />
           </span>
           <div>
@@ -233,271 +274,149 @@ export default function CategoriesListClient({ categories: initialCategories }) 
             <em>subcategorias</em>
           </div>
         </article>
+        <article>
+          <span className="admin-mini-stats__icon" aria-hidden="true">
+            <AdminIcon name="tag" />
+          </span>
+          <div>
+            <strong>{activeCount}</strong>
+            <em>total ativas</em>
+          </div>
+        </article>
       </section>
 
-      <div className="admin-table-card admin-category-tree">
-        <div className="admin-table-wrap">
-          <table className="admin-table admin-table--compact">
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Slug</th>
-                <th>Status</th>
-                <th>Ordem</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tree.map((root) => {
-                const childRows = root.children || []
-                const isOpen = Boolean(expanded[root.id])
-                const rootBounds = siblingBounds(tree, root.id)
-
-                return (
-                  <CategoryGroup
-                    key={root.id}
-                    root={root}
-                    childRows={childRows}
-                    isOpen={isOpen}
-                    rootBounds={rootBounds}
-                    pendingId={pendingId}
-                    onToggleExpand={() => toggleExpanded(root.id)}
-                    onMove={onMove}
-                    CategoryActions={CategoryActions}
-                  />
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-        <footer className="admin-table-foot">
-          <p>
-            <AdminIcon name="info" />
-            Expanda uma categoria principal para ver e gerenciar as subcategorias.
-            Use as setas para reordenar no mesmo nível.
-          </p>
-        </footer>
-      </div>
-
-      <ul className="admin-card-list admin-category-tree-cards" aria-label="Lista de categorias">
+      <div className="admin-category-catalog" role="list">
         {tree.map((root) => {
           const childRows = root.children || []
           const isOpen = Boolean(expanded[root.id])
           const rootBounds = siblingBounds(tree, root.id)
+          const addHref = `/admin/categorias/novo?parentId=${encodeURIComponent(root.id)}`
+          const pending = pendingId === root.id
+
           return (
-            <li key={root.id} className="admin-card-item admin-card-item--text">
-              <div className="admin-card-item__body">
+            <article
+              key={root.id}
+              className={`admin-category-panel${isOpen ? ' is-open' : ''}`}
+              role="listitem"
+            >
+              <header className="admin-category-panel__head">
                 <button
                   type="button"
-                  className="admin-category-tree__toggle admin-category-tree__toggle--block"
+                  className="admin-category-panel__toggle"
                   aria-expanded={isOpen}
+                  aria-label={
+                    isOpen
+                      ? `Recolher ${root.name}`
+                      : `Expandir ${root.name}`
+                  }
                   onClick={() => toggleExpanded(root.id)}
                 >
-                  <AdminIcon name={isOpen ? 'up' : 'down'} />
-                  <span>
-                    <strong>{root.name}</strong>
-                    <em className="admin-muted">
-                      {childRows.length
-                        ? `${childRows.length} subcategoria${childRows.length === 1 ? '' : 's'}`
-                        : 'sem subcategorias'}
-                    </em>
-                  </span>
+                  <span aria-hidden="true">{isOpen ? '▼' : '▶'}</span>
                 </button>
-                <p className="admin-muted">{root.slug}</p>
-                <p>
-                  Ordem {root.sortOrder} · {root.active ? 'Ativa' : 'Inativa'}
-                </p>
-                <CategoryActions category={root} showAddSubcategory />
-                <div className="admin-row-actions">
-                  <button
-                    type="button"
-                    className="admin-link-btn"
-                    disabled={pendingId === root.id || rootBounds.isFirst}
-                    onClick={() => onMove(root, 'up')}
-                  >
-                    ↑
-                  </button>
-                  <button
-                    type="button"
-                    className="admin-link-btn"
-                    disabled={pendingId === root.id || rootBounds.isLast}
-                    onClick={() => onMove(root, 'down')}
-                  >
-                    ↓
-                  </button>
+
+                <div className="admin-category-panel__title">
+                  <strong>{root.name}</strong>
+                  <span className="admin-category-panel__count">
+                    {subCountLabel(childRows.length)}
+                  </span>
                 </div>
 
-                {isOpen ? (
-                  <ul className="admin-category-tree__mobile-children">
-                    {childRows.length === 0 ? (
-                      <li className="admin-muted">
-                        Nenhuma subcategoria ainda.{' '}
-                        <Link
-                          href={`/admin/categorias/novo?parentId=${encodeURIComponent(root.id)}`}
-                        >
-                          Adicionar
-                        </Link>
-                      </li>
-                    ) : (
-                      childRows.map((child) => {
+                <StatusBadge active={root.active} />
+
+                <OrderControls
+                  pending={pending}
+                  bounds={rootBounds}
+                  sortOrder={root.sortOrder}
+                  onUp={() => onMove(root, 'up')}
+                  onDown={() => onMove(root, 'down')}
+                />
+
+                <div className="admin-category-panel__actions">
+                  <Link href={addHref} className="admin-category-panel__add">
+                    <AdminIcon name="plus" />
+                    Subcategoria
+                  </Link>
+                  <CategoryMoreMenu
+                    open={menuKey === `root-${root.id}`}
+                    onOpenChange={(next) =>
+                      setMenuKey(next ? `root-${root.id}` : null)
+                    }
+                    editHref={`/admin/categorias/${root.id}`}
+                    active={root.active}
+                    pending={pending}
+                    canDelete={isAuditTestRecord(root)}
+                    onToggleActive={() => onToggleActive(root)}
+                    onDelete={() => onDelete(root)}
+                  />
+                </div>
+              </header>
+
+              {isOpen ? (
+                <div className="admin-category-panel__body">
+                  {childRows.length === 0 ? (
+                    <div className="admin-category-panel__empty">
+                      <p>Nenhuma subcategoria cadastrada.</p>
+                      <Link href={addHref} className="admin-category-panel__empty-link">
+                        + Adicionar primeira subcategoria
+                      </Link>
+                    </div>
+                  ) : (
+                    <ul className="admin-category-panel__children">
+                      {childRows.map((child, index) => {
                         const bounds = siblingBounds(childRows, child.id)
+                        const isLast = index === childRows.length - 1
                         return (
-                          <li key={child.id}>
-                            <strong>{child.name}</strong>
-                            <p className="admin-muted">{child.slug}</p>
-                            <p>
-                              Ordem {child.sortOrder} ·{' '}
-                              {child.active ? 'Ativa' : 'Inativa'}
-                            </p>
-                            <CategoryActions category={child} />
-                            <div className="admin-row-actions">
-                              <button
-                                type="button"
-                                className="admin-link-btn"
-                                disabled={pendingId === child.id || bounds.isFirst}
-                                onClick={() => onMove(child, 'up')}
-                              >
-                                ↑
-                              </button>
-                              <button
-                                type="button"
-                                className="admin-link-btn"
-                                disabled={pendingId === child.id || bounds.isLast}
-                                onClick={() => onMove(child, 'down')}
-                              >
-                                ↓
-                              </button>
+                          <li key={child.id} className="admin-category-panel__child">
+                            <span
+                              className="admin-category-panel__branch"
+                              aria-hidden="true"
+                            >
+                              {isLast ? '└' : '├'}
+                            </span>
+                            <div className="admin-category-panel__child-main">
+                              <strong>{child.name}</strong>
+                              <span className="admin-muted">{child.slug}</span>
                             </div>
+                            <StatusBadge active={child.active} />
+                            <OrderControls
+                              pending={pendingId === child.id}
+                              bounds={bounds}
+                              sortOrder={child.sortOrder}
+                              onUp={() => onMove(child, 'up')}
+                              onDown={() => onMove(child, 'down')}
+                            />
+                            <CategoryMoreMenu
+                              open={menuKey === `child-${child.id}`}
+                              onOpenChange={(next) =>
+                                setMenuKey(next ? `child-${child.id}` : null)
+                              }
+                              editHref={`/admin/categorias/${child.id}`}
+                              editLabel="Editar subcategoria"
+                              active={child.active}
+                              pending={pendingId === child.id}
+                              canDelete={isAuditTestRecord(child)}
+                              onToggleActive={() => onToggleActive(child)}
+                              onDelete={() => onDelete(child)}
+                            />
                           </li>
                         )
-                      })
-                    )}
-                  </ul>
-                ) : null}
-              </div>
-            </li>
+                      })}
+                    </ul>
+                  )}
+
+                  {childRows.length > 0 ? (
+                    <div className="admin-category-panel__footer">
+                      <Link href={addHref} className="admin-category-panel__empty-link">
+                        + Adicionar subcategoria
+                      </Link>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </article>
           )
         })}
-      </ul>
-    </>
-  )
-}
-
-function CategoryGroup({
-  root,
-  childRows,
-  isOpen,
-  rootBounds,
-  pendingId,
-  onToggleExpand,
-  onMove,
-  CategoryActions,
-}) {
-  return (
-    <>
-      <tr className="admin-category-tree__root">
-        <td>
-          <div className="admin-product-cell admin-category-tree__name">
-            <button
-              type="button"
-              className="admin-category-tree__toggle"
-              aria-expanded={isOpen}
-              aria-label={
-                isOpen
-                  ? `Recolher subcategorias de ${root.name}`
-                  : `Expandir subcategorias de ${root.name}`
-              }
-              onClick={onToggleExpand}
-            >
-              <AdminIcon name={isOpen ? 'up' : 'down'} />
-            </button>
-            <div className="admin-thumb">
-              <AdminIcon name="categories" />
-            </div>
-            <div>
-              <strong>{root.name}</strong>
-              <p className="admin-category-tree__meta admin-muted">
-                {childRows.length
-                  ? `${childRows.length} subcategoria${childRows.length === 1 ? '' : 's'}`
-                  : 'Sem subcategorias'}
-              </p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <span className="admin-muted">{root.slug}</span>
-        </td>
-        <td>
-          <StatusBadge active={root.active} />
-        </td>
-        <td>
-          <OrderControls
-            pending={pendingId === root.id}
-            bounds={rootBounds}
-            sortOrder={root.sortOrder}
-            onUp={() => onMove(root, 'up')}
-            onDown={() => onMove(root, 'down')}
-          />
-        </td>
-        <td>
-          <CategoryActions category={root} showAddSubcategory />
-        </td>
-      </tr>
-
-      {isOpen ? (
-        childRows.length === 0 ? (
-          <tr className="admin-category-tree__empty">
-            <td colSpan={5}>
-              <div className="admin-category-tree__empty-row">
-                <span className="admin-muted">
-                  Nenhuma subcategoria em {root.name} ainda.
-                </span>
-                <Link
-                  href={`/admin/categorias/novo?parentId=${encodeURIComponent(root.id)}`}
-                  className="admin-link-btn"
-                >
-                  <AdminIcon name="plus" />
-                  Adicionar subcategoria
-                </Link>
-              </div>
-            </td>
-          </tr>
-        ) : (
-          childRows.map((child) => {
-            const bounds = siblingBounds(childRows, child.id)
-            return (
-              <tr key={child.id} className="admin-category-tree__child">
-                <td>
-                  <div className="admin-product-cell admin-category-tree__child-name">
-                    <span className="admin-category-tree__branch" aria-hidden="true">
-                      └
-                    </span>
-                    <strong>{child.name}</strong>
-                  </div>
-                </td>
-                <td>
-                  <span className="admin-muted">{child.slug}</span>
-                </td>
-                <td>
-                  <StatusBadge active={child.active} />
-                </td>
-                <td>
-                  <OrderControls
-                    pending={pendingId === child.id}
-                    bounds={bounds}
-                    sortOrder={child.sortOrder}
-                    onUp={() => onMove(child, 'up')}
-                    onDown={() => onMove(child, 'down')}
-                  />
-                </td>
-                <td>
-                  <CategoryActions category={child} />
-                </td>
-              </tr>
-            )
-          })
-        )
-      ) : null}
+      </div>
     </>
   )
 }
