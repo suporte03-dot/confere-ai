@@ -11,6 +11,8 @@ export default function CategoryEditor({
   mode = 'create',
   category = null,
   parentOptions = [],
+  initialParentId = '',
+  lockParent = false,
 }) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
@@ -20,7 +22,9 @@ export default function CategoryEditor({
   const [slugTouched, setSlugTouched] = useState(Boolean(category?.slug))
   const [description, setDescription] = useState(category?.description || '')
   const [active, setActive] = useState(category?.active ?? true)
-  const [parentId, setParentId] = useState(category?.parentId || '')
+  const [parentId, setParentId] = useState(
+    category?.parentId || initialParentId || '',
+  )
   const [sortOrder, setSortOrder] = useState(
     category?.sortOrder != null ? String(category.sortOrder) : '0',
   )
@@ -183,6 +187,7 @@ export default function CategoryEditor({
             id="category-parent"
             value={parentId}
             onChange={(e) => setParentId(e.target.value)}
+            disabled={lockParent && Boolean(initialParentId)}
           >
             <option value="">Nenhuma — categoria principal</option>
             {parentOptions.map((item) => (
@@ -192,8 +197,9 @@ export default function CategoryEditor({
             ))}
           </select>
           <span className="admin-field-hint">
-            Deixe vazio para grupo principal (ex.: Masculino). Escolha um pai para
-            criar subcategoria (ex.: Camisetas).
+            {parentId
+              ? 'Esta será uma subcategoria vinculada à categoria principal selecionada.'
+              : 'Deixe vazio para grupo principal (ex.: Masculino). Escolha um pai para criar subcategoria (ex.: Camisetas).'}
           </span>
         </div>
 
