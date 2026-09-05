@@ -151,7 +151,7 @@ export function adaptProduct(row, { detail = false } = {}) {
     categoryName: category?.name || '',
     categorySlug,
     collectionSlug,
-    installments: 10,
+    installments: 6,
     createdAt: row.created_at || null,
     sortOrder: Number(row.sort_order) || 0,
   }
