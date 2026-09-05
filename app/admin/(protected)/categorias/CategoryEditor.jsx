@@ -7,7 +7,11 @@ import { slugify } from '../../../../src/lib/admin/slugify'
 import { checkCategorySlug, saveCategory, deleteCategory } from './actions'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
-export default function CategoryEditor({ mode = 'create', category = null }) {
+export default function CategoryEditor({
+  mode = 'create',
+  category = null,
+  parentOptions = [],
+}) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
 
@@ -16,6 +20,7 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
   const [slugTouched, setSlugTouched] = useState(Boolean(category?.slug))
   const [description, setDescription] = useState(category?.description || '')
   const [active, setActive] = useState(category?.active ?? true)
+  const [parentId, setParentId] = useState(category?.parentId || '')
   const [sortOrder, setSortOrder] = useState(
     category?.sortOrder != null ? String(category.sortOrder) : '0',
   )
@@ -85,6 +90,7 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
         description,
         active,
         sortOrder,
+        parentId: parentId || null,
       })
 
       if (!result.ok) {
@@ -169,6 +175,26 @@ export default function CategoryEditor({ mode = 'create', category = null }) {
               </span>
             ) : null}
           </div>
+        </div>
+
+        <div className="admin-field">
+          <label htmlFor="category-parent">Categoria pai (opcional)</label>
+          <select
+            id="category-parent"
+            value={parentId}
+            onChange={(e) => setParentId(e.target.value)}
+          >
+            <option value="">Nenhuma — categoria principal</option>
+            {parentOptions.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+          <span className="admin-field-hint">
+            Deixe vazio para grupo principal (ex.: Masculino). Escolha um pai para
+            criar subcategoria (ex.: Camisetas).
+          </span>
         </div>
 
         <div className="admin-field">

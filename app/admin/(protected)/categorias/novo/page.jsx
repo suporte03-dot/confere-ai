@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
+import { fetchRootCategoriesForAdmin } from '../../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
 import HelpButton from '../../../components/help/HelpButton'
@@ -17,6 +18,13 @@ export default async function AdminNewCategoryPage() {
     )
   }
 
+  let parentOptions = []
+  try {
+    parentOptions = await fetchRootCategoriesForAdmin()
+  } catch {
+    parentOptions = []
+  }
+
   return (
     <>
       <AdminPageHeader
@@ -30,7 +38,7 @@ export default async function AdminNewCategoryPage() {
           </>
         }
       />
-      <CategoryEditor mode="create" />
+      <CategoryEditor mode="create" parentOptions={parentOptions} />
     </>
   )
 }

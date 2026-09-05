@@ -203,6 +203,9 @@ export default function CollectionEditor({ mode = 'create', collection = null })
               />
               Coleção ativa
             </label>
+            <span className="admin-field-hint">
+              Somente coleções ativas aparecem no cadastro de produtos.
+            </span>
             <label className="admin-check">
               <input
                 type="checkbox"

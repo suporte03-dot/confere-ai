@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { assertAdminAccess } from '../../../../../src/lib/admin/products'
-import { fetchCategoryById } from '../../../../../src/lib/admin/taxonomies'
+import {
+  fetchCategoryById,
+  fetchRootCategoriesForAdmin,
+} from '../../../../../src/lib/admin/taxonomies'
 import AdminDenied from '../../../components/AdminDenied'
 import AdminPageHeader from '../../../components/AdminPageHeader'
 import HelpButton from '../../../components/help/HelpButton'
@@ -22,10 +25,14 @@ export default async function AdminCategoryDetailPage({ params }) {
   const id = resolvedParams?.id
 
   let category = null
+  let parentOptions = []
   let loadError = ''
 
   try {
-    category = await fetchCategoryById(id)
+    ;[category, parentOptions] = await Promise.all([
+      fetchCategoryById(id),
+      fetchRootCategoriesForAdmin(id),
+    ])
   } catch {
     loadError = 'Não foi possível carregar a categoria.'
   }
@@ -61,6 +68,7 @@ export default async function AdminCategoryDetailPage({ params }) {
           key={`${category.id}-${category.updatedAt}`}
           mode="edit"
           category={category}
+          parentOptions={parentOptions}
         />
       ) : null}
     </>

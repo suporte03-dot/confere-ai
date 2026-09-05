@@ -126,24 +126,55 @@ export async function fetchActiveTaxonomies() {
   const [categoriesRes, collectionsRes] = await Promise.all([
     supabase
       .from('categories')
-      .select('id, name, slug')
+      .select('id, name, slug, parent_id, sort_order')
       .eq('active', true)
       .order('sort_order', { ascending: true })
       .order('name', { ascending: true }),
     supabase
       .from('collections')
-      .select('id, name, slug')
+      .select('id, name, slug, sort_order')
       .eq('active', true)
       .order('sort_order', { ascending: true })
       .order('name', { ascending: true }),
   ])
 
-  if (categoriesRes.error) throw categoriesRes.error
+  let categoriesData = categoriesRes.data
+  let categoriesError = categoriesRes.error
+  if (
+    categoriesError &&
+    /parent_id/i.test(String(categoriesError.message || categoriesError.details || ''))
+  ) {
+    const fallback = await supabase
+      .from('categories')
+      .select('id, name, slug, sort_order')
+      .eq('active', true)
+      .order('sort_order', { ascending: true })
+      .order('name', { ascending: true })
+    categoriesData = fallback.data
+    categoriesError = fallback.error
+  }
+
+  if (categoriesError) throw categoriesError
   if (collectionsRes.error) throw collectionsRes.error
 
+  const categories = (categoriesData || []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    parentId: row.parent_id || null,
+    sortOrder: Number(row.sort_order) || 0,
+  }))
+
+  const collections = (collectionsRes.data || []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    slug: row.slug,
+    sortOrder: Number(row.sort_order) || 0,
+  }))
+
   return {
-    categories: categoriesRes.data || [],
-    collections: collectionsRes.data || [],
+    categories,
+    collections,
   }
 }
 
