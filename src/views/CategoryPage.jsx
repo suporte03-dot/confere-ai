@@ -8,14 +8,17 @@ import SectionDivider from '../components/home/SectionDivider'
 import Newsletter from '../components/home/Newsletter'
 import {
   categoryMeta,
-  getProductsByCategory,
   getFacetOptions,
   filterAndSortProducts,
   SORT_OPTIONS,
   PRICE_RANGES,
 } from '../data/catalog'
 import { getColorHex } from '../data/mockData'
-import { groupProductsBySubcategory, getSubgroupLabel } from '../data/searchMap'
+import {
+  getProductsForCategoryScope,
+  getDbSubGroupsForCategory,
+  findCategoryNavNode,
+} from '../lib/catalog/category-nav'
 import { useShop } from '../context/ShopContext'
 
 const INITIAL_FILTERS = {
@@ -34,19 +37,43 @@ function CategoryPage({ category, products: productsProp }) {
 }
 
 function CategoryPageContent({ category, productsProp }) {
-  const meta = categoryMeta[category]
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
-  const subFromUrl = searchParams.get('sub') || ''
-  const { products: catalogProducts } = useShop()
+  const { products: catalogProducts, categories } = useShop()
 
   const sourceProducts = productsProp ?? catalogProducts ?? []
-  const baseProducts = useMemo(
-    () => getProductsByCategory(category, sourceProducts),
-    [category, sourceProducts],
+  const navNode = useMemo(
+    () => findCategoryNavNode(categories, category),
+    [categories, category],
   )
-  const facets = useMemo(() => getFacetOptions(baseProducts, category), [baseProducts, category])
+  const dbSubGroups = useMemo(
+    () => getDbSubGroupsForCategory(category, categories),
+    [category, categories],
+  )
+  const meta = useMemo(() => {
+    const staticMeta = categoryMeta[category]
+    if (staticMeta) return staticMeta
+    if (!navNode) return null
+    return {
+      slug: navNode.slug,
+      title: navNode.name,
+      eyebrow: 'Categoria',
+      headline: navNode.name,
+      description: '',
+      bannerImage: categoryMeta.feminino?.bannerImage,
+      objectPosition: 'center 28%',
+    }
+  }, [category, navNode])
+
+  const baseProducts = useMemo(
+    () => getProductsForCategoryScope(category, sourceProducts, categories, ''),
+    [category, sourceProducts, categories],
+  )
+  const facets = useMemo(() => {
+    const base = getFacetOptions(baseProducts, category)
+    if (dbSubGroups.length) {
+      return { ...base, subGroups: dbSubGroups }
+    }
+    return base
+  }, [baseProducts, category, dbSubGroups])
 
   const [filters, setFilters] = useState({
     ...INITIAL_FILTERS,
@@ -72,15 +99,28 @@ function CategoryPageContent({ category, productsProp }) {
     }
   }, [filtersOpen])
 
-  const visible = useMemo(
-    () => filterAndSortProducts(baseProducts, filters, sortId),
-    [baseProducts, filters, sortId],
+  const scopedProducts = useMemo(
+    () =>
+      getProductsForCategoryScope(
+        category,
+        sourceProducts,
+        categories,
+        filters.subKey || '',
+      ),
+    [category, sourceProducts, categories, filters.subKey],
   )
 
-  const sections = useMemo(() => {
-    if (filters.subKey) return null
-    return groupProductsBySubcategory(visible, category)
-  }, [visible, filters.subKey, category])
+  const visible = useMemo(
+    () =>
+      filterAndSortProducts(
+        scopedProducts,
+        { ...filters, subKey: '', subcategory: '' },
+        sortId,
+      ),
+    [scopedProducts, filters, sortId],
+  )
+
+  const sections = null
 
   const activeFilterCount = [
     filters.subKey,
@@ -125,7 +165,7 @@ function CategoryPageContent({ category, productsProp }) {
   }
 
   const activeSubLabel = filters.subKey
-    ? getSubgroupLabel(category, filters.subKey)
+    ? dbSubGroups.find((g) => g.id === filters.subKey)?.label || filters.subKey
     : null
 
   return (

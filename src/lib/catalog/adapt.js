@@ -172,6 +172,7 @@ export function adaptCategory(row) {
     description: row.description || meta?.description || '',
     active: Boolean(row.active),
     sortOrder: Number(row.sort_order) || 0,
+    parentId: row.parent_id || row.parentId || null,
     title: meta?.title || row.name,
     eyebrow: meta?.eyebrow || 'Categoria',
     headline: meta?.headline || row.name,

@@ -24,6 +24,13 @@ function revalidateCategories(categoryId) {
   revalidatePath('/admin/produtos', 'layout')
   revalidatePath('/admin')
   revalidatePath('/admin/produtos/novo')
+  // Storefront menu + category pages (layout force-dynamic, but keep explicit)
+  revalidatePath('/', 'layout')
+  revalidatePath('/feminino')
+  revalidatePath('/masculino')
+  revalidatePath('/acessorios')
+  revalidatePath('/calcados')
+  revalidatePath('/categoria', 'layout')
   if (categoryId) revalidatePath(`/admin/categorias/${categoryId}`)
 }
 

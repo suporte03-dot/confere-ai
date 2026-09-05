@@ -4,11 +4,18 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import AppNavLink from '../AppNavLink'
-import { collectionsMegaMenu as collectionsMegaMenuFallback, footerHome, mainNavigation } from '../../data/homeData'
+import { collectionsMegaMenu as collectionsMegaMenuFallback, footerHome } from '../../data/homeData'
 import { brandCollections } from '../../data/catalog'
+import { buildPublicCategoryNav } from '../../lib/catalog/category-nav'
 import { useShop } from '../../context/ShopContext'
 
 const { instagramHref, facebookHref } = footerHome.atendimento
+
+const STATIC_TAIL_NAV = [
+  { label: 'Coleções', to: '/colecoes', hasDropdown: true, hasChevron: true },
+  { label: 'Sobre', to: '/sobre' },
+  { label: 'Contato', to: '/contato' },
+]
 
 function buildCollectionsMegaMenu(collections) {
   if (!Array.isArray(collections) || collections.length === 0) {
@@ -77,16 +84,42 @@ function FacebookIcon({ size = 18 }) {
   )
 }
 
+function ChevronIcon() {
+  return (
+    <svg
+      className="main-nav__chevron"
+      width="10"
+      height="10"
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+    >
+      <path
+        d="M2.5 4.5 6 8l3.5-3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 function MainNavigation({ open, onClose, onOpenCart }) {
   const pathname = usePathname() || ''
   const [hash, setHash] = useState('')
   const { cartCount, collections, categories } = useShop()
-  const [collectionsOpen, setCollectionsOpen] = useState(false)
+  const [openMenuKey, setOpenMenuKey] = useState(null)
   const dropdownId = useId()
-  const wrapRef = useRef(null)
+  const wrapRefs = useRef({})
   const closeTimerRef = useRef(null)
   const locationKey = `${pathname}${hash}`
   const [trackedLocation, setTrackedLocation] = useState(locationKey)
+
+  const categoryNav = useMemo(
+    () => buildPublicCategoryNav(categories),
+    [categories],
+  )
 
   const collectionsMegaMenu = useMemo(
     () => buildCollectionsMegaMenu(collections),
@@ -110,20 +143,24 @@ function MainNavigation({ open, onClose, onOpenCart }) {
   }, [collections])
 
   const navItems = useMemo(() => {
-    const activeSlugs = new Set(
-      (categories || [])
-        .map((c) => String(c.slug || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
-        .filter(Boolean),
-    )
-    if (activeSlugs.size === 0) return mainNavigation
-    return mainNavigation.filter((item) => {
-      if (!item.to || item.to === '/colecoes' || item.to === '/sobre' || item.to === '/contato') {
-        return true
-      }
-      const slug = String(item.to).replace(/^\//, '').toLowerCase()
-      return activeSlugs.has(slug)
-    })
-  }, [categories])
+    const fromCategories = categoryNav.map((item) => ({
+      key: `cat-${item.id}`,
+      label: item.name,
+      to: item.href,
+      hasDropdown: item.children.length > 0,
+      children: item.children,
+      kind: 'category',
+    }))
+
+    const tail = STATIC_TAIL_NAV.map((item) => ({
+      ...item,
+      key: `static-${item.to}`,
+      kind: item.hasDropdown ? 'collections' : 'link',
+      children: [],
+    }))
+
+    return [...fromCategories, ...tail]
+  }, [categoryNav])
 
   useEffect(() => {
     const syncHash = () => setHash(window.location.hash || '')
@@ -134,7 +171,7 @@ function MainNavigation({ open, onClose, onOpenCart }) {
 
   if (trackedLocation !== locationKey) {
     setTrackedLocation(locationKey)
-    setCollectionsOpen(false)
+    setOpenMenuKey(null)
   }
 
   const clearCloseTimer = () => {
@@ -144,52 +181,52 @@ function MainNavigation({ open, onClose, onOpenCart }) {
     }
   }
 
-  const openCollections = () => {
+  const openMenu = (key) => {
     clearCloseTimer()
-    setCollectionsOpen(true)
+    setOpenMenuKey(key)
   }
 
-  const scheduleCloseCollections = () => {
+  const scheduleCloseMenu = () => {
     if (!isDesktopNav()) return
     clearCloseTimer()
     closeTimerRef.current = window.setTimeout(() => {
-      setCollectionsOpen(false)
+      setOpenMenuKey(null)
     }, 160)
   }
 
-  const handleDesktopEnter = () => {
-    if (isDesktopNav()) openCollections()
+  const handleDesktopEnter = (key) => {
+    if (isDesktopNav()) openMenu(key)
   }
 
-  const toggleCollections = (event) => {
+  const toggleMenu = (event, key) => {
     event.preventDefault()
     event.stopPropagation()
-    setCollectionsOpen((v) => !v)
+    setOpenMenuKey((current) => (current === key ? null : key))
   }
 
-  // Close mega menu only when the mobile drawer transitions closed
-  // (not while desktop menuOpen stays false — that prevented the panel from opening).
   const prevOpenRef = useRef(open)
   useEffect(() => {
     if (prevOpenRef.current && !open) {
-      setCollectionsOpen(false)
+      setOpenMenuKey(null)
     }
     prevOpenRef.current = open
   }, [open])
 
   useEffect(() => {
-    if (!collectionsOpen) return undefined
+    if (!openMenuKey) return undefined
 
     const onPointerDown = (event) => {
-      if (!wrapRef.current?.contains(event.target)) {
-        setCollectionsOpen(false)
+      const wrap = wrapRefs.current[openMenuKey]
+      if (!wrap?.contains(event.target)) {
+        setOpenMenuKey(null)
       }
     }
 
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
-        setCollectionsOpen(false)
-        const trigger = wrapRef.current?.querySelector('[aria-haspopup="true"]')
+        setOpenMenuKey(null)
+        const wrap = wrapRefs.current[openMenuKey]
+        const trigger = wrap?.querySelector('[aria-haspopup="true"]')
         trigger?.focus()
       }
     }
@@ -200,45 +237,90 @@ function MainNavigation({ open, onClose, onOpenCart }) {
       document.removeEventListener('pointerdown', onPointerDown)
       document.removeEventListener('keydown', onKeyDown)
     }
-  }, [collectionsOpen])
+  }, [openMenuKey])
 
   useEffect(() => () => clearCloseTimer(), [])
 
   const handleNavClick = () => {
-    setCollectionsOpen(false)
+    setOpenMenuKey(null)
     onClose?.()
   }
 
-  const renderMegaPanel = () => (
+  const renderCategoryPanel = (item, isOpen) => (
     <div
-      id={dropdownId}
-      className={`main-nav__mega${collectionsOpen ? ' is-open' : ''}`}
+      id={`${dropdownId}-${item.key}`}
+      className={`main-nav__mega main-nav__mega--category${isOpen ? ' is-open' : ''}`}
+      role="region"
+      aria-label={item.label}
+      hidden={!isOpen}
+      onMouseEnter={() => handleDesktopEnter(item.key)}
+      onMouseLeave={scheduleCloseMenu}
+    >
+      <div className="main-nav__mega-grid main-nav__mega-grid--simple">
+        <div className="main-nav__mega-links">
+          <p className="main-nav__mega-label">{item.label}</p>
+          <ul>
+            <li>
+              <AppNavLink
+                href={item.to}
+                end
+                className={({ isActive }) =>
+                  `main-nav__mega-link main-nav__mega-link--all${isActive ? ' is-active' : ''}`
+                }
+                onClick={handleNavClick}
+              >
+                Ver tudo
+              </AppNavLink>
+            </li>
+            {item.children.map((child) => (
+              <li key={child.id}>
+                <AppNavLink
+                  href={child.href}
+                  className={({ isActive }) =>
+                    `main-nav__mega-link${isActive ? ' is-active' : ''}`
+                  }
+                  onClick={handleNavClick}
+                >
+                  {child.name}
+                </AppNavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderCollectionsPanel = (isOpen) => (
+    <div
+      id={`${dropdownId}-collections`}
+      className={`main-nav__mega${isOpen ? ' is-open' : ''}`}
       role="region"
       aria-label="Coleções"
-      hidden={!collectionsOpen}
-      onMouseEnter={handleDesktopEnter}
-      onMouseLeave={scheduleCloseCollections}
+      hidden={!isOpen}
+      onMouseEnter={() => handleDesktopEnter('collections')}
+      onMouseLeave={scheduleCloseMenu}
     >
       <div className="main-nav__mega-grid">
         <div className="main-nav__mega-links">
           <p className="main-nav__mega-label">Coleções</p>
           <ul>
-            {collectionsMegaMenu.map((item) => (
-              <li key={item.label}>
+            {collectionsMegaMenu.map((entry) => (
+              <li key={entry.label}>
                 <AppNavLink
-                  href={item.to}
-                  end={Boolean(item.isAll) || item.to === '/colecoes'}
+                  href={entry.to}
+                  end={Boolean(entry.isAll) || entry.to === '/colecoes'}
                   className={({ isActive }) => {
-                    const hashIndex = item.to.indexOf('#')
+                    const hashIndex = entry.to.indexOf('#')
                     const hashActive = hashIndex !== -1
                       && pathname === '/'
-                      && hash === item.to.slice(hashIndex)
+                      && hash === entry.to.slice(hashIndex)
                     const active = hashActive || (isActive && hashIndex === -1)
-                    return `main-nav__mega-link${item.isAll ? ' main-nav__mega-link--all' : ''}${active ? ' is-active' : ''}`
+                    return `main-nav__mega-link${entry.isAll ? ' main-nav__mega-link--all' : ''}${active ? ' is-active' : ''}`
                   }}
                   onClick={handleNavClick}
                 >
-                  {item.label}
+                  {entry.label}
                 </AppNavLink>
               </li>
             ))}
@@ -289,11 +371,13 @@ function MainNavigation({ open, onClose, onOpenCart }) {
       <div className="main-nav__inner">
         {navItems.map((item, index) => {
           const showOrnamentBefore = item.label === 'Sobre'
-          const prevIsCollections = navItems[index - 1]?.hasDropdown
+          const prevIsDropdown = Boolean(navItems[index - 1]?.hasDropdown)
           const mid = Math.ceil(navItems.length / 2)
           const insertCenterSlot = index === mid
+          const menuKey = item.kind === 'collections' ? 'collections' : item.key
+          const isOpen = openMenuKey === menuKey
 
-          const ornament = showOrnamentBefore && prevIsCollections
+          const ornament = showOrnamentBefore && prevIsDropdown
             ? <LeafOrnament key="nav-ornament" />
             : null
 
@@ -302,64 +386,65 @@ function MainNavigation({ open, onClose, onOpenCart }) {
             : null
 
           if (item.hasDropdown) {
-            const isCollectionsActive = pathname.startsWith('/colecoes')
+            const isRouteActive =
+              item.kind === 'collections'
+                ? pathname.startsWith('/colecoes')
+                : pathname === item.to || pathname.startsWith(`${item.to}/`)
+
             return (
-              <div key={item.label} className="main-nav__cluster">
+              <div key={item.key} className="main-nav__cluster">
                 {centerSlot}
                 <div
-                  className={`main-nav__item main-nav__item--dropdown${collectionsOpen ? ' is-open' : ''}`}
-                  ref={wrapRef}
-                  onMouseEnter={handleDesktopEnter}
-                  onMouseLeave={scheduleCloseCollections}
+                  className={`main-nav__item main-nav__item--dropdown${isOpen ? ' is-open' : ''}`}
+                  ref={(node) => {
+                    if (node) wrapRefs.current[menuKey] = node
+                  }}
+                  onMouseEnter={() => handleDesktopEnter(menuKey)}
+                  onMouseLeave={scheduleCloseMenu}
                 >
                   <div className="main-nav__link-wrap">
                     <AppNavLink
                       href={item.to}
                       end
                       className={() =>
-                        `main-nav__link main-nav__link--chevron${isCollectionsActive || collectionsOpen ? ' is-active' : ''}`
+                        `main-nav__link main-nav__link--chevron${isRouteActive || isOpen ? ' is-active' : ''}`
                       }
-                      aria-current={isCollectionsActive ? 'page' : undefined}
+                      aria-current={isRouteActive ? 'page' : undefined}
                       onClick={handleNavClick}
                     >
                       <span>{item.label}</span>
                     </AppNavLink>
                     <button
                       type="button"
-                      className={`main-nav__chevron-btn${collectionsOpen ? ' is-open' : ''}`}
-                      aria-expanded={collectionsOpen}
-                      aria-controls={dropdownId}
+                      className={`main-nav__chevron-btn${isOpen ? ' is-open' : ''}`}
+                      aria-expanded={isOpen}
+                      aria-controls={
+                        item.kind === 'collections'
+                          ? `${dropdownId}-collections`
+                          : `${dropdownId}-${item.key}`
+                      }
                       aria-haspopup="true"
-                      aria-label={collectionsOpen ? 'Fechar menu de coleções' : 'Abrir menu de coleções'}
-                      onClick={toggleCollections}
+                      aria-label={
+                        isOpen
+                          ? `Fechar menu de ${item.label}`
+                          : `Abrir menu de ${item.label}`
+                      }
+                      onClick={(event) => toggleMenu(event, menuKey)}
                     >
-                      <svg
-                        className="main-nav__chevron"
-                        width="10"
-                        height="10"
-                        viewBox="0 0 12 12"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2.5 4.5 6 8l3.5-3.5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.4"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <ChevronIcon />
                     </button>
                   </div>
 
-                  {renderMegaPanel()}
+                  {item.kind === 'collections'
+                    ? renderCollectionsPanel(isOpen)
+                    : renderCategoryPanel(item, isOpen)}
                 </div>
               </div>
             )
           }
 
           return (
-            <div key={item.label} className="main-nav__cluster">
+            <div key={item.key} className="main-nav__cluster">
               {centerSlot}
               {ornament}
               <AppNavLink

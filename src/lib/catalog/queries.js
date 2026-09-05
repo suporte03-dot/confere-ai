@@ -85,6 +85,65 @@ async function fetchActiveProductRows(supabase, applyFilters = (q) => q) {
 }
 
 
+export async function listActiveCategories() {
+  const supabase = getClientSafe()
+  if (!supabase) return []
+
+  let { data, error } = await supabase
+    .from('categories')
+    .select('id, name, slug, description, active, sort_order, parent_id')
+    .eq('active', true)
+    .order('sort_order', { ascending: true })
+    .order('name', { ascending: true })
+
+  if (error && /parent_id/i.test(String(error.message || ''))) {
+    const fallback = await supabase
+      .from('categories')
+      .select('id, name, slug, description, active, sort_order')
+      .eq('active', true)
+      .order('sort_order', { ascending: true })
+      .order('name', { ascending: true })
+    data = fallback.data
+    error = fallback.error
+  }
+
+  if (error) {
+    console.error('[catalog] listActiveCategories:', error.message)
+    return []
+  }
+
+  return (data || []).map(adaptCategory)
+}
+
+function enrichProductWithCategoryTree(product, categoriesById) {
+  if (!product?.categoryId || !categoriesById?.size) return product
+  const cat = categoriesById.get(product.categoryId)
+  if (!cat) return product
+
+  if (cat.parentId) {
+    const parent = categoriesById.get(cat.parentId)
+    return {
+      ...product,
+      categoryParentId: cat.parentId,
+      category: parent?.slug || product.category,
+      categorySlug: cat.slug,
+      categoryName: cat.name,
+      department: parent?.name || cat.name,
+      subcategory: cat.name,
+      subKey: cat.slug,
+    }
+  }
+
+  return {
+    ...product,
+    categoryParentId: null,
+    category: cat.slug || product.category,
+    categorySlug: cat.slug,
+    categoryName: cat.name,
+    department: cat.name || product.department,
+  }
+}
+
 /**
  * Active products for the public storefront.
  * Cover image resolved in adapter (is_cover, else first by position).
@@ -93,27 +152,15 @@ export async function listActiveProducts() {
   const supabase = getClientSafe()
   if (!supabase) return []
 
-  const rows = await fetchActiveProductRows(supabase)
-  return filterVisibleProducts(rows).map((row) => adaptProduct(row))
-}
+  const [rows, categories] = await Promise.all([
+    fetchActiveProductRows(supabase),
+    listActiveCategories(),
+  ])
+  const categoriesById = new Map(categories.map((c) => [c.id, c]))
 
-export async function listActiveCategories() {
-  const supabase = getClientSafe()
-  if (!supabase) return []
-
-  const { data, error } = await supabase
-    .from('categories')
-    .select('id, name, slug, description, active, sort_order')
-    .eq('active', true)
-    .order('sort_order', { ascending: true })
-    .order('name', { ascending: true })
-
-  if (error) {
-    console.error('[catalog] listActiveCategories:', error.message)
-    return []
-  }
-
-  return (data || []).map(adaptCategory)
+  return filterVisibleProducts(rows)
+    .map((row) => adaptProduct(row))
+    .map((product) => enrichProductWithCategoryTree(product, categoriesById))
 }
 
 export async function listActiveCollections() {
@@ -244,7 +291,7 @@ export async function getCategoryBySlug(slug) {
 
 /**
  * Active products for a category route slug (e.g. feminino, acessorios).
- * Queries by category_id — avoids loading the full catalog twice.
+ * Includes products linked to the principal category and its subcategories.
  */
 export async function listProductsByCategorySlug(slug) {
   if (!slug) return listActiveProducts()
@@ -252,13 +299,28 @@ export async function listProductsByCategorySlug(slug) {
   const supabase = getClientSafe()
   if (!supabase) return []
 
-  const category = await getCategoryBySlug(slug)
-  if (!category?.id) return []
+  const categories = await listActiveCategories()
+  const key = normalizeCatalogSlug(slug)
+  const root = categories.find(
+    (c) =>
+      !c.parentId &&
+      (normalizeCatalogSlug(c.slug) === key ||
+        normalizeCatalogSlug(c.rawSlug) === key),
+  )
+  if (!root?.id) return []
+
+  const childIds = categories
+    .filter((c) => c.parentId === root.id)
+    .map((c) => c.id)
+  const scopeIds = [root.id, ...childIds]
 
   const rows = await fetchActiveProductRows(supabase, (q) =>
-    q.eq('category_id', category.id),
+    q.in('category_id', scopeIds),
   )
-  return filterVisibleProducts(rows).map((row) => adaptProduct(row))
+  const categoriesById = new Map(categories.map((c) => [c.id, c]))
+  return filterVisibleProducts(rows)
+    .map((row) => adaptProduct(row))
+    .map((product) => enrichProductWithCategoryTree(product, categoriesById))
 }
 
 export function productParamIsUuid(param) {

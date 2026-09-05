@@ -157,7 +157,7 @@ export function buildCategoryMetadata(categoryKey) {
       'Bonés, cintos e detalhes que fecham o look com a assinatura Terra & Estilo.',
   }
 
-  const path = paths[categoryKey] || `/${categoryKey}`
+  const path = paths[categoryKey] || `/categoria/${categoryKey}`
   const title = titles[categoryKey] || categoryKey
 
   return buildPageMetadata({

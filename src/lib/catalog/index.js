@@ -19,3 +19,11 @@ export {
   adaptCollection,
   normalizeCatalogSlug,
 } from './adapt'
+
+export {
+  buildPublicCategoryNav,
+  publicCategoryHref,
+  getProductsForCategoryScope,
+  getDbSubGroupsForCategory,
+  findCategoryNavNode,
+} from './category-nav'
