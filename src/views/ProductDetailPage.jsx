@@ -187,7 +187,7 @@ function ProductDetailPage({ product = null }) {
               <p className="product-detail__price">{formatCurrency(product.price)}</p>
             </div>
             <p className="product-detail__installments">
-              ou {getInstallment(product.price, product.installments || 6)}
+              ou {getInstallment(product.price, product.installments || 5)}
             </p>
 
             {colors.length > 0 && (
