@@ -37,6 +37,10 @@ function CategoryPage({ category, products: productsProp }) {
 }
 
 function CategoryPageContent({ category, productsProp }) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+  const subFromUrl = searchParams.get('sub') || ''
   const { products: catalogProducts, categories } = useShop()
 
   const sourceProducts = productsProp ?? catalogProducts ?? []
