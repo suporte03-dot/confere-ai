@@ -8,6 +8,7 @@ import {
   fetchCollectionsForAdmin,
   isCollectionSlugAvailable,
 } from '../../../../src/lib/admin/taxonomies'
+import { findCollectionByNormalizedName } from '../../../../src/lib/admin/collection-name'
 import { slugify } from '../../../../src/lib/admin/slugify'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
 
@@ -132,6 +133,14 @@ export async function saveCollection(input) {
     const payload = buildCollectionPayload(input || {})
     const validationError = validateCollectionPayload(payload)
     if (validationError) return fail(validationError)
+
+    const collections = await fetchCollectionsForAdmin()
+    const nameConflict = findCollectionByNormalizedName(collections, payload.name, {
+      excludeId: input.id || null,
+    })
+    if (nameConflict) {
+      return fail('Esta coleção já existe.')
+    }
 
     const available = await isCollectionSlugAvailable(payload.slug, input.id || null)
     if (!available) {
