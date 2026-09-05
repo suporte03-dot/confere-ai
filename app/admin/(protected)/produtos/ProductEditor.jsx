@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useTransition } from 'react'
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,10 @@ import {
   validateImageFile,
 } from '../../../../src/lib/admin/product-image-upload'
 import { uploadProductImageFile } from '../../../../src/lib/admin/product-image-client'
+import {
+  buildCategorySelectGroups,
+  collectSelectableCategoryIds,
+} from '../../../../src/lib/admin/category-tree'
 import {
   checkProductSlug,
   deleteProductImage,
@@ -58,6 +62,24 @@ export default function ProductEditor({
   const router = useRouter()
   const fileInputRef = useRef(null)
   const replaceInputRef = useRef(null)
+
+  const categorySelectGroups = useMemo(() => {
+    const groups = buildCategorySelectGroups(categories)
+    const selectable = collectSelectableCategoryIds(groups)
+    const currentId = product?.category_id || product?.category?.id || ''
+    const currentName = product?.category?.name
+    if (currentId && !selectable.has(currentId) && currentName) {
+      return [
+        {
+          id: '__atual__',
+          label: 'Categoria atual',
+          options: [{ id: currentId, name: currentName, label: currentName }],
+        },
+        ...groups,
+      ]
+    }
+    return groups
+  }, [categories, product])
   const replaceTargetRef = useRef(null)
   const [pending, startTransition] = useTransition()
 
@@ -611,11 +633,23 @@ export default function ProductEditor({
               disabled={isView || pending}
             >
               <option value="">Selecione…</option>
-              {categories.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
+              {categorySelectGroups.map((group) =>
+                group.id === '__raiz__' ? (
+                  group.options.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.label || item.name}
+                    </option>
+                  ))
+                ) : (
+                  <optgroup key={group.id} label={group.label}>
+                    {group.options.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.label || item.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ),
+              )}
             </select>
           </div>
           <div className="admin-field">
@@ -633,6 +667,9 @@ export default function ProductEditor({
                 </option>
               ))}
             </select>
+            <span className="admin-field-hint">
+              Lista dinâmica das coleções ativas cadastradas no administrativo.
+            </span>
           </div>
         </div>
       </section>

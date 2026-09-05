@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { moveCategory, toggleCategoryActive, deleteCategory } from './actions'
 import { AdminIcon, AdminIconAction } from '../../components/AdminIcons'
 import { isAuditTestRecord } from '../../../../src/lib/admin/test-records'
+import { flattenCategoryTree } from '../../../../src/lib/admin/category-tree'
 
 export default function CategoriesListClient({ categories: initialCategories }) {
   const router = useRouter()
@@ -20,7 +21,9 @@ export default function CategoriesListClient({ categories: initialCategories }) 
       : category,
   )
 
+  const rows = useMemo(() => flattenCategoryTree(categories), [categories])
   const activeCount = categories.filter((item) => item.active).length
+  const rootCount = categories.filter((item) => !item.parentId).length
 
   useEffect(() => {
     if (!message && !error) return undefined
@@ -30,6 +33,18 @@ export default function CategoriesListClient({ categories: initialCategories }) 
     }, 4000)
     return () => clearTimeout(timer)
   }, [message, error])
+
+  function siblingBounds(row) {
+    const siblings = rows.filter(
+      (item) => (item.parentId || null) === (row.parentId || null),
+    )
+    const index = siblings.findIndex((item) => item.id === row.id)
+    return {
+      index,
+      isFirst: index <= 0,
+      isLast: index < 0 || index >= siblings.length - 1,
+    }
+  }
 
   async function onToggleActive(category) {
     setPendingId(category.id)
@@ -123,8 +138,8 @@ export default function CategoriesListClient({ categories: initialCategories }) 
             <AdminIcon name="stock" />
           </span>
           <div>
-            <strong>{categories.length}</strong>
-            <em>categorias cadastradas</em>
+            <strong>{rootCount}</strong>
+            <em>categorias principais</em>
           </div>
         </article>
         <article>
@@ -133,7 +148,7 @@ export default function CategoriesListClient({ categories: initialCategories }) 
           </span>
           <div>
             <strong>{categories.length}</strong>
-            <em>posições ordenadas</em>
+            <em>categorias cadastradas</em>
           </div>
         </article>
       </section>
@@ -151,148 +166,161 @@ export default function CategoriesListClient({ categories: initialCategories }) 
               </tr>
             </thead>
             <tbody>
-              {categories.map((category, index) => (
-                <tr key={category.id}>
-                  <td>
-                    <div className="admin-product-cell">
-                      <div className="admin-thumb">
-                        <AdminIcon name="categories" />
+              {rows.map((category) => {
+                const bounds = siblingBounds(category)
+                return (
+                  <tr key={category.id}>
+                    <td>
+                      <div className="admin-product-cell">
+                        <div className="admin-thumb">
+                          <AdminIcon name="categories" />
+                        </div>
+                        <strong
+                          style={
+                            category.isChild
+                              ? { paddingLeft: '1rem', fontWeight: 600 }
+                              : undefined
+                          }
+                        >
+                          {category.isChild ? `├ ${category.name}` : category.name}
+                        </strong>
                       </div>
-                      <strong>{category.name}</strong>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="admin-muted">{category.slug}</span>
-                  </td>
-                  <td>
-                    <span
-                      className={`admin-badge ${category.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
-                    >
-                      {category.active ? 'Ativa' : 'Inativa'}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="admin-order-controls">
-                      <button
-                        type="button"
-                        disabled={pendingId === category.id || index === 0}
-                        onClick={() => onMove(category, 'up')}
-                        aria-label="Mover para cima"
+                    </td>
+                    <td>
+                      <span className="admin-muted">{category.slug}</span>
+                    </td>
+                    <td>
+                      <span
+                        className={`admin-badge ${category.active ? 'admin-badge--ok' : 'admin-badge--off'}`}
                       >
-                        <AdminIcon name="up" />
-                      </button>
-                      <span>{category.sortOrder}</span>
-                      <button
-                        type="button"
-                        disabled={
-                          pendingId === category.id ||
-                          index === categories.length - 1
-                        }
-                        onClick={() => onMove(category, 'down')}
-                        aria-label="Mover para baixo"
-                      >
-                        <AdminIcon name="down" />
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="admin-row-actions">
-                      <AdminIconAction
-                        href={`/admin/categorias/${category.id}`}
-                        icon="pencil"
-                        label="Editar"
-                      />
-                      <AdminIconAction
-                        icon="power"
-                        label={
-                          pendingId === category.id
-                            ? '…'
-                            : category.active
-                              ? 'Desativar'
-                              : 'Ativar'
-                        }
-                        danger={category.active}
-                        disabled={pendingId === category.id}
-                        onClick={() => onToggleActive(category)}
-                      />
-                      {isAuditTestRecord(category) ? (
+                        {category.active ? 'Ativa' : 'Inativa'}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="admin-order-controls">
+                        <button
+                          type="button"
+                          disabled={pendingId === category.id || bounds.isFirst}
+                          onClick={() => onMove(category, 'up')}
+                          aria-label="Mover para cima"
+                        >
+                          <AdminIcon name="up" />
+                        </button>
+                        <span>{category.sortOrder}</span>
+                        <button
+                          type="button"
+                          disabled={pendingId === category.id || bounds.isLast}
+                          onClick={() => onMove(category, 'down')}
+                          aria-label="Mover para baixo"
+                        >
+                          <AdminIcon name="down" />
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="admin-row-actions">
                         <AdminIconAction
-                          icon="trash"
-                          label="Excluir teste"
-                          danger
-                          disabled={pendingId === category.id}
-                          onClick={() => onDelete(category)}
+                          href={`/admin/categorias/${category.id}`}
+                          icon="pencil"
+                          label="Editar"
                         />
-                      ) : null}
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        <AdminIconAction
+                          icon="power"
+                          label={
+                            pendingId === category.id
+                              ? '…'
+                              : category.active
+                                ? 'Desativar'
+                                : 'Ativar'
+                          }
+                          danger={category.active}
+                          disabled={pendingId === category.id}
+                          onClick={() => onToggleActive(category)}
+                        />
+                        {isAuditTestRecord(category) ? (
+                          <AdminIconAction
+                            icon="trash"
+                            label="Excluir teste"
+                            danger
+                            disabled={pendingId === category.id}
+                            onClick={() => onDelete(category)}
+                          />
+                        ) : null}
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
         <footer className="admin-table-foot">
           <p>
             <AdminIcon name="info" />
-            Use as setas para reordenar as categorias.
+            Use as setas para reordenar dentro do mesmo nível (principal ou
+            subcategorias).
           </p>
         </footer>
       </div>
 
       <ul className="admin-card-list" aria-label="Lista de categorias">
-        {categories.map((category, index) => (
-          <li key={category.id} className="admin-card-item admin-card-item--text">
-            <div className="admin-card-item__body">
-              <strong>{category.name}</strong>
-              <p className="admin-muted">{category.slug}</p>
-              <p>
-                Ordem {category.sortOrder} ·{' '}
-                {category.active ? 'Ativa' : 'Inativa'}
-              </p>
-              <div className="admin-row-actions">
-                <AdminIconAction
-                  href={`/admin/categorias/${category.id}`}
-                  icon="pencil"
-                  label="Editar"
-                />
-                <AdminIconAction
-                  icon="power"
-                  label={category.active ? 'Desativar' : 'Ativar'}
-                  danger={category.active}
-                  disabled={pendingId === category.id}
-                  onClick={() => onToggleActive(category)}
-                />
-                {isAuditTestRecord(category) ? (
+        {rows.map((category) => {
+          const bounds = siblingBounds(category)
+          return (
+            <li key={category.id} className="admin-card-item admin-card-item--text">
+              <div className="admin-card-item__body">
+                <strong>
+                  {category.isChild ? `├ ${category.name}` : category.name}
+                </strong>
+                <p className="admin-muted">{category.slug}</p>
+                <p>
+                  Ordem {category.sortOrder} ·{' '}
+                  {category.active ? 'Ativa' : 'Inativa'}
+                  {category.parentName ? ` · ${category.parentName}` : ''}
+                </p>
+                <div className="admin-row-actions">
                   <AdminIconAction
-                    icon="trash"
-                    label="Excluir teste"
-                    danger
-                    disabled={pendingId === category.id}
-                    onClick={() => onDelete(category)}
+                    href={`/admin/categorias/${category.id}`}
+                    icon="pencil"
+                    label="Editar"
                   />
-                ) : null}
-                <button
-                  type="button"
-                  className="admin-link-btn"
-                  disabled={pendingId === category.id || index === 0}
-                  onClick={() => onMove(category, 'up')}
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  className="admin-link-btn"
-                  disabled={
-                    pendingId === category.id || index === categories.length - 1
-                  }
-                  onClick={() => onMove(category, 'down')}
-                >
-                  ↓
-                </button>
+                  <AdminIconAction
+                    icon="power"
+                    label={category.active ? 'Desativar' : 'Ativar'}
+                    danger={category.active}
+                    disabled={pendingId === category.id}
+                    onClick={() => onToggleActive(category)}
+                  />
+                  {isAuditTestRecord(category) ? (
+                    <AdminIconAction
+                      icon="trash"
+                      label="Excluir teste"
+                      danger
+                      disabled={pendingId === category.id}
+                      onClick={() => onDelete(category)}
+                    />
+                  ) : null}
+                  <button
+                    type="button"
+                    className="admin-link-btn"
+                    disabled={pendingId === category.id || bounds.isFirst}
+                    onClick={() => onMove(category, 'up')}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-link-btn"
+                    disabled={pendingId === category.id || bounds.isLast}
+                    onClick={() => onMove(category, 'down')}
+                  >
+                    ↓
+                  </button>
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          )
+        })}
       </ul>
     </>
   )

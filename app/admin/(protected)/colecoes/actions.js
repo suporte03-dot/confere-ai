@@ -20,9 +20,10 @@ function ok(data = {}) {
 }
 
 function revalidateCollections(collectionId) {
-  revalidatePath('/admin/colecoes')
+  // layout: invalida listagens e formulários de produto aninhados
+  revalidatePath('/admin/colecoes', 'layout')
+  revalidatePath('/admin/produtos', 'layout')
   revalidatePath('/admin')
-  revalidatePath('/admin/produtos')
   revalidatePath('/admin/produtos/novo')
   if (collectionId) revalidatePath(`/admin/colecoes/${collectionId}`)
 }

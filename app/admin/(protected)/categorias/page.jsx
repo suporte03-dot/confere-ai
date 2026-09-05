@@ -32,7 +32,7 @@ export default async function AdminCategoriesPage() {
     <>
       <AdminPageHeader
         title="Categorias"
-        description="Organize o catálogo com categorias ativas e ordenadas."
+        description="Organize o catálogo em categorias principais e subcategorias."
         actions={
           <>
             <HelpButton topic="categorias" />
