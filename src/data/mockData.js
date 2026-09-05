@@ -1201,21 +1201,33 @@ const filterLabels = {
 export function matchesFilter(product, filterId) {
   if (filterId === 'Todos') return true
   if (filterId === 'Outlet') return product.badge === 'Outlet'
-  if (filterId === 'Masculino' || filterId === 'masculino') {
-    return product.category === 'masculino' || product.department === 'Masculino'
-  }
-  if (filterId === 'Feminino' || filterId === 'feminino') {
-    return product.category === 'feminino' || product.department === 'Feminino'
-  }
-  if (filterId === 'Infantil' || filterId === 'infantil') {
-    return product.category === 'infantil' || product.department === 'Infantil'
-  }
-  if (filterId === 'Calçados' || filterId === 'calcados') {
-    return product.category === 'calcados' || product.department === 'Calçados'
-  }
-  if (filterId === 'Acessórios' || filterId === 'acessorios') {
-    return product.category === 'acessorios' || product.department === 'Acessórios'
-  }
+
+  const needle = normalizeSearchTerm(filterId)
+  const haystack = [
+    product.category,
+    product.categorySlug,
+    product.department,
+    product.categoryName,
+    product.subcategory,
+    product.subKey,
+  ]
+    .filter(Boolean)
+    .map(normalizeSearchTerm)
+
+  const matchesRoot = (root) =>
+    haystack.some(
+      (value) =>
+        value === root ||
+        value.startsWith(`${root}-`) ||
+        value.startsWith(`${root} `) ||
+        value.includes(root),
+    )
+
+  if (needle === 'masculino') return matchesRoot('masculino')
+  if (needle === 'feminino') return matchesRoot('feminino')
+  if (needle === 'infantil') return matchesRoot('infantil')
+  if (needle === 'calcados') return matchesRoot('calcados')
+  if (needle === 'acessorios') return matchesRoot('acessorios')
 
   return product.collectionId === filterId || product.collection === filterId
 }
@@ -1487,8 +1499,9 @@ export function getBestsellersProducts(catalog = products, filter = 'Todos', lim
     }
     return score(b) - score(a) || b.price - a.price
   })
-  const filtered = ranked.filter((p) => matchesFilter(p, filter))
-  return (filtered.length ? filtered : ranked).slice(0, limit)
+  const filtered =
+    filter === 'Todos' ? ranked : ranked.filter((p) => matchesFilter(p, filter))
+  return filtered.slice(0, limit)
 }
 
 const SEARCH_CATEGORY_TERMS = {
