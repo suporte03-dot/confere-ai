@@ -47,7 +47,7 @@ const HEADER_TRUST = [
   },
   {
     id: 'parcela',
-    title: 'Parcele em até 6x',
+    title: 'Parcele em até 5x',
     detail: 'Sem juros',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
