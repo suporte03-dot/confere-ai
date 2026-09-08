@@ -192,7 +192,7 @@ function Header({
       <div className="site-header__promo" role="note">
         <span className="site-header__promo-rule" aria-hidden="true" />
         <p className="site-header__promo-text">
-          Seleção de Inverno: 30% OFF* com o cupom <strong>FRIO</strong>
+          {'Terra&Estilo'}
         </p>
         <span className="site-header__promo-rule" aria-hidden="true" />
       </div>
