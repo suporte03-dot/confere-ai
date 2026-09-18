@@ -128,7 +128,9 @@ function ContactPage() {
               </li>
               <li>
                 <span>Endereço</span>
-                <em>Serra Gaúcha — RS · Atendimento online para todo o Brasil</em>
+                <em>
+                  2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol
+                </em>
               </li>
             </ul>
 
