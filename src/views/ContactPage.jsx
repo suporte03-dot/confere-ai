@@ -129,7 +129,8 @@ function ContactPage() {
               <li>
                 <span>Endereço</span>
                 <em>
-                  2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol
+                  2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol ·
+                  Carazinho/RS
                 </em>
               </li>
             </ul>

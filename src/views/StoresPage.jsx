@@ -47,7 +47,8 @@ function StoresPage() {
             <li>Horário: {footerHome.atendimento.hours}</li>
             <li>WhatsApp: {footerHome.atendimento.whatsapp}</li>
             <li>
-              Endereço: 2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol
+              Endereço: 2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol ·
+              Carazinho/RS
             </li>
           </ul>
           <div className="stores-card__actions">
