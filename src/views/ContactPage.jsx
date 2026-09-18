@@ -124,7 +124,13 @@ function ContactPage() {
               </li>
               <li>
                 <span>Horário</span>
-                <em>{footerHome.atendimento.hours}</em>
+                <em>
+                  {footerHome.atendimento.hours.map((line) => (
+                    <span key={line} className="contact-hours-line">
+                      {line}
+                    </span>
+                  ))}
+                </em>
               </li>
               <li>
                 <span>Endereço</span>

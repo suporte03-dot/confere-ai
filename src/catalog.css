@@ -664,6 +664,10 @@
   text-decoration: none;
 }
 
+.contact-hours-line {
+  display: block;
+}
+
 .contact-info__wa {
   display: inline-flex;
   margin-top: 0.5rem;

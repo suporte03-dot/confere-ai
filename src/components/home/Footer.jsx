@@ -225,9 +225,15 @@ function Footer() {
               <span className="site-footer__icon" aria-hidden="true"><IconEmail /></span>
               <a href={`mailto:${footerHome.atendimento.email}`}>{footerHome.atendimento.email}</a>
             </li>
-            <li>
+            <li className="site-footer__hours">
               <span className="site-footer__icon" aria-hidden="true"><IconClock /></span>
-              <span>{footerHome.atendimento.hours}</span>
+              <span>
+                {footerHome.atendimento.hours.map((line) => (
+                  <span key={line} className="site-footer__hours-line">
+                    {line}
+                  </span>
+                ))}
+              </span>
             </li>
           </ul>
         </div>
