@@ -46,7 +46,9 @@ function StoresPage() {
           <ul>
             <li>Horário: {footerHome.atendimento.hours}</li>
             <li>WhatsApp: {footerHome.atendimento.whatsapp}</li>
-            <li>Serra Gaúcha — RS</li>
+            <li>
+              Endereço: 2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol
+            </li>
           </ul>
           <div className="stores-card__actions">
             <Link href="/contato" className="btn btn--gold">
