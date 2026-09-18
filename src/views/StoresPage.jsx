@@ -44,7 +44,15 @@ function StoresPage() {
             Instagram.
           </p>
           <ul>
-            <li>Horário: {footerHome.atendimento.hours}</li>
+            <li>
+              Horário:{' '}
+              {footerHome.atendimento.hours.map((line, index) => (
+                <span key={line}>
+                  {index > 0 ? <br /> : null}
+                  {line}
+                </span>
+              ))}
+            </li>
             <li>WhatsApp: {footerHome.atendimento.whatsapp}</li>
             <li>
               Endereço: 2A Avenida Rua Alferes Rodrigo, 237 · Bloco 03 · Edifício Vivendas do Sol ·

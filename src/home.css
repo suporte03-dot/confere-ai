@@ -5085,6 +5085,15 @@ body.nav-drawer-open {
   padding-bottom: 0;
 }
 
+.site-footer__col--atendimento ul li.site-footer__hours {
+  align-items: flex-start;
+}
+
+.site-footer__hours-line {
+  display: block;
+  line-height: 1.45;
+}
+
 .site-footer__col--atendimento ul li:first-child {
   padding-top: 2px;
 }
